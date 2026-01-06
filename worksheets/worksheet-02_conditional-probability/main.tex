@@ -1,0 +1,154 @@
+ \documentclass[10pt]{amsart}
+\usepackage{graphicx,amsmath,amssymb,amsfonts,mathrsfs,latexsym}
+\usepackage[top=2cm,bottom=1.5cm,left=2cm,right=2cm]{geometry}
+\usepackage{caption}
+\usepackage{epstopdf}
+\pagestyle{empty}
+\theoremstyle{definition}
+\newtheorem{prob}{Problem}[section]
+\newcounter{PROB}
+\newcounter{PN}[PROB]
+\newcounter{QN}[PROB]
+\setcounter{QN}{0}
+\setcounter{PN}{0}
+\setcounter{PROB}{0}
+\newcommand{\Pnum}[1][]{\begin{center}\stepcounter{PROB}{\large\textbf{Problem \arabic{PROB}: #1}}\end{center}\par}
+\newcommand{\pnum}[1][]{\stepcounter{PN}{\large \textbf{Part \arabic{PN}: #1}}\newline\par}
+\newcommand{\qnumn}{\stepcounter{QN}\textbf{Question \arabic{PROB}.\arabic{QN}: }}
+\newcommand{\qnum}[1][]{\stepcounter{QN}\par\textbf{Question \arabic{PROB}.\arabic{QN}: }(#1 points) }
+\newcommand{\answerboxn}[1][]{\phantom{.}\hfill\framebox[5cm]{\begin{minipage}{1px}\hfill\vspace{.4in}\end{minipage}\hfill#1\ }\newline\newline}
+\newcommand{\answerbox}[1][]{\\\phantom{.}\hfill\framebox[5cm]{\begin{minipage}{1px}\hfill\vspace{.4in}\end{minipage}\hfill#1\ }\newline\newline}
+
+% Answer box for Xantharian Squares (Algebra.tex)
+\newcommand{\xanthariananswerbox}[1][\phantom{E}]{\framebox[2cm]{\begin{minipage}{.4in}\vspace{.1in}\begin{flushright}\hfill#1\hfill\end{flushright} \vfill \vspace{.1in}\end{minipage}\hfill}}
+
+% Answer box for dice-games.tex
+\newcommand{\dicegamesanswerbox}[1][\phantom{E}]{\begin{flushright}\framebox[2cm]{\begin{minipage}{.3in}\vspace{.07in}\begin{flushright}\hfill#1\hfill\end{flushright} \vfill \vspace{.16in}\end{minipage}\hfill}\end{flushright}}
+
+\usepackage[shortlabels]{enumitem} % For Xanthar 
+\newtheorem{problem}{Problem} % For Xanthar
+\usepackage{multirow} % needed for the tables in dice-games
+
+% For drawing boxes around stuff
+\usepackage[linewidth=1pt]{mdframed}
+
+%%%Tikz stuff
+\usepackage{pgf,tikz,pgfplots}
+\pgfplotsset{compat=1.15}
+\usepackage{mathrsfs}
+\usetikzlibrary{arrows}
+\usetikzlibrary{math, calc}
+
+%%% To comment out stuff
+\usepackage{verbatim}
+
+%% Columns
+\usepackage{multicol}
+
+% Floating figures
+\usepackage{float}
+
+
+\usepackage{skull}
+\def\P{\mathbb{P}} % Probability
+
+
+\newcommand{\dnum}[1][]{\stepcounter{PN}{\large \textbf{Part \arabic{PN}: #1}}\vspace{.5em}\par}
+
+
+\begin{document}
+
+
+
+\section*{Worksheet 2: Conditional probability}
+
+
+
+\begin{problem}
+  We return to the dice-rolling pirate, Diego. Suppose Diego rolls two dice and then adds the numbers
+  together. The possible outcomes are $2,3,4,5,6,7,8,9,10,11, \text{ and }12$, but recall that these
+  numbers are not all equally likely. 
+  \begin{enumerate}[(a)]
+    \item What is the probability that the sum of the two dice is greater than 4? 
+    \vspace{.75cm} %\dicegamesanswerbox
+    \item Given that the sum of the dice is greater than 4, what is the probability that Diego's dice
+    added up to 7?
+    \vspace{.75cm} %\dicegamesanswerbox
+    \item What is the probability that the dice add up to an even number?
+    \vspace{.75cm} %\dicegamesanswerbox
+    \item What is the probability that the dice add up to an odd number?
+    \vspace{.75cm} %\dicegamesanswerbox
+    \item Given that the dice add up to an even number, what is the probability that Diego rolled at
+    least one 4?
+    \vspace{.75cm} %\dicegamesanswerbox
+    \item Given that Diego's dice sum to 7, what is the probability that he rolled a 3 or a 5?
+    \vspace{.75cm} %\dicegamesanswerbox
+    \item What is the probability that at least one of  Diego's dice was a 3?
+    \vspace{.75cm} %\dicegamesanswerbox
+    \item Given that at least one of Diego's dice was a 3, what is the probability that his dice add up
+    to 8 or 9? \vspace{.75cm} %\dicegamesanswerbox
+    \item What is the probability that Diego gets a sum of 4 or 7?
+    \vspace{.75cm} %\dicegamesanswerbox
+    \item Suppose Diego keeps rolling the two dice until he gets a sum of either 4 or a 7, at which
+    point he stops. What's the probability that his last roll was 4?
+    \vspace{.75cm} %\dicegamesanswerbox
+  \end{enumerate}
+\end{problem}
+
+\begin{problem}
+  In poker, a \textbf{full house} occurs when you get a 3-of-a-kind and a 2-of-a-kind (with a 5-card hand).
+
+  \begin{enumerate}[(a)]
+    \item How many possible full houses are there?
+    \vspace{.75cm} %\dicegamesanswerbox
+    \item What's the probability of getting a full house?
+    \vspace{.75cm} %\dicegamesanswerbox
+  \end{enumerate}
+
+  % The number of possible full houses
+  % \begin{equation*}
+  %   {13\choose 1}\times {4\choose 3}\times {12\choose 1}\times {4\choose 2} = 3,744
+  % \end{equation*}
+
+  % The probability of getting a full house is
+  % \begin{equation*}
+  %   \P\left[\text{full house} \right] = \frac{3,744}{2,598,960} = 0.00144
+  % \end{equation*}
+\end{problem}
+
+\begin{problem}
+  A vampire goes to the blood bank looking to find some type O+ blood (the most delicious type). He finds
+  four unlabeled bags of blood. Only one of the bags is O+, but the vampire doesn't know which one, so he
+  resorts to taste-testing to find the O+ bag.
+
+  \begin{enumerate}[(a)]
+    \item  What is the probability that he must test at
+    least 3 bags to find the desired type?
+    \vspace{.75cm} %\dicegamesanswerbox
+    % \noindent \textit{Solution:} Let $X$ be the number of tested bags. We want to find $\P\left[X \geq
+    %   3\right]$.
+    % Let $A= \left[ \text{first bag isn't O+} \right]$. Let $B = \left[ \text{second bag isn't O+} \right]$
+    % \begin{align*}
+    %   \P\left[ X \geq 3\right] 
+    %   &= \P\left[A\cap B \right]\\
+    %   &= \P\left[A \right] \P\left[B\mid A \right]\\
+    %   &= \frac{3}{4}\cdot \frac{2}{3}\\
+    %   &= \frac{1}{2}.
+    % \end{align*}
+
+    \item What's the probability that he must test exactly $3$ bags?
+    \vspace{.75cm} %\dicegamesanswerbox
+    % \noindent \textit{Solution:} We want $\P\left[X=3 \right]=\P\left[\text{third bag is O+} \right]$.
+    % \begin{align*}
+    %   \P\left[\text{third bag is O+} \right] 
+    %   &= \P\left[\text{third bag is}\mid  \text{first isn't} \cap
+    %     \text{second isn't}  \right] \times \P\left[\text{second isn't}\mid \text{first isn't} \right] \cdot
+    %     \P\left[\text{first isn't} \right]\\
+    %   &= \frac{1}{2}\cdot \frac{2}{3}\cdot \frac{3}{4}\\
+    %   &= \frac{1}{4}
+    % \end{align*}
+  \end{enumerate}
+\end{problem}
+
+
+\end{document}

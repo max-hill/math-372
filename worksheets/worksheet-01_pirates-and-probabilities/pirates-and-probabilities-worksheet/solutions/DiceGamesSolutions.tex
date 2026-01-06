@@ -1,0 +1,376 @@
+\begin{flushright}
+Team name:\hspace{1em}\framebox[7cm]{\begin{minipage}{1px}\hfill\vspace{.4in}\end{minipage}\hfill}
+\end{flushright} \vspace{1em}
+\Pnum[Pirates and Probabilities (Group problem)]
+\begin{center}
+	\emph{30 minutes, no calculators}
+\end{center} \vspace{1em}
+
+\dnum[Coins]
+Diego, a pirate, loves to gamble when he is not scrubbing the decks or
+plundering booty. But lately he has been on an unlucky streak, so he decides to study probability theory so that he will have an advantage the next time he tries his luck in the gambling dens ashore.
+
+He starts by thinking about his favorite thing: gold coins. If Diego flips a coin 3 times, what is the probability that he  gets 3 heads in a row? When all outcomes are equally likely, the \textbf{probability} of a particular result can be calculated with the formula
+\begin{equation*}
+  \text{Probability of a particular result} 
+  = \frac{\text{Number of ways the result can happen}}
+  {\text{Number of possible results that can happen}}.
+\end{equation*}
+When Diego flips a coin 3 times, there are 8 possible results that can happen:
+\begin{equation*}
+  HHH,\quad HHT,\quad HTH,\quad HTT,\quad THH,\quad THT,\quad TTH,\quad
+  \text{and}\quad TTT.
+\end{equation*}
+Out of these possible results, only one has 3 heads, so the probability that
+Diego gets 3 heads in 3 flips is $\frac{1}{8}$.
+
+\begin{problem}[Coin Flipping] Suppose Diego flips a coin three times in a row. 
+  \begin{enumerate}[(a)]
+    \item (1 point) What is the probability that Diego get exactly 2 heads?
+    \dicegamesanswerbox[$3/8$] 
+    \item (1 point) What is the probability that Diego gets at least 2 heads?
+    \dicegamesanswerbox[$1/2$]
+  \end{enumerate}
+\end{problem}
+
+\dnum[Standard Dice Problems]
+Diego decides he's had enough of flipping coins and wants to start rolling some
+dice. For the next three problems, assume the dice are standard 6-sided dice with
+faces labeled 1,2,3,4,5, and 6, like this:
+\begin{center}
+\includegraphics[scale=.15]{pics/dice-public-domain2}
+\end{center}
+    
+\begin{problem}[Standard Dice: Joint Probabilities]
+    Diego has two dice and he rolls both of them. He wants to know the probability that both of them land on 1. He draws the following table to represent all the possible outcomes:
+    \begin{table}[H]
+        \centering
+        \resizebox{.5\columnwidth}{!}{%
+        \begin{tabular}{clllllll}
+        \multicolumn{1}{l}{} & & \multicolumn{6}{c}{Dice 2}\\ \cline{3-8} 
+        \multicolumn{1}{l}{}  & \multicolumn{1}{l|}{}  & 1   & 2  & 3  & 4  & 5  & \multicolumn{1}{l|}{6} \\ \cline{2-8} 
+        \multicolumn{1}{c|}{\multirow{6}{*}{Dice 1}} & \multicolumn{1}{l|}{1} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{}  \\ \cline{3-8}
+        \multicolumn{1}{c|}{} & \multicolumn{1}{l|}{2} & \multicolumn{1}{l|}{}  & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{}  \\ \cline{3-8} 
+        \multicolumn{1}{c|}{} & \multicolumn{1}{l|}{3} & \multicolumn{1}{l|}{}  & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{}  \\ \cline{3-8} 
+        \multicolumn{1}{c|}{} & \multicolumn{1}{l|}{4} & \multicolumn{1}{l|}{}  & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{}  \\ \cline{3-8} 
+        \multicolumn{1}{c|}{} & \multicolumn{1}{l|}{5} & \multicolumn{1}{l|}{}  & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{}  \\ \cline{3-8} 
+        \multicolumn{1}{c|}{} & \multicolumn{1}{l|}{6} & \multicolumn{1}{l|}{}  & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{}  \\ \cline{2-8} 
+        \end{tabular}}
+    \end{table}
+    \begin{enumerate}[(a)]
+        \item (1 point) What is the probability that both dice land on 1? (Hint: use the table above by drawing an $\times$ on the box(s) representing the outcome in which both dice land on 1.)
+        \dicegamesanswerbox[$1/36$]
+        \item (1 point) What is the probability that the dice land on the same number? 
+        \dicegamesanswerbox[$1/6$]
+        \item (1 point) What is the probability that both dice are even?
+        \dicegamesanswerbox[$1/4$]
+        \item (1 point) When rolling two dice, what is the probability that at least one dice
+        does not land on a 1?
+        \dicegamesanswerbox[$35/36$]
+    \end{enumerate}
+\end{problem}
+
+
+\begin{problem}[Standard Dice: Summing Problems] 
+  Now suppose Diego rolls two dice and then adds the numbers together. The possible
+  outcomes are
+  \begin{equation*}
+    2,3,4,5,6,7,8,9,10,11, \text{ and }12
+  \end{equation*}
+  but these numbers  are not all equally likely. To help figure out the probabilities of the possible outcomes, Diego draws the following table on the back of one of his treasure maps:
+  
+  
+\begin{table}[H]
+\centering
+\resizebox{.4\columnwidth}{!}{%
+\begin{tabular}{clllllll}
+\multicolumn{1}{l}{} & & \multicolumn{6}{c}{Dice 2} \\ \cline{3-8} 
+\multicolumn{1}{l}{} & \multicolumn{1}{l|}{}  & 1 & 2 & 3 & 4  & 5  & \multicolumn{1}{l|}{6}  \\ \cline{2-8} 
+\multicolumn{1}{c|}{\multirow{6}{*}{Dice 1}} & \multicolumn{1}{l|}{1} & 2 & 3 & 4 & 5 & 6 & \multicolumn{1}{l|}{7} \\
+\multicolumn{1}{c|}{} & \multicolumn{1}{l|}{2} & 3 & 4 & 5 & 6  & 7  & \multicolumn{1}{l|}{8}  \\
+\multicolumn{1}{c|}{} & \multicolumn{1}{l|}{3} & 4 & 5 & 6 & 7  & 8  & \multicolumn{1}{l|}{9}  \\
+\multicolumn{1}{c|}{} & \multicolumn{1}{l|}{4} & 5 & 6 & 7 & 8  & 9  & \multicolumn{1}{l|}{10} \\
+\multicolumn{1}{c|}{} & \multicolumn{1}{l|}{5} & 6 & 7 & 8 & 9  & 10 & \multicolumn{1}{l|}{11} \\
+\multicolumn{1}{c|}{} & \multicolumn{1}{l|}{6} & 7 & 8 & 9 & 10 & 11 & \multicolumn{1}{l|}{12} \\ \cline{2-8} 
+\end{tabular}}
+\end{table}
+  \begin{enumerate}[(a)]
+    % \item What is the probability that the dice add up to 2?
+    % \dicegamesanswerbox
+    \item (1 point) What is the probability that the two dice add up to 3?
+    \dicegamesanswerbox[$1/18$]    
+    \item (1 point) Which of the numbers 2 through 12 is the most likely to be obtained? 
+    \dicegamesanswerbox[$7$]
+    \item (1 point) What is
+    the probability of getting the most likely number?
+    \dicegamesanswerbox[$1/6$]
+    % \item What is the probability that the two dice add up to at least 3? 
+    % \dicegamesanswerbox
+%   \item (1 point) What is the probability that the two dice add up to at least 4? 
+%     \dicegamesanswerbox
+    % \item What is the probability that the dice add up to an even number?
+    % \dicegamesanswerbox
+    \item (1 point) What is the probability that the dice add up to an odd number?
+    \dicegamesanswerbox[$1/2$]
+  \end{enumerate}
+\end{problem}  
+
+\begin{problem}[Standard Dice: Expected Values]
+The \textbf{expected value} of a dice roll is the value one would expect to
+get \textbf{on average} if the dice roll were repeated many times. The expected
+value can be calculated by adding up each possible outcome times that
+outcome's probability. For example, the expected value for a roll of a single 6-sided dice (with faces 1,2,3,4,5, and 6) is:
+\begin{equation*}
+  \text{Expected value} = 1\times \frac{1}{6} + 2\times \frac{1}{6} + 3\times \frac{1}{6} + 4\times \frac{1}{6} + 5\times \frac{1}{6} + 6\times \frac{1}{6} = 3.5.
+\end{equation*}
+\begin{enumerate}[(a)]
+  \item (1 point) Suppose you roll 1 dice and square the result (meaning you multiply the result by itself). What is the expected value? 
+  \dicegamesanswerbox[$91/6$]
+  \item (1 point) If you roll 2 dice and add them up, what is the expected value?
+  \dicegamesanswerbox[$7$]
+%   \item (1 point) If you roll 3 dice and add them up, what is the expected value?  \textcolor{blue}{(Can they calculate this in a reasonable manner?)} 
+%   \dicegamesanswerbox
+  \item (2 point) If you roll 120 dice and add them up, what is the expected value?
+  \dicegamesanswerbox[$420$]
+%   \item Suppose you roll one dice and let that number be $X$. Then roll $X$
+%   dice and add those dice up. What is the expected value in that case?  \textcolor{blue}{(how would they do this?)}
+%   \dicegamesanswerbox
+\end{enumerate}
+\end{problem}
+
+
+\pagebreak
+\dnum[Treasure Dice Problems]
+
+When Diego's pirate ship sinks in a storm, he washes up on a mysterious island and takes shelter in a cave. Upon exploring the cave, he finds an ancient
+treasure chest containing three dice: one made of amethyst (A), one made of
+black obsidian (B), and one made of an unknown crystal (C). The dice are unlike any dice he has ever
+seen. They each have 6 sides, but they are not labeled 1 through 6. Instead,
+their faces are labeled as follows:
+\begin{align*}
+  A&:\quad 2,2,4,4,9,9\\
+  B&:\quad 1,1,6,6,8,8\\
+  C&:\quad 3,3,5,5,7,7
+\end{align*}
+
+\begin{problem}
+    Diego wonders what are the probabilities for these new mysterious dice.
+  \hfill
+  \begin{enumerate}[(a)]
+    \item (1 point) If Diego rolls dice A, what is the probability that it lands on a 2?
+    \dicegamesanswerbox[$1/3$]
+    \item (1 point) If Diego rolls dice A and dice B and then adds them together, how many different sums can he possibly get?
+    \dicegamesanswerbox[$7$]
+    \item (1 point) If Diego rolls dice A and dice B, what is the probability that they add up to 10?
+    \dicegamesanswerbox[$1/3$]
+    %\item If you roll two copies of dice B, what is the probability that you get a sum of 12?
+    %\dicegamesanswerbox
+    % \item If Diego rolls dice C twice and adds the results, what is the probability that they add up to 10?
+    % \dicegamesanswerbox
+    \item (1 point each) What is the expected value of each of the dice $A,B,C$?
+    \begin{flushright}
+        \text{Expected value of A} 
+        = \framebox[2cm]{\begin{minipage}{1px}\hfill\vspace{.4in}\end{minipage} $5$ \hfill}\\
+        \vspace{.1cm}
+        \text{Expected value of B} 
+        = \framebox[2cm]{\begin{minipage}{1px}\hfill\vspace{.4in}\end{minipage} $5$ \hfill}\\
+        \vspace{.1cm}
+        \text{Expected value of C} 
+        = \framebox[2cm]{\begin{minipage}{1px}\hfill\vspace{.4in}\end{minipage} $5$ \hfill}\\
+    \end{flushright}
+    \item (1 point) Suppose Diego rolls dice $A$ and $B$ and then adds up the two numbers. What is the expected value?
+    \dicegamesanswerbox[$10$]
+     \item (2 points) Diego puts all three dice in a bag. Then he picks  one out at
+       random and rolls it. What is the expected value in this case?
+     \dicegamesanswerbox[$5$]
+  \end{enumerate}
+\end{problem}
+
+\pagebreak
+
+\begin{problem}
+    After the storm passes, Diego is found in the cave by rival pirate Max. Diego challenges him to a game of dice, using the dice that Diego just found (the same dice A, B, and C from the previous problem). In the game, Diego and Max both choose one dice to roll and whoever gets the higher number wins.
+    \begin{enumerate}[(a)]
+        \item (1 point) If Diego rolls dice A and Max rolls dice B, what is the probability
+        that Diego wins?
+        \dicegamesanswerbox[$5/9$]
+        \item (1 point) If Diego rolls dice B and Max rolls dice C, what is the probability
+        that Diego wins?
+        \dicegamesanswerbox[$5/9$]
+        \item (1 point) If Diego rolls dice C and Max rolls dice A, what is the probability
+        that Diego wins?
+        \dicegamesanswerbox[$5/9$]
+        \item (1 point) If Diego decides to play this game with dice $A$, what dice should Max
+        choose to maximize his probability of winning?  
+        \dicegamesanswerbox[$C$]
+    \end{enumerate}  
+\end{problem}  
+
+
+
+
+% \dnum[Extreme Dice Problems]
+
+% \begin{problem}[Extreme dice]
+% After losing several games in a row, Max suggests they play with a different set of dice that he found in a different part of the cave. These dice are made of diamond (D), emerald (E), and fieldstone (F), and their faces are labeled as follows:
+%     \begin{align*} 
+%         D&:\quad2,2,2,5,5,5\\
+%         E&:\quad1,4,4,4,4,4\\
+%         F&:\quad3,3,3,3,3,6
+%     \end{align*}
+%     \begin{enumerate}[(a)]
+%         \item Suppose Max rolls dice E. What is the probability of rolling a 4?      
+%         \dicegamesanswerbox 
+%         \item Suppose you roll dice D and F together. What is the probability that you roll a 2 with dice D and a 3 with dice F?
+%         \dicegamesanswerbox
+%         %   \item Let's say we roll dice D and F and then add the results. What is the probability that the sum of the two dice is 8?
+%         %  \dicegamesanswerbox
+%     \end{enumerate}
+% \end{problem}
+
+% \begin{problem}
+%   Max agrees to give Diego passage back to the seaport, but only if he can beat him in a game involving these dice. Each player will choose one of the three dice, and the winner is the player who rolls the higher number. 
+%   \begin{enumerate}[(a)]
+%   % \item In making a decision on which dice to use, Diego's first thought is to compute the expected value of each dice. What is the expected value of a roll of dice D? 
+%     %\dicegamesanswerbox
+%     %\item What is the expected value of a roll of dice E?
+%     %\dicegamesanswerbox
+%     %\item What is the expected value of a roll of dice F?
+%     %\dicegamesanswerbox
+%     \item If Diego chooses D and Max chooses E, what is the probability that Diego wins? 
+%     \dicegamesanswerbox
+%     \item If Diego chooses D and Max chooses F, what is the probability that Diego wins?
+%     \dicegamesanswerbox
+%     \item If Diego chooses E and Max chooses F, what is the probability that Diego wins?
+%     \dicegamesanswerbox
+%     % \item Evan lost dice $E$ on a previous voyage, so Diego and Max must choose between dice $D$ and $F$. Which dice is more likely to win in a single game?
+%     %\dicegamesanswerbox
+%   \end{enumerate}
+% \end{problem}
+
+% \begin{problem}
+% Max's first mate, Evan, shows up with his own set of dice, which are related to Max's pair, but different. They are
+% \begin{align*}
+%     D'&:\quad4,4,4,25,25,25 \\
+%     E'&:\quad1,16,16,16,16,16\\
+%     F'&:\quad9,9,9,9,9,36.
+% \end{align*}
+% \begin{enumerate}[(a),resume]
+%     \item What is the expected value of dice $D'$?
+%     \dicegamesanswerbox
+%     \item What is the expected value of dice $E'$?
+%     \dicegamesanswerbox
+%     \item What is the expected value of dice $F'$?
+%     \dicegamesanswerbox
+%     \item Evan lost dice $E'$ on a previous voyage, so Diego and Max must choose between dice $D'$ and $F'$. Which dice is more likely to win in a single game?
+%     \dicegamesanswerbox
+% \end{enumerate}
+% \end{problem}
+
+% \newpage
+
+% \begin{enumerate}
+% \item Suppose Diego rolls dice A and dice B, and then subtracts the result of B from the result of A. What is the probability that the resulting number is positive?
+% \dicegamesanswerbox
+% \item \textbf{this part is too difficult} After losing the first game, Max suggests that they change the rules for
+% their second game. In the second game, Diego and Max each choose a dice, roll it twice, and
+% add the results.
+% \begin{enumerate}[i.]
+% \item If Diego plays this game with dice A and Max with B, what is the
+% probability that Diego wins?
+% \item Similar: B,C.
+% \item Similar: C,A.
+% \item If Diego decides to play this game with dice $A$, what dice should Max
+% choose to maximize his probability of winning?
+% \end{enumerate}
+% \end{enumerate}
+
+
+
+% \begin{problem}
+%   In the following table we record the winner of a $D$-$E$ matchup, according to the values of which is rolled
+%   \begin{table}[h]
+%     \begin{tabular}{l|l|l|}
+%       $D/E$ & 2 & 5 \\ \hline
+%       1 & $\frac{1}{6}\frac{1}{2}$  & $\frac{1}{6}\frac{1}{2}$   \\ \hline
+%       4 & $\frac{5}{6}\frac{1}{2}$ & $\frac{5}{6}\frac{1}{2}$ \\ \hline
+%     \end{tabular}
+%   \end{table}
+%   the winner is recorded in the table
+%   \begin{table}[h]
+%     \begin{tabular}{l|l|l|}
+%       $D/E$ & 2 & 5 \\ \hline
+%       1 & D& D\\ \hline
+%       4 & E& D\\ \hline
+%     \end{tabular}
+%   \end{table}
+%   or circle the winner.
+
+
+
+%   \begin{itemize}
+%     \item Start with questions like: what is the probability of getting a four if you roll dice E? (Similar)
+%     \item What is the probability of E =1 and D=2?
+%     \item Roll D and F and add the results. What is the probability of rolling an 8?
+%     \item D vs F. Who wins? 
+%     \item E vs D. Who wins?
+%     \item E vs F. Who wins?
+%     \item What are the expected values of E,D, and F?
+%     \item LE
+%     \item Also, what is expectation of $D, D^2$?
+%     \item Compute D vs E vs F. Maybe don't ask the E+E vs D+D vs F+F.
+%     % \item 2 types of tables: (1) D+F (entries are the values of the sum) and (2) D vs F (entries indicate the winners). [Actually, don't give the tables.]
+%   \end{itemize}
+% \end{problem}
+
+
+
+% \begin{problem}
+% Now, we square the numbers on each dice and play again. This does not change the probability of winning for each pair of dice. However, this does change the expectation. Now, the expected value of dice D is $\frac{29}{2}$, the expected value of both dice 
+% E and F is  is $\frac{27}{2}$. However, dice F is more likely to beat dice D, event thought it has a smaller expectation. We can ask them to compute expectation. There are many variations on this--we could roll the two dice and take the square of their sum. This also favors D in expectation but does not change the probability of winning between each pair of dice. 
+% \end{problem}
+% \begin{problem}[Building off previous problem]
+%   Suppose you have a game where the probability of loosing $\$1000$ is $0.99$. but the probability of winning $\$x$ is $0.01$. At what value of $\$x$  is your expected value positive? Would you make this bet? What about if we reduce the  probability of winning to $0.001$?
+  
+%   [start from a problem with higher win probability? what is the smallest number x has to be bigger than]
+% \end{problem}
+
+% \section{Additional nontransitive dice questions}
+% \begin{problem}[Nontransitive Dice - more complicated case]
+%   \begin{align*}
+%     \mathrm{Red} &= 444449\\
+%     \mathrm{Yellow}&= 333388\\
+%     \mathrm{Blue}&= 222777\\
+%     \mathrm{Magenta}&= 116666\\
+%     \mathrm{Olive}&=055555
+%   \end{align*}
+%   For one roll, the alphabetical ordering determines the winner. For two two rolls
+%   it's the word length. Pick three. Then rolling 1 dice vs rolling 2 dice. The
+%   winner is nontransitive. %\url{https://singingbanana.com/dice/article.htm}
+%   \begin{enumerate}
+%     \item What is the probability that Yellow beats Blue
+%     \item Olive vs red is the hardest in the roll twice case
+%     \item Five dice for the one roll case. Maybe pick three for roll twice.
+%     \item One player picks a dice from a bag at random. Diego plays as yellow.
+%     What is the probability that Diego wins.
+%     \item Diego plays yellow, what dice should max play to maximize his
+%     probability of winning with one dice.
+%     \item Restrict to three dice (not all subsets of three work). Red=333336,
+%     Blue=222555, Olive=144444
+%     \item Give an example
+%     \item Given that player 1 rolls a value of X, what is the probability they
+%     beat player 2.
+%     \item Example that illustrates expected value and probability of winning do
+%     not necessarily coincide.
+%     \item One player picks a dice from a bag at random. Diego plays as yellow.
+%     What is the probability that Diego wins.
+%     \item Diego plays yellow, what dice should max play to maximize his
+%     probability of winning with one dice.
+%     \item Restrict to three dice (not all subsets of three work). Red=333336,
+%     Blue=222555, Olive=144444
+%     \item Given that player 1 rolls a value of X, what is the probability they
+%     beat player 2.
+%     \item Example that illustrates expected value and probability of winning do
+%     not necessarily coincide.
+%   \end{enumerate}
+%   \end{problem}

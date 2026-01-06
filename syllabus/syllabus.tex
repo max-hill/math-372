@@ -1,0 +1,171 @@
+\documentclass[10pt]{article}
+% Math Packages
+\usepackage{amsmath, mathtools}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{bbm}
+\usepackage{breqn}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{forest}
+\usepackage{tikz-qtree}
+\graphicspath{ {./images/} }
+\usepackage{hyperref}
+\usepackage[capitalize]{cleveref}
+\usepackage[shortlabels]{enumitem}
+\usetikzlibrary{arrows,matrix,positioning}
+
+% Colorful Notes
+\usepackage{color} \definecolor{Red}{rgb}{1,0,0} \definecolor{Blue}{rgb}{0,0,1}
+\definecolor{Purple}{rgb}{.5,0,.5} \def\red{\color{Red}} \def\blue{\color{Blue}}
+\def\gray{\color{gray}} \def\purple{\color{Purple}}
+\newcommand{\rnote}[1]{{\red [#1]}} % \rnote{foo} gives '[foo]' in red
+\newcommand{\pnote}[1]{{\purple [#1]}} % \pnote{foo} gives '[foo]' in purple
+\newcommand{\bnote}[1]{{\blue #1}} % \bnote{foo} gives 'foo' in blue
+\newcommand{\gnote}[1]{{\gray #1}} % \gnote{foo} gives 'foo' in gray
+\newcommand{\Max}[1]{{\purple [#1]}} % \bnote{foo} then 'foo' is blue
+\definecolor{RoyalBlue}{cmyk}{1, 0.50, 0, 0}
+\newcommand{\dempfcolor}[1]{{\color{RoyalBlue}#1}} 
+\newcommand{\demph}[1]{\dempfcolor{{\sl #1}}}
+
+
+
+
+% Math Environments
+\newtheorem{theorem}{Theorem}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{assumption}[theorem]{Assumption}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{example}[theorem]{Example} 
+\newtheorem{question}[theorem]{Question}
+
+% Custom Math Commands
+\newcommand{\vt}{\vskip 5mm} % vertical space
+\newcommand{\fl}{\\\noindent\textbf} % first line
+\newcommand{\Fl}{\vt\noindent\textbf} % first line with space above
+
+
+\begin{document}
+\subsection*{Syllabus for Math 372: Elementary Probability and Statistics}
+Spring 2026 (Jan 12 - May 15)
+
+\Fl{Instructor:} Max Hill
+\fl{Office:} Physical Sciences Building 304
+\fl{Office Hours:} ?? (or other times by appointment).
+
+\Fl{Place and time:} Web 113 at 12:30-1:20pm (MWF)
+
+\Fl{Textbook:} \textit{Probability and Statistics for Engineering and the Sciences} by Jay L.~Devore (9th
+edition). ISBN-13: \texttt{978-1-305-25180-9}
+
+\Fl{Course prerequistes:} Math 216 or Math 242 or Math 252A. If you don't meet the prerequisites, you'll
+need to get approval from the math department office.
+
+\Fl{Exams:} There will be two midterms and a final exam. The final will be cumulative, but will emphasize
+material after the midterm.  The exam dates are as follows:
+\begin{center} \begin{minipage}{5.0in}
+    \begin{flushleft}
+      Midterm 1 \dotfill~Feb 18 or 20 (in class) \\
+      Midterm 2 \dotfill~March 23, 25, or 27 (in class) \\
+      Final exam \dotfill~???\\
+    \end{flushleft}
+  \end{minipage}
+\end{center}
+% If you do better on the final than the midterm, then your grade on the final will replace your midterm
+% grade.
+
+
+\Fl{Grading:} Homework  (20\%), Midterms (40\%), Final (40\%). The following grade cutoffs will be used at
+the end of the semester to determine final grades:
+\begin{center}
+  \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+    \hline
+    D&D+&C-&C&C+&B-&B&B+&A-&A&A+  \\
+    \hline
+    60\%&67\%&70\%&73\%&77\%&80\%&83\%&87\%&90\%&93\%&97\%\\
+    \hline
+  \end{tabular}
+\end{center}
+% I may change the above numbers, but if I do so it will be in your favor.
+
+
+\Fl{Homework:} Homework will be a mix of worksheets, written assignments, and online assignments through
+WebAssign.
+\begin{itemize}
+  \item You have one free `no questions asked' homework extension.
+  %\item Your lowest homework score will be dropped at the end of the semester.
+  \item You may collaborate with classmates on the homeworks. But if you do so, you must (1) make an
+  effort write up your solutions on your own, using your own words, and (2) list the names of the people
+  who you worked with.
+\end{itemize}
+
+\Fl{Make-up policy:} Make-up exams are allowed only in three types of circumstances: (1) in accordance
+with university policies, such as conflict with a religious observation, (2) conflicts with another
+university-related event, or (3) exceptional circumstances, such as a last-minute medical or family
+emergency with verification. In the first two cases, notice must be given to the instructor two weeks in
+advance.
+
+\Fl{Accommodations:} Any student who feels s/he may need an accommodation based on the impact of a
+disability is invited to contact me privately. I would be happy to work with you, and the KOKUA Program
+(Office for Students with Disabilities) to ensure reasonable accommodations in my course. KOKUA can be
+reached at (808) 956-7511 or (808) 956-7612 (voice/text) in Room 013 of the Queen Lili`uokalani Center
+for Student Services.
+
+
+
+
+\newpage
+\Fl{Tentative course outline:} This course is a problem-oriented introduction to the basic concepts of
+probability and statistics, providing a foundation for applications and further study.
+
+\begin{itemize}
+  \item \textbf{Weeks 1-2:} Introduction to probability theory 
+  \begin{itemize}
+    \item Experiments, events, sets, probabilities, random variables. Equally likely outcomes, counting
+    techniques. Conditional probability. Independence. Bayes' theorem. (Sections: 2.1-2.5)
+  \end{itemize}
+  \item \textbf{Weeks 3-5:} Random variables
+  \begin{itemize}
+    \item Discrete random variables (1.5 weeks): Expected values, mean, variance, binomial distribution,
+    Poisson distribution. Moment generating functions.  (Sections: 3.1-3.6)
+    \item Continuous Random variables (1.5 weeks): Uniform, exponential, gamma, and normal distributions.
+    Intuitive treatment of the Poisson process and development of the relationship with gamma
+    distributions. (Sections: 4.1-4.4)
+  \end{itemize}
+  \item \textbf{Weeks 6-7:} Multivariate distributions
+  \begin{itemize}
+    \item Calculation of probability, covariance, correlation, marginals, conditions. Distributions of
+    sums of random variables and sampling distributions. Central limit theorem. (Sections: 1.1, 1.3, 1.4, 5.1-5.7)
+  \end{itemize}
+  \item \textbf{Week 8:} Catch-up, review, and midterm at the end of the week (Friday March 7).
+  \item \textbf{Week 9:} Introduction to statistical estimation
+  \begin{itemize}
+    \item Point and confidence interval estimation. Maximum likelihood, optimal, and unbiased estimators.
+    Examples. (Sections 6.1, 6.2)
+  \end{itemize}
+  \item \textbf{Weeks 10-12:} Large sample inference
+  \begin{itemize}
+    \item Estimation (1.5 weeks): Types and comparison of estimators; sampling distributions
+    for means/proportions, and their use in large sample estimation; sample size. (Sections 7.1,
+    7.2)
+    \item Hypothesis testing (1.5 weeks): Components of a test; signficance and power; p-values;
+    large-sample tests for means and proportions (Sections: 8.1-8.4)
+  \end{itemize}
+  \item \textbf{Week 13:} Small sample inference
+  \begin{itemize}
+    \item t-distribution, with applications to small sample estimation and testing; $\chi^{2}$ and $F$
+    distributions, with applications to inference about variances (Sections: 7.3, 7.4, 8.3)
+  \end{itemize}
+  \item \textbf{Weeks 14-16:} Regression and $\chi^{2}$ tests
+  \begin{itemize}
+    \item Regression (1.5 weeks): Least squares, correlation coefficient, inference (Sections:
+    12.1-12.5)
+    \item $\chi^{2}$ tests: multinomial dsitributions, contingency tables, goodness-of-fit (Sections: 14.1-14.3)
+  \end{itemize}
+\end{itemize} 
+\end{document}

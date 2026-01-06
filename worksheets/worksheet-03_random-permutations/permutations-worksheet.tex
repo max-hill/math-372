@@ -1,0 +1,366 @@
+
+%%% THIS DOCUMENT NEEDS TO BE COMPILED WITH LUATEX OR LUALATEX ENGINE
+
+\documentclass[10pt]{amsart}
+% Math Packages
+\usepackage{amsmath, mathtools}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{bbm}
+\usepackage{breqn}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{calc}
+\usepackage{forest}
+\usepackage{tikz-qtree}
+\graphicspath{ {./images/} }
+\usepackage{hyperref}
+\usepackage[capitalize]{cleveref}
+\usepackage[shortlabels]{enumitem}
+\usetikzlibrary{arrows,matrix,positioning}
+\usepackage{multicol}
+
+% for the pipe symbol
+\usepackage[T1]{fontenc}
+
+% Citing theorems by name. (source: https://tex.stackexchange.com/questions/109843/cleveref-and-named-theorems)
+\makeatletter
+\newcommand{\ncref}[1]{\cref{#1}\mynameref{#1}{\csname r@#1\endcsname}}
+
+\def\mynameref#1#2{%
+  \begingroup
+  \edef\@mytxt{#2}%
+  \edef\@mytst{\expandafter\@thirdoffive\@mytxt}%
+  \ifx\@mytst\empty\else
+  \space(\nameref{#1})\fi
+  \endgroup
+}
+\makeatother
+
+% Colorful Notes
+\usepackage{color} \definecolor{Red}{rgb}{1,0,0} \definecolor{Blue}{rgb}{0,0,1}
+\definecolor{Purple}{rgb}{.5,0,.5} \def\red{\color{Red}} \def\blue{\color{Blue}}
+\def\gray{\color{gray}} \def\purple{\color{Purple}}
+\newcommand{\rnote}[1]{{\red [#1]}} % \rnote{foo} gives '[foo]' in red
+\newcommand{\pnote}[1]{{\purple [#1]}} % \pnote{foo} gives '[foo]' in purple
+\newcommand{\bnote}[1]{{\blue #1}} % \bnote{foo} gives 'foo' in blue
+\newcommand{\gnote}[1]{{\gray #1}} % \gnote{foo} gives 'foo' in gray
+\newcommand{\Max}[1]{{\purple [#1]}} % \bnote{foo} then 'foo' is blue
+
+
+% Claim numbering (the counter restarts after each proof environment)
+\newcounter{claimcount}
+\setcounter{claimcount}{0}
+\newenvironment{claim}{\refstepcounter{claimcount}\par\addvspace{\medskipamount}\noindent\textbf{Claim \arabic{claimcount}:}}{}
+\usepackage{etoolbox}
+\AtBeginEnvironment{proof}{\setcounter{claimcount}{0}}
+\newenvironment{claimproof}{\par\addvspace{\medskipamount}\noindent\textit{Proof of Claim  \arabic{claimcount}.}}{\hfill\ensuremath{\qedsymbol} \tiny{Claim}
+
+  \medskip}
+% Add claim support to cleverref
+\crefname{claimcount}{Claim}{Claims}
+
+
+% Math Environments
+\newtheorem{theorem}{Theorem}
+\newtheorem{assumption}[theorem]{Assumption}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{question}[theorem]{Question}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{notation}[theorem]{Notation}
+\newtheorem{problem}[theorem]{Problem}
+
+% Matrices and Column Vectors. 
+\usepackage{stackengine}
+\setstackgap{L}{1.0\normalbaselineskip}
+\usepackage{tabstackengine}
+\setstackEOL{;}% row separator
+\setstackTAB{,}% column separator
+\setstacktabbedgap{1ex}% inter-column gap
+\setstackgap{L}{1.5\normalbaselineskip}% inter-row baselineskip
+\let\nmatrix\bracketMatrixstack  %Usage: \nmatrix{1,2,3\4,5,6}
+\newcommand\cv[1]{\setstackEOL{,}\bracketMatrixstack{#1}} %usage: \cv{1,2,3}
+
+% table alignment
+\usepackage{array}
+\usepackage{booktabs}
+
+% Custom Math Coqmmands
+\newcommand{\vt}{\vskip 5mm} % vertical space
+\newcommand{\fl}{\noindent\textbf} % first line
+\newcommand{\Fl}{\vt\noindent\textbf} % first line with space above
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert} % norm
+\newcommand{\pnorm}[1]{\left\lVert#1\right\rVert_p} % p-norm
+\newcommand{\qnorm}[1]{\left\lVert#1\right\rVert_q} % q-norm
+\newcommand{\1}[1]{\textbf{1}_{\left[#1\right]}} % indicator function 
+\def\limn{\lim_{n\to\infty}} % shortcut for lim as n-> infinity
+\def\sumn{\sum_{n=1}^{\infty}} % shortcut for sum from n=1 to infinity
+\def\sumkn{\sum_{k=1}^{n}} % shortcut for sum from k=1 to n
+\def\sumin{\sum_{i=1}^{n}} % shortcut for sum from i=1 to n
+\def\SAs{\sigma\text{-algebras}} % shortcut for $\sigma$-algebras
+\def\SA{\sigma\text{-algebra}} % shortcut for $\sigma$-algebra
+\def\Ft{\mathcal{F}_t} % time-indexed sigma-algebra (t)
+\def\Fs{\mathcal{F}_s} % time-indexed sigma-algebra (s)
+\def\F{\mathcal{F}} % sigma-algebra
+\def\G{\mathcal{G}} % sigma-algebra
+\def\R{\mathbb{R}} % Real numbers
+\def\N{\mathbb{N}} % Natural numbers
+\def\Z{\mathbb{Z}} % Integers
+\def\E{\mathbb{E}} % Expectation
+\def\P{\mathbb{P}} % Probability
+\def\Q{\mathbb{Q}} % Q probability
+\def\dist{\text{dist}} %Text 'dist' for things like 'dist(x,y)'
+\newcommand{\indep}{\perp \!\!\! \perp}  %independence symbol
+\def\Var{\mathrm{Var}} % Variance
+\def\tr{\mathrm{tr}} % trace
+
+% Brackets and Parentheses
+\def\[{\left [}
+    \def\]{\right ]}
+% \def\({\left (}
+%   \def\){\right )}
+
+
+
+\usepackage{color}
+\definecolor{Red}{rgb}{1,0,0}
+\definecolor{Blue}{rgb}{0,0,1}
+\definecolor{Purple}{rgb}{.5,0,.5}
+\def\red{\color{Red}}
+\def\blue{\color{Blue}}
+\def\gray{\color{gray}}
+\def\purple{\color{Purple}}
+\definecolor{RoyalBlue}{cmyk}{1, 0.50, 0, 0}
+\newcommand{\dempfcolor}[1]{{\color{RoyalBlue}#1}} 
+\newcommand{\demph}[1]{\dempfcolor{{\sl #1}}}
+
+% comment exactly one of the following line to show / hide the solutions
+% \newcommand{\solution}[1]{{\purple #1}} % uncomment to show the solutions
+\newcommand{\solution}[1]{} % uncomment to hide the solutions
+
+\usepackage{pst-poker}
+
+
+\begin{document}
+\begin{center}
+  \section*{Worksheet 3: Random Permutations}
+\end{center}
+\begin{problem}
+  Suppose some several distinct playing cards are laid out in a line like this:
+  \begin{center}
+    \crdAs \crdtwos \crdtres \crdfours
+  \end{center}
+  A \demph{random transposition} is where two different cards are selected at random and
+  their positions swapped. For example, the transposition $(23)$ swaps cards 2
+  and 3. If the cards started in the above order, then the effect of applying
+  $(23)$ would be to reorder the cards as follows:
+  \begin{center}
+    \crdAs \crdtres \crdtwos \crdfours
+  \end{center}
+
+  
+  Anna's nemesis Mark challenges her to a betting game. In the game, Mark lays
+  out four cards in the order $1,2,3,4$ and then performs $k$ random
+  transpositions, one after the other. As this happens, Anna is blindfolded,
+  so she can't see which transpositions were performed---however, because she
+  can hear Mark moving the cards, she does know the value of $k$. Anna then
+  has to guess the final order of the cards. If she guesses correctly, Mark
+  will pay her $\$20$; otherwise she has to pay Mark $\$1$.
+
+  Mark believes that as long as he performs at least $4$ transpositions, then
+  all $4!=24$ permutations of the cards will be equally likely, so that Anna
+  is expected to lose money when she plays the game. Moreover Mark believes
+  that Anna is a sucker and he can make lots of money from her.
+
+  But Mark is wrong. Design a betting strategy for Anna to bleed Mark for all
+  he's worth.
+
+  \Fl{Hint:}\textit{
+  First consider the simpler problem where the game is played with
+  3 cards. Write down a table which gives the probability mass function for
+  each of the 6 permutations in that case:}
+  
+\begin{center}
+  \begin{tabular}{>{\centering\arraybackslash}m{3cm} |>{\centering\arraybackslash}m{5cm}}
+    \toprule
+    \textbf{Permutation (in cycle notation)} & \textbf{Resulting Card Order} \\
+    \midrule
+    \Large(1)(2)(3)   & \scalebox{0.6}{\crdAs \crdtwos \crdtres} \\
+    \Large(1)(23)     & \scalebox{0.6}{\crdAs \crdtres \crdtwos} \\
+    \Large(12)(3)     & \scalebox{0.6}{\crdtwos \crdAs \crdtres} \\
+    \Large(13)(2)     & \scalebox{0.6}{\crdtres \crdtwos \crdAs} \\
+    \Large(123)       & \scalebox{0.6}{\crdtwos \crdtres \crdAs} \\
+    \Large(132)       & \scalebox{0.6}{\crdtres \crdAs \crdtwos} \\
+    \bottomrule
+  \end{tabular}
+\end{center}
+
+\textit{Do this for each $k=2,3,4,5$. Once you understand the case with 3 cards,
+  move to four.}
+
+\end{problem}
+\newpage
+\textit{Note that in the next two problems, we will use the notation $AB$ to denote $A\cap B$.}
+
+
+\begin{problem}[Inclusion-Exclusion]
+  In this problem we will generalize the inclusion-exclusion principle
+  \begin{equation}\label{eq:1}
+    \P\left[A_{1}\cup A_{2} \right] = \P\left[A_{1} \right]+\P\left[A_{2} \right]-\P\left[A_{1}\cap A_{2} \right]
+  \end{equation}
+  to more than two sets. The formulas are a bit complicated, but we've broken
+  it up into hopefully doable chunks.
+  \begin{enumerate}[(a)]
+    \setlength{\itemsep}{4em}
+    \item \label{item:Ia} Let's start with some useful preliminaries. Show
+    that $\E\left[\mathbf{1}_{A} \right]= \P\left[A \right]$ for any event
+    $A$, and that $\mathbf{1}_{A} \mathbf{1}_{B} = \mathbf{1}_{AB}$ for any
+    events $A$ and $B$.
+    \item \label{item:Ib} The following polynomial equality holds for all $n \geq 1$:
+    {\footnotesize
+      \begin{align*}
+      (1-x_{1})(1-x_{2})\cdots(1-x_{n})
+      % &= \sum_{k=1}^{n} (-1)^{k} \left( \sum_{1 \leq i_{1}<i_{2}<\ldots i_{k}\leq n}a_{i_{1}}a_{i_{2}}\cdots a_{i_{k}}  \right) \\
+        &= 1- \left(\sum_{1 \leq i \leq n} x_{i}\right) + \left(\sum_{1 \leq i<j \leq n} x_{i}x_{j}\right)-\left(\sum_{1 \leq i<j<k\leq n} x_{i}x_{j}x_{k}\right)+ \ldots+ (-1)^{n}\left(x_{1}x_{2}\cdots x_{n}\right) 
+    \end{align*}}
+    This formula can be proved by induction, but for now let's just convince
+    ourselves that it holds by verifying the case when $n=4$.
+    \item \label{item:Ic} Let $A_{1},\ldots,A_{n}$ be events. Show that
+    \begin{equation*}
+      \mathbf{1}_{A_{1}^{c}\cdots A_{n}^{c}} = (1-\mathbf{1}_{A_{1}})(1-\mathbf{1}_{A_{2}})\cdots(1-\mathbf{1}_{A_{n}}).
+    \end{equation*}
+    \item \label{item:Id} Using parts \ref{item:Ia}, \ref{item:Ib}, and \ref{item:Ic}, prove the following formula:
+    {\footnotesize\begin{align*}
+      \P\left[A_{1}^{c} \cdots A_{n}^{c} \right] 
+      &= 1- \left(\sum_{1 \leq i \leq n} \P\left[A_{i} \right]\right) + \left(\sum_{1 \leq i<j \leq n} \P\left[A_{i} A_{j} \right]\right)-\left(\sum_{1 \leq i<j<k\leq n} \P\left[A_{i}A_{j}A_{k} \right]\right) + \ldots+ (-1)^{n}\P\left[A_{1} \cdots A_{n} \right]
+    \end{align*}}
+    \item Deduce from the formula in \ref{item:Id} that
+    {\footnotesize\begin{align*}
+      \P\left[A_{1}\cup \cdots \cup A_{n} \right] 
+      &=\left(\sum_{1 \leq i \leq n} \P\left[A_{i} \right]\right) - \left(\sum_{1 \leq i<j \leq n} \P\left[A_{i} A_{j} \right]\right) +\left(\sum_{1 \leq i<j<k\leq n} \P\left[A_{i}A_{j}A_{k} \right]\right) + \ldots+ (-1)^{n-1}\P\left[A_{1} \cdots A_{n} \right].
+    \end{align*}}
+  \item The equation from the previous part is called \demph{the
+    inclusion-exclusion principle.} It can be written more compactly in the
+  following form (you don't have to show this):
+    \begin{equation}\label{eq:inclusion-exclusion}
+      \P\left[A_{1}\cup \ldots \cup A_{n} \right] = \sum_{k=1}^{n} (-1)^{k-1} \left[ \sum_{I\subseteq \left\{1,\ldots,n\right\}: |I|=k} \P\left[\cap_{i\in I}A_{i} \right]  \right] 
+    \end{equation}
+    To explain this equation, note that for each $k$, the summation in the
+    square brackets sums over all subsets I of $\left\{1,\ldots,n\right\}$ of
+    size $k$. (Meaning it sums over ${n\choose k}$ terms.) Use the
+    inclusion-exclusion to write out a formula for
+    \begin{equation*}
+      \P\left[A\cup B\cup C \right]
+    \end{equation*}
+    and draw a venn diagram and interpret your formula geometrically.
+  \end{enumerate}
+\end{problem}
+
+\newpage
+\begin{problem}
+  In this problem we consider the problem of a random permutation of $n$
+  distinct elements, denoted $1,2,\ldots,n$. Let $N$ be the number of fixed
+  points of the permutation. We will show that
+  \begin{equation*}
+    \P\left[N=0 \right] = \frac{1}{2!}-\frac{1}{3!}+\frac{1}{4!}-\ldots+(-1)^{n}\frac{1}{n!}
+  \end{equation*}
+  which implies that $\P\left[N=0 \right] \approx \frac{1}{e} \approx .37$ when $n$ is
+  large.
+
+  \textit{This problem uses the result of problem 2.}
+
+  \begin{enumerate}[(a)]
+    \setlength{\itemsep}{4em}
+
+    \item \label{item:IIa}Let $A_{i}$ be the event that $i$ is a fixed point. Using the ideas
+    of conditional probability, show that
+    $\P\left[A_{i} \right] = \frac{1}{n}$, \quad
+    $\P\left[A_{i}A_{j} \right]=\frac{1}{n(n-1)}$,\quad
+    $\P\left[A_{i}A_{j}A_{k} \right]=\frac{1}{n(n-1)(n-2)}$, and so forth, so
+    that in general, we have
+    \begin{equation*}
+      \P\left[\cap_{i\in I}A_{i} \right] = \frac{1}{n(n-1)(n-2)\cdots (n-k+2)}
+    \end{equation*}
+    whenever $I\subseteq \left\{1,2\ldots,n\right\}$ is a subset of size $k \geq 1$.
+    
+    \item \label{item:IIb} Let $k$ be a positive integer. How many terms are in the sum
+    \begin{equation*}
+      \sum_{I\subseteq \left\{1,\ldots,n\right\}: |I|=k} \P\left[\cap_{i\in I}A_{i} \right] 
+    \end{equation*}
+    \item \label{item:IIc}Using your answers to parts \ref{item:IIa} and \ref{item:IIb}, show that
+    \begin{equation*}
+      \sum_{I\subseteq \left\{1,\ldots,n\right\}: |I|=k} \P\left[\cap_{i\in I}A_{i} \right]  = \frac{1}{k!}
+    \end{equation*}
+    for each $k=1,2,\ldots$.
+    \item Plugging \ref{item:IIc} into \Cref{eq:inclusion-exclusion}, deduce
+    that
+    \begin{equation*}
+      \P\left[A_{1}\cup \cdots\cup A_{n} \right] = 1 - \frac{1}{2!}+\frac{1}{3!}-\frac{1}{4!}+\ldots+(-1)^{n-1}\frac{1}{n!}
+    \end{equation*}
+    \item Using the formula $e^{x} = \sum_{k=0}^{\infty}\frac{x^{k}}{k!}$,
+    deduce that
+    \begin{equation*}
+      \P\left[A_{1}\cup \cdots\cup A_{n} \right] \approx 1-\frac{1}{e}
+    \end{equation*}
+    and hence that
+    \begin{equation*}
+      \P\left[A_{1}^{c}\cap A_{2}^{c}\cap\cdots \cap A_{n}^{c} \right] \approx \frac{1}{e}
+    \end{equation*}
+    \item Interpret this result in words.
+    \item How close is this approximation when $n=4$? What about $n=5$?
+  \end{enumerate}
+\end{problem}
+
+
+\newpage
+\begin{problem}[Random Permutations II]
+
+  In this problem, we will show that the expected number of cycles in a random
+  permutation of $n$ elements is approximately $\log(n)$.
+
+  \begin{enumerate}[(a)]
+    \setlength{\itemsep}{4em}
+
+    \item Let $i,j\in \left\{1,\ldots,n\right\}$ such that $i\neq j$. Let
+    $C_{ij}$ be the event that $i$ and $i$ form a cycle of order 2. What is $\P\left[C_{ij} \right]$?
+
+    \item Let $N_{2}$ be the number of cycles of order 2. Explain why
+    \begin{equation*}
+      N_{2} = \sum_{1 \leq i<j \leq n} \mathbf{1}_{C_{ij}}.
+    \end{equation*}
+    How many terms are in this sum?
+    \item Show that $\E\left[N_{2} \right]=\frac{1}{2}$?
+    \item \label{item:1} For each
+    $k\in \left\{1,2,\ldots,n\right\}$, let $N_{k}$ be the number of cycles of
+    order $k$. Using similar arguments as in the previous part of this
+    problem, one can show that
+    \begin{equation*}
+      \E\left[N_{k} \right] = \frac{1}{k}.
+    \end{equation*}
+    \item Deduce from \ref{item:1} that the expected number of cycles in a random
+    permutation of $n$ elements is the \demph{$n^{\rm th}$ harmonic number}
+    $H_{n}$, defined as
+    \begin{equation*}
+      H_{n} = 1+\frac{1}{2}+\frac{1}{3}+\ldots+\frac{1}{n}.
+    \end{equation*}
+    \item  Conclude that as $n \to \infty$, the expected number of cycles grows
+    at a rate proportional to $\log(n)$ by showing that
+    \begin{equation*}
+      \lim_{n\to\infty} \frac{\log(n) }{H_{n}} = 1.
+    \end{equation*}
+    \item If you shuffle a deck of 52 playing cards, the resulting rearrangment of the
+    cards corresponds to some permutation of the set
+    $\left\{1,2,\ldots,52\right\}$. What is a good guess for the number of
+    cyles in that permutation?
+  \end{enumerate}
+\end{problem}
+
+\end{document}
