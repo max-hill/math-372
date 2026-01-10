@@ -1,16 +1,16 @@
 ---
+layout: home
+title: Lecture notes
 #
 # By default, content added below the "---" mark will appear in the home page
 # between the top bar and the list of recent posts.
 # To change the home page layout, edit the _layouts/home.html file.
 # See: https://jekyllrb.com/docs/themes/#overriding-theme-defaults
 #
-layout: home
-title: Lecture notes
 ---
 
 
-[Spring 2025 Lecture notes](lectures/lecture-notes-372_FINAL.pdf)
+[Lecture notes for previous semester (Spring 2025)](lectures/lecture-notes-372_FINAL.pdf)
 
 [Tentative course schedule](/lectures/lecture-notes-by-day/tentative-course-schedule.pdf)
 
