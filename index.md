@@ -18,4 +18,4 @@ title: Lecture notes
 -------------|----------------------------|-------------
  2026-01-12  | [lecture-01](lectures/lecture-notes-by-day/lecture-01.pdf)      | Description  
  
-![The key theorem](/images/spiderman.jpeg)
+
