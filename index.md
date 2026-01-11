@@ -10,8 +10,9 @@ permalink: /lecture-notes/
 #
 ---
 
+[Syllabus](syllabus/syllabus.pdf)
 
-[Lecture notes for previous semester (Spring 2025)](lectures/lecture-notes-372_FINAL.pdf)
+[Old lecture notes (Spring 2025)](lectures/lecture-notes-372_FINAL.pdf)
 
 [Tentative course schedule](/lectures/lecture-notes-by-day/tentative-course-schedule.pdf)
 
