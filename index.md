@@ -1,6 +1,6 @@
 ---
 layout: latex
-title: Lecture notes
+title: Lecture Notes
 #
 # By default, content added below the "---" mark will appear in the home page
 # between the top bar and the list of recent posts.
@@ -13,7 +13,6 @@ title: Lecture notes
 
 [Old lecture notes (Spring 2025)](lectures/lecture-notes-372_FINAL.pdf)
 
-[Tentative course schedule](/lectures/lecture-notes-by-day/tentative-course-schedule.pdf)
 
  Date        | Lecture Notes              | Topics Covered
 -------------|----------------------------|-------------
