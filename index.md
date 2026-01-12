@@ -1,6 +1,6 @@
 ---
 layout: latex
-title: Lecture Notes
+title: Main Page
 #
 # By default, content added below the "---" mark will appear in the home page
 # between the top bar and the list of recent posts.
@@ -9,7 +9,7 @@ title: Lecture Notes
 #
 ---
 
-# Lecture notes
+# lecture notes
 
 [lecture notes - not added yet]
 
@@ -18,8 +18,8 @@ title: Lecture Notes
  2026-01-12  | [lecture-01](lectures/lecture-notes-by-day/lecture-01.pdf) and [worksheet-01](worksheets/worksheet-01_pirates-and-probabilities/main.pdf)    | Syllabus, Intro to dice games
  
 
-# Other links
+# lther links
 
-[Syllabus](syllabus/syllabus.pdf)
+[syllabus](syllabus/syllabus.pdf)
 
-[Old lecture notes (Spring 2025)](lectures/lecture-notes-372_FINAL.pdf)
+[old lecture notes (Spring 2025)](lectures/lecture-notes-372_FINAL.pdf)
