@@ -10,7 +10,6 @@ title: Lecture Notes
 ---
 
 
-[lecture notes - not added yet]
 
  Date        | Lecture notes           | Topics covered
 -------------|----------------------------|-------------
