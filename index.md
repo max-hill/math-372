@@ -9,13 +9,17 @@ title: Lecture Notes
 #
 ---
 
+# Lecture notes
+
+[lecture notes - not added yet]
+
+ Date        | Lecture notes           | Topics covered
+-------------|----------------------------|-------------
+ 2026-01-12  | [lecture-01](lectures/lecture-notes-by-day/lecture-01.pdf) and [worksheet-01](worksheets/worksheet-01_pirates-and-probabilities/main.pdf)    | Syllabus, Intro to dice games
+ 
+
+# Other links
+
 [Syllabus](syllabus/syllabus.pdf)
 
 [Old lecture notes (Spring 2025)](lectures/lecture-notes-372_FINAL.pdf)
-
-
- Date        | Lecture Notes              | Topics Covered
--------------|----------------------------|-------------
- 2026-01-12  | [lecture-01](lectures/lecture-notes-by-day/lecture-01x.pdf)      | Description  
- 
-
