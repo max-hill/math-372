@@ -1,1 +1,6 @@
 /worksheets/worksheet-01_pirates-and-probabilities/Mega Math Meet 2022 (Copy).zip
+*.aux
+*.log
+*.out
+*.synctex.gz
+*.toc
