@@ -166,7 +166,7 @@
 \def\purple{\color{Purple}}
 \definecolor{RoyalBlue}{cmyk}{1, 0.50, 0, 0}
 \newcommand{\dempfcolor}[1]{{\color{RoyalBlue}#1}} 
-\newcommand{\demph}[1]{\dempfcolor{{\sl #1}}}
+\newcommand{\demph}[1]{\dempfcolor{{\sl \textbf{#1}}}}
 
 % comment exactly one of the following line to show / hide the solutions
 % \newcommand{\solution}[1]{{\purple #1}} % uncomment to show the solutions
@@ -269,7 +269,7 @@ providing a foundation for applications and further study.
 \end{itemize} 
 
 \newpage
-\section{2025-01-12 | Week 01 |  Class 01}
+\section{2025-01-12 | Week 01 |  Lecture 01}
 \begin{itemize}
   \item give syllabus
   \item do activity with why you're in this course
@@ -277,67 +277,107 @@ providing a foundation for applications and further study.
 \end{itemize}
 
 \newpage
-\section{2025-01-15  | Week 1 | Class 2}
-Tell the students to read chapters 2.1 - 2.5
+\section{2025-01-14  | Week 01 | Lecture 02}
+\begin{center}
+  \begin{tcolorbox}[width=0.9\textwidth, colback=white, colframe=black]
+    \textit{\textbf{The nexus question of this lecture:} What is the general
+      framework for probability?}
 
-\begin{example}[Powerball Lottery]
-  \label{ex:powerball-lottery}
-  The a ticket for the powerball lottery costs \$2. There are two outcomes:
-  \begin{itemize}
-    \item You win \$300,000,000.
-    \item You don't win any money.
-  \end{itemize}
-  The probability of winning is approximately $\frac{1}{300,000,000}$. Let $X$ be the net payoff from the
-  game, in dollars:
-  \begin{itemize}
-    \item If you lose, then $X=-2$, since you had to pay \$2 to play the game.
-    \item If you win, then your net payoff is $X=299,999,998$. 
-  \end{itemize}
-  What is the expected value of $X$?
-  \begin{align*}
-    \E\left[X \right]
-    &=\P\left[ \text{win}\right]\cdot (-2) + \P\left[\text{lose} \right]\cdot (299,999,998)\\
-    &=\frac{299,999,999}{300,000,000}(-2)+ \frac{1}{300,000,000}(299,999,999)\\
-    &=-1.
-  \end{align*}
-  \textit{Conclusion:} you ``expect'' to lose \$1 every time you play. Similarly, if you play twice, you
-  expet to lose \$2. If you play 10 times, you expect to lose \$10. Etc. This property is called
-  \textit{linearity} of expectation.
-\end{example}
+    \textit{\textbf{Reading assignment:} chapters 2.1 - 2.5}
+  \end{tcolorbox}
+\end{center}
 
+\subsection{A general framework for probability}
+We begin with a general framework and some terminology to formalize the
+notions of probability.
 
 \begin{itemize}
-  \item Go over problem 4, parts (b) and (c). This is the problem where you look ath te expected value of
-  2 or 120 dice.
-  \item Go over problem 6.
-  \item I'll put problems 7 and 8 on the first homework.
-  \item ``Elementary'' doesn't mean easy. 
+  \item An \demph{experiment} is an activity or process whose outcome is
+  subject to uncertainty, and about which an observation is made.
+
+  Examples include flipping a coin, rolling a dice, measuring the size of a
+  wave, or the amount of rainfall, conducting a poll, performing a diagnostic
+  test, opening a pack of Pokemon cards, etc.
+
+  \item The \demph{sample space} $S$ of an experiment is the set of all
+  possible outcomes. The elements of the sample space are called \demph{sample
+    points}.
+
+  We think of each sample point as representing a unique outcome of the
+  experiment. In the case of rolling a dice, the sample points are $1,2,3,4,5$
+  and $6$, and the sample space is $S=\left\{1,2,3,4,5,6\right\}$.
+
+
+  \item We use the term \demph{event} to refer to a collection of outcomes. So
+  we think of an event as being a \textit{subset} of the sample space:
+  \begin{equation*}
+    \text{an event} = \text{a set of outcomes} = \text{a subset of $S$}.
+  \end{equation*}
+
+
+
+  Example: if our experiment is rolling a 6-sided dice, here are some events
+
+  \begin{equation*}
+    \begin{aligned}
+      A &= [\text{observe an odd number}]\\
+      B &= [\text{observe an even number}]\\
+      C &= [\text{observe a number less than 5}]\\
+      D &= [\text{observe a 2 or a 3}]\\
+      E_1 &= [\text{observe a 1}]
+    \end{aligned}
+    \qquad
+    \begin{aligned}
+      E_2 &= [\text{observe a 2}]\\
+      E_3 &= [\text{observe a 3}]\\
+      E_4 &= [\text{observe a 4}]\\
+      E_5 &= [\text{observe a 5}]\\
+      E_6 &= [\text{observe a 6}]
+    \end{aligned}
+  \end{equation*}
+
+  \item There are two types of events: \demph{compound events}, which can be
+  decomposed into other events, and \demph{simple events}, which cannot.
+
+  In the above example, the events $A,B,C$ and $D$ are compound events. $E_{1},\ldots,E_{6}$ are simple events.
+
+  \begin{equation*}
+    \begin{aligned}
+      A &= [\text{observe an odd number}] = \{1,3,5\} \\
+      B &= [\text{observe an even number}] = \{2,4,6\} \\
+      C &= [\text{observe a number less than 5}] = \{1,2,3,4\} \\
+      D &= [\text{observe a 2 or a 3}] = \{2,3\}\\
+      E_1 &= [\text{observe a 1}] = \{1\}
+    \end{aligned}
+    \qquad
+    \begin{aligned}
+      E_2 &= [\text{observe a 2}] = \{2\} \\
+      E_3 &= [\text{observe a 3}] = \{3\} \\
+      E_4 &= [\text{observe a 4}] = \{4\} \\
+      E_5 &= [\text{observe a 5}] = \{5\} \\
+      E_6 &= [\text{observe a 6}] = \{6\}
+    \end{aligned}
+  \end{equation*}
+
 \end{itemize}
 
 
-\subsection{Sample space}
 
-An \demph{experiment} is an activity or process whose outcome is subject to uncertainty. Examples include
-flipping a coin, rolling a dice, measuring the size of a wave, or the amount of rainfall. WE USUALLY
-DENOTE RANDOM QUANTITIES WITH CAPITAL LETTERS, LIKE `X'. (We also tend to denote \textit{sets} with capital
-letters, so ask if you get confused).
-
-The \demph{sample space} of an experiment is the \textit{set} of all possible outcomes.
-\begin{example}[Sample space]
+\begin{example}[Examples of sample spaces]
   \begin{itemize}
     \item[]
-    \item If I roll dice, the sample space is
+    \item If I roll dice, the sample space is $S = \left\{1,2,3,4,5,6\right\}$
+    
+    \item  If I flip a coin, the sample space is $S = \left\{T,H\right\} $
+     
+    \item The amount of rainfall in a day is
+    $S = \left\{x\in \mathbb{R}: x \geq 0\right\}$
+    
+    An example of an event for this sample space is:
     \begin{equation*}
-      S = \left\{1,2,3,4,5,6\right\}
+      \left[ \text{between 1 and 2 inches of rain} \right]  = \left\{x\in \mathbb{R}: 1 \leq x \leq 2\right\}.
     \end{equation*}
-    \item  If I flip a coin, the sample space is
-    \begin{equation*}
-      S = \left\{T,H\right\}
-    \end{equation*} 
-    \item The amount of daily rainfall is
-    \begin{equation*}
-      S = \left\{x\in \mathbb{R}: x \geq 0\right\}
-    \end{equation*}
+
     \item You've got an urn filled with 300,000,000 balls. Exactly one ball is made of gold. Draw a ball
     out at random. If it's not the gold ball, put it back and keep repeating until you get the gold ball.
     Once you get the gold ball, you are done. The output of this experiment is \textit{the number of
@@ -349,36 +389,31 @@ The \demph{sample space} of an experiment is the \textit{set} of all possible ou
   The last two examples show that the sample space need not be finite.
 \end{example}
 
-The \textit{elements} of $S$ are called \demph{outcomes}. A specified collection of outcomes is called an
-\demph{event}. So we think of an event as being a \textit{subset} of the sample space:
-\begin{equation*}
-  \text{an event} = \text{a set of outcomes} = \text{a subset of $S$}.
-\end{equation*}
 
-\begin{example}[Rolling a dice]
-  To illustrate, suppose we roll a dice. Let $X$ be the value of the dice roll. We know the sample space
-  of the experiment is $S = \left\{1,2,3,4,5,6\right\}$. Some possible events, along with the sets we
-  identify them with, are shown below:
-  \begin{itemize}
-    \item ``the dice roll is even'' \dotfill $\left\{2,4,6\right\}$
-    \item ``the dice roll is at least 3'' \dotfill $\left\{3,4,5,6\right\}$
-    \item ``the dice roll equals 1'' \dotfill $\left\{1\right\}$
-  \end{itemize}
-  It's common to represent events using square brackets like this:
-  $\left[ \text{event description} \right]$. For example, the first event above could also be written as:
-  \begin{equation*}
-    \left[ X \text{ is even} \right] \quad \text{or }\quad \left[ X \in \left\{2,4,6\right\} \right].
-  \end{equation*}
-  And we might write the other two events as
-  \begin{equation*}
-    \left[ X \geq 3\right] \quad \text{and} \quad \left[ X=1 \right].
-  \end{equation*}
-\end{example}
-
+% \begin{example}[Rolling a dice]
+%   To illustrate, suppose we roll a dice. Let $X$ be the value of the dice roll. We know the sample space
+%   of the experiment is $S = \left\{1,2,3,4,5,6\right\}$. Some possible events, along with the sets we
+%   identify them with, are shown below:
+%   \begin{itemize}
+%     \item ``the dice roll is even'' \dotfill $\left\{2,4,6\right\}$
+%     \item ``the dice roll is at least 3'' \dotfill $\left\{3,4,5,6\right\}$
+%     \item ``the dice roll equals 1'' \dotfill $\left\{1\right\}$
+%   \end{itemize}
+%   It's common to represent events using square brackets like this:
+%   $\left[ \text{event description} \right]$. For example, the first event above could also be written as:
+%   \begin{equation*}
+%     \left[ X \text{ is even} \right] \quad \text{or }\quad \left[ X \in \left\{2,4,6\right\} \right].
+%   \end{equation*}
+%   And we might write the other two events as
+%   \begin{equation*}
+%     \left[ X \geq 3\right] \quad \text{and} \quad \left[ X=1 \right].
+%   \end{equation*}
+% \end{example}
+\subsection{The enumeration principle}
 \begin{example}[Rolling two dice]
   When rolling a red and a blue dice, the sample space consists of 36 possible outcomes:
   \begin{center}
-    \includegraphics[scale=0.5]{images/state-space-2-dice-rolls}
+    \includegraphics[scale=0.3]{images/state-space-2-dice-rolls}
   \end{center}
   so we can write the sample space as:
   \begin{align*}
@@ -438,11 +473,50 @@ I already had you do a bunch of these problems on Monday.
 
 
 
-For the rainfall example,
-\begin{equation*}
-  \left[ \text{between 1 and 2 inches of rain} \right]  = \left\{x\in \mathbb{R}: 1 \leq x \leq 2\right\}.
-\end{equation*}
 
+
+
+\newpage
+
+
+
+\subsection{Events}
+
+Some observations about events:
+\begin{itemize}
+  \item Two events $E$ and $F$ are \demph{mutually exclusive} if
+  $E\cap F =\emptyset$. This means that $E$ and $F$ cannot both happen at the
+  same time.
+  \begin{center}
+    \includegraphics[scale=.4]{images/venn-diagram-disjoint}
+  \end{center}
+
+  In the dice example, the events $A$ and $B$ are mutually exclusive, since
+  the dice roll cannot be both even and odd. But $A$ and $C$ are not mutually
+  exclusive because $A\cap C =\left\{1,3\right\}\neq \emptyset$. If a 1 or a 3
+  is rolled, then both $A$ and $C$ occur.
+
+  \item The sample points are \textit{elements} of $S$. The simple events
+  are \textit{singleton subsets} of $S$. In the dice example, we have:
+  \begin{itemize}
+    \item Sample points: 1,2,3,4,5,6.
+    \item Simple events:
+    $\left\{1\right\},\left\{2\right\},\left\{3\right\},\left\{4\right\},\left\{5\right\},\left\{6\right\}$.
+  \end{itemize}
+  \item The empty set $\emptyset$ and the whole sample space $S$ are always
+  both events: $\emptyset$ is the event ``nothing happens'' and $S$ is the
+  event ``something happens''.
+  \item If $E$ and $F$ are events, then $E\cap F$ is the event that both $E$
+  \textbf{and} $F$ occur:
+  \begin{center}
+    \includegraphics[scale=0.2]{images/venn-diagram-intersection}
+  \end{center}
+  Here, $E\cap F$ is the \demph{intersection} of $E$ and $F$; that is, $E\cap F$ the set
+  of sample points contained in both $E$ and $F$.
+  
+\end{itemize}
+
+\newpage
 
 \newpage
 \section{2025-01-17 | Week 1 | Class 3}
@@ -650,6 +724,60 @@ To be a \demph{probability measure}, $\P$ must satisfy the following three axiom
   \end{align*}
   So the probability that you flip the coin an \textit{even} number of times is only $1/3$. 
 \end{example}
+\newpage
+\subsection{Understanding ``Events''}
+
+\begin{itemize}
+  \item If $E$ and $F$ are events, then $E\cap F$ is the event that both $E$
+  \textbf{and} $F$ occur:
+  \begin{center}
+    \includegraphics[scale=0.2]{images/venn-diagram-intersection}
+  \end{center}
+  \item If $E$ and $F$ are events, then $E\cup F$ is the event that $E$
+  \textbf{or} $F$ occurs.
+  \begin{center}
+    \includegraphics[scale=0.2]{images/venn-diagram-union}
+  \end{center}
+  \item If $A$ is an event, then $A^{c}= S\backslash A$ is the event that $E$
+  does \textbf{not} occur.
+  \begin{center}
+    \includegraphics[scale=0.34]{images/venn-diagram-single-event}
+  \end{center}
+\end{itemize}
+\begin{example}[Powerball Lottery]
+  \label{ex:powerball-lottery}
+  The a ticket for the powerball lottery costs \$2. There are two outcomes:
+  \begin{itemize}
+    \item You win \$300,000,000.
+    \item You don't win any money.
+  \end{itemize}
+  The probability of winning is approximately $\frac{1}{300,000,000}$. Let $X$ be the net payoff from the
+  game, in dollars:
+  \begin{itemize}
+    \item If you lose, then $X=-2$, since you had to pay \$2 to play the game.
+    \item If you win, then your net payoff is $X=299,999,998$. 
+  \end{itemize}
+  What is the expected value of $X$?
+  \begin{align*}
+    \E\left[X \right]
+    &=\P\left[ \text{win}\right]\cdot (-2) + \P\left[\text{lose} \right]\cdot (299,999,998)\\
+    &=\frac{299,999,999}{300,000,000}(-2)+ \frac{1}{300,000,000}(299,999,999)\\
+    &=-1.
+  \end{align*}
+  \textit{Conclusion:} you ``expect'' to lose \$1 every time you play. Similarly, if you play twice, you
+  expet to lose \$2. If you play 10 times, you expect to lose \$10. Etc. This property is called
+  \textit{linearity} of expectation. 
+\end{example}
+
+
+
+\begin{itemize}
+  \item Go over problem 4, parts (b) and (c). This is the problem where you look ath te expected value of
+  2 or 120 dice.
+  \item Go over problem 6.
+  \item I'll put problems 7 and 8 on the first homework.
+  \item ``Elementary'' doesn't mean easy. 
+\end{itemize}
 
 \newpage
 \section{2025-01-22 |  Week 2 | Class 4}
@@ -2863,14 +2991,17 @@ An example of normal random variable and standardization:
 
 We are interested in understanding the properties of \demph{random vectors}, which are vectors whose
 entries are random variables.
+\begin{definition}[Joint pmf]
+  Let $X$ and $Y$ be two discrete random variables. The \demph{joint
+    probability mass function} for $X$ and $Y$ is the function
+  \begin{equation*}
+    p(x,y) = \P\left[X=x,Y=y \right],
+  \end{equation*}
+  defined for all $x,y\in \R$.
+\end{definition}
 
-Let $X$ and $Y$ be two discrete r.v.s defined on the sample space $\mathcal{S}$. The \demph{joint pmf}
-$p(x,y)$ is defined as
-\begin{equation*}
-  p(x,y) = \P\left[X=x,Y=y \right]
-\end{equation*}
-for all $x,y\in \mathcal{S}$. It must be the case that $p(x,y) \geq 0$ and $\sum_{x,y\in
-  \mathcal{S}}p(x,y)=1$.
+It must be the case that $p(x,y) \geq 0$ and
+$\sum_{x,y}p(x,y)=1$.
 
 
 Let $A$ be any set consisting of pairs of $(x,y)$ values. For example,
