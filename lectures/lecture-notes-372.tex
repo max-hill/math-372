@@ -474,12 +474,6 @@ I already had you do a bunch of these problems on Monday.
 
 
 
-
-
-\newpage
-
-
-
 \subsection{Events}
 
 Some observations about events:
@@ -513,22 +507,228 @@ Some observations about events:
   \end{center}
   Here, $E\cap F$ is the \demph{intersection} of $E$ and $F$; that is, $E\cap F$ the set
   of sample points contained in both $E$ and $F$.
-  
 \end{itemize}
 
 \newpage
+\section{2025-01-16 | Week 01 | Lecture 03}
+
+\begin{center}
+  \begin{tcolorbox}[width=0.9\textwidth, colback=white, colframe=black]
+    \textit{\textbf{The nexus question of this lecture:} What is the general
+      framework for probability (continued)?}
+
+  \end{tcolorbox}
+\end{center}
+
+\begin{itemize}
+  \item Go over problem 4, parts (b) and (c), and problem 6 on the worksheet.
+\end{itemize}
+
+
+
+\subsection{Powerball}
+
+
+
+\begin{example}[Powerball Lottery]
+  \label{ex:powerball-lottery}
+  The a ticket for the powerball lottery costs \$2. There are two outcomes:
+  \begin{itemize}
+    \item You win \$300,000,000.
+    \item You don't win any money.
+  \end{itemize}
+  The probability of winning is approximately $\frac{1}{300,000,000}$. Let $X$ be the net payoff from the
+  game, in dollars:
+  \begin{itemize}
+    \item If you lose, then $X=-2$, since you had to pay \$2 to play the game.
+    \item If you win, then your net payoff is $X=299,999,998$. 
+  \end{itemize}
+  What is the expected value of $X$?
+  \begin{align*}
+    \E\left[X \right]
+    &=\P\left[ \text{win}\right]\cdot (-2) + \P\left[\text{lose} \right]\cdot (299,999,998)\\
+    &=\frac{299,999,999}{300,000,000}(-2)+ \frac{1}{300,000,000}(299,999,999)\\
+    &=-1.
+  \end{align*}
+  \textit{Conclusion:} you ``expect'' to lose \$1 every time you play. Similarly, if you play twice, you
+  expet to lose \$2. If you play 10 times, you expect to lose \$10. Etc. This property is called
+  \textit{linearity} of expectation. 
+\end{example}
+
+\subsection{Recap of terminology}
+
+\textit{Recall:} The \demph{sample space} of an experiment is the \textit{set} of all possible
+\demph{outcomes}. An \demph{event} is a collection of outcomes. That is,
+\begin{equation*}
+  \text{an event} = \text{a set of outcomes} = \text{a subset of the sample space $S$.}
+\end{equation*}
+
+
+\begin{example}[Sum 2d4]
+  \label{ex:sum-2d4}
+  Roll a 4-sided dice twice (this is the \textbf{experiment}). There are 16 possible
+  \textbf{outcomes}. The \textbf{sample space} is
+  \begin{equation*}
+    S = \left\{(x,y): x,y\in \left\{1,2,3,4\right\} \right\},
+  \end{equation*}
+  which consists of 16 ordered pairs $(x,y)$, the \textbf{sample points}. An
+  \textbf{event} is any subset of these.
+
+  We'll give two examples of events.
+
+  Let $X$ be the sum of the two rolls. We can represent $X$ by the following table:
+  \begin{equation*}
+    \begin{array}{c@{\quad}c|cccc} & \multicolumn{5}{c}{\text{Dice 2}} \\ & &
+      1 & 2 & 3 & 4 \\ \cline{2-6}  & 1 & 2 & 3 & 4 & 5 \\ \text{Dice 1} & 2 & 3 & 4 & 5 & 6 \\ & 3 & 4 & 5 & 6 & 7 \\ & 4 & 5 & 6 & 7 & 8 \end{array}
+  \end{equation*}
+
+  The event that $X=6$ is:
+  \begin{align*}
+    [X=6] 
+    &= \left\{(1,5), (2,4), (3,3), (4,2), (5,1)\right\}.
+  \end{align*}
+
+  Here's another example of an event:
+  \begin{align*}
+    \left[ X \text{ is even} \right]
+    &= \left\{(1,1), (1,3), (2,2), (2,4), (3,1), (3,3), (4,2), (4,4) \right\}.
+  \end{align*}
+
+  The \textbf{enumeration principle} says that, when outcomes are equally
+  likely, we can compute the probability of an event $E$ by
+  \begin{equation*}
+    \P\left[E \right] = \frac{|E|}{|S|}.
+  \end{equation*}
+  So
+  \begin{equation*}
+    \P\left[X=6 \right] = \frac{3}{16}
+  \end{equation*}
+  and
+  \begin{equation*}
+    \P\left[ X\text{ is even} \right] =\frac{8}{16} = \frac{1}{2}.
+  \end{equation*}
+\end{example}
+
+
+Since probability theory is formalized in terms of sets, we need to have some intuition about set theory.
+
+
+\subsection{Understanding the  ``events'' as sets}
+
+% \begin{itemize}
+%   \item If $E$ and $F$ are events, then $E\cap F$ is the event that both $E$
+%   \textbf{and} $F$ occur:
+%   \begin{center}
+%     \includegraphics[scale=0.2]{images/venn-diagram-intersection}
+%   \end{center}
+%   \item If $E$ and $F$ are events, then $E\cup F$ is the event that $E$
+%   \textbf{or} $F$ occurs.
+%   \begin{center}
+%     \includegraphics[scale=0.2]{images/venn-diagram-union}
+%   \end{center}
+%   \item If $A$ is an event, then $A^{c}= S\backslash A$ is the event that $E$
+%   does \textbf{not} occur.
+%   \begin{center}
+%     \includegraphics[scale=0.34]{images/venn-diagram-single-event}
+%   \end{center}
+% \end{itemize}
+
+Let $A$ and $B$ be events. That is, $A$ and $B$ are subsets of $S$.
+
+\begin{itemize}
+  \item Suppose $A$ is an event. It's a subset of $S$, like this:
+  \begin{center}
+    \includegraphics[scale=0.4]{images/venn-diagram-single-event}
+  \end{center}
+  \item The \demph{complement} of $A$, denoted $A^{c}$ is the set of points
+  in $S$ that are \textbf{not} in $A$.
+
+  We interpet $A^{c}$ as the event that $A$ didn't happen.
+  
+  \item The \demph{union} of $A$ and $B$, denoted $A\cup B$, to denote the set
+  of all outcomes that are in $A$ or $B$ this includes outcomes that are in
+  both):
+  \begin{center}
+    \includegraphics[scale=0.25]{images/venn-diagram-union}
+  \end{center}
+
+  We interpret $A\cup B$ as the event that either $A$ or $B$ (or both) occur.
+  
+  \item The \demph{intersection} of $A$ and $B$, denoted $A\cap B$ is the set
+  of points that are contained in both $A$ and $B$:
+  \begin{center}
+    \includegraphics[scale=0.25]{images/venn-diagram-intersection}
+  \end{center}
+
+  We interpret $A\cap B$ as the event that $A$ and $B$ both occur.
+  
+  \item What if $A$ and $B$ don't overlap at all? In that case, their intersection has nothing in it!
+  \begin{center}
+    \includegraphics[scale=0.4]{images/venn-diagram-disjoint}
+  \end{center}
+  In this case, we say that $A\cap B$ is the ``empty set'', which is the set containing no elements. We
+  use the symbol $\emptyset$ to represent the empty set; that is,
+  \begin{equation*}
+    \emptyset := \left\{\right\}
+  \end{equation*}
+  This is sometimes called the \demph{null event}. If $A\cap B = \emptyset$, then we say that $A$ and $B$
+  are \demph{disjoint}. Disjoint events are \demph{mutually exclusive}, in the
+  sense that they cannot happen simultaneously.
+
+  For example, when rolling a dice, the following two events are mutually exclusive:
+  \begin{equation*}
+    [ \text{dice is even}] \quad \text{and} \quad \left[ \text{dice is odd} \right] 
+  \end{equation*}
+  
+  \item An sequence of events $\left\{E_{1},E_{2},\ldots\right\}$ is
+  said to be \demph{pairwise disjoint} if and only if
+  \begin{equation*}
+    E_{i}\cap E_{j} = \emptyset \quad \text{ whenever }i\neq j.
+  \end{equation*}
+  In other words, none of the events in $E$ ``overlap'' with any other events.
+  For an example of this, the experiment from last lecture involving
+  repeatedly drawing a ball from an urn with replacement until we get the gold
+  ball. Let $X$ be the number of balls we had to draw until we got the gold
+  ball. Let
+  \begin{equation*}
+    E_{n} = \left[ X=n \right] \text{ for }n=1,2,3,\ldots
+  \end{equation*}
+  Then $\left\{E_{1},E_{2},\ldots\right\}$ is a pairwise disjoint sequence of events.
+\end{itemize}
+
 
 \newpage
-\section{2025-01-17 | Week 1 | Class 3}
+
+
+\subsection{The three probability axioms}
+
+A \demph{probability measure} $\P$ is a function which assigns to each event a probability. We denote the
+probability of an event $E$ by
+\begin{equation*}
+  \P\left[E \right] \quad \text{or} \quad  \P\left( E\right).
+\end{equation*}
+To be a \demph{probability measure}, $\P$ must satisfy the following three axioms:
+\begin{enumerate}[label=\textbf{A.\arabic*}]
+  \item (Nonnegativity) \label{item:probability-axiom-nonnegativity} For every event $E$, we have
+  \begin{equation*}
+    \P\left[E\right] \geq 0.
+  \end{equation*}
+  \item (Sum-to-one) \label{item:probability-axiom-total-measure-one} $\P\left[S \right] =1$
+  \item (Countable additivity) \label{item:probability-axiom-countable-additivity} Let
+  $E_{1},E_{2},\ldots$ be an infinite sequence of events. If the sequence is pairwise disjoint, then
+  \begin{equation*}
+    \P\left[E_{1}\cup E_{2}\cup \ldots \right] = \P\left[E_{1} \right]+\P\left[E_{2} \right]+\ldots.
+  \end{equation*}
+\end{enumerate}
+
+
+
+\newpage
 \subsection{Cool coin flipping experiment}
 \begin{example}[Cool coin flipping experiment]
   \label{ex:cool-coin-flipping-example}
-  Consider the following experiment:
-  \begin{enumerate}
-    \item Flip a coin.
-    \item If the coin is tails, go back to step 1. Otherwise, stop.
-  \end{enumerate}
-  In other words, we flip a coin repeatedly until we get a heads.
+  Consider the experiment in which we flip a coin repeatedly until we get a
+  heads.
   
   \fl{Output:} the number of times we flipped the coin.
 
@@ -574,10 +774,10 @@ Some observations about events:
     =& \frac{1}{2} + \left(\frac{1}{4}+ \frac{1}{4}\right) + \left(\frac{1}{8} + \frac{1}{8} + \frac{1}{8}\right)
        + \left( \frac{1}{16} + \frac{1}{16} + \frac{1}{16} + \frac{1}{16} \right)  + \ldots\\
     =& \frac{1}{2} + \frac{1}{4} + \frac{1}{8} + \frac{1}{16} + \frac{1}{32} +\ldots\\
-    &\phantom{ \frac{1}{2}} + \frac{1}{4} + \frac{1}{8} + \frac{1}{16} + \frac{1}{32}+ \ldots\\
-    &\phantom{ \frac{1}{2} + \frac{1}{4}} + \frac{1}{8} + \frac{1}{16} + \frac{1}{32}+ \ldots\\
-    &\phantom{ \frac{1}{2} + \frac{1}{4} + \frac{1}{8}} + \frac{1}{16} + \frac{1}{32}+ \ldots\\
-    &\phantom{ \frac{1}{2} + \frac{1}{4} + \frac{1}{8} + \frac{1}{16}} + \frac{1}{32}+ \ldots\\
+     &\phantom{ \frac{1}{2}} + \frac{1}{4} + \frac{1}{8} + \frac{1}{16} + \frac{1}{32}+ \ldots\\
+     &\phantom{ \frac{1}{2} + \frac{1}{4}} + \frac{1}{8} + \frac{1}{16} + \frac{1}{32}+ \ldots\\
+     &\phantom{ \frac{1}{2} + \frac{1}{4} + \frac{1}{8}} + \frac{1}{16} + \frac{1}{32}+ \ldots\\
+     &\phantom{ \frac{1}{2} + \frac{1}{4} + \frac{1}{8} + \frac{1}{16}} + \frac{1}{32}+ \ldots\\
   \end{align*}
   The first row adds up to $1$ by the geometric series formula (which says that
   $\sum_{n=1}^{\infty}r^{n} = \frac{r}{1-r}$). The second row adds up to $1/2$ (because it's $1/2$ less
@@ -597,96 +797,13 @@ Some observations about events:
   part of why I think this topic is so interesting.)
 \end{example}
 
-\subsection{Set theory}
-
-\textit{Recall:} The \demph{sample space} of an experiment is the \textit{set} of all possible
-\demph{outcomes}. An \demph{event} is a collection of outcomes.
-\begin{equation*}
-  \text{an event} = \text{a set of outcomes} = \text{a subset of the sample space $S$}
-\end{equation*}
-
-Roll a red and a blue dice. The \textbf{sample space} is the set
-\begin{equation*}
-  S = \left\{(1,1),(1,2),\ldots(6,6)\right\}
-\end{equation*}
-with 36 ordered pairs. Each ordered pair is an \textbf{outcome}. The \textbf{event} that the dice are equal is the
-set
-\begin{equation*}
-  E = \left\{(1,1),(2,2),(3,3),(4,4),(5,5),(6,6)\right\}
-\end{equation*}
-And the enumeration principle says that
-\begin{equation*}
-  \P\left[E \right] = \frac{|E|}{|S|} = \frac{6}{36} = \frac{1}{6}.
-\end{equation*}
-
-Since probability theory is formalized in terms of sets, we need to have some intuition about set theory.
-
-\begin{itemize}
-  \item Suppose $A$ is an event. It's a subset of $S$, like this:
-  \begin{center}
-    \includegraphics[scale=0.4]{images/venn-diagram-single-event}
-  \end{center}
-  \item Define the complmenent of $A$: $A'$ or $A^{c}$. [see diagram above]
-  \item Suppose $B$ is also an event. We write $A\cup B$ to denote the set of all outcomes that are in
-  $A$ or $B$ this includes outcomes that are in both):
-  \begin{center}
-    \includegraphics[scale=0.3]{images/venn-diagram-union}
-  \end{center}
-  \item Do the same with $A\cap B$
-  \begin{center}
-    \includegraphics[scale=0.3]{images/venn-diagram-intersection}
-  \end{center}
-  \item What if $A$ and $B$ don't overlap at all? In that case, their intersection has nothing in it!
-  \begin{center}
-    \includegraphics[scale=0.5]{images/venn-diagram-disjoint}
-  \end{center}
-  In this case, we say that $A\cap B$ is the ``empty set'', which is the set containing no elements. We
-  use the symbol $\emptyset$ to represent the empty set; that is,
-  \begin{equation*}
-    \emptyset := \left\{\right\}
-  \end{equation*}
-  This is sometimes called the \demph{null event}. If $A\cap B = \emptyset$, then we say that $A$ and $B$
-  are \demph{mutually exclusive}, or \demph{disjoint}. For example, if I roll a dice, the events
-  \begin{equation*}
-    [ \text{dice is even}] \quad \text{and} \quad \left[ \text{dice is odd} \right] 
-  \end{equation*}
-  are mutually exclusive: they cannot happen simultaneously. 
-  \item A sequence of events $\left\{E_{1},E_{2},\ldots\right\}$ is said to be \demph{pairwise disjoint}
-  if and only if
-  \begin{equation*}
-    E_{i}\cap E_{j} = \emptyset \quad \text{ whenever }i\neq j.
-  \end{equation*}
-  In other words, none of the events in $E$ ``overlap'' with any other events. For an example of this,
-  consider the experiment of \cref{ex:cool-coin-flipping-example}, where $X$ is the number of times we
-  flip the coin in the experiment. Let
-  \begin{equation*}
-    E_{n} = \left[ X=n \right] \text{ for }n=1,2,3,\ldots
-  \end{equation*}
-  Then $\left\{E_{1},E_{2},\ldots\right\}$ is a pairwise disjoint sequence of events.
-\end{itemize}
 
 
 
-\subsection{Probability Axioms}
 
-A \demph{probability measure} $\P$ is a function which assigns to each event a probability. We denote the
-probability of an event $E$ by
-\begin{equation*}
-  \P\left[E \right] \quad \text{or} \quad  \P\left( E\right).
-\end{equation*}
-To be a \demph{probability measure}, $\P$ must satisfy the following three axioms:
-\begin{enumerate}[label=\textbf{A.\arabic*}]
-  \item (Nonnegativity) \label{item:probability-axiom-nonnegativity} For every event $E$, we have
-  \begin{equation*}
-    \P\left[E\right] \geq 0.
-  \end{equation*}
-  \item (Sum-to-one) \label{item:probability-axiom-total-measure-one} $\P\left[S \right] =1$
-  \item (Countable additivity) \label{item:probability-axiom-countable-additivity} Let
-  $E_{1},E_{2},\ldots$ be an infinite sequence of events. If the sequence is pairwise disjoint, then
-  \begin{equation*}
-    \P\left[E_{1}\cup E_{2}\cup \ldots \right] = \P\left[E_{1} \right]+\P\left[E_{2} \right]+\ldots.
-  \end{equation*}
-\end{enumerate}
+
+
+
 \begin{example}[\cref{ex:cool-coin-flipping-example} continued]
   
   As an example of \ref{item:probability-axiom-countable-additivity}, consider the experiment from
@@ -725,59 +842,12 @@ To be a \demph{probability measure}, $\P$ must satisfy the following three axiom
   So the probability that you flip the coin an \textit{even} number of times is only $1/3$. 
 \end{example}
 \newpage
-\subsection{Understanding ``Events''}
-
-\begin{itemize}
-  \item If $E$ and $F$ are events, then $E\cap F$ is the event that both $E$
-  \textbf{and} $F$ occur:
-  \begin{center}
-    \includegraphics[scale=0.2]{images/venn-diagram-intersection}
-  \end{center}
-  \item If $E$ and $F$ are events, then $E\cup F$ is the event that $E$
-  \textbf{or} $F$ occurs.
-  \begin{center}
-    \includegraphics[scale=0.2]{images/venn-diagram-union}
-  \end{center}
-  \item If $A$ is an event, then $A^{c}= S\backslash A$ is the event that $E$
-  does \textbf{not} occur.
-  \begin{center}
-    \includegraphics[scale=0.34]{images/venn-diagram-single-event}
-  \end{center}
-\end{itemize}
-\begin{example}[Powerball Lottery]
-  \label{ex:powerball-lottery}
-  The a ticket for the powerball lottery costs \$2. There are two outcomes:
-  \begin{itemize}
-    \item You win \$300,000,000.
-    \item You don't win any money.
-  \end{itemize}
-  The probability of winning is approximately $\frac{1}{300,000,000}$. Let $X$ be the net payoff from the
-  game, in dollars:
-  \begin{itemize}
-    \item If you lose, then $X=-2$, since you had to pay \$2 to play the game.
-    \item If you win, then your net payoff is $X=299,999,998$. 
-  \end{itemize}
-  What is the expected value of $X$?
-  \begin{align*}
-    \E\left[X \right]
-    &=\P\left[ \text{win}\right]\cdot (-2) + \P\left[\text{lose} \right]\cdot (299,999,998)\\
-    &=\frac{299,999,999}{300,000,000}(-2)+ \frac{1}{300,000,000}(299,999,999)\\
-    &=-1.
-  \end{align*}
-  \textit{Conclusion:} you ``expect'' to lose \$1 every time you play. Similarly, if you play twice, you
-  expet to lose \$2. If you play 10 times, you expect to lose \$10. Etc. This property is called
-  \textit{linearity} of expectation. 
-\end{example}
 
 
 
-\begin{itemize}
-  \item Go over problem 4, parts (b) and (c). This is the problem where you look ath te expected value of
-  2 or 120 dice.
-  \item Go over problem 6.
-  \item I'll put problems 7 and 8 on the first homework.
-  \item ``Elementary'' doesn't mean easy. 
-\end{itemize}
+
+
+
 
 \newpage
 \section{2025-01-22 |  Week 2 | Class 4}
