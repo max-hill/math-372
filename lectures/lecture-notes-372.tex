@@ -698,9 +698,10 @@ Let $A$ and $B$ be events. That is, $A$ and $B$ are subsets of $S$.
 
 
 \newpage
-
+\section{2026-01-21 | Week 02 | Lecture 04}
 
 \subsection{The three probability axioms}
+\textit{Sections 2.1-2.2 in the textbook.}
 
 A \demph{probability measure} $\P$ is a function which assigns to each event a probability. We denote the
 probability of an event $E$ by
@@ -723,26 +724,161 @@ To be a \demph{probability measure}, $\P$ must satisfy the following three axiom
 
 
 
-\newpage
-\subsection{Cool coin flipping experiment}
+
+\begin{theorem}[Inclusion-Exclusion Prinicple]
+  \label{thm:inclusion-exclusion-principle}
+  If $A$ and $B$ are events, then
+  \begin{equation*}
+    \P\left[A\cup B \right] = \P\left[A \right]+\P\left[B \right]- \P\left[A\cap B \right]
+  \end{equation*}
+  In particular, if $A$ and $B$ are distjoint, then
+  \begin{equation*}
+    \P\left[A\cup B \right]= \P\left[A \right]+\P\left[B \right].
+  \end{equation*}
+\end{theorem}
+\begin{proof}[Idea of proof]
+  This picture:
+  \begin{center}
+    \includegraphics[scale=.5]{images/venn-diagram-union-2}
+  \end{center}
+\end{proof}
+
+
+\begin{proposition}[Basic properties of probability measure]
+  \label{prop:some-deductions-from-axioms}
+  \begin{enumerate}[label=\rm{(\roman*.)}]
+    \item []
+    \item (The null event has probability zero) \label{item:empty-set-has-prob-zero}
+    $\P\left[\emptyset \right] = 0$
+    \item (Finite additivity) \label{item:finite-additivity} If
+    $E_{1},\ldots,E_{n}$ are pairwise disjoint, then
+    \begin{equation*}
+      \P\left[E_{1}\cup E_{2}\cup\ldots\cup E_{n} \right] 
+      = \P\left[E_{1} \right]+\P\left[E_{2} \right]+\ldots+\P\left[E_{n} \right]
+    \end{equation*}
+    \item (``With probability one, an event $E$ either does occur or doesn't'') \label{item:complements} $\P\left[E^{c} \right] = 1-\P\left[E \right]$
+    \item (Excision Property) \label{item:excision-property} If $A,B$ are events and $A\subseteq B$, then
+    \begin{equation*}
+      \P\left[B\backslash A \right] = \P\left[B \right] - \P\left[A \right].
+    \end{equation*}
+    \item (``The particular is less likely than the general'') \label{item:subsets} If $A,B$ are events and $A\subseteq B$, then
+    $\P\left[ A\right] \leq \P\left[B \right]$
+    \item (``Probabilities are between 0 and 1'') \label{item:probabilities-are-in-unit-interval} For any event $E$,  $\P\left[E \right]\in [0,1]$
+  \end{enumerate}
+\end{proposition}
+% \begin{proof}[Proof of \cref{prop:some-deductions-from-axioms}]
+%   First we will prove \ref{item:empty-set-has-prob-zero}. Let $E_{i}=\emptyset$ for all $i=1,2,3,...$.
+%   Then
+%   \begin{itemize}
+%     \item $\left\{E_{1},E_{2},\ldots\right\}$ is a pairwise disjoint sequence.
+%     \item If $E_{1}\cup E_{2}\cup\ldots = \emptyset$.
+%   \end{itemize}
+%   Therefore,
+%   \begin{align*}
+%     \P\left[\emptyset \right] 
+%     &= \P\left[E_{1}\cup E_{2}\cup\ldots \right]\\
+%     &= \P\left[E_{1} \right]+ \P\left[E_{2} \right]+\ldots
+%     &&\text{by \ref{item:probability-axiom-countable-additivity} }\\
+%     &= \P\left[\emptyset \right]+ \P\left[\emptyset \right]+\ldots.
+%   \end{align*}
+%   This equation implies $\P\left[\emptyset \right] = 0$. We have now proved
+%   \ref{item:empty-set-has-prob-zero}.
+
+
+%   Next we prove \ref{item:finite-additivity}. Let $E_{1},\ldots,E_{n}$ be a finite sequence of events
+%   which are pairwise disjoint.  Then expand the sequence by taking $E_{i} = \emptyset$ for all $i\in
+%   \left\{n+1,n+2,\ldots\right\}$. Then by \ref{item:probability-axiom-countable-additivity},
+%   \begin{align*}
+%     \P\left[\bigcup_{i=1}^{n}E_{i} \right]
+%     &= \sum_{i=1}^{\infty} \P\left[E_{i} \right] \\
+%     &= \P\left[E_{1} \right] + \ldots \P\left[E_{n} \right] +
+%       \underbrace{\P\left[\emptyset \right] + \P\left[\emptyset \right]+\ldots}
+%       _{=0\text{ by \cref{prop:some-deductions-from-axioms} \ref{item:empty-set-has-prob-zero}}}\\
+%     &=\P\left[E_{1} \right] + \ldots \P\left[E_{n} \right].
+%   \end{align*}
+
+%   Next we prove \ref{item:complements}. Let $E$ be any event. Then
+%   \begin{align*}
+%     1 
+%     &= \P\left[S \right]  &&\text{by \ref{item:probability-axiom-total-measure-one} }\\
+%     &= \P\left[ E\cup E^{c}\right] &&\text{since }S = E\cup E^{c}\\
+%     &= \P\left[E \right]+ \P\left[E^{c} \right]
+%                           &&\text{by
+%                              \cref{prop:some-deductions-from-axioms}~\ref{item:finite-additivity},
+%                              since $E\cap E^{c}=\emptyset$.}
+%   \end{align*}
+%   This proves \ref{item:complements}.
+
+%   Next we prove \ref{item:excision-property}. Observe that
+%   \begin{align*}
+%     B 
+%     &= (B\cap A) \cup (B\cap A^{c})\\
+%     &= A \cup B\cap A^{c} &&\text{since $A\subseteq B$.}
+%   \end{align*}
+%   This is a disjoint union. Therefore by \ref{item:finite-additivity},
+%   \begin{align*}
+%     \P\left[B \right] 
+%     &= \P\left[A \right] + \P\left[B\cap A^{c} \right]\\
+%     &= \P\left[A \right] + \P\left[B\backslash A \right].
+%   \end{align*}
+%   Rearranging terms proves \ref{item:complements}. 
+%   Next we prove \ref{item:subsets}. Assume $A\subseteq B$. Then by \ref{item:excision-property},
+%   \begin{equation*}
+%     \P\left[B\backslash A \right] = \P\left[B \right] - \P\left[A \right]
+%   \end{equation*}
+%   Moreover, by \ref{item:probability-axiom-nonnegativity}, $\P\left[B\backslash A \right] \geq 0$.
+%   Hence
+%   \begin{equation*}
+%     0 \leq  \P\left[B \right] - \P\left[A \right]
+%   \end{equation*}
+%   and this implies \ref{item:subsets}.
+  
+%   Finally, we will show \ref{item:probabilities-are-in-unit-interval}. Let $E$ be an event. Then
+%   \begin{align*}
+%     0 
+%     &\leq \P\left[E \right]  &&\text{by \ref{item:probability-axiom-nonnegativity} }\\
+%     &\leq  \P\left[S \right] &&\text{by \ref{item:subsets} }\\
+%     &=1 &&\text{by \ref{item:probability-axiom-total-measure-one}. }
+%   \end{align*}
+% \end{proof}
+
+
+\begin{proposition}[De Morgan's Laws]
+  \label{prop:de-morgans-laws}
+  The following equalities hold:
+  \begin{equation*}
+    \left( A\cup B \right)^{c} = A^{c}\cap B^{c}
+    \quad \text{and} \quad 
+    \left( A\cap B \right)^{c} = A^{c}\cap B^{c}.
+  \end{equation*}
+\end{proposition}
+
+\begin{proposition}[Distributive Laws]
+  \label{prop:distributive-laws}
+  The following equalities hold:
+  \begin{equation*}
+    A\cup \left( B\cap C \right) = \left( A\cup B  \right)\cap \left( A\cup C \right)  
+  \end{equation*}
+  and
+  \begin{equation*}
+    A\cap \left( B\cup C \right) = \left( A\cap B  \right)\cup \left( A\cap C \right)  
+  \end{equation*}
+\end{proposition}
+
+\subsection{Repeated coin flipping}
 \begin{example}[Cool coin flipping experiment]
   \label{ex:cool-coin-flipping-example}
-  Consider the experiment in which we flip a coin repeatedly until we get a
-  heads.
+  Consider an experiment in which we flip a coin repeatedly until we get a
+  heads. The \textbf{output} of this experiment is \textit{the number of times
+    we flipped the coin}.
   
-  \fl{Output:} the number of times we flipped the coin.
-
-  This experiment is very similar to the example from last lecture in which we had an urn with
-  300,000,000 balls, exactly one of which was gold. 
-
-  The sample space is
+  The sample space of the experiment is
   \begin{equation*}
-    S = \left\{1,2,3,4,\ldots\right\}
+    S = \left\{1,2,3,4,\ldots\right\}.
   \end{equation*}
-  since there is no limit to the number of times we might have to flip the coin before getting a heads!
 
-
-  Let $X$ be the number of times we flipped the coin. Then
+  Let $X = (\text{number of coin flips})$. Here, $X$ is a random quantity
+  which will vary between experiments. Then
   \begin{equation*}
     \P\left[X = 1 \right] = \P\left[\text{first coin flip was heads} \right] = \frac{1}{2}
   \end{equation*}
@@ -758,7 +894,8 @@ To be a \demph{probability measure}, $\P$ must satisfy the following three axiom
     \P\left[X=n \right]= \left( \frac{1}{2} \right)^{n} 
   \end{equation}
 
-  How many times do we expect to flip the coin? I mean, what is $\E\left[X \right]$?
+  \Fl{Question 1:} How many times do we expect to flip the coin? In other words,
+  what is $\E\left[X \right]$?
 
   We use the formula
   \begin{equation*}
@@ -791,42 +928,21 @@ To be a \demph{probability measure}, $\P$ must satisfy the following three axiom
   \end{equation*}
   In other words, we expect to flip the coin twice.
 
-  This problem was easy to state (and some people guessed the correct answer ahead of time!), but it took
-  a lot of technical work to compute the answer. (This sort of interplay between our intuition about games of
-  chance, and the sometimes difficult technical work needed to answer questions conclusively, is a large
-  part of why I think this topic is so interesting.)
-\end{example}
 
+  \Fl{Question 2:} What is the probability that we flip the coin an even
+  number of times?
 
-
-
-
-
-
-
-\begin{example}[\cref{ex:cool-coin-flipping-example} continued]
-  
-  As an example of \ref{item:probability-axiom-countable-additivity}, consider the experiment from
-  \cref{ex:cool-coin-flipping-example}, where we had
-  \begin{equation*}
-    X= \text{(number of coin flips)}.
-  \end{equation*}
   For each $n=1,2,\ldots$, define the event $E_{n}$ as
   \begin{equation*}
     E_{n} = \left[ X=n \right].
   \end{equation*}
-  We already know that $\P\left[E_{n} \right]= \left(\frac{1}{2}\right)^{n}$ from \cref{eq:1}. Also, you
-  should verify for yourself that the sequence
-  \begin{equation*}
-    \left\{E_{1},E_{2},E_{3},\ldots\right\}
-  \end{equation*}
-  is pairwise disjoint.
-
-  Now, let's say we want to know the probability that $X$ is even. Observe that
+  We want to know the probability that $X$ is even. Observe that
   \begin{equation*}
     \left[ X \text{ is even} \right] = E_{2}\cup E_{4}\cup E_{6}\cup E_{8}\cup\ldots
   \end{equation*}
-  Next we will use \ref{item:probability-axiom-countable-additivity} to compute the probability of this event:
+  We note that the sequence $E_{2},E_{4},E_{6}\ldots $ is pairwise disjoint.
+  So we can use \ref{item:probability-axiom-countable-additivity} to compute
+  the probability of this event:
 
   \begin{align*}
     \P\left[X \text{ is even} \right] 
@@ -836,12 +952,11 @@ To be a \demph{probability measure}, $\P$ must satisfy the following three axiom
     &= \left( \frac{1}{2} \right)^{2}+\left( \frac{1}{2} \right)^{4}+\left( \frac{1}{2} \right)^{6}+\left(
       \frac{1}{2} \right)^{8}+\ldots &&\text{(by \cref{eq:1}) }\\
     &= \frac{1}{4}+\left( \frac{1}{4} \right)^{2}  + \left( \frac{1}{4} \right)^{3} + \left( \frac{1}{4} \right)^{4}+\ldots\\  
-    &= \frac{\frac{1}{4}}{1-\frac{1}{4}} &&\text{ by the geometric series formula $\sum_{n=1}^{\infty}r^{n} = \frac{r}{1-r} $ }\\
+    &= \frac{\frac{1}{4}}{1-\frac{1}{4}} &&\text{by geometric series formula $\sum_{n=1}^{\infty}r^{n} = \frac{r}{1-r} $ }\\
     &= \frac{1}{3}. 
   \end{align*}
   So the probability that you flip the coin an \textit{even} number of times is only $1/3$. 
 \end{example}
-\newpage
 
 
 
@@ -849,158 +964,11 @@ To be a \demph{probability measure}, $\P$ must satisfy the following three axiom
 
 
 
-\newpage
-\section{2025-01-22 |  Week 2 | Class 4}
-Recall, a \demph{probability measure} $\P$ is a function which assigns to each possible event a
-probability, so that the probability of an event $E$ is denoted $\P\left[E \right]$ or $\P\left(E \right)$. The following axioms hold:
-\begin{enumerate}[label=\textbf{A.\arabic*}]
-  \item (Nonnegativity) \label{item:probability-axiom-nonnegativity} For every event $E$, we have
-  \begin{equation*}
-    \P\left[E\right] \geq 0.
-  \end{equation*}
-  \item (Sum-to-one)  $\P\left[S \right] =1$
-  \item (Countable additivity) Let
-  $E_{1},E_{2},\ldots$ be an infinite sequence of events. If the sequence is pairwise disjoint, then
-  \begin{equation*}
-    \P\left[E_{1}\cup E_{2}\cup \ldots \right] = \P\left[E_{1} \right]+\P\left[E_{2} \right]+\ldots.
-  \end{equation*}
-\end{enumerate}
-recall that paiwise dijoint means that there is no overlap.
 
 
-\begin{proposition}[Basic properties of probability measure]
-  \label{prop:some-deductions-from-axioms}
-  \begin{enumerate}[label=\rm{(\roman*.)}]
-    \item []
-    \item (The null event has probability zero) \label{item:empty-set-has-prob-zero}
-    $\P\left[\emptyset \right] = 0$
-    \item (Finite additivity) \label{item:finite-additivity} Let $\left\{E_{1},\ldots,E_{n}\right\}$ be a
-    \textit{finite} sequence of events. If the sequence is pairwise disjoint, then
-    \begin{equation*}
-      \P\left[E_{1}\cup E_{2}\cup\ldots\cup E_{n} \right] 
-      = \P\left[E_{1} \right]+\P\left[E_{2} \right]+\ldots+\P\left[E_{n} \right]
-    \end{equation*}
-    \item (``With probability one, an event $E$ either does occur or doesn't'') \label{item:complements} $\P\left[E^{c} \right] = 1-\P\left[E \right]$
-    \item (Excision Property) \label{item:excision-property} If $A,B$ are events and $A\subseteq B$, then
-    \begin{equation*}
-      \P\left[B\backslash A \right] = \P\left[B \right] - \P\left[A \right].
-    \end{equation*}
-    \item (``The particular is less likely than the general'') \label{item:subsets} If $A,B$ are events and $A\subseteq B$, then
-    $\P\left[ A\right] \leq \P\left[B \right]$
-    \item (``Probabilities are between 0 and 1'') \label{item:probabilities-are-in-unit-interval} For any event $E$,  $\P\left[E \right]\in [0,1]$
-  \end{enumerate}
-\end{proposition}
-\begin{proof}[Proof of \cref{prop:some-deductions-from-axioms}]
-  First we will prove \ref{item:empty-set-has-prob-zero}. Let $E_{i}=\emptyset$ for all $i=1,2,3,...$.
-  Then
-  \begin{itemize}
-    \item $\left\{E_{1},E_{2},\ldots\right\}$ is a pairwise disjoint sequence.
-    \item If $E_{1}\cup E_{2}\cup\ldots = \emptyset$.
-  \end{itemize}
-  Therefore,
-  \begin{align*}
-    \P\left[\emptyset \right] 
-    &= \P\left[E_{1}\cup E_{2}\cup\ldots \right]\\
-    &= \P\left[E_{1} \right]+ \P\left[E_{2} \right]+\ldots
-    &&\text{by \ref{item:probability-axiom-countable-additivity} }\\
-    &= \P\left[\emptyset \right]+ \P\left[\emptyset \right]+\ldots.
-  \end{align*}
-  This equation implies $\P\left[\emptyset \right] = 0$. We have now proved
-  \ref{item:empty-set-has-prob-zero}.
-
-
-  Next we prove \ref{item:finite-additivity}. Let $E_{1},\ldots,E_{n}$ be a finite sequence of events
-  which are pairwise disjoint.  Then expand the sequence by taking $E_{i} = \emptyset$ for all $i\in
-  \left\{n+1,n+2,\ldots\right\}$. Then by \ref{item:probability-axiom-countable-additivity},
-  \begin{align*}
-    \P\left[\bigcup_{i=1}^{n}E_{i} \right]\\
-    &=\P\left[ \bigcup_{i=1}^{\infty} E_{i}\right] \\
-    &= \sum_{i=1}^{\infty} \P\left[E_{i} \right] \\
-    &= \P\left[E_{1} \right] + \ldots \P\left[E_{n} \right] +
-      \underbrace{\P\left[\emptyset \right] + \P\left[\emptyset \right]+\ldots}
-      _{=0\text{by\cref{prop:some-deductions-from-axioms} \ref{item:empty-set-has-prob-zero}}}\\
-    &=\P\left[E_{1} \right] + \ldots \P\left[E_{n} \right].
-  \end{align*}
-
-  Next we prove \ref{item:complements}. Let $E$ be any event. Then
-  \begin{align*}
-    1 
-    &= \P\left[S \right]  &&\text{by \ref{item:probability-axiom-total-measure-one} }\\
-    &= \P\left[ E\cup E^{c}\right] &&\text{since }S = E\cup E^{c}\\
-    &= \P\left[E \right]+ \P\left[E^{c} \right]
-                          &&\text{by
-                             \cref{prop:some-deductions-from-axioms}~\ref{item:finite-additivity},
-                             since $E\cap E^{c}=\emptyset$.}
-  \end{align*}
-  This proves \ref{item:complements}.
-
-  Next we prove \ref{item:excision-property}. Observe that
-  \begin{align*}
-    B 
-    &= (B\cap A) \cup (B\cap A^{c})\\
-    &= A \cup B\cap A^{c} &&\text{since $A\subseteq B$.}
-  \end{align*}
-  This is a disjoint union. Therefore by \ref{item:finite-additivity},
-  \begin{align*}
-    \P\left[B \right] 
-    &= \P\left[A \right] + \P\left[B\cap A^{c} \right]\\
-    &= \P\left[A \right] + \P\left[B\backslash A \right].
-  \end{align*}
-  Rearranging terms proves \ref{item:complements}. 
-  Next we prove \ref{item:subsets}. Assume $A\subseteq B$. Then by \ref{item:excision-property},
-  \begin{equation*}
-    \P\left[B\backslash A \right] = \P\left[B \right] - \P\left[A \right]
-  \end{equation*}
-  Moreover, by \ref{item:probability-axiom-nonnegativity}, $\P\left[B\backslash A \right] \geq 0$.
-  Hence
-  \begin{equation*}
-    0 \leq  \P\left[B \right] - \P\left[A \right]
-  \end{equation*}
-  and this implies \ref{item:subsets}.
-  
-  Finally, we will show \ref{item:probabilities-are-in-unit-interval}. Let $E$ be an event. Then
-  \begin{align*}
-    0 
-    &\leq \P\left[E \right] \leq  \P\left[S \right] \leq &&\text{by \ref{item:probability-axiom-nonnegativity} }\\
-    &\leq  \P\left[S \right] &&\text{by \ref{item:subsets} }\\
-    &=1 &&\text{by \ref{item:probability-axiom-total-measure-one}. }
-  \end{align*}
-\end{proof}
-
-\begin{proposition}[Inclusion-Exclusion Prinicple]
-  \label{prop:inclusion-exclusion-principle}
-  $\P\left[A\cup B \right] = \P\left[A \right]+\P\left[B \right]- \P\left[A\cap B \right]$
-
-  \textit{Idea:}
-  \begin{center}
-    \includegraphics[scale=1]{images/venn-diagram-union-2}
-  \end{center}
-
-\end{proposition}
-
-
-\begin{proposition}[De Morgan's Laws]
-  \label{prop:de-morgans-laws}
-  The following equalities hold:
-  \begin{equation*}
-    \left( A\cup B \right)^{c} = A^{c}\cap B^{c}
-    \quad \text{and} \quad 
-    \left( A\cap B \right)^{c} = A^{c}\cap B^{c}.
-  \end{equation*}
-\end{proposition}
-
-\begin{proposition}[Distributive Laws]
-  \label{prop:distributive-laws}
-  The following equalities hold:
-  \begin{equation*}
-    A\cup \left( B\cap C \right) = \left( A\cup B  \right)\cap \left( A\cup C \right)  
-  \end{equation*}
-  and
-  \begin{equation*}
-    A\cap \left( B\cup C \right) = \left( A\cap B  \right)\cup \left( A\cap C \right)  
-  \end{equation*}
-\end{proposition}
 \subsection{Introduction to counting techniques}
+\textit{Section 2.3 in the textbook.}
+
 A \demph{k-tuple} is an ordered list of $k$ numbers.
 
 \begin{example}[tuples]
@@ -1028,7 +996,7 @@ A \demph{k-tuple} is an ordered list of $k$ numbers.
   \textbf{Problem:} Let $E = \left[ \text{All 5 dice are less than or equal to 3} \right]$. What is
   $\P\left[E \right]?$
 
-  By the counting principle,
+  By the enumeration principle,
   \begin{equation*}
     \P\left[E \right] = \frac{|E|}{|S|} = \frac{\text{\# ways that all dice are $\leq 3$ }}{7776}
   \end{equation*}
