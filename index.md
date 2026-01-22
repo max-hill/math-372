@@ -13,9 +13,10 @@ title: Lecture Notes
 
  Date        | Lecture notes           | Topics covered
 -------------|----------------------------|-------------
- 2026-01-12  | [lecture-01](lectures/lecture-notes-by-day/lecture-01.pdf) and [worksheet-01](worksheets/worksheet-01_pirates-and-probabilities/main.pdf)    | Syllabus, Intro to dice games
+ 2026-01-12  | [lecture-01](lectures/lecture-notes-by-day/lecture-01.pdf) and [worksheet-01](worksheets/worksheet-01_pirates-and-probabilities/main.pdf) | Syllabus, Intro to dice games
  2026-01-14  | [lecture-02](lectures/lecture-notes-by-day/lecture-02.pdf)     | General framework for probability, sample spaces and events, enumeration principle
  2026-01-16  | [lecture-03](lectures/lecture-notes-by-day/lecture-03.pdf)     | General framework for probability, understanding events as set
+ 2026-01-21  | [lecture-04](lectures/lecture-notes-by-day/lecture-04.pdf)     | Definition of probability, coin flipping, inclusion-exclusion
  
 
 # Other links
