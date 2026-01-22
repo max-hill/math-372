@@ -699,32 +699,142 @@ Let $A$ and $B$ be events. That is, $A$ and $B$ are subsets of $S$.
 
 \newpage
 \section{2026-01-21 | Week 02 | Lecture 04}
+\subsection{Repeated coin flipping}
+
+\begin{example}[Repeated coin flipping]
+  \label{ex:cool-coin-flipping-example}
+  Consider an experiment in which we flip a coin repeatedly until we get a
+  heads. The \textbf{output} of this experiment is \textit{the number of times
+    we flipped the coin}.
+  
+  The sample space of the experiment is
+  \begin{equation*}
+    S = \left\{1,2,3,4,\ldots\right\}.
+  \end{equation*}
+
+  Let $X = (\text{number of coin flips})$. Here, $X$ is a random quantity
+  which will vary between experiments. Then
+  \begin{equation*}
+    \P\left[X = 1 \right] = \P\left[\text{first coin flip was heads} \right] = \frac{1}{2}
+  \end{equation*}
+  and
+  \begin{equation*}
+    \P\left[X = 2 \right] 
+    = \P\left[\text{first flip was tails and second was heads} \right] 
+    = \frac{1}{2}\cdot \frac{1}{2}
+    = \frac{1}{4}.
+  \end{equation*}
+  Similarly,  for any $n=1,2,3,4,\ldots$, we have
+  \begin{equation}\label{eq:1}
+    \P\left[X=n \right]= \left( \frac{1}{2} \right)^{n} 
+  \end{equation}
+
+  \Fl{Question 1:} How many times do we expect to flip the coin? In other words,
+  what is $\E\left[X \right]$?
+
+  We use the formula
+  \begin{equation*}
+    \E\left[X \right] = \sum_{n=1}^{\infty}n \P\left[X=n \right] 
+  \end{equation*}
+  which gives
+  \begin{align*}
+    \E\left[X \right] 
+    =& \sum_{n=1}^{\infty} n \left( \frac{1}{2} \right)^{n} \\
+    =& \frac{1}{2} + 2 \left( \frac{1}{2} \right)^{2}+ 3 \left( \frac{1}{2} \right)^{3}+
+       4 \left( \frac{1}{2} \right)^{4}+\ldots \\
+    =& \frac{1}{2} +  2\cdot \frac{1}{4}+ 3\cdot \frac{1}{8} + 4\cdot \frac{1}{16}+\ldots\\
+    =& \frac{1}{2} + \left(\frac{1}{4}+ \frac{1}{4}\right) + \left(\frac{1}{8} + \frac{1}{8} + \frac{1}{8}\right)
+       + \left( \frac{1}{16} + \frac{1}{16} + \frac{1}{16} + \frac{1}{16} \right)  + \ldots\\
+    =& \frac{1}{2} + \frac{1}{4} + \frac{1}{8} + \frac{1}{16} + \frac{1}{32} +\ldots\\
+     &\phantom{ \frac{1}{2}} + \frac{1}{4} + \frac{1}{8} + \frac{1}{16} + \frac{1}{32}+ \ldots\\
+     &\phantom{ \frac{1}{2} + \frac{1}{4}} + \frac{1}{8} + \frac{1}{16} + \frac{1}{32}+ \ldots\\
+     &\phantom{ \frac{1}{2} + \frac{1}{4} + \frac{1}{8}} + \frac{1}{16} + \frac{1}{32}+ \ldots\\
+     &\phantom{ \frac{1}{2} + \frac{1}{4} + \frac{1}{8} + \frac{1}{16}} + \frac{1}{32}+ \ldots
+  \end{align*}
+  The first row adds up to $1$ by the geometric series formula (which says that
+  $\sum_{n=1}^{\infty}r^{n} = \frac{r}{1-r}$). The second row adds up to $1/2$ (because it's $1/2$ less
+  than the first row). The third row adds up to $1/4$. The fourth adds up to $1/8$. etc. So
+  \begin{equation*}
+    \E\left[X \right] = 1 + \frac{1}{2} + \frac{1}{4}+\frac{1}{8} + \frac{1}{16}+ \ldots
+  \end{equation*}
+  and applying the geometric series formula again, we see that
+  \begin{equation*}
+    \E\left[X \right] = 2.
+  \end{equation*}
+  In other words, we expect to flip the coin twice.
+\end{example}
 
 \subsection{The three probability axioms}
 \textit{Sections 2.1-2.2 in the textbook.}
 
-A \demph{probability measure} $\P$ is a function which assigns to each event a probability. We denote the
-probability of an event $E$ by
-\begin{equation*}
-  \P\left[E \right] \quad \text{or} \quad  \P\left( E\right).
-\end{equation*}
-To be a \demph{probability measure}, $\P$ must satisfy the following three axioms:
-\begin{enumerate}[label=\textbf{A.\arabic*}]
-  \item (Nonnegativity) \label{item:probability-axiom-nonnegativity} For every event $E$, we have
+\begin{definition}[Probability Measure]
+  \label{def:probability-measure}
+  A \demph{probability measure} $\P$ is a function which assigns to each event a probability. We denote the
+  probability of an event $E$ by
   \begin{equation*}
-    \P\left[E\right] \geq 0.
+    \P\left[E \right] \quad \text{or} \quad  \P\left( E\right).
   \end{equation*}
-  \item (Sum-to-one) \label{item:probability-axiom-total-measure-one} $\P\left[S \right] =1$
-  \item (Countable additivity) \label{item:probability-axiom-countable-additivity} Let
-  $E_{1},E_{2},\ldots$ be an infinite sequence of events. If the sequence is pairwise disjoint, then
+  To be a \demph{probability measure}, $\P$ must satisfy the following three axioms:
+  \begin{enumerate}[label=\textbf{A.\arabic*}]
+    \item (Nonnegativity) \label{item:probability-axiom-nonnegativity} For every event $E$, we have
+    \begin{equation*}
+      \P\left[E\right] \geq 0.
+    \end{equation*}
+    \item (Sum-to-one) \label{item:probability-axiom-total-measure-one} If $S$
+    is the whole sample space, then $\P\left[S \right] =1$.
+    \item (Countable additivity) \label{item:probability-axiom-countable-additivity} Let
+    $E_{1},E_{2},\ldots$ be an infinite sequence of events. If the sequence is pairwise disjoint, then
+    \begin{equation*}
+      \P\left[E_{1}\cup E_{2}\cup \ldots \right] = \P\left[E_{1} \right]+\P\left[E_{2} \right]+\ldots.
+    \end{equation*}
+  \end{enumerate}
+\end{definition}
+
+
+Notice that \cref{def:probability-measure} doesn't say how to assign
+probabilities. It merely tells us the conditions that probabilities must
+satisfy. The first two, \ref{item:probability-axiom-nonnegativity} and
+\ref{item:probability-axiom-total-measure-one} seem almost self-evident. The
+last one, \ref{item:probability-axiom-countable-additivity}, is more technical
+and harder to deciper. The next example gives involves an application of axiom
+\ref{item:probability-axiom-countable-additivity}.
+
+
+\begin{example}[Continuation of  \cref{ex:cool-coin-flipping-example}.]
+
+  Assume the same experiment and notation as
+  \cref{ex:cool-coin-flipping-example}.
+  
+  \Fl{Question 2:} What is the probability that we flip the coin an even
+  number of times?
+
+  For each $n=1,2,\ldots$, define the event $E_{n}$ as
   \begin{equation*}
-    \P\left[E_{1}\cup E_{2}\cup \ldots \right] = \P\left[E_{1} \right]+\P\left[E_{2} \right]+\ldots.
+    E_{n} = \left[ X=n \right].
   \end{equation*}
-\end{enumerate}
+  We want to know the probability that $X$ is even. Observe that
+  \begin{equation*}
+    \left[ X \text{ is even} \right] = E_{2}\cup E_{4}\cup E_{6}\cup E_{8}\cup\ldots
+  \end{equation*}
+  We note that the sequence $E_{2},E_{4},E_{6}\ldots $ is pairwise disjoint.
+  So we can use \ref{item:probability-axiom-countable-additivity} to compute
+  the probability of this event:
 
+  \begin{align*}
+    \P\left[X \text{ is even} \right] 
+    &= \P\left[E_{2}\cup E_{4}\cup E_{6}\cup E_{8}\cup\ldots \right]\\
+    &= \P\left[E_{2} \right] + \P\left[E_{4} \right] + \P\left[E_{6} \right] + \P\left[E_{8} \right] +
+      \ldots &&\text{(by \ref{item:probability-axiom-countable-additivity}) }\\
+    &= \left( \frac{1}{2} \right)^{2}+\left( \frac{1}{2} \right)^{4}+\left( \frac{1}{2} \right)^{6}+\left(
+      \frac{1}{2} \right)^{8}+\ldots &&\text{(by \cref{eq:1}) }\\
+    &= \frac{1}{4}+\left( \frac{1}{4} \right)^{2}  + \left( \frac{1}{4} \right)^{3} + \left( \frac{1}{4} \right)^{4}+\ldots\\  
+    &= \frac{\frac{1}{4}}{1-\frac{1}{4}} &&\text{by geometric series formula $\sum_{n=1}^{\infty}r^{n} = \frac{r}{1-r} $ }\\
+    &= \frac{1}{3}. 
+  \end{align*}
+  So the probability that you flip the coin an \textit{even} number of times is only $1/3$. 
+\end{example}
 
-
-
+\subsection{Inclusion-exclusion principle}
 \begin{theorem}[Inclusion-Exclusion Prinicple]
   \label{thm:inclusion-exclusion-principle}
   If $A$ and $B$ are events, then
@@ -737,13 +847,19 @@ To be a \demph{probability measure}, $\P$ must satisfy the following three axiom
   \end{equation*}
 \end{theorem}
 \begin{proof}[Idea of proof]
-  This picture:
+  $\P\left[A\cup B \right]$ is the area of the red-shaded region:
   \begin{center}
     \includegraphics[scale=.5]{images/venn-diagram-union-2}
+  \end{center}
+  Compare with $\P\left[A \right]+\P\left[B \right]- \P\left[A\cap B \right]$:
+  \begin{center}
+    \includegraphics[scale=.5]{images/inclusion-exclusion}
   \end{center}
 \end{proof}
 
 
+\newpage
+\section{2026-01-23 | Week 02 | Lecture 05}
 \begin{proposition}[Basic properties of probability measure]
   \label{prop:some-deductions-from-axioms}
   \begin{enumerate}[label=\rm{(\roman*.)}]
@@ -865,98 +981,6 @@ To be a \demph{probability measure}, $\P$ must satisfy the following three axiom
   \end{equation*}
 \end{proposition}
 
-\subsection{Repeated coin flipping}
-\begin{example}[Cool coin flipping experiment]
-  \label{ex:cool-coin-flipping-example}
-  Consider an experiment in which we flip a coin repeatedly until we get a
-  heads. The \textbf{output} of this experiment is \textit{the number of times
-    we flipped the coin}.
-  
-  The sample space of the experiment is
-  \begin{equation*}
-    S = \left\{1,2,3,4,\ldots\right\}.
-  \end{equation*}
-
-  Let $X = (\text{number of coin flips})$. Here, $X$ is a random quantity
-  which will vary between experiments. Then
-  \begin{equation*}
-    \P\left[X = 1 \right] = \P\left[\text{first coin flip was heads} \right] = \frac{1}{2}
-  \end{equation*}
-  and
-  \begin{equation*}
-    \P\left[X = 2 \right] 
-    = \P\left[\text{first flip was tails and second was heads} \right] 
-    = \frac{1}{2}\cdot \frac{1}{2}
-    = \frac{1}{4}.
-  \end{equation*}
-  Similarly,  for any $n=1,2,3,4,\ldots$, we have
-  \begin{equation}\label{eq:1}
-    \P\left[X=n \right]= \left( \frac{1}{2} \right)^{n} 
-  \end{equation}
-
-  \Fl{Question 1:} How many times do we expect to flip the coin? In other words,
-  what is $\E\left[X \right]$?
-
-  We use the formula
-  \begin{equation*}
-    \E\left[X \right] = \sum_{n=1}^{\infty}n \P\left[X=n \right] 
-  \end{equation*}
-  which gives
-  \begin{align*}
-    \E\left[X \right] 
-    =& \sum_{n=1}^{\infty} n \left( \frac{1}{2} \right)^{n} \\
-    =& \frac{1}{2} + 2 \left( \frac{1}{2} \right)^{2}+ 3 \left( \frac{1}{2} \right)^{3}+
-       4 \left( \frac{1}{2} \right)^{4}+\ldots \\
-    =& \frac{1}{2} +  2\cdot \frac{1}{4}+ 3\cdot \frac{1}{8} + 4\cdot \frac{1}{16}+\ldots\\
-    =& \frac{1}{2} + \left(\frac{1}{4}+ \frac{1}{4}\right) + \left(\frac{1}{8} + \frac{1}{8} + \frac{1}{8}\right)
-       + \left( \frac{1}{16} + \frac{1}{16} + \frac{1}{16} + \frac{1}{16} \right)  + \ldots\\
-    =& \frac{1}{2} + \frac{1}{4} + \frac{1}{8} + \frac{1}{16} + \frac{1}{32} +\ldots\\
-     &\phantom{ \frac{1}{2}} + \frac{1}{4} + \frac{1}{8} + \frac{1}{16} + \frac{1}{32}+ \ldots\\
-     &\phantom{ \frac{1}{2} + \frac{1}{4}} + \frac{1}{8} + \frac{1}{16} + \frac{1}{32}+ \ldots\\
-     &\phantom{ \frac{1}{2} + \frac{1}{4} + \frac{1}{8}} + \frac{1}{16} + \frac{1}{32}+ \ldots\\
-     &\phantom{ \frac{1}{2} + \frac{1}{4} + \frac{1}{8} + \frac{1}{16}} + \frac{1}{32}+ \ldots\\
-  \end{align*}
-  The first row adds up to $1$ by the geometric series formula (which says that
-  $\sum_{n=1}^{\infty}r^{n} = \frac{r}{1-r}$). The second row adds up to $1/2$ (because it's $1/2$ less
-  than the first row). The third row adds up to $1/4$. The fourth adds up to $1/8$. etc. So
-  \begin{equation*}
-    \E\left[X \right] = 1 + \frac{1}{2} + \frac{1}{4}+\frac{1}{8} + \frac{1}{16}+ \ldots
-  \end{equation*}
-  and applying the geometric series formula again, we see that
-  \begin{equation*}
-    \E\left[X \right] = 2.
-  \end{equation*}
-  In other words, we expect to flip the coin twice.
-
-
-  \Fl{Question 2:} What is the probability that we flip the coin an even
-  number of times?
-
-  For each $n=1,2,\ldots$, define the event $E_{n}$ as
-  \begin{equation*}
-    E_{n} = \left[ X=n \right].
-  \end{equation*}
-  We want to know the probability that $X$ is even. Observe that
-  \begin{equation*}
-    \left[ X \text{ is even} \right] = E_{2}\cup E_{4}\cup E_{6}\cup E_{8}\cup\ldots
-  \end{equation*}
-  We note that the sequence $E_{2},E_{4},E_{6}\ldots $ is pairwise disjoint.
-  So we can use \ref{item:probability-axiom-countable-additivity} to compute
-  the probability of this event:
-
-  \begin{align*}
-    \P\left[X \text{ is even} \right] 
-    &= \P\left[E_{2}\cup E_{4}\cup E_{6}\cup E_{8}\cup\ldots \right]\\
-    &= \P\left[E_{2} \right] + \P\left[E_{4} \right] + \P\left[E_{6} \right] + \P\left[E_{8} \right] +
-      \ldots &&\text{(by \ref{item:probability-axiom-countable-additivity}) }\\
-    &= \left( \frac{1}{2} \right)^{2}+\left( \frac{1}{2} \right)^{4}+\left( \frac{1}{2} \right)^{6}+\left(
-      \frac{1}{2} \right)^{8}+\ldots &&\text{(by \cref{eq:1}) }\\
-    &= \frac{1}{4}+\left( \frac{1}{4} \right)^{2}  + \left( \frac{1}{4} \right)^{3} + \left( \frac{1}{4} \right)^{4}+\ldots\\  
-    &= \frac{\frac{1}{4}}{1-\frac{1}{4}} &&\text{by geometric series formula $\sum_{n=1}^{\infty}r^{n} = \frac{r}{1-r} $ }\\
-    &= \frac{1}{3}. 
-  \end{align*}
-  So the probability that you flip the coin an \textit{even} number of times is only $1/3$. 
-\end{example}
 
 
 
