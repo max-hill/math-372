@@ -860,6 +860,60 @@ and harder to deciper. The next example gives involves an application of axiom
 
 \newpage
 \section{2026-01-23 | Week 02 | Lecture 05}
+
+\subsection{St. Petersburg Paradox}
+
+The game is the following: repeatedly flip a coin until you get heads. You win $2^{n}$ dollars, where $n$ is
+the number of coin flips. How much would you be willing to pay to play this game????
+
+Let $X$ be your (random) payoff. The sample space of $X$ is
+\begin{equation*}
+  S = \left\{2,4,8,16,32,\ldots\right\}.
+\end{equation*}
+What is the expected value of $X$?
+
+\begin{align*}
+  \E\left[X \right] 
+  &= \sum_{x} x \P\left[X=x \right]\\
+  &= 2\P\left[X=2 \right]+ 4 \P\left[X=4 \right] + 8\P\left[X=8 \right] + 16 \P\left[X=16 \right]+\ldots\\
+\end{align*}
+Next, we observe that $\P\left[X=2^{k} \right] = \frac{1}{2^{k}}$ for all
+$k =1,2,\ldots$. Plugging these probabilities in, we get
+
+\begin{equation*}
+  \E\left[X \right] = 1+1+1+1+1+\ldots   = +\infty.
+\end{equation*}
+The expected value of playing this game is positive infinity!!!!! N matter how
+much you pay to play this game, you will eventually make money if you play
+enough times.
+
+\subsection{What is probability, continued}
+
+
+\begin{definition}[Probability Measure]
+  \label{def:probability-measure}
+  A \demph{probability measure} $\P$ is a function which assigns to each event a probability. We denote the
+  probability of an event $E$ by
+  \begin{equation*}
+    \P\left[E \right] \quad \text{or} \quad  \P\left( E\right).
+  \end{equation*}
+  To be a \demph{probability measure}, $\P$ must satisfy the following three axioms:
+  \begin{enumerate}[label=\textbf{A.\arabic*}]
+    \item (Nonnegativity) \label{item:probability-axiom-nonnegativity} For every event $E$, we have
+    \begin{equation*}
+      \P\left[E\right] \geq 0.
+    \end{equation*}
+    \item (Sum-to-one) \label{item:probability-axiom-total-measure-one} If $S$
+    is the whole sample space, then $\P\left[S \right] =1$.
+    \item (Countable additivity) \label{item:probability-axiom-countable-additivity} Let
+    $E_{1},E_{2},\ldots$ be an infinite sequence of events. If the sequence is pairwise disjoint, then
+    \begin{equation*}
+      \P\left[E_{1}\cup E_{2}\cup \ldots \right] = \P\left[E_{1} \right]+\P\left[E_{2} \right]+\ldots.
+    \end{equation*}
+  \end{enumerate}
+\end{definition}
+
+
 \begin{proposition}[Basic properties of probability measure]
   \label{prop:some-deductions-from-axioms}
   \begin{enumerate}[label=\rm{(\roman*.)}]
@@ -968,48 +1022,48 @@ and harder to deciper. The next example gives involves an application of axiom
     \left( A\cap B \right)^{c} = A^{c}\cap B^{c}.
   \end{equation*}
 \end{proposition}
+\begin{proof}
+  Draw a picture.
+\end{proof}
 
-\begin{proposition}[Distributive Laws]
-  \label{prop:distributive-laws}
-  The following equalities hold:
-  \begin{equation*}
-    A\cup \left( B\cap C \right) = \left( A\cup B  \right)\cap \left( A\cup C \right)  
-  \end{equation*}
-  and
-  \begin{equation*}
-    A\cap \left( B\cup C \right) = \left( A\cap B  \right)\cup \left( A\cap C \right)  
-  \end{equation*}
-\end{proposition}
+
+
+\newpage
+\section{2026-01-26 | Week 03 | Lecture 06}
 
 
 
 
 
-
-
-
-
-
-\subsection{Introduction to counting techniques}
+\subsection{Counting techniques}
 \textit{Section 2.3 in the textbook.}
 
-A \demph{k-tuple} is an ordered list of $k$ numbers.
+There are three main counting principles we'll look at:
+\begin{itemize}
+  \item multiplication principle
+  \item permutation principle
+  \item combination principle
+\end{itemize}
 
-\begin{example}[tuples]
-  Consider the experiment in which you roll a dice 5 times in a row:
 
+\subsubsection{Multiplication principle}
+
+
+\begin{example}[Multiplication Principle]
+  Consider an experiment in which we roll a dice 5 times in a row. One
+  possible outcome is
   \begin{equation*}
-    (1,4,6,4,4)
+    (1,4,6,4,4).
   \end{equation*}
-  is a $5$-tuple.
+  This is an ordered list with five entries, i.e., a 5-tuple.
 
-  \fl{Problem:} What is the sample space? How many elements does it have?
+  
+  \Fl{Problem 1:} What is the sample space? How many elements does it have?
 
-  Idea: we will use the \demph{the product rule for $k$-tuples}: 
   \begin{itemize}
     \item there are 6 choices for the first entry
     \item 6 choices for the second entry
-    \item $\vdots $ 
+    \item[] $\vdots $ 
     \item 6 choices for the fifth entry
   \end{itemize}
   so the number of possible outcomes is
@@ -1017,14 +1071,16 @@ A \demph{k-tuple} is an ordered list of $k$ numbers.
     6\times 6 \times 6 \times 6 \times 6 = 6^{5 } = 7776.
   \end{equation*}
 
-  \textbf{Problem:} Let $E = \left[ \text{All 5 dice are less than or equal to 3} \right]$. What is
+  
+  \Fl{Problem 2:} Let $E = \left[ \text{All 5 dice are less than or equal to 3} \right]$. What is
   $\P\left[E \right]?$
 
   By the enumeration principle,
   \begin{equation*}
     \P\left[E \right] = \frac{|E|}{|S|} = \frac{\text{\# ways that all dice are $\leq 3$ }}{7776}
   \end{equation*}
-  now we use again the product rule to count the $k$-tuples with all entries less than $3$:
+  now we use again the multiplication principle to count the $k$-tuples with
+  all entries less than $3$:
   \begin{equation*}
     3\times 3 \times 3 \times 3 \times 3 = 3^{5} = 243
   \end{equation*}
@@ -1034,66 +1090,31 @@ A \demph{k-tuple} is an ordered list of $k$ numbers.
   \end{equation*}
 \end{example}
 
-\newpage
-\section{2025-01-24 | Week 2 | Lecture 5}
+In this example, we've used the ``multiplication principle''. Let's state this
+principle formally now. To do so, we need the following definition:
 
-\subsection{St. Petersburg Paradox}
+\begin{definition}[k-tuple]
+  \label{def:k-tuple}
+  A $k$-tuple is an ordered list of $k$ objects. 
+\end{definition}
 
-The game is the following: repeatedly flip a coin until you get heads. You win $2^{n}$ dollars, where $n$ is
-the number of coin flips. How much would you be willing to pay to play this game????
-
-Let $X$ be your (random) payoff. The sample space of $X$ is
-\begin{equation*}
-  S = \left\{2,4,8,16,32,\ldots\right\}.
-\end{equation*}
-What is the expected value of $X$?
-
-\begin{align*}
-  \E\left[X \right] 
-  &= \sum_{n=1}^{\infty} n \P\left[X=n \right]\\
-  &= \P\left[X=1 \right]+ 2 \P\left[X=2 \right] + 3\P\left[X=3 \right] + 4 \P\left[X=4 \right]
-    + 5 \P\left[X=5 \right]
-    + 6 \P\left[X=6 \right]
-    + 7 \P\left[X=7 \right]\\
-  & \quad
-    + 8 \P\left[X=8 \right]
-    + 9 \P\left[X=9 \right] + \ldots\\
-  &= 2 \P\left[X=2 \right] + 4 \P\left[X=4 \right] + 8\P\left[X=8 \right] + 16 \P\left[X=16 \right] +\\
-  &= \sum_{k=1}^{\infty} 2^{k}\P\left[X=2^{k} \right] 
-\end{align*}
-where the third equality follow because $\P\left[X=i \right]=0$ whenever $i\notin S$.
+For example, $(1,2,5,4) $ and $(3,3,5,4)$ are both examples of $4$-tuples.
+Note that repeats are allowed. 
 
 
-Next, we observe that $\P\left[X=2^{k} \right] = \frac{1}{2^{k}}$ (check this for, say, $k=1,2,3$).
 
-Plugging these probabilities in, we get 
-
-\begin{equation*}
-  \E\left[X \right] = \sum_{k=1}^{\infty}2^{k}\cdot \frac{1}{2^{k}} = \sum_{k=1}^{\infty}1 = 1+1+1+1+1+\ldots   = +\infty.
-\end{equation*}
-The expected value of playing this game is positive infinity!!!!! 
-
-
-\subsection{Counting Techniques}
-There are three main counting principles we'll look at today:
-\begin{itemize}
-  \item multiplication principle
-  \item permutation principle
-  \item combination principle
-\end{itemize}
-
-Recall that a $k$-tuple is an ordered list of things (usually but not always numbers). A $k$-tuple can
-have repeats!
-
-
-\begin{proposition}[Multiplication Principle]
+\begin{theorem}[Multiplication Principle]
+  \label{thm:multiplication-principle}
   Suppose $S$ consist of $k$-tuples and there are $n_{1}$ choices for the first element, $n_{2}$ choices
   for the second, etc. Then there are
   \begin{equation*}
-    n_{1}\times n_{2}\times n_{k}
+    n_{1}\times n_{2}\times \cdots \times n_{k}
   \end{equation*}
   possible $k$-tuples.
-\end{proposition}
+\end{theorem}
+
+
+
 
 \begin{example}
   I roll my lucky dice, flip a gold coin, then flip a silver coin. How many possible outcomes are there?
@@ -1104,12 +1125,15 @@ have repeats!
   \end{equation*}
 \end{example}
 
+
+\subsubsection{The permutation and combination principles}
+
 \begin{example}
-  How many ways are there to order the $3$ letters $A,B,C$?
+  How many ways are there to order the $4$ letters $A,B,C,D$?
 
   Use the multiplication principle
   \begin{equation*}
-    3 \times 2 \times 1
+    4\times 3 \times 2 \times 1
   \end{equation*}
 \end{example}
 
@@ -1118,21 +1142,32 @@ have repeats!
   \begin{equation*}
     n! = n \times (n-1)\times(n-2)\times\cdots\times 2 \times 1.
   \end{equation*}
-  Each ordering is called a \demph{permutation}. (Note that we define $0! = 1.$)
-
-  (Permutations don't have repeats).
+  (Note that we define $0! = 1.$)
 \end{proposition}
 
 
-\begin{definition}[set]
+\begin{definition}[permutation and combination]
   A \demph{set} is an \textit{unordered} collection of elements, all of which are \textit{distinct.}
   \begin{itemize}
     \item $\left\{1,2,4,5,3\right\}$ is a set
     \item $\left\{1,1,2,4,5,3\right\}$ is not a set
   \end{itemize}
+
+  A \demph{permutation} is an ordered subset. An unordered subset is called a \demph{combination}.
 \end{definition}
 
-\begin{proposition}[Counting subsets -- this is the ``combination principle'']
+\begin{theorem}[The permutation principle]
+  \label{thm:permutation-principle}
+  The number of permutations of size $k$ that can be formed from $n$ objects
+  is
+  \begin{equation*}
+    P_{k,n} =  \frac{n!}{(n-k)!}
+  \end{equation*}
+\end{theorem}
+
+
+\begin{proposition}[The combination principle]
+  \label{prop:combination-principle}
   Let $S$ be a set with $n$ elements. The number of (unordered) subsets of size $k$ is
   \begin{equation*}
     {n\choose k} =  \frac{n!}{k!(n-k)!}
