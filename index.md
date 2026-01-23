@@ -17,6 +17,7 @@ title: Lecture Notes
  2026-01-14  | [lecture-02](lectures/lecture-notes-by-day/lecture-02.pdf)     | General framework for probability, sample spaces and events, enumeration principle
  2026-01-16  | [lecture-03](lectures/lecture-notes-by-day/lecture-03.pdf)     | General framework for probability, understanding events as sets
  2026-01-21  | [lecture-04](lectures/lecture-notes-by-day/lecture-04.pdf)     | Definition of probability, repeated coin flipping, inclusion-exclusion
+ 2026-01-23  | [lecture-05](lectures/lecture-notes-by-day/lecture-05.pdf)     | Definition of probability, St. Petersburg Paradox, De Morgan's Laws
  
 
 # Other links
