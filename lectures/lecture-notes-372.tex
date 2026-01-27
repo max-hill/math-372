@@ -1031,12 +1031,7 @@ enough times.
 \newpage
 \section{2026-01-26 | Week 03 | Lecture 06}
 
-
-
-
-
-\subsection{Counting techniques}
-\textit{Section 2.3 in the textbook.}
+\textit{This lecture is based on section 2.3 in the textbook.}
 
 There are three main counting principles we'll look at:
 \begin{itemize}
@@ -1045,11 +1040,81 @@ There are three main counting principles we'll look at:
   \item combination principle
 \end{itemize}
 
+\subsection{Multiplication principle}
 
-\subsubsection{Multiplication principle}
 
 
-\begin{example}[Multiplication Principle]
+\begin{example}
+  A man has 3 shirts and two ties. How many ways
+  can he dress himself?
+  \begin{center}
+    \includegraphics[scale=.6]{images/chung-ties}
+  \end{center}
+  We can schematize this as three shirts $s_{1},s_{2},s_{3}$ and two ties
+  $t_{1},t_{2}$, in which case the possible outfits are:
+  \begin{align*}
+    &(s_{1},t_{1})\  (s_{2},t_{1})\  (s_{3},t_{1})\\
+    &(s_{1},t_{2})\  (s_{2},t_{2})\  (s_{3},t_{2})
+  \end{align*}
+  Of course, we don't need to write $s$ and $t$; it is enough to write
+  \begin{align*}
+    &(1,1)\ (2,1)\ (3,1)\\
+    &(1,2)\ (2,2)\ (3,2)
+  \end{align*}
+  where the first slot is ``shirt'' and the second is ``tie''. Thus the
+  methematical way to name the collection of outfits is the set of all ordered
+  couples $(a,b)$ with $a=1,2$ and $b=1,2,3$. So you can see the total number
+  of outfits is $2\times 3 = 6$.
+
+  In general we can talk about ordered $k$-tuples $(a_{1},\ldots,a_{k})$,
+  where for each $j$ from $1$ to $k$, the symbol $a_{j}$ is the assignment
+  (choice) for the  $j^{\rm th}$ slot and it may be denoted by a numeral
+  between $1$ and $n_{j}$. In our example, $k=2$ and $n_{1}=3$ and $n_{2}=2$.
+
+
+  If the man also have two pairs of shoes, we can add a third slot for
+  ``shoes'', so the question is asking to count the number of elements in the
+  set
+  \begin{equation*}
+    \left\{ (a_{1},a_{2},a_{3}): a_{1}\in \left\{1,2,3\right\} , a_{2},a_{3}\in \left\{1,2\right\} \right\}
+  \end{equation*}
+  In this case, $n_{1} = 3$, $n_{2} = 2$ and $n_{3}=2$, so the number of
+  outfits is
+  \begin{equation*}
+    n_{1}n_{2}n_{3} = 3\cdot2\cdot2 = 12,
+  \end{equation*}
+  which is shown in the following picture:
+  \begin{center}
+    \includegraphics[scale=.3]{images/chung-shoes}
+  \end{center}
+\end{example}
+
+
+In this example, we've used the ``multiplication principle''. Let's state this
+principle formally now. To do so, we need the following definition:
+
+\begin{definition}[k-tuple]
+  \label{def:k-tuple}
+  A \demph{$k$-tuple} is an ordered list of $k$ objects. 
+\end{definition}
+
+For example, $(1,2,5,4) $ and $(3,3,5,4)$ are both examples of $4$-tuples.
+Note that repeats are allowed. 
+
+
+
+\begin{theorem}[Multiplication Principle]
+  \label{thm:multiplication-principle}
+  Suppose $S$ consist of $k$-tuples and there are $n_{1}$ choices for the first element, $n_{2}$ choices
+  for the second, etc. Then there are
+  \begin{equation*}
+    n_{1}\times n_{2}\times \cdots \times n_{k}
+  \end{equation*}
+  possible $k$-tuples.
+\end{theorem}
+
+
+\begin{example}[Application of the multiplication principle to probability]
   Consider an experiment in which we roll a dice 5 times in a row. One
   possible outcome is
   \begin{equation*}
@@ -1090,43 +1155,9 @@ There are three main counting principles we'll look at:
   \end{equation*}
 \end{example}
 
-In this example, we've used the ``multiplication principle''. Let's state this
-principle formally now. To do so, we need the following definition:
-
-\begin{definition}[k-tuple]
-  \label{def:k-tuple}
-  A $k$-tuple is an ordered list of $k$ objects. 
-\end{definition}
-
-For example, $(1,2,5,4) $ and $(3,3,5,4)$ are both examples of $4$-tuples.
-Note that repeats are allowed. 
 
 
-
-\begin{theorem}[Multiplication Principle]
-  \label{thm:multiplication-principle}
-  Suppose $S$ consist of $k$-tuples and there are $n_{1}$ choices for the first element, $n_{2}$ choices
-  for the second, etc. Then there are
-  \begin{equation*}
-    n_{1}\times n_{2}\times \cdots \times n_{k}
-  \end{equation*}
-  possible $k$-tuples.
-\end{theorem}
-
-
-
-
-\begin{example}
-  I roll my lucky dice, flip a gold coin, then flip a silver coin. How many possible outcomes are there?
-
-  [draw a tree to illustrate the product rule]
-  \begin{equation*}
-    6 \times 2 \times 2 = 24
-  \end{equation*}
-\end{example}
-
-
-\subsubsection{The permutation and combination principles}
+\subsection{Permutations and combinations}
 
 \begin{example}
   How many ways are there to order the $4$ letters $A,B,C,D$?
@@ -1156,6 +1187,18 @@ Note that repeats are allowed.
   A \demph{permutation} is an ordered subset. An unordered subset is called a \demph{combination}.
 \end{definition}
 
+
+\newpage
+\section{2026-01-28 | Week 03 | Lecture 07}
+\begin{theorem}[The combination principle]
+  \label{thm:combination-principle}
+  Let $S$ be a set with $n$ elements. The number of (unordered) subsets of size $k$ is
+  \begin{equation*}
+    {n\choose k} =  \frac{n!}{k!(n-k)!}
+  \end{equation*} 
+\end{theorem}
+
+
 \begin{theorem}[The permutation principle]
   \label{thm:permutation-principle}
   The number of permutations of size $k$ that can be formed from $n$ objects
@@ -1166,13 +1209,6 @@ Note that repeats are allowed.
 \end{theorem}
 
 
-\begin{proposition}[The combination principle]
-  \label{prop:combination-principle}
-  Let $S$ be a set with $n$ elements. The number of (unordered) subsets of size $k$ is
-  \begin{equation*}
-    {n\choose k} =  \frac{n!}{k!(n-k)!}
-  \end{equation*}
-\end{proposition}
 
 
 \begin{example}
