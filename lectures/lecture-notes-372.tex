@@ -1169,6 +1169,7 @@ Note that repeats are allowed.
 \end{example}
 
 \begin{proposition}[Counting permutations]
+  \label{prop:counting-permutations}
   The total number of ways to order $n$ distinct objects is
   \begin{equation*}
     n! = n \times (n-1)\times(n-2)\times\cdots\times 2 \times 1.
@@ -1190,6 +1191,79 @@ Note that repeats are allowed.
 
 \newpage
 \section{2026-01-28 | Week 03 | Lecture 07}
+\textit{This lecture is based on section 2.3 in the textbook.}
+
+\subsection{Review of multiplication principle}
+\begin{definition}[k-tuple]
+  \label{def:k-tuple}
+  A \demph{$k$-tuple} is an ordered list of $k$ objects. 
+\end{definition}
+
+
+\begin{theorem}[Multiplication Principle]
+  \label{thm:multiplication-principle}
+  Suppose $S$ consist of $k$-tuples and there are $n_{1}$ choices for the first element, $n_{2}$ choices
+  for the second, etc. Then there are
+  \begin{equation*}
+    n_{1}\times n_{2}\times \cdots \times n_{k}
+  \end{equation*}
+  possible $k$-tuples.
+\end{theorem}
+
+\subsection{The permutation principle and the combination principle}
+
+
+\begin{proposition}[Counting permutations]
+  The total number of ways to order $n$ distinct objects is
+  \begin{equation*}
+    n! = n \times (n-1)\times(n-2)\times\cdots\times 2 \times 1.
+  \end{equation*}
+  (Note that we define $0! = 1.$)
+\end{proposition}
+
+
+\begin{definition}
+  A \demph{set} is an \textit{unordered} collection of elements, all of which
+  are \textit{distinct.} A \demph{permutation} is an ordered subset. An
+  unordered subset is called a \demph{combination}.
+\end{definition}
+
+
+
+\begin{theorem}[The permutation principle]
+  \label{thm:permutation-principle}
+  The number of permutations of size $k$ that can be formed from $n$ objects
+  is
+  \begin{equation*}
+    (n)_{k} := n\cdot (n-1)\cdot (n-2)\cdots (n-k+1) = \frac{n!}{(n-k)!}.
+  \end{equation*}
+  There are $k$ terms in this product. (The book uses the notation $P_{k,n}$
+  instead of $(n)_{k}$.) 
+\end{theorem}
+\begin{proof}
+  Suppose our $n$ objects are $n$ balls in an urn, labeled $1,\ldots,n$. We
+  draw $n$ balls sequentially, each ball drawn is left out of the urn. The
+  number permutations is the number of ways that $k$ balls can be drawn out of
+  the urn. We are dealing with ordered $k$-tuples
+  \begin{equation*}
+    (a_{1},\ldots,a_{k})
+  \end{equation*}
+  where $a_{1},\ldots,a_{k}\in \left\{1,\ldots,n\right\}$ are integers between
+  $1$ and $n$ that must all be different. (Obviously, $k \leq n$ since there
+  are $n$ balls in the urn and we seek to draw out $k$ of them).
+
+  For the first ball, we have $n$ choices. For the second ball we have $n-1$
+  choice (since there remain only $n-1$ balls in the urn after our first
+  draw). For the third ball we have $n-2$ choices, and so forth. By the
+  $k^{\rm th}$ ball (our final draw), there are $n-k+1$ balls to choose from
+  in the urn.
+
+  Therefore, by the multiplication principle, 
+  \begin{equation*}
+    \text{the number of permutations} = n\cdot(n-1)\cdot(n-2)\cdots (n-k+1) = \frac{n!}{(n-k)!}.
+  \end{equation*}
+\end{proof}
+
 \begin{theorem}[The combination principle]
   \label{thm:combination-principle}
   Let $S$ be a set with $n$ elements. The number of (unordered) subsets of size $k$ is
@@ -1198,21 +1272,107 @@ Note that repeats are allowed.
   \end{equation*} 
 \end{theorem}
 
+\begin{proof}
+  To understand why the formula of \cref{thm:combination-principle} is
+  correct, we begin by making two observations:
+  \begin{itemize}
+    \item \textbf{Observation 1.} For every unordered subset of size $k$,
+    there are $k!$ ways to order it by \cref{prop:counting-permutations}.
 
-\begin{theorem}[The permutation principle]
-  \label{thm:permutation-principle}
-  The number of permutations of size $k$ that can be formed from $n$ objects
-  is
+    Therefore the following equation holds:
+    \begin{equation*}
+      k! \times \text{(number of unordered subsets of size $k$)}
+      =
+      \text{(number of ordered subsets of size $k$)}
+    \end{equation*}
+    
+    \item \textbf{Observation 2.} The permutation principle
+    (\cref{thm:permutation-principle}) tells us that
+    \begin{equation*}
+      \text{(number of ordered subsets of size $k$)}=\frac{n!}{(n-k)!}.
+    \end{equation*}
+  \end{itemize}
+
+  We now put these two observations together. Let $X$ and $Y$ be the following
+  quantities:
+  \begin{align*}
+    X &= \text{(number of ordered subsets of size $k$)}\\
+    Y &= \text{(number of unordered subsets of size $k$)}.
+  \end{align*}
+  Then
+  \begin{align*}
+    k!\cdot Y
+    &= X &&\text{by Observation 1}\\
+    &= \frac{n!}{(n-k)!} &&\text{by Observation 2}
+  \end{align*}
+  Dividing both sides by $k!$ gives
   \begin{equation*}
-    P_{k,n} =  \frac{n!}{(n-k)!}
+    Y = \frac{n!}{k!(n-k)!},
   \end{equation*}
-\end{theorem}
+  and this proves \cref{thm:combination-principle}.
+\end{proof}
 
+
+
+\subsection{Examples of the three combinatorial principles}
+
+\begin{example}
+  A dessert company has 32 distinct desserts on its menu: 6 types of pie, 9
+  types of cake, and 17 flavors of ice cream.
+  \begin{enumerate}[(a)]
+    \item \textbf{Question:} After purchasing 4 different desserts, a customer decides he will
+    eat them all in a row, and he cares about the order in which he eats them.
+    How many different ways can he eat his 4 desserts?
+
+    \textbf{Solution:} Here we are counting the number of ways to order
+    set of four objects. This number is $4!$ by
+    \cref{prop:counting-permutations}.
+    
+    \item \textbf{Question:} How many ways are there for the customer to choose
+    four desserts and then eat them in a particular order of his choice?
+
+    \textbf{Solution 1:} By the combination principle, there are ${32\choose 4}$
+    combinations of desserts that the customer could choose. Moreover, by part
+    (a), for each combination of 4 desserts, he can order them $4!$ ways.
+    Therefore by the multiplication principle, there are
+    \begin{equation*}
+      {32\choose 4} \times 4! = 32\cdot 31\cdot 30\cdot 29
+    \end{equation*}
+    ways that the customer could choose and then eat four desserts.
+
+    \textbf{Solution 2:} Another solution would be to note that we want to
+    count the number of permutations of size $k=4$ from a set of $n=32$
+    distinct objects. (Think: the customer is selecting 4 desserts from an urn
+    with 32 distinct desserts in it). By the permutation principle, this
+    number is
+    \begin{equation*}
+      (32)_{4} = 32\cdot 31\cdot30 \cdot29
+    \end{equation*}
+    which agrees with our answer from solution 1.
+
+    \item \textbf{Question:} If 9 desserts are randomly selected, how many ways
+    are there to obtain 3 deserts of each type (pie, cake, and ice cream)?
+
+    \fl{Solution:} For pie, there are ${6\choose 3}$ combinations possible.
+    For cake, there are ${9\choose 3}$ combinations possible, and for ice
+    cream, there are ${17\choose 3}$.
+
+    By the multiplication principle, there are
+    \begin{equation*}
+      {6\choose 3}\times {9\choose 3}\times {17\choose 3}
+    \end{equation*}
+    ways to simultaneously select 3 pies, 3 cakes, and 3 ice cream flavors.
+
+  \end{enumerate}
+
+\end{example}
+\newpage
 
 
 
 \begin{example}
-  Let $S = \left\{1,2,3,4,5,6\right\}$. How many subsets of size 2 are there?
+  Let $S = \left\{1,2,3,4,5,6\right\}$. How many unordered subsets (i.e.,
+  combinations) of size 2 are there?
 
   \begin{equation*}
     {6\choose 2} = \frac{6!}{2! \cdot 4!} = \frac{6\cdot5\cdot4\cdot3\cdot2\cdot1}{\left(2\cdot1\right) \cdot \left(4\cdot3\cdot2\cdot1\right)} = \frac{6\cdot5}{2} = 15.
