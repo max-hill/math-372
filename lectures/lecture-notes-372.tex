@@ -1362,14 +1362,17 @@ Note that repeats are allowed.
       {6\choose 3}\times {9\choose 3}\times {17\choose 3}
     \end{equation*}
     ways to simultaneously select 3 pies, 3 cakes, and 3 ice cream flavors.
-
   \end{enumerate}
-
 \end{example}
 \newpage
 
 
+\section{2025-01-30 | Week 03 | Lecture 08}
 
+\textit{This lecture is based on sections 2.3 and 2.4 in the textbook.}
+
+
+\subsection{Applications of the 3 combinatorial principles}
 \begin{example}
   Let $S = \left\{1,2,3,4,5,6\right\}$. How many unordered subsets (i.e.,
   combinations) of size 2 are there?
@@ -1377,14 +1380,14 @@ Note that repeats are allowed.
   \begin{equation*}
     {6\choose 2} = \frac{6!}{2! \cdot 4!} = \frac{6\cdot5\cdot4\cdot3\cdot2\cdot1}{\left(2\cdot1\right) \cdot \left(4\cdot3\cdot2\cdot1\right)} = \frac{6\cdot5}{2} = 15.
   \end{equation*}
-  These are
-  \begin{gather*}
-    \left\{1,2\right\}, \left\{1,3\right\}, \left\{1,4\right\}, \left\{1,5\right\}, \left\{1,6\right\} \\
-    \left\{2,3\right\}, \left\{2,4\right\}, \left\{2,5\right\}, \left\{2,6\right\} \\
-    \left\{3,4\right\}, \left\{3,5\right\}, \left\{3,6\right\} \\
-     \left\{4,5\right\}, \left\{4,6\right\} \\
-      \left\{5,6\right\}
-  \end{gather*}
+  The fiften combinations are
+  \begin{align*}
+    \left\{1,2\right\}, \left\{1,3\right\}, \left\{1,4\right\}, \left\{1,5\right\}, &\left\{1,6\right\} \\
+    \left\{2,3\right\}, \left\{2,4\right\}, \left\{2,5\right\}, &\left\{2,6\right\} \\
+    \left\{3,4\right\}, \left\{3,5\right\}, &\left\{3,6\right\} \\
+    \left\{4,5\right\}, &\left\{4,6\right\} \\
+    & \left\{5,6\right\}
+  \end{align*}
   note that the order doesn't matter, i.e., $\left\{2,1\right\}=\left\{1,2\right\}$ so this just counts
   as one, not two.
 
@@ -1394,7 +1397,7 @@ Note that repeats are allowed.
   A poker hand consist of 5 randomly chosen cards from a
   standard 52-card deck.
   \begin{center}
-    \includegraphics[scale=0.5]{images/52-card-deck}
+    \includegraphics[scale=0.3]{images/52-card-deck}
   \end{center}
   \fl{Some questions about poker hands:}
   \begin{enumerate}
@@ -1403,7 +1406,8 @@ Note that repeats are allowed.
     \begin{equation*}
       {52\choose 5} = \frac{52!}{5!\cdot47!} = 2,598,960
     \end{equation*}
-    \item How many ways are there to get a flush (i.e., all the same suit)?
+    \item A \textbf{flush} occurs when all five cards are the same suit. How
+    many ways are there to get a flush?
     \begin{equation*}
       4 \times {13\choose 5} 
       = 4\cdot \frac{13!}{5! 8!} 
@@ -1412,31 +1416,45 @@ Note that repeats are allowed.
     \end{equation*}
 
     The 4 is to choose a suit. Then we choose 5 out of 13 cards in that suit.
-    \item What's the probability that we are dealt a hand in which this occurs? (i.e., in which all cards
-    are of the same suit?)
+    \item What's the probability of getting a flush?
 
     To answer this, we use the enumeration principle:
     \begin{equation*}
       \frac{{4\choose 1}\times {13\choose 5}}{{52\choose 5}} = \frac{5,148}{2,598,960} \approx 0.002
     \end{equation*}
 
-    In other words, the probability of a flush is pretty low: about $0.2\%$. 
+    In other words, the probability of a flush is pretty low: about $0.2\%$.
   \end{enumerate}
 \end{example}
-\newpage
 
-\section{2025-01-27 | Week 3 | Lecture 6}
+\subsection{Introduction to craps}
+Craps is a dice-rolling game in which a player, known as the shooter, rolls a
+pair of 6-sided dice. The shooter wins, loses or re-rolls depending on what
+happens.
 
+Here's a set of rules for the shooter:
+\begin{enumerate} 
+  \item You roll two dice and add them up.
+  \begin{itemize}
+    \item If the sum is $2,3$, or $12$, you lose (``craps'')
+    \item If you roll $7$ or $11$, then you win  (``natural'')
+    \item Otherwise you establish ``point'', which is whatever number you got.
+  \end{itemize}
+  \item If you established point, then you must keep rolling until one of two events occurs:
+  \begin{itemize}
+    \item You roll a 7: you lose
+    \item You roll your ``point'' number: you win.
+  \end{itemize}
+\end{enumerate}
 
-\subsection{Conditional probability}
-\textit{This lecture is based on section 2.4 in the text.}
-
-
-First, play craps.
 
 Tallying the results, we saw that shooters won about 50\% of the time. Is this a fair game? We will set
 out to answer this question. To do so, we'll need to introduce some new ideas. A key idea is that of
 conditional probability:
+
+\subsection{Conditional probability}
+\textit{This section is based on section 2.4 in the text.}
+
 
 
 \begin{definition}[Conditional Probability]
@@ -1447,7 +1465,26 @@ conditional probability:
     \P\left[B\mid A \right] := \frac{\P\left[A\cap B \right]}{\P\left[A \right]}.
   \end{equation*}
 \end{definition}
-[draw picture]
+
+\newpage
+\section{2026-02-02 | Week 04 | Lecture 09}
+
+\subsection{Conditional probability}
+\textit{This section is based on section 2.4 in the text.}
+
+
+
+\begin{definition}[Conditional Probability]
+  \label{def:conditional-probability}
+  Let $A,B$ be events, and assume that $\P\left[A\right]>0$. Then the \demph{conditional probability of
+    $B$, given $A$}, denoted $\P\left[B\mid A \right]$, is given by the formula
+  \begin{equation*}
+    \P\left[B\mid A \right] := \frac{\P\left[A\cap B \right]}{\P\left[A \right]}.
+  \end{equation*}
+\end{definition}
+
+
+
 \begin{itemize}
   \item Intuitively, $\P\left[B\mid A \right]$ is the probability of $B$ when we know that the event $H$
   as occurred.
@@ -1462,7 +1499,7 @@ For example,
   I roll a dice behind a screen. I tell you that I rolled an even number. What's the probability that the
   dice roll is a $4$ or a $6$?
 
-  \noindent \textit{Solution:} We have $S = \left\{1,2,3,4,5,6\right\}$, $A= \left\{2,4,6\right\}$,
+  \Fl{Solution:} We have $S = \left\{1,2,3,4,5,6\right\}$, $A= \left\{2,4,6\right\}$,
   $B= \left\{4,6\right\}$. We want to compute $\P\left[B\mid A \right]$. By \cref{def:conditional-probability},
   \begin{equation*}
     \P\left[B\mid A \right] 
@@ -1475,14 +1512,46 @@ For example,
 \end{example}
 
 
-Then we worked on \texttt{worksheet-02.pdf}.
+
+
+\begin{problem}
+  A vampire goes to the blood bank looking to find some type O+ blood (the most delicious type). He finds
+  4 unlabeled bags of blood. Only one of the bags is O+, but the vampire doesn't know which one, so he
+  resorts to taste-testing to find the O+ bag.
+  \begin{enumerate}[(a),itemsep=0em]
+    \item What is the probability that he must test at least 3 bags to find
+    the desired type?
+
+    \Fl{Solution:} Let $X$ be the number of tested bags. We
+    want to find $\P\left[X \geq 3\right]$. Let
+    $A= \left[ \text{first bag isn't O+} \right]$. Let
+    $B = \left[ \text{second bag isn't O+} \right]$
+    \begin{align*}
+      \P\left[ X \geq 3\right] 
+      &= \P\left[A\cap B \right]\\
+      &= \P\left[A \right] \P\left[B\mid A \right]\\
+      &= \frac{3}{4}\cdot \frac{2}{3}\\
+      &= \frac{1}{2}.
+    \end{align*}
+    \item What's the probability that he must test exactly $3$ bags?
+
+
+    \Fl{Solution:} We want $\P\left[X=3 \right]=\P\left[\text{third bag is O+} \right]$.
+    \begin{align*}
+      \P\left[\text{third bag is O+} \right] 
+      &= \P\left[\text{third bag is}\mid  \text{first isn't} \cap
+        \text{second isn't}  \right] \times \P\left[\text{second isn't}\mid \text{first isn't} \right] \cdot
+        \P\left[\text{first isn't} \right]\\
+      &= \frac{1}{2}\cdot \frac{2}{3}\cdot \frac{3}{4}\\
+      &= \frac{1}{4}
+    \end{align*}
+  \end{enumerate}
+\end{problem}
 
 \newpage
 
 \section{2025-01-29 | Week 3 | Lecture 7}
 \subsection{Review of Set Operations}
-
-Students can contact the grader (name: Hunter) directly \texttt{hvt7\@hawaii.edu} with any questions.
 
 \begin{example}[Set Operations]
   Let's review set operations. Suppose
