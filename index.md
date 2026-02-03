@@ -21,6 +21,7 @@ title: Lecture Notes
  2026-01-26  | [lecture-06](lectures/lecture-notes-by-day/lecture-06.pdf)     | (Section 2.3) Counting techniques: the multiplication principle
  2026-01-28  | [lecture-07](lectures/lecture-notes-by-day/lecture-07.pdf)     | (Section 2.3) Counting techniques: the permutation principle, the combination principle
  2026-01-30  | [lecture-08](lectures/lecture-notes-by-day/lecture-08.pdf)     | (Section 2.3, 2.4) Counting techniques, intro to craps, and conditional probability
+ 2026-02-02  | [lecture-09](lectures/lecture-notes-by-day/lecture-09.pdf), [quiz-1-study-guide](quizzes/quiz-01-study-guide.pdf)    | (Section 2.4) Conditional probability
  
 
 # Other links

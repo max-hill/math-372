@@ -48,7 +48,7 @@
 \newcommand{\ncref}[1]{\cref{#1}\mynameref{#1}{\csname r@#1\endcsname}}
 
 \def\mynameref#1#2{%
-  \begingroup
+  \begingroup 
   \edef\@mytxt{#2}%
   \edef\@mytst{\expandafter\@thirdoffive\@mytxt}%
   \ifx\@mytst\empty\else
@@ -1472,27 +1472,43 @@ conditional probability:
 \subsection{Conditional probability}
 \textit{This section is based on section 2.4 in the text.}
 
-
-
-\begin{definition}[Conditional Probability]
+\begin{definition}[Conditional probability]
   \label{def:conditional-probability}
-  Let $A,B$ be events, and assume that $\P\left[A\right]>0$. Then the \demph{conditional probability of
-    $B$, given $A$}, denoted $\P\left[B\mid A \right]$, is given by the formula
+  Let $A,B$ be events, and assume that $\P\left[A\right]>0$. Then the
+  \demph{conditional probability of $B$, given $A$}, denoted
+  $\P\left[B\mid A \right]$, is given by the formula
   \begin{equation*}
-    \P\left[B\mid A \right] := \frac{\P\left[A\cap B \right]}{\P\left[A \right]}.
+    \P\left[B\mid A \right] = \frac{\P\left[A\cap B \right]}{\P\left[A \right]}.
   \end{equation*}
 \end{definition}
 
+\fl{Interpretation:} $\P\left[A\mid B \right]$ is the probability of $A$ when
+we know that event $B$ happened.
 
+\Fl{Multiplication rule:} $\P\left[A\cap B \right] = \P\left[B\mid A \right] \P\left[A \right]$
+
+\begin{definition}
+  \label{def:positive-relationship}
+  We say that there exists a \demph{positive relationship} between events $A$
+  and $B$ if
+  \begin{equation*}
+    \P\left[B\mid A \right]> \P\left[B \right],
+  \end{equation*}
+  and a \demph{negative relationship} if
+  \begin{equation*}
+    \P\left[B\mid A \right]< \P\left[B \right].
+  \end{equation*}
+\end{definition}
+ 
 
 \begin{itemize}
-  \item Intuitively, $\P\left[B\mid A \right]$ is the probability of $B$ when we know that the event $H$
-  as occurred.
-  \item The idea is that if we know that event $A$ has occured, then the sample space becomes $A$, and
-  the new event is $A\cap B$.
+  \item Smoking and getting lung canger have a positive relationship: if you
+  know someone is a smoker $(A)$, then the probability that they get lung
+  cancer $(B)$ is higher than if you didn't know they were a smoker.
+  
+  % \item The idea is that if we know that event $A$ has occured, then the
+  % sample space becomes $A$, and the new event is $A\cap B$.
 \end{itemize}
-
-For example, 
 
 
 \begin{example}[Conditional probability]
@@ -1514,7 +1530,7 @@ For example,
 
 
 
-\begin{problem}
+\begin{example}[Similar to examples 2.27 and 2.28 in the textbook]
   A vampire goes to the blood bank looking to find some type O+ blood (the most delicious type). He finds
   4 unlabeled bags of blood. Only one of the bags is O+, but the vampire doesn't know which one, so he
   resorts to taste-testing to find the O+ bag.
@@ -1522,9 +1538,9 @@ For example,
     \item What is the probability that he must test at least 3 bags to find
     the desired type?
 
-    \Fl{Solution:} Let $X$ be the number of tested bags. We
+    \fl{Solution:} Let $X$ be the number of tested bags. We
     want to find $\P\left[X \geq 3\right]$. Let
-    $A= \left[ \text{first bag isn't O+} \right]$. Let
+    $A = \left[ \text{first bag isn't O+} \right]$. Let
     $B = \left[ \text{second bag isn't O+} \right]$
     \begin{align*}
       \P\left[ X \geq 3\right] 
@@ -1535,18 +1551,34 @@ For example,
     \end{align*}
     \item What's the probability that he must test exactly $3$ bags?
 
+    \fl{Solution:} We want $\P\left[X=3 \right]=\P\left[\text{first bag isn't
+        O+ $\cap$ second bag isn't O+ $\cap$ third bag is O+} \right]$.
 
-    \Fl{Solution:} We want $\P\left[X=3 \right]=\P\left[\text{third bag is O+} \right]$.
     \begin{align*}
-      \P\left[\text{third bag is O+} \right] 
-      &= \P\left[\text{third bag is}\mid  \text{first isn't} \cap
+      \P\left[X=3 \right] 
+      &= \P\left[\text{third is}\mid  \text{first isn't} \cap
         \text{second isn't}  \right] \times \P\left[\text{second isn't}\mid \text{first isn't} \right] \cdot
         \P\left[\text{first isn't} \right]\\
       &= \frac{1}{2}\cdot \frac{2}{3}\cdot \frac{3}{4}\\
       &= \frac{1}{4}
     \end{align*}
+
+    Here we have used the following multiplication rule:
+    \begin{align*}
+      \P\left[A\cap B\cap C \right] 
+      &= \P\left[ C\mid A\cap B\right] \P\left[A\cap B \right]\\
+      &= \P\left[ C\mid A\cap B\right] \P\left[B\mid A \right] \P\left[A \right]
+    \end{align*}
+    with $A=\left[\text{first bag isn't O+} \right]$, $B=\left[\text{second bag isn't O+}
+    \right]$, and $C = \left[ \text{third bag is O+} \right]$.
+
+    % \fl{Solution 2:} Let $E_{i}=[i^{\rm th} \t2ext{ bag is O+}]$ for
+    % $i=1,2,3,4$. The 4 bags are randomly ordered, so the events
+    % $E_{1},E_{2},E_{3},E_{4}$ all have the same probability. Hence they hall
+    % have probability 1/4. Hence $\P\left[E_{3} \right]=1/4$
+
   \end{enumerate}
-\end{problem}
+\end{example}
 
 \newpage
 
