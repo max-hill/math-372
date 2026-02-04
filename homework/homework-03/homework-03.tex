@@ -1,0 +1,266 @@
+\documentclass[10pt]{article}
+% Math Packages
+\usepackage{amsmath, mathtools}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{bbm}
+\usepackage{breqn}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{calc}
+\usepackage{forest}
+\usepackage{tikz-qtree}
+\graphicspath{ {./images/} }
+\usepackage{hyperref}
+\usepackage[capitalize]{cleveref}
+\usepackage[shortlabels]{enumitem}
+\usetikzlibrary{arrows,matrix,positioning}
+\usepackage{multicol}
+
+% for the pipe symbol
+\usepackage[T1]{fontenc}
+
+% Citing theorems by name. (source: https://tex.stackexchange.com/questions/109843/cleveref-and-named-theorems)
+\makeatletter
+\newcommand{\ncref}[1]{\cref{#1}\mynameref{#1}{\csname r@#1\endcsname}}
+
+\def\mynameref#1#2{%
+  \begingroup
+  \edef\@mytxt{#2}%
+  \edef\@mytst{\expandafter\@thirdoffive\@mytxt}%
+  \ifx\@mytst\empty\else
+  \space(\nameref{#1})\fi
+  \endgroup
+}
+\makeatother
+
+% Colorful Notes
+\usepackage{color} \definecolor{Red}{rgb}{1,0,0} \definecolor{Blue}{rgb}{0,0,1}
+\definecolor{Purple}{rgb}{.5,0,.5} \def\red{\color{Red}} \def\blue{\color{Blue}}
+\def\gray{\color{gray}} \def\purple{\color{Purple}}
+\newcommand{\rnote}[1]{{\red [#1]}} % \rnote{foo} gives '[foo]' in red
+\newcommand{\pnote}[1]{{\purple [#1]}} % \pnote{foo} gives '[foo]' in purple
+\newcommand{\bnote}[1]{{\blue #1}} % \bnote{foo} gives 'foo' in blue
+\newcommand{\gnote}[1]{{\gray #1}} % \gnote{foo} gives 'foo' in gray
+\newcommand{\Max}[1]{{\purple [#1]}} % \bnote{foo} then 'foo' is blue
+
+
+% Claim numbering (the counter restarts after each proof environment)
+\newcounter{claimcount}
+\setcounter{claimcount}{0}
+\newenvironment{claim}{\refstepcounter{claimcount}\par\addvspace{\medskipamount}\noindent\textbf{Claim \arabic{claimcount}:}}{}
+\usepackage{etoolbox}
+\AtBeginEnvironment{proof}{\setcounter{claimcount}{0}}
+\newenvironment{claimproof}{\par\addvspace{\medskipamount}\noindent\textit{Proof of Claim  \arabic{claimcount}.}}{\hfill\ensuremath{\qedsymbol} \tiny{Claim}
+
+  \medskip}
+% Add claim support to cleverref
+\crefname{claimcount}{Claim}{Claims}
+
+
+% Math Environments
+\newtheorem{theorem}{Theorem}
+\newtheorem{assumption}[theorem]{Assumption}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{question}[theorem]{Question}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{notation}[theorem]{Notation}
+\newtheorem{problem}[theorem]{Problem}
+
+% Matrices and Column Vectors. 
+\usepackage{stackengine}
+\setstackgap{L}{1.0\normalbaselineskip}
+\usepackage{tabstackengine}
+\setstackEOL{;}% row separator
+\setstackTAB{,}% column separator
+\setstacktabbedgap{1ex}% inter-column gap
+\setstackgap{L}{1.5\normalbaselineskip}% inter-row baselineskip
+\let\nmatrix\bracketMatrixstack  %Usage: \nmatrix{1,2,3\4,5,6}
+\newcommand\cv[1]{\setstackEOL{,}\bracketMatrixstack{#1}} %usage: \cv{1,2,3}
+
+% Custom Math Coqmmands
+\newcommand{\vt}{\vskip 5mm} % vertical space
+\newcommand{\fl}{\noindent\textbf} % first line
+\newcommand{\Fl}{\vt\noindent\textbf} % first line with space above
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert} % norm
+\newcommand{\pnorm}[1]{\left\lVert#1\right\rVert_p} % p-norm
+\newcommand{\qnorm}[1]{\left\lVert#1\right\rVert_q} % q-norm
+\newcommand{\1}[1]{\textbf{1}_{\left[#1\right]}} % indicator function 
+\def\limn{\lim_{n\to\infty}} % shortcut for lim as n-> infinity
+\def\sumn{\sum_{n=1}^{\infty}} % shortcut for sum from n=1 to infinity
+\def\sumkn{\sum_{k=1}^{n}} % shortcut for sum from k=1 to n
+\def\sumin{\sum_{i=1}^{n}} % shortcut for sum from i=1 to n
+\def\SAs{\sigma\text{-algebras}} % shortcut for $\sigma$-algebras
+\def\SA{\sigma\text{-algebra}} % shortcut for $\sigma$-algebra
+\def\Ft{\mathcal{F}_t} % time-indexed sigma-algebra (t)
+\def\Fs{\mathcal{F}_s} % time-indexed sigma-algebra (s)
+\def\F{\mathcal{F}} % sigma-algebra
+\def\G{\mathcal{G}} % sigma-algebra
+\def\R{\mathbb{R}} % Real numbers
+\def\N{\mathbb{N}} % Natural numbers
+\def\Z{\mathbb{Z}} % Integers
+\def\E{\mathbb{E}} % Expectation
+\def\P{\mathbb{P}} % Probability
+\def\Q{\mathbb{Q}} % Q probability
+\def\dist{\text{dist}} %Text 'dist' for things like 'dist(x,y)'
+\newcommand{\indep}{\perp \!\!\! \perp}  %independence symbol
+\def\Var{\mathrm{Var}} % Variance
+\def\tr{\mathrm{tr}} % trace
+
+% Brackets and Parentheses
+\def\[{\left [}
+    \def\]{\right ]}
+% \def\({\left (}
+%   \def\){\right )}
+
+
+
+\usepackage{color}
+\definecolor{Red}{rgb}{1,0,0}
+\definecolor{Blue}{rgb}{0,0,1}
+\definecolor{Purple}{rgb}{.5,0,.5}
+\def\red{\color{Red}}
+\def\blue{\color{Blue}}
+\def\gray{\color{gray}}
+\def\purple{\color{Purple}}
+\definecolor{RoyalBlue}{cmyk}{1, 0.50, 0, 0}
+\newcommand{\dempfcolor}[1]{{\color{RoyalBlue}#1}} 
+\newcommand{\demph}[1]{\dempfcolor{{\sl #1}}}
+
+% comment exactly one of the following line to show / hide the solutions
+% \newcommand{\solution}[1]{{\purple #1}} % uncomment to show the solutions
+\newcommand{\solution}[1]{} % uncomment to hide the solutions
+
+
+
+\title{Lecture Notes for Math 372: \\Elementary Probability and Statistics}
+\date{Last updated: \today}
+% \author{mh}
+
+\begin{document}
+\begin{center}
+  \section*{Math 372: Homework 03}
+  \textit{Due Wednesday, Feb 4}
+\end{center}
+
+\begin{problem}
+  The year is 1532, and 31-year old Girolamo Cardano has been appointed mathematics chair at the
+  University of Milan. In celebration, Cardano decides to host a dinner party. In his cellar he finds
+  30 bottles of wine: 8 bottles of zinfandel, 10 bottles of merlot, and 12 bottles of cabernet, all
+  from different wineries. (Mr.~Cardano only drinks red wine).
+  \begin{enumerate}[(a),itemsep=0em]
+    \item He wants to serve 3 bottles of zinfandel and the serving order is important, how many ways are
+    there to do this?
+    \item Suppose 6 bottles are randomly selected. How many ways are there to do this?
+    \item If 6 bottles are randomly selected, how many ways are there to obtain two bottles of each
+    variety?
+    \item What's the probability of that happening?
+    \item If 6 bottles are randomly selected, what's the probability that they are all of the same
+    variety (i.e., all zinfandel, all merlot, or all cabernet)?
+  \end{enumerate}
+\end{problem}
+
+
+
+
+\begin{problem}[Exercise 2.3.34]
+  Computer keyboard failures can be attributed to electrical defects or
+  mechanical defects. A repair facility currently has 25 failed keyboards, 6
+  of which have electrical defects and 19 of which have mechanical defects.
+  \begin{enumerate}[(a),itemsep=0em]
+    \item How many ways are there to randomly select 5 of these keyboards for
+    a thorough inspection (without regard to order)?
+    \item In how many ways can a sample of 5 keyboards be selected so that
+    exactly 2 have an electrical defect?
+    \item If a sample of 5 keyboards is randomly selected, what is the
+    probability that at least 4 of these will have a mechanical defect?
+  \end{enumerate}
+\end{problem}
+
+
+
+
+\begin{problem}
+  We return to the dice-rolling pirate, Diego. Suppose Diego rolls two dice and then adds the numbers
+  together. The possible outcomes are $2,3,4,5,6,7,8,9,10,11, \text{ and }12$, but recall that these
+  numbers are not all equally likely. 
+  \begin{enumerate}[(a),itemsep=0em]
+    \item What is the probability that the sum of the two dice is greater than 4? 
+    \item Given that the sum of the dice is greater than 4, what is the
+    probability that the dice added up to 7?
+    \item Diego rolls his dice again. What is the probability that the dice add up to an even number?
+    \item Diego rolls his dice once more. What is the probability that the dice add up to an odd
+    number?
+    \item Diego rolls his dice another time. Given that the dice add up to an even number, what is the
+    probability that Diego rolled at least one 4?
+    \item Diego rolls his dice again, and the two dice sum to 7. What is the probability that he rolled
+    a 3 or a 5?
+    \item Diego rolls his dice again. What is the probability that at least one of Diego's dice was a
+    3?
+    \item Given that at least one of Diego's dice was a 3, what is the probability that his dice add up
+    to 8 or 9?
+    \item Diego decides to roll his pair of dice another time. What is the
+    probability that they sum to 4 or 7?
+    \item As one last experiment Diego decides to keep rolling the two dice until he gets a sum of
+    either 4 or a 7, at which point he will stop and go back to his ship. What's the probability that
+    his last roll was 4?
+  \end{enumerate}
+\end{problem}
+
+\begin{problem}
+  A vampire goes to the blood bank looking to find some type O+ blood (the most delicious type). He finds
+  8 unlabeled bags of blood. Only one of the bags is O+, but the vampire doesn't know which one, so he
+  resorts to taste-testing to find the O+ bag.
+  \begin{enumerate}[(a),itemsep=0em]
+    \item  What is the probability that he must test at
+    least 5 bags to find the desired type?
+    % \noindent \textit{Solution:} Let $X$ be the number of tested bags. We want to find $\P\left[X \geq
+    %   3\right]$.
+    % Let $A= \left[ \text{first bag isn't O+} \right]$. Let $B = \left[ \text{second bag isn't O+} \right]$
+    % \begin{align*}
+    %   \P\left[ X \geq 3\right] 
+    %   &= \P\left[A\cap B \right]\\
+    %   &= \P\left[A \right] \P\left[B\mid A \right]\\
+    %   &= \frac{3}{4}\cdot \frac{2}{3}\\
+    %   &= \frac{1}{2}.
+    % \end{align*}
+    \item What's the probability that he must test exactly $5$ bags?
+    % \noindent \textit{Solution:} We want $\P\left[X=3 \right]=\P\left[\text{third bag is O+} \right]$.
+    % \begin{align*}
+    %   \P\left[\text{third bag is O+} \right] 
+    %   &= \P\left[\text{third bag is}\mid  \text{first isn't} \cap
+    %     \text{second isn't}  \right] \times \P\left[\text{second isn't}\mid \text{first isn't} \right] \cdot
+    %   \P\left[\text{first isn't} \right]\\
+    %   &= \frac{1}{2}\cdot \frac{2}{3}\cdot \frac{3}{4}\\
+    %   &= \frac{1}{4}
+    % \end{align*}
+  \end{enumerate}
+\end{problem}
+
+
+\begin{problem}
+  A 5-card poker hand is a \textbf{full house} it has a 3-of-a-kind and 2-of-a-kind.
+  \begin{enumerate}[(a),itemsep=0em]
+    \item How many possible full houses are there?
+    % The number of possible full houses
+    % \begin{equation*}
+    %   {13\choose 1}\times {4\choose 3}\times {12\choose 1}\times {4\choose 2} = 3,744
+    % \end{equation*}
+    \item Suppose you are dealt a random poker hand. What's the probability
+    that you get a full house?
+    % The probability of getting a full house is
+    % \begin{equation*}
+    %   \P\left[\text{full house} \right] = \frac{3,744}{2,598,960} = 0.00144
+    % \end{equation*}
+  \end{enumerate}
+\end{problem}
+
+\end{document}

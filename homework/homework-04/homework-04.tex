@@ -1,0 +1,414 @@
+\documentclass[10pt]{article}
+% Math Packages
+\usepackage{amsmath, mathtools}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{bbm}
+\usepackage{breqn}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{calc}
+\usepackage{forest}
+\usepackage{tikz-qtree}
+\graphicspath{ {./images/} }
+\usepackage{hyperref}
+\usepackage[capitalize]{cleveref}
+\usepackage[shortlabels]{enumitem}
+\usetikzlibrary{arrows,matrix,positioning}
+\usepackage{multicol}
+
+% for the pipe symbol
+\usepackage[T1]{fontenc}
+
+% Citing theorems by name. (source: https://tex.stackexchange.com/questions/109843/cleveref-and-named-theorems)
+\makeatletter
+\newcommand{\ncref}[1]{\cref{#1}\mynameref{#1}{\csname r@#1\endcsname}}
+
+\def\mynameref#1#2{%
+  \begingroup
+  \edef\@mytxt{#2}%
+  \edef\@mytst{\expandafter\@thirdoffive\@mytxt}%
+  \ifx\@mytst\empty\else
+  \space(\nameref{#1})\fi
+  \endgroup
+}
+\makeatother
+
+% Colorful Notes
+\usepackage{color} \definecolor{Red}{rgb}{1,0,0} \definecolor{Blue}{rgb}{0,0,1}
+\definecolor{Purple}{rgb}{.5,0,.5} \def\red{\color{Red}} \def\blue{\color{Blue}}
+\def\gray{\color{gray}} \def\purple{\color{Purple}}
+\newcommand{\rnote}[1]{{\red [#1]}} % \rnote{foo} gives '[foo]' in red
+\newcommand{\pnote}[1]{{\purple [#1]}} % \pnote{foo} gives '[foo]' in purple
+\newcommand{\bnote}[1]{{\blue #1}} % \bnote{foo} gives 'foo' in blue
+\newcommand{\gnote}[1]{{\gray #1}} % \gnote{foo} gives 'foo' in gray
+\newcommand{\Max}[1]{{\purple [#1]}} % \bnote{foo} then 'foo' is blue
+
+
+% Claim numbering (the counter restarts after each proof environment)
+\newcounter{claimcount}
+\setcounter{claimcount}{0}
+\newenvironment{claim}{\refstepcounter{claimcount}\par\addvspace{\medskipamount}\noindent\textbf{Claim \arabic{claimcount}:}}{}
+\usepackage{etoolbox}
+\AtBeginEnvironment{proof}{\setcounter{claimcount}{0}}
+\newenvironment{claimproof}{\par\addvspace{\medskipamount}\noindent\textit{Proof of Claim  \arabic{claimcount}.}}{\hfill\ensuremath{\qedsymbol} \tiny{Claim}
+
+  \medskip}
+% Add claim support to cleverref
+\crefname{claimcount}{Claim}{Claims}
+
+
+% Math Environments
+\newtheorem{theorem}{Theorem}
+\newtheorem{assumption}[theorem]{Assumption}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{question}[theorem]{Question}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{notation}[theorem]{Notation}
+\newtheorem{problem}[theorem]{Problem}
+
+% Matrices and Column Vectors. 
+\usepackage{stackengine}
+\setstackgap{L}{1.0\normalbaselineskip}
+\usepackage{tabstackengine}
+\setstackEOL{;}% row separator
+\setstackTAB{,}% column separator
+\setstacktabbedgap{1ex}% inter-column gap
+\setstackgap{L}{1.5\normalbaselineskip}% inter-row baselineskip
+\let\nmatrix\bracketMatrixstack  %Usage: \nmatrix{1,2,3\4,5,6}
+\newcommand\cv[1]{\setstackEOL{,}\bracketMatrixstack{#1}} %usage: \cv{1,2,3}
+
+% Custom Math Coqmmands
+\newcommand{\vt}{\vskip 5mm} % vertical space
+\newcommand{\fl}{\noindent\textbf} % first line
+\newcommand{\Fl}{\vt\noindent\textbf} % first line with space above
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert} % norm
+\newcommand{\pnorm}[1]{\left\lVert#1\right\rVert_p} % p-norm
+\newcommand{\qnorm}[1]{\left\lVert#1\right\rVert_q} % q-norm
+\newcommand{\1}[1]{\textbf{1}_{\left[#1\right]}} % indicator function 
+\def\limn{\lim_{n\to\infty}} % shortcut for lim as n-> infinity
+\def\sumn{\sum_{n=1}^{\infty}} % shortcut for sum from n=1 to infinity
+\def\sumkn{\sum_{k=1}^{n}} % shortcut for sum from k=1 to n
+\def\sumin{\sum_{i=1}^{n}} % shortcut for sum from i=1 to n
+\def\SAs{\sigma\text{-algebras}} % shortcut for $\sigma$-algebras
+\def\SA{\sigma\text{-algebra}} % shortcut for $\sigma$-algebra
+\def\Ft{\mathcal{F}_t} % time-indexed sigma-algebra (t)
+\def\Fs{\mathcal{F}_s} % time-indexed sigma-algebra (s)
+\def\F{\mathcal{F}} % sigma-algebra
+\def\G{\mathcal{G}} % sigma-algebra
+\def\R{\mathbb{R}} % Real numbers
+\def\N{\mathbb{N}} % Natural numbers
+\def\Z{\mathbb{Z}} % Integers
+\def\E{\mathbb{E}} % Expectation
+\def\P{\mathbb{P}} % Probability
+\def\Q{\mathbb{Q}} % Q probability
+\def\dist{\text{dist}} %Text 'dist' for things like 'dist(x,y)'
+\newcommand{\indep}{\perp \!\!\! \perp}  %independence symbol
+\def\Var{\mathrm{Var}} % Variance
+\def\tr{\mathrm{tr}} % trace
+
+% Brackets and Parentheses
+\def\[{\left [}
+    \def\]{\right ]}
+% \def\({\left (}
+%   \def\){\right )}
+
+
+
+\usepackage{color}
+\definecolor{Red}{rgb}{1,0,0}
+\definecolor{Blue}{rgb}{0,0,1}
+\definecolor{Purple}{rgb}{.5,0,.5}
+\def\red{\color{Red}}
+\def\blue{\color{Blue}}
+\def\gray{\color{gray}}
+\def\purple{\color{Purple}}
+\definecolor{RoyalBlue}{cmyk}{1, 0.50, 0, 0}
+\newcommand{\dempfcolor}[1]{{\color{RoyalBlue}#1}} 
+\newcommand{\demph}[1]{\dempfcolor{{\sl #1}}}
+
+% comment exactly one of the following line to show / hide the solutions
+% \newcommand{\solution}[1]{{\purple #1}} % uncomment to show the solutions
+\newcommand{\solution}[1]{} % uncomment to hide the solutions
+
+
+
+\title{Lecture Notes for Math 372: \\Elementary Probability and Statistics}
+\date{Last updated: \today}
+% \author{mh}
+
+\begin{document}
+\begin{center}
+  \section*{Math 372: Homework 04}
+  \textit{Due Wednesday, Feb 10}
+\end{center}
+
+\begin{problem}[Exercise 2.3.34]
+  Computer keyboard failures can be attributed to electrical defects or
+  mechanical defects. A repair facility currently has 25 failed keyboards, 6
+  of which have electrical defects and 19 of which have mechanical defects.
+  \begin{enumerate}[(a)]
+    \item How many ways are there to randomly select 5 keyboards for a
+    thorough inspection (without regard to order)?
+    \item In how many ways can a sample of 5 keyboards be selected so that
+    exactly 2 have an electrical defect?
+    \item If a sample of 5 keyboards is randomly selected, what is the
+    probability that at least 4 of them will have a mechanical defect?
+  \end{enumerate}
+\end{problem}
+
+\begin{problem}[Exercise 2.3.39]
+  A box in a supply room contains 15 compact fluorescent lightbulbs, of which
+  5 are rated 13-watt, 6 are rated 18-watt, and 4 are rated 23-watt. Suppose
+  that three of these bulbs are randomly selected.
+  \begin{enumerate}[(a)]
+    \item What is the probability that exactly two of the selected bulbs are
+    rated 23-watt?
+    \item What is the probability that all three of the bulbs have the same
+    rating?
+    \item What is the probability that one bulb of each type is selected?
+    \item If bulbs are selected one by one until a 23-watt bulb is obtained,
+    what is the probability that it is necessary to examine at least 6 bulbs?
+  \end{enumerate}
+\end{problem}
+
+\begin{problem}[Exercise 2.4.47]
+  Consider randomly selecting a student at a large university. Let $A$ be the
+  event that the selected student has a Visa card, let $B$ be the event that
+  the student has a MasterCard, and let $C$ be the event that they have an
+  American Express card. Suppose that
+  \begin{gather}
+    \P\left[A \right] = .6, \quad \P\left[B \right] = .4, \quad \P\left[C \right] = .2\\
+    \P\left[A\cap B \right] = .3, \quad \P\left[A\cap C \right] = .15, \quad \P\left[B\cap C \right] = .1, \\
+    \quad \text{and} \quad \P\left[A\cap B\cap C \right]=.08.
+  \end{gather}
+  \begin{enumerate}[(a)]
+    \item What is the probability that the selected student has at least one
+    of the three types of cards?
+    \item What is the probability that the selected student has both a Visa
+    card and a MasterCard, but not an American Express card?
+    \item Calculate and interpret $\P\left[B\mid A \right]$ and $\P\left[A\mid
+      B\right]$.
+    \item If we learn that the selected student has an American Express card,
+    what is the probability that she or he also has both a Visa card and a
+    MasterCard?
+    \item Given that the selected student has an American Express card, what
+    is the probability that she or he has at leaset one of the other two types
+    of cards?
+  \end{enumerate}
+\end{problem}
+
+\begin{problem}[2.4.63]
+  For customers purchasing a refrigerator at a certain appliance store, let
+  $A$ be the event that the refrigerator was manufactured in the U.S., $B$ be
+  the event that the refrigerator had an icemaker, and $C$ be the event that the
+  customer purchased an extended warranty.
+
+  Relevant probabilities are
+  \begin{gather*}
+    \P\left[A \right] = .75 \quad \P\left[B\mid A \right] = .9 \quad \P\left[B\mid A^{c} \right]=.8\\
+    \P\left[C\mid A\cap B \right] = .8 \quad \P\left[C\mid A\cap B^{c} \right] = .6\\
+    \P\left[C\mid A^{c}\cap B \right]=.7 \quad \P\left[C\mid A^{c}\cap B^{c} \right]=.3.
+  \end{gather*}
+  \begin{enumerate}[(a)]
+    \item Construct a tree diagram consisting of first-, second-, and
+    third-generation branches, and place an event label and
+    appropriate probability next to each branch.
+    \item Compute $\P\left[A\cap B\cap C \right]$.
+    \item Compute $\P\left[B\cap C \right]$.
+    \item Compute $\P\left[C \right]$.
+    \item Compute $\P\left[A\mid B\cap C \right]$, the probability of a
+    U.S.~purchase given that an icemaker and extended warranty are also
+    purchased.
+  \end{enumerate}
+\end{problem}
+
+
+
+\begin{problem}[Exercise 102 on p.93]
+  A sample of 2026 students were asked about their eye color, with the
+  following results:
+
+  \begin{table}[h]
+    \centering
+    \begin{tabular}{|l|lllll|}
+      \hline
+       & \multicolumn{1}{l|}{\textbf{Blue}} & \multicolumn{1}{l|}{\textbf{Brown}} & \multicolumn{1}{l|}{\textbf{Green}} & \multicolumn{1}{l|}{\textbf{Hazel}} & \textbf{Total} \\ \hline
+      \textbf{Male}   & \multicolumn{1}{l|}{370}           & \multicolumn{1}{l|}{352}            & \multicolumn{1}{l|}{198}            & \multicolumn{1}{l|}{187}            & 1107           \\ \hline
+      \textbf{Female} & \multicolumn{1}{l|}{359}           & \multicolumn{1}{l|}{290}            & \multicolumn{1}{l|}{110}            & \multicolumn{1}{l|}{160}            & 919            \\ \hline
+      \textbf{Total}  & \multicolumn{1}{l|}{729}           & \multicolumn{1}{l|}{642}            & \multicolumn{1}{l|}{308}            & \multicolumn{1}{l|}{347}            & 2026           \\ \hline
+    \end{tabular}
+  \end{table}
+
+
+  Suppose that one of these 2026 students is randomly selected. Let $F$ denote the event that the
+  selected individual is female, and $A,B,C$ and $D$ represent the events that they have blue, brown,
+  green, and hazel eyes, respectively.
+  \begin{enumerate}[(a)]
+    \item Calculate $\P\left[F \right]$ and $\P\left[C \right]$
+    \item Calculate $\P\left[F\cap C \right]$. Are these events independent? Why or why not?
+    \item If the selected individual has green eyes, what's the probability that he or she is a female?
+    \item If the selected individual is female, what is the probability that she has green eyes?
+    \item What is the ``conditional distribution'' of eye color for females? (i.e., $\P\left[A|F
+    \right], \P\left[B|F \right], \P\left[C|F \right], \P\left[D|F \right]$), and what is it for males?
+    Compare the two distributions.
+  \end{enumerate}
+\end{problem}
+
+\begin{problem}
+  Two cards are randomly drawn from a deck of cards. Let
+  \begin{align*}
+    A&= [\text{at least one ace is drawn}]\\
+    B&= [\text{both cards are aces}]\\
+    S&= [\text{the ace of spades is drawn}]
+  \end{align*}
+  Compute the following conditional probabilities:
+  \begin{enumerate}[(a)]
+    \item $\P\left[S\mid B \right]$
+    \item \label{item:3} $\P\left[B\mid S \right]$ % 1/17
+    \item \label{item:4} $\P\left[B\mid A \right]$ % 1/33    
+    \item Note that the answer to \ref{item:3} is almost twice as large as the
+    answer to \ref{item:4}. Do you find this result surprising?
+  \end{enumerate}
+\end{problem}
+
+\begin{problem}
+  Recall the following definition:
+  \begin{center}
+    \fbox{Events $A$ and $B$ are \demph{\textbf{independent}} if and only if
+      $\P\left[A\cap B \right] = \P\left[A \right]\P\left[B \right]$}
+  \end{center}
+  Assume that $A$ and $B$ are independent. Explain way $A^{c}$ and $B$ must be
+  independent, and also why $A^{c}$ and $B^{c}$ must be independent.
+\end{problem}
+
+
+\newpage
+
+
+
+\begin{problem}[Exercise 2.5.71]
+  A space mining company currently has two active projects, one on the moon and one
+  in the Kuiper belt. Let $L$ be the event that the lunar mining project is
+  successful, and let $K$ be the event that the Kuiper belt mining project is successful. Suppose that $L$ and
+  $K$ are independent events with $\P\left[L \right]= 0.4$ and $\P\left[K \right]= 0.7$.
+  \begin{enumerate}[(a)]
+    \item If the lunar project is not successful, what is the probability that
+    the Kuiper belt project is also not successful? Explain your reasoning.
+    \item What is the probability that at least one of the two mining projects will be successful?
+    \item Given that at least one of the two projects is successful, what is the probability that only
+    the lunar project is successful?
+  \end{enumerate}
+\end{problem}
+
+\begin{problem}[Exercise 2.5.77]
+  Five explosive devices are placed underneath the walls of the enemy
+  stronghold, and are set to detonate simultaneously. Each bomb has a 4\%
+  chance of failing to detonate at the specified time. Assuming that the
+  probabilities are independent, calculate
+  $\P\left[\text{at least one detonation occurs} \right]$ and
+  $\P\left[\text{at least one bomb fails to detonate} \right]$
+\end{problem}
+
+\begin{problem}[Similar to Example 2.31]
+  An email provider observes that $50\%$ of emails are spam. It intends to filter spam emails before they
+  reach the inbox. The filter's accuracy for detecting spam email is $99\%$ and chances of tagging a
+  non-spam email as spam is $5\%$.
+  \begin{enumerate}[(a)]
+    \item Draw a tree diagram to illustrate this situation
+    \item If a certain email is tagged as spam, find the probability that it is not a spam email. That
+    is, find
+    \begin{equation*}
+      \P\left[\text{email is not spam}\mid \text{email is tagged as spam} \right]
+    \end{equation*}
+  \end{enumerate}
+\end{problem}
+
+
+
+\begin{problem}
+  Consider a universe where Netflix has exactly 6 shows, numbered $1$ through
+  $6$. Suppose we randomly select a subscriber and ask which shows they watch.
+  For each $i=1,2,\ldots,6$, let $E_{i}= \left\{i\right\} $ be the event that
+  the subscriber watches show $i$. Suppose that
+  \begin{equation*}
+    P(E_1) = P(E_6) =  .10,  \ \ P(E_2) = P(E_5) = .15, \ \  P(E_3) = P(E_4) = .25.
+  \end{equation*}
+  Define events $A, B, C$ by
+  \begin{equation*}
+    A = \{2, 4, 6\},\ \  B = \{1, 2, 3\}, \ \ C = \{2, 3, 4, 5\}, \ \ D = \{1, 3, 5\}.
+  \end{equation*}
+  \begin{enumerate}[(a)]
+    \item Are $A$ and $B$ dependent or independent?
+    \item Are $A$ and $C$ dependent or independent?
+    \item Are $A$ and $D$ dependent?
+    \item Can two mutually exclusive events $A$ and $B$ with $P(A)>0$ and $P(B)>0$ be independent? Why or
+    why not?
+  \end{enumerate}
+\end{problem}
+
+
+\begin{problem}%[conditional probability]
+  The prevalence of bird flu in a wild bird population is $1\%$. A new diagnostic test is advertised as
+  having a false negative rate of $0.03$ and a false positive rate of $0.05$. To be precise, this means
+  that
+  \begin{equation*}
+    \P\left[\text{test is negative}\mid \text{bird has the flu} \right] = 0.03
+  \end{equation*}
+  \begin{equation*}
+    \P\left[\text{test is positive}\mid \text{bird doesn't have the flu} \right] = 0.05
+  \end{equation*}
+  \begin{enumerate}[(a)]
+    \item What is the probability that a randomly-selected bird tests positive? \textit{(You don't need to
+      simplify your answer.)}
+    \item Suppose that a randomly-selected bird tests positive. What is the probability that the bird has
+    the disease? \textit{(You don't need to simplify your answer.)}
+  \end{enumerate}
+\end{problem}
+
+
+
+
+
+
+\newpage
+\begin{problem}[Rolling two dice]
+  Two 6-sided dice are rolled and added together. Let $X$ be the sum. 
+  \begin{enumerate}[(a)]
+    \item What is the probability mass function of $X$? [\textit{Hint:} First determine $p(1),p(2),\ldots$ and so on.]
+    \item Determine the cumulative density function of $X$ and graph it.
+    \item What is the expected value of $X$?
+  \end{enumerate}
+\end{problem}
+
+
+\begin{problem}[Rolling a d6 `with advantage']
+  In the game \textit{Dungeons \& Dragons}, there is a dice-rolling mechanic called ``rolling with
+  advantage'' in which the player gets to roll a dice twice and keep the largest value. This bonus is
+  typically regarded as a good thing, as higher rolls tend to be better in the game. In this problem,
+  we'll investigate how significant this bonus is.
+  % 
+  Two 6-sided dice are rolled. Let $M$ be the maximum of the two rolls.
+  \begin{enumerate}[(a)]
+    \item What is the probability mass function of $M$? [\textit{Hint:} First determine $p(1),p(2),\ldots$ and so on.]
+    \item Determine the cumulative density function of $M$ and graph it.
+    \item What is the expected value of $M$?
+    \item Suppose you are given the choice between two magical weapons: a magical sword that deals
+    $1\text{d}6+1$ damage, and a magical spear that deals $1\text{d}6$ damage \textit{with advantage}.
+    Which magical weapons has a higher expected damage? \textit{(Here, 1d6 means ``roll one six-sided
+      dice''.)}
+  \end{enumerate}
+\end{problem}
+
+
+
+\end{document}
+
