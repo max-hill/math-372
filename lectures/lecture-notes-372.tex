@@ -1582,43 +1582,45 @@ we know that event $B$ happened.
 
 \newpage
 
-\section{2025-01-29 | Week 3 | Lecture 7}
-\subsection{Review of Set Operations}
+% \subsection{Review of Set Operations}
 
-\begin{example}[Set Operations]
-  Let's review set operations. Suppose
-  \begin{equation*}
-    A= \left[ \text{I brought a black marker to class} \right]
-    \quad \text{and} \quad
-    B = \left[ \text{I brought a blue marker to class} \right] 
-  \end{equation*}
-  Then the following sets are defined as follows:
-  \begin{equation*}
-    A^{c}= \left[ \text{I didn't bring a black marker to class} \right]
-  \end{equation*}
-  and
-  \begin{equation*}
-    B^{c}= \left[ \text{I didn't bring a blue marker to class} \right]
-  \end{equation*}
-  and 
-  \begin{equation*}
-    A\cup B = \left[ \text{I brought a black marker OR a blue marker, possibly both} \right] 
-  \end{equation*}
-  and
-  \begin{equation*}
-    A\cap B = \left[ \text{I brought both a blue and a black marker} \right] 
-  \end{equation*}
-  and we also have \demph{De Morgan's Laws:}
-  \begin{equation*}
-    \left( A\cup B \right)^{c} = A^{c}\cap B^{c}  = \left[ \text{I brought neither a blue nor a black marker} \right] 
-  \end{equation*}
-  \begin{equation*}
-    \left( A\cap B \right)^{c} = A^{c}\cup B^{c} = \left[ \text{I didn't bring \textit{both} a blue marker and a
-        black marker (but maybe I brought one)} \right]  
-  \end{equation*}
-\end{example}
+% \begin{example}[Set Operations]
+%   Let's review set operations. Suppose
+%   \begin{equation*}
+%     A= \left[ \text{I brought a black marker to class} \right]
+%     \quad \text{and} \quad
+%     B = \left[ \text{I brought a blue marker to class} \right] 
+%   \end{equation*}
+%   Then the following sets are defined as follows:
+%   \begin{equation*}
+%     A^{c}= \left[ \text{I didn't bring a black marker to class} \right]
+%   \end{equation*}
+%   and
+%   \begin{equation*}
+%     B^{c}= \left[ \text{I didn't bring a blue marker to class} \right]
+%   \end{equation*}
+%   and 
+%   \begin{equation*}
+%     A\cup B = \left[ \text{I brought a black marker OR a blue marker, possibly both} \right] 
+%   \end{equation*}
+%   and
+%   \begin{equation*}
+%     A\cap B = \left[ \text{I brought both a blue and a black marker} \right] 
+%   \end{equation*}
+%   and we also have \demph{De Morgan's Laws:}
+%   \begin{equation*}
+%     \left( A\cup B \right)^{c} = A^{c}\cap B^{c}  = \left[ \text{I brought neither a blue nor a black marker} \right] 
+%   \end{equation*}
+%   \begin{equation*}
+%     \left( A\cap B \right)^{c} = A^{c}\cup B^{c} = \left[ \text{I didn't bring \textit{both} a blue marker and a
+%         black marker (but maybe I brought one)} \right]  
+%   \end{equation*}
+% \end{example}
+\section{2025-02-04 | Week 04 | Lecture 10}
+\textit{This section is based on sections 2.4 and 2.5 in the textbook.}
 
-\subsection{Conditional Probability}
+
+\subsection{Conditional Probability: Examples}
 For any two events $A$ and $B$, conditional probability describes the probability that $A$ happens given
 that we know $B$ happened.
 
@@ -1632,7 +1634,7 @@ that we know $B$ happened.
 
 \begin{example}[Conditional Probability]
   I roll two dice and add them up. Call this number $X$. Then $\P\left[X=7 \right]=\frac{1}{6}$, which we
-  can see by counting up the possibilies. Now, what about if I tell you that I rolled the dice and got a
+  can see by counting up the possibilities. Now, what about if I tell you that I rolled the dice and got a
   sum greater than 4? Now that you have a little additional information, you can exclude the
   possibilities that $X=1,2,3$ or $X=4$. So with this new information, you should evaluate the
   probability that $X=7$ as greater than before. That is, now we want
@@ -1684,86 +1686,161 @@ that we know $B$ happened.
 
 This rule is useful for analyzing experiments which proceed in stages, like the following problem:
 
-
 \begin{example}[Urn - example of multiplication rule]
   An urn contains 6 white balls and 9 black balls. If 4 balls are drawn at random, what is the
   probability that the first 2 are white and the last 2 are black?
 
-  \noindent \textit{Solution:} Next time.
-\end{example}
-
-\newpage
-\section{2025-01-31 | Week 3 | Lecture 8}
-\subsection{The Multiplication Rule for Conditional Probability}
-
-Recall, the multiplication rule for conditional probability is
-\begin{equation*}
-  \P\left[AB \right] = \P\left[A\mid B  \right] \P\left[B \right]
-\end{equation*}
-where $A$ and $B$ are any events. 
-
-\begin{example}[Urn - example of multiplication rule]
-  An urn contains 6 white balls and 9 black balls. If 4 balls are drawn at random, what is the
-  probability that the first 2 are white and the last 2 are black?
-
-  \noindent \textit{Solution:} Let $W$ be the event that the first two balls are white, and $B$ the event
+  \fl{Solution:} Let $A$ be the event that the first two balls are white, and $B$ the event
   that the last two balls are black. Then the desired probability is
   \begin{equation}\label{eq:2}
-    \P\left[W\cap B \right] = \P\left[B\mid W \right] \P\left[W \right]
+    \P\left[A\cap B \right] = \P\left[B\mid A \right] \P\left[A \right]
   \end{equation}
   Now,
   \begin{equation*}
-    \P\left[W \right] = \frac{{6\choose 2}}{{15\choose 2}} =\frac{1}{7}.
+    \P\left[A \right] = \frac{{6\choose 2}}{{15\choose 2}} =\frac{1}{7}.
   \end{equation*}
-  Moreover, given that $W$ occurs, then $4$ white balls and $9$ black balls remain. So
+  Moreover, given that $A$ occurs, then $4$ white balls and $9$ black balls remain. So
   \begin{equation*}
-    \P\left[B\mid W \right] = \frac{{9 \choose 2}}{{13\choose 2}} = \frac{6}{13}.
+    \P\left[B\mid A \right] = \frac{{9 \choose 2}}{{13\choose 2}} = \frac{6}{13}.
   \end{equation*}
   Therefore by \cref{eq:2},
   \begin{equation*}
-    \P\left[W\cap B \right] = \frac{1}{7}\cdot \frac{6}{13} = \frac{6}{91}\approx 0.07
+    \P\left[A\cap B \right] = \frac{1}{7}\cdot \frac{6}{13} = \frac{6}{91}\approx 0.07
   \end{equation*}
 \end{example}
 
+\subsection{The law of total probability}
+\begin{definition}
+  We say that a collection of events $A_{1},\ldots,A_{n}$ is
+  \demph{exhaustive} if at least one must occur; that is,
+  \begin{equation*}
+    A_{1}\cup A_{2}\cup\ldots\cup A_{n}=S
+  \end{equation*}
+  where $S$ is the sample space.
+\end{definition}
 
-\begin{example}[Application of multiplication rule (c.f.~Example 2.27 in textbook)]
-  A vampire goes to the blood bank looking to find some type O+ blood (the most delicious type). He finds
-  four unlabeled bags of blood. Only one of the bags is O+, but he doesn't know which one. The vampire
-  resorts to taste-testing to find the O+ bag.
+\begin{theorem}[Law of Total Probability]
+  \label{thm:law-total-probability}
+  Let $A_{1},\ldots,A_{n}$ be events which are (1) mutually exclusive and (2)
+  exhaustive. Then for any event $B$,
+  \begin{equation*}
+    \P\left[B \right] = \sum_{k=1}^{n}\P\left[B\mid A_{i} \right]\P\left[A_{i} \right] 
+  \end{equation*}
+\end{theorem}
 
-  \begin{enumerate}[(a)]
-    \item  What is the probability that he must test at
-    least 3 bags to find the desired type?
 
-    \noindent \textit{Solution:} Let $X$ be the number of tested bags. We want to find $\P\left[X \geq
-      3\right]$.
+\begin{example}
+  A munitions factory produces 155mm artillery rounds using three machines: $60\%$ of rounds are
+  produced by machine I, $30\% $ by machine II, and $10\%$ by machine III. Engineers discover that
+  \begin{itemize}
+    \item 3\% of rounds produced by machine I are defective
+    \item 2\% of rounds produced by machine II are defective
+    \item 1\% of rounds produced by machine III are defective.
+  \end{itemize}
+  Given a defective round, what is the probability that it was produced by
+  machine III?
 
-    Let $A= \left[ \text{first bag isn't O+} \right]$. Let $B = \left[ \text{second bag isn't O+} \right]$
-    \begin{align*}
-      \P\left[ X \geq 3\right] 
-      &= \P\left[A\cap B \right]\\
-      &= \P\left[A \right] \P\left[B\mid A \right]\\
-      &= \frac{3}{4}\cdot \frac{2}{3}\\
-      &= \frac{1}{2}.
-    \end{align*}
+  \fl{Solution:} Let's make a diagram to illustrate this:
+  \begin{center}
+    \includegraphics[scale=.3]{images/machines-shells}
+  \end{center}
 
-    \item What's the probability that the third bag he tests is the one containing the O+ blood?
+  Let
+  \begin{align*}
+    D &= [\text{shell is defective}]\\
+    M_{1} &= [\text{shell was made by machine I}]\\
+    M_{2} &= [\text{shell was made by machine II}]\\
+    M_{3} &= [\text{shell was made by machine III}].
+  \end{align*}
 
-    \noindent \textit{Solution:} We want $\P\left[X=3 \right]=\P\left[\text{third bag is O+} \right]$.
-    \begin{align*}
-      \P\left[\text{third bag is O+} \right] 
-      &= \P\left[\text{third bag is}\mid  \text{first isn't} \cap
-        \text{second isn't}  \right] \times \P\left[\text{second isn't}\mid \text{first isn't} \right] \cdot
-        \P\left[\text{first isn't} \right]\\
-      &= \frac{1}{2}\cdot \frac{2}{3}\cdot \frac{3}{4}\\
-      &= \frac{1}{4}
-    \end{align*}
-  \end{enumerate}
+  We want to find $\P\left[M_{3}\mid D \right]=\P\left[ \text{machine III}\mid \text{defective} \right]$.
+  \begin{align}\label{eq:31}
+    \P\left[M_{3}\mid D \right]
+    &= \frac{\P\left[M_{3}\cap D \right]}{\P\left[D \right]}
+  \end{align}
+  Now we compute the numerator and denominator separately:
+
+  By the multiplication rule,
+  \begin{equation*}
+    \P\left[M_{3}\cap D \right] = \P\left[D\mid M_{3} \right] \P\left[M_{3} \right] = (.01)(.1) = .001.
+  \end{equation*}
+  Next, we compute the denominator. The following figure illustrates the
+  sample space, which consists of shells produces by machines I, II and III.
+  The grey region represents the event that the randomly selected shell is defective.
+  \begin{center}
+    \includegraphics[scale=.3]{images/defective-shells}
+  \end{center}
+  \begin{align*}
+    \P\left[D \right]
+    &= \P\left[D1 \right] + \P\left[D2 \right] + \P\left[D3 \right]\\
+    &= \P\left[D\cap M_{1} \right]+\P\left[D\cap M_{1} \right]+\P\left[D\cap M_{1} \right]\\
+    &= \P\left[D\mid M_{1} \right]\P\left[M_{1} \right] + \P\left[D\mid M_{2} \right]\P\left[M_{2} \right] + \P\left[D\mid M_{3} \right]\P\left[M_{3} \right]\\
+    &= (.03)(.6)+(.02)(.3)+(.01)(.1)\\
+    &= .025
+  \end{align*}
+  Hence by \cref{eq:31},
+  \begin{equation*}
+    \P\left[M_{3}\mid D \right] = \frac{.001}{.025}=.04.
+  \end{equation*}
+  In other words, $4\%$ of defective rounds are produce by machine III.
+  
 \end{example}
 
 
-\section{2025-02-03 | Week 4 | Lecture 9}
-\textit{If you haven't yet, please finish reading sections 2.4 and 2.5.}
+\newpage
+\subsection{Independence}
+
+
+Recall that $A$ and $B$ have a \textbf{positive relationship} if
+\begin{equation*}
+  \P\left[B\mid A \right]> \P\left[B \right]
+\end{equation*}
+and a \textbf{negative relationship} if
+\begin{equation*}
+  \P\left[B\mid A \right]< \P\left[B \right]
+\end{equation*}
+What about when $\P\left[B\mid A \right] = \P\left[B \right]?$
+
+
+
+\begin{definition}[Independence]
+  \label{def:independence}
+  Two events $A$ and $B$ are said to be \demph{independent} if $\P\left[A\cap
+    B \right] = \P\left[A \right] \P\left[B \right]$. Otherwise, the events
+  are said to be dependent.
+\end{definition}
+
+
+
+\begin{proposition}
+  \label{prop:independence-interpretation}
+  If $A,B$ are events with positive probabilities then the following are
+  equivalent:
+  \begin{enumerate}[label=\rm{(\roman*.)}]
+    \item $A$ and $B$ are independent.
+    \item $\P\left[A\mid B \right] = \P\left[A \right]$
+    and $\P\left[B\mid A \right] = \P\left[B \right]$.
+  \end{enumerate}
+\end{proposition}
+In words, independence means that the probabilities of each event are
+unaffected by whether or not the other event occurs.
+\cref{prop:independence-interpretation} simply formalizes this idea using
+conditional probabilities.
+
+
+\begin{example}[Exampl 2.34 in textbook]
+  It is known that $30\%$ of a company's washing machines require service in
+  the first five years, wheras only $10\%$ of their dryers need such service.
+  If someone purchases a washer and dryer, what is the probability that both
+  will need service in the first five years?
+
+  \fl{Solution:} Let $A$ be the event that the washer will need service, and
+  let $B$ be the event that the dryer will need service. Then
+  \begin{equation*}
+    \P\left[A\cap B \right] = \P\left[A \right] \P\left[B \right] = (.3)(.1)=.03.
+  \end{equation*}
+\end{example}
+\newpage
 \subsection{Law of Total Probability + Bayes' Theorem}
 \begin{theorem}[The Law of Total Probability]
   Let $A_{1},\ldots,A_{n}$ be events which partition the sample space (i.e., they are mutually exclusive
