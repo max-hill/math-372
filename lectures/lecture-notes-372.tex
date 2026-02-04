@@ -1617,7 +1617,7 @@ we know that event $B$ happened.
 %   \end{equation*}
 % \end{example}
 \section{2025-02-04 | Week 04 | Lecture 10}
-\textit{This section is based on sections 2.4 and 2.5 in the textbook.}
+\textit{This section is based on sections 2.4 in the textbook.}
 
 
 \subsection{Conditional Probability: Examples}
@@ -1647,44 +1647,8 @@ that we know $B$ happened.
   \end{align*}
   This answer makes sense because $\frac{1}{5}>\frac{1}{6}$, consistent with our intution.
 \end{example}
-\begin{example}[Conditional probability]
-  Suppose you flip a coin 10 times and get more than $6$ heads. What's the probability that you get less
-  than 9 heads?
 
-  \fl{Solution:} Let $X$ be the number of heads. Let $A=\left[ X < 9\right]$, and let
-  $B = \left[X > 6\right]$. Then
-  \begin{equation*}
-    \P\left[B \right] = \frac{{10\choose 7} + {10\choose 8} + {10\choose 9} + {10\choose 10}}{2^{10}}
-  \end{equation*}
-  Observe that $A\cap B = \left[ X\in \left\{7,8\right\} \right]$. Therefore
-  \begin{equation*}
-    \P\left[A\cap B \right] = \frac{{10\choose 7}+{10\choose 8}}{2^{10}}
-  \end{equation*}
-  Therefore
-  \begin{equation*}
-    \P\left[A\mid B \right] 
-    = \frac{\P\left[AB \right]}{\P\left[B \right]} 
-    = \frac{{10\choose 7} + {10\choose 8}}{{10\choose 7} + {10\choose 8} + {10\choose 9} + {10\choose 10}} 
-    = \frac{15}{16}.
-  \end{equation*}
-\end{example}
 
-\begin{notation}[Set intersections]
-  If $A,B$ are events, then we will sometimes write $AB$ to denote the set $A\cap B$.
-\end{notation}
-
-\begin{proposition}[Multiplication Rule]
-  For two events $A,B$,
-  \begin{equation*}
-    \P\left[AB \right] = \P\left[A \right] \P\left[B\mid A \right]
-  \end{equation*}
-  For three events $A,B,C$,
-  \begin{equation*}
-    \P\left[ABC \right] = \P\left[A \right] \P\left[B\mid A \right] \P\left[C\mid AB \right]
-  \end{equation*}
-\end{proposition}
-
-This rule is useful for analyzing experiments which proceed in stages, like the following problem:
 
 \begin{example}[Urn - example of multiplication rule]
   An urn contains 6 white balls and 9 black balls. If 4 balls are drawn at random, what is the
@@ -1784,6 +1748,28 @@ This rule is useful for analyzing experiments which proceed in stages, like the 
   \end{equation*}
   In other words, $4\%$ of defective rounds are produce by machine III.
   
+\end{example}
+
+\begin{example}[Conditional probability]
+  Suppose you flip a coin 10 times and get more than $6$ heads. What's the probability that you get less
+  than 9 heads?
+
+  \fl{Solution:} Let $X$ be the number of heads. Let $A=\left[ X < 9\right]$, and let
+  $B = \left[X > 6\right]$. Then
+  \begin{equation*}
+    \P\left[B \right] = \frac{{10\choose 7} + {10\choose 8} + {10\choose 9} + {10\choose 10}}{2^{10}}
+  \end{equation*}
+  Observe that $A\cap B = \left[ X\in \left\{7,8\right\} \right]$. Therefore
+  \begin{equation*}
+    \P\left[A\cap B \right] = \frac{{10\choose 7}+{10\choose 8}}{2^{10}}
+  \end{equation*}
+  Therefore
+  \begin{equation*}
+    \P\left[A\mid B \right] 
+    = \frac{\P\left[AB \right]}{\P\left[B \right]} 
+    = \frac{{10\choose 7} + {10\choose 8}}{{10\choose 7} + {10\choose 8} + {10\choose 9} + {10\choose 10}} 
+    = \frac{15}{16}.
+  \end{equation*}
 \end{example}
 
 
