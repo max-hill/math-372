@@ -1774,10 +1774,67 @@ that we know $B$ happened.
 
 
 \newpage
+\section{2026-02-06 | Week 04 | Lecture 11}
+
+\subsection{Application of the law of total probability: diagnostic tests}
+\textit{This based on section 2.4}
+
+\begin{example}[Bayes' Theorem]
+  \label{ex:bayes-theorem}
+  Prevalance of a disease in a population is $1\%$. A new diagnostic test is advertised as having a false
+  positive rate of $.1$ and a false negative rate of $.2$. (In other words, 10\% of positive tests are
+  wrong, and 20\% of negative tests are wrong.) Suppose you are selected for a random screening, and you
+  test posititve. What's the chance that you have the disease?
+
+  \begin{center}
+    \includegraphics[scale=.08]{images/diagnostic-test}
+  \end{center}
+
+  We want $\P\left[ \text{have disease}\mid\text{test positive} \right]$. For brevity, let's let
+  \begin{equation*}
+    D = \left[ \text{have disease} \right]  \quad \text{and} \quad T^{+} = \left[ \text{test positive} \right].
+  \end{equation*}
+  In other words, we want
+  \begin{equation*}
+    \P\left[D\mid T^{+} \right]
+  \end{equation*}
+  By the definition of conditional probability,
+  \begin{align}\label{eq:3}
+    \P\left[ D \mid T^{+}\right]
+    &= \frac{\P\left[T^{+} \cap D \right]}{\P\left[T^{+} \right]}
+  \end{align}
+  We will compute the numerator and denominator separately:
+  \begin{itemize}
+    \item (Numerator) By the multiplication rule for conditional probability ($\P\left[A\cap B
+    \right]=\P\left[A|B \right] \P\left[B \right]$), we have
+    \begin{equation*}
+      \P\left[ T^{+}\cap D \right] = \P\left[T^{+}\mid D \right] \P\left[D \right] = (.8)(.01) = 0.008.
+    \end{equation*}
+    We've now computed the numerator of \cref{eq:3}.
+
+    \item (Denominator) By the law of total probability,
+    \begin{align*}
+      \P\left[T^{+} \right] 
+      &= \underbrace{\P\left[T^{+}| D \right]\P\left[D \right]}_{=0.008 \text{
+        by \cref{eq:4}}}+ \underbrace{\P\left[T^{+}\mid D^{c} \right] \P\left[D^{c} \right]}_{=(.1)(.99) = 0.099}\\
+      &= (.8)(.01)+ (.1)(.99)\\
+      &= 0.008+ 0.099
+    \end{align*}
+  \end{itemize}
+
+  Finally, having done the necessary work, we can now plug our results into \cref{eq:3}:
+  \begin{equation*}
+    \P\left[D\mid T^{+} \right] = \frac{0.008}{0.008 + 0.099} \approx .075
+  \end{equation*}
+  We conclude that if test positive in a random screening, your probability of actually having the
+  disease is about 7.5\%. Is this result surprising?
+\end{example}
+
+
 \subsection{Independence}
+\textit{This is based on section 2.5}
 
-
-Recall that $A$ and $B$ have a \textbf{positive relationship} if
+Previously, we saw that $A$ and $B$ have a \textbf{positive relationship} if
 \begin{equation*}
   \P\left[B\mid A \right]> \P\left[B \right]
 \end{equation*}
@@ -1793,9 +1850,19 @@ What about when $\P\left[B\mid A \right] = \P\left[B \right]?$
   \label{def:independence}
   Two events $A$ and $B$ are said to be \demph{independent} if $\P\left[A\cap
     B \right] = \P\left[A \right] \P\left[B \right]$. Otherwise, the events
-  are said to be dependent.
+  are said to be \demph{dependent}.
 \end{definition}
 
+This definition generalizes in the natural way:
+
+\begin{definition}[Mutual independence]
+  \label{def:mutual-independence}
+  For any $n \geq 2$, we say that the events $A_{1},\ldots,A_{n}$ are
+  \demph{mutually independent} if
+  \begin{equation*} 
+    \P\left[A_{1}\cap A_{2}\cap\cdots \cap A_{n} \right] = \P\left[A_{1} \right] \P\left[A_{2} \right]\cdots \P\left[A_{n} \right].
+  \end{equation*}
+\end{definition}
 
 
 \begin{proposition}
@@ -1804,17 +1871,26 @@ What about when $\P\left[B\mid A \right] = \P\left[B \right]?$
   equivalent:
   \begin{enumerate}[label=\rm{(\roman*.)}]
     \item $A$ and $B$ are independent.
-    \item $\P\left[A\mid B \right] = \P\left[A \right]$
-    and $\P\left[B\mid A \right] = \P\left[B \right]$.
+    \item \label{item:1} $\P\left[A\mid B \right] = \P\left[A \right]$
+    and $\P\left[B\mid A \right] = \P\left[B \right]$ 
   \end{enumerate}
 \end{proposition}
-In words, independence means that the probabilities of each event are
-unaffected by whether or not the other event occurs.
-\cref{prop:independence-interpretation} simply formalizes this idea using
-conditional probabilities.
+\begin{remark}
+  \ref{item:1} says that $A$ and $B$ have neither a positive nor negative
+  relationship. In words, independence means that the probabilities of each
+  event are unaffected by whether or not the other event occurs.
+  \cref{prop:independence-interpretation} simply formalizes this idea using
+  conditional probabilities.
+\end{remark}
 
+\begin{remark}
+  A common mistake is to mix up ``independence'' with ``mutually exclusive''.
+  Mutually exclusive events are typically \textbf{not} independent. That's because if
+  you know that one happened, then you know that the other didn't. That's
+  about as far from independence as you can get!
+\end{remark}
 
-\begin{example}[Exampl 2.34 in textbook]
+\begin{example}[Example 2.34 in textbook]
   It is known that $30\%$ of a company's washing machines require service in
   the first five years, wheras only $10\%$ of their dryers need such service.
   If someone purchases a washer and dryer, what is the probability that both
@@ -1826,6 +1902,48 @@ conditional probabilities.
     \P\left[A\cap B \right] = \P\left[A \right] \P\left[B \right] = (.3)(.1)=.03.
   \end{equation*}
 \end{example}
+
+\begin{example}
+  The proportions of blood types in the US are
+  \begin{center}
+    A: 40\% \quad  B: 11\% \quad AB: 4\% \quad O: 45\%
+  \end{center}
+  \begin{enumerate}[(a)]
+    \item What is the probability that two randomly-selected people are both
+    $O$.
+    
+    \fl{Solution:} Assuming that the two blood types are independent, we have
+    \begin{align*}
+      \P\left[ \text{person 1 has O blood} \cap \text{person 2 has O blood}
+      \right] 
+      &= \P\left[\text{person 1 has O blood} \right]
+        \P\left[\text{person 2 has O blood} \right] \\
+      &= (.45)(.45) \\
+      &= 0.2025.
+    \end{align*}
+    \item What is the probability that two randomly-selected people have
+    matching blood types?
+    \fl{Solution:} Let $M$ be the event that the people have matching blood
+    type, and let $M_{X}$ be the event that both people have type $X$
+    blood, for $X\in \left\{A,B,AB,O\right\}$.
+
+    \begin{align*}
+      \P\left[M \right] 
+      &= \P\left[M_{A}\cup M_{B}\cup M_{AB}\cup M_{O} \right]\\
+      &= \P\left[M_{A} \right] + \P\left[M_{B} \right]+ \P\left[M_{AB} \right] + \P\left[M_{O} \right],
+    \end{align*}
+    where the last equality followed from the fact that the events
+    $M_{A},M_{B},M_{AB},M_{O}$ are pairwise disjoint.
+    
+    We already computed $\P\left[M_{O} \right]= (.45)(.45) = .2025$. By similar calculations,
+    we get
+    \begin{equation*}
+      \P\left[M \right] = (.40)(.40)+(.11)(.11)+ (.04)(.04) + (.45)(.45) = .3762.
+    \end{equation*}
+  \end{enumerate}
+  
+\end{example}
+
 \newpage
 \subsection{Law of Total Probability + Bayes' Theorem}
 \begin{theorem}[The Law of Total Probability]
@@ -1922,59 +2040,6 @@ You can memorize the RHS of the above formula, but it should suffice to know how
 we did in this problem, which will work as long as you know the law of total probability and the
 definition of conditional probability.
 
-
-\begin{example}[Bayes' Theorem]
-  \label{ex:bayes-theorem}
-  Prevalance of a disease in a population is $1\%$. A new diagnostic test is advertised as having a false
-  positive rate of $.1$ and a false negative rate of $.2$. (In other words, 10\% of positive tests are
-  wrong, and 20\% of negative tests are wrong.) Suppose you are selected for a random screening, and you
-  test posititve. What's the chance that you have the disease?
-
-  \begin{center}
-    \includegraphics[scale=.08]{images/diagnostic-test}
-  \end{center}
-
-  We want $\P\left[ \text{no disease}\mid\text{test positive} \right]$. For brevity, let's let
-  \begin{equation*}
-    D = \left[ \text{have disease} \right]  \quad \text{and} \quad T^{+} = \left[ \text{test positive} \right].
-  \end{equation*}
-  In other words, we want
-  \begin{equation*}
-    \P\left[D\mid T^{+} \right]
-  \end{equation*}
-  By the definition of conditional probability,
-  \begin{align}\label{eq:3}
-    \P\left[ D \mid T^{+}\right]
-    &= \frac{\P\left[T^{+} \cap D \right]}{\P\left[T^{+} \right]}
-  \end{align}
-  We will compute the numerator and denominator separately:
-  \begin{itemize}
-    \item (Numerator) By the multiplication rule for conditional probability ($\P\left[A\cap B
-    \right]=\P\left[A|B \right] \P\left[B \right]$), we have
-    \begin{equation}\label{eq:4}
-      \P\left[ T^{+}\cap D \right] = \P\left[T^{+}\mid D \right] \P\left[D \right] = (.8)(.01) = 0.008.
-    \end{equation}
-    We've now computed the numerator of \cref{eq:3}.
-
-    Similarly, recalling that $D^{c}=\left[ \text{don't have disease} \right]$, we could compute
-    \begin{equation}\label{eq:5}
-      \P\left[T^{+}\cap D^{c} \right] = \P\left[T^{+}\mid D^{c} \right] \P\left[D^{c} \right] = (.1)(.99) = 0.099.
-    \end{equation}
-    \item (Denominator) By the law of total probability,
-    \begin{align*}
-      \P\left[T^{+} \right] 
-      &= \P\left[T^{+}\cap D \right] + \P\left[T^{+}\cap D^{c} \right]\\
-      &= 0.008+ 0.099 &&\text{by \cref{eq:4,eq:5} }\\
-    \end{align*}
-
-    \item Finally, having done the necessary work, we can now plug our results into \cref{eq:3}:
-    \begin{equation*}
-      \P\left[H\mid T^{+} \right] = \frac{0.008}{0.099+0.008} \approx .075
-    \end{equation*}
-    We conclude that if test positive in a random screening, your probability of actually having the
-    disease is about 7.5\%. Is this result surprising?
-  \end{itemize}
-\end{example}
 
 
 
@@ -2117,10 +2182,7 @@ Remarks:
     &=\frac{\P\left[A\cap \right] \P\left[B \right]}{\P\left[B \right]} &&\text{by independence }\\ 
     &=\P\left[A \right]
   \end{align*}
-  \item Physical indpendence always implies mathematical independence. For example, when you roll two
-  dice, the results are independent because they are physically independent. 
-  \item Mutually exclusive events are never independent.\footnote{As long as the events are of positive
-    probability}. That's because if you know that one happened, then you know that the other didn't!
+
 \end{itemize}
 
 
