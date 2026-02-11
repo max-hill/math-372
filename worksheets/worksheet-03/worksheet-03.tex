@@ -1,0 +1,321 @@
+\documentclass[10pt]{article}
+% Math Packages
+\usepackage{amsmath, mathtools}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{bbm}
+\usepackage{breqn}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{calc}
+\usepackage{forest}
+\usepackage{tikz-qtree}
+\graphicspath{ {./images/} }
+\usepackage{hyperref}
+\usepackage[capitalize]{cleveref}
+\usepackage[shortlabels]{enumitem}
+\usetikzlibrary{arrows,matrix,positioning}
+\usepackage{multicol}
+
+% for the pipe symbol
+\usepackage[T1]{fontenc}
+
+% Citing theorems by name. (source: https://tex.stackexchange.com/questions/109843/cleveref-and-named-theorems)
+\makeatletter
+\newcommand{\ncref}[1]{\cref{#1}\mynameref{#1}{\csname r@#1\endcsname}}
+
+\def\mynameref#1#2{%
+  \begingroup
+  \edef\@mytxt{#2}%
+  \edef\@mytst{\expandafter\@thirdoffive\@mytxt}%
+  \ifx\@mytst\empty\else
+  \space(\nameref{#1})\fi
+  \endgroup
+}
+\makeatother
+
+% Colorful Notes
+\usepackage{color} \definecolor{Red}{rgb}{1,0,0} \definecolor{Blue}{rgb}{0,0,1}
+\definecolor{Purple}{rgb}{.5,0,.5} \def\red{\color{Red}} \def\blue{\color{Blue}}
+\def\gray{\color{gray}} \def\purple{\color{Purple}}
+\newcommand{\rnote}[1]{{\red [#1]}} % \rnote{foo} gives '[foo]' in red
+\newcommand{\pnote}[1]{{\purple [#1]}} % \pnote{foo} gives '[foo]' in purple
+\newcommand{\bnote}[1]{{\blue #1}} % \bnote{foo} gives 'foo' in blue
+\newcommand{\gnote}[1]{{\gray #1}} % \gnote{foo} gives 'foo' in gray
+\newcommand{\Max}[1]{{\purple [#1]}} % \bnote{foo} then 'foo' is blue
+
+
+% Claim numbering (the counter restarts after each proof environment)
+\newcounter{claimcount}
+\setcounter{claimcount}{0}
+\newenvironment{claim}{\refstepcounter{claimcount}\par\addvspace{\medskipamount}\noindent\textbf{Claim \arabic{claimcount}:}}{}
+\usepackage{etoolbox}
+\AtBeginEnvironment{proof}{\setcounter{claimcount}{0}}
+\newenvironment{claimproof}{\par\addvspace{\medskipamount}\noindent\textit{Proof of Claim  \arabic{claimcount}.}}{\hfill\ensuremath{\qedsymbol} \tiny{Claim}
+
+  \medskip}
+% Add claim support to cleverref
+\crefname{claimcount}{Claim}{Claims}
+
+
+% Math Environments
+\newtheorem{theorem}{Theorem}
+\newtheorem{assumption}[theorem]{Assumption}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{question}[theorem]{Question}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{notation}[theorem]{Notation}
+\newtheorem{problem}[theorem]{Problem}
+
+% Matrices and Column Vectors. 
+\usepackage{stackengine}
+\setstackgap{L}{1.0\normalbaselineskip}
+\usepackage{tabstackengine}
+\setstackEOL{;}% row separator
+\setstackTAB{,}% column separator
+\setstacktabbedgap{1ex}% inter-column gap
+\setstackgap{L}{1.5\normalbaselineskip}% inter-row baselineskip
+\let\nmatrix\bracketMatrixstack  %Usage: \nmatrix{1,2,3\4,5,6}
+\newcommand\cv[1]{\setstackEOL{,}\bracketMatrixstack{#1}} %usage: \cv{1,2,3}
+
+% table alignment
+\usepackage{array}
+\usepackage{booktabs}
+
+% Custom Math Coqmmands
+\newcommand{\vt}{\vskip 5mm} % vertical space
+\newcommand{\fl}{\noindent\textbf} % first line
+\newcommand{\Fl}{\vt\noindent\textbf} % first line with space above
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert} % norm
+\newcommand{\pnorm}[1]{\left\lVert#1\right\rVert_p} % p-norm
+\newcommand{\qnorm}[1]{\left\lVert#1\right\rVert_q} % q-norm
+\newcommand{\1}[1]{\textbf{1}_{\left[#1\right]}} % indicator function 
+\def\limn{\lim_{n\to\infty}} % shortcut for lim as n-> infinity
+\def\sumn{\sum_{n=1}^{\infty}} % shortcut for sum from n=1 to infinity
+\def\sumkn{\sum_{k=1}^{n}} % shortcut for sum from k=1 to n
+\def\sumin{\sum_{i=1}^{n}} % shortcut for sum from i=1 to n
+\def\SAs{\sigma\text{-algebras}} % shortcut for $\sigma$-algebras
+\def\SA{\sigma\text{-algebra}} % shortcut for $\sigma$-algebra
+\def\Ft{\mathcal{F}_t} % time-indexed sigma-algebra (t)
+\def\Fs{\mathcal{F}_s} % time-indexed sigma-algebra (s)
+\def\F{\mathcal{F}} % sigma-algebra
+\def\G{\mathcal{G}} % sigma-algebra
+\def\R{\mathbb{R}} % Real numbers
+\def\N{\mathbb{N}} % Natural numbers
+\def\Z{\mathbb{Z}} % Integers
+\def\E{\mathbb{E}} % Expectation
+\def\P{\mathbb{P}} % Probability
+\def\Q{\mathbb{Q}} % Q probability
+\def\dist{\text{dist}} %Text 'dist' for things like 'dist(x,y)'
+\newcommand{\indep}{\perp \!\!\! \perp}  %independence symbol
+\def\Var{\mathrm{Var}} % Variance
+\def\tr{\mathrm{tr}} % trace
+
+% Brackets and Parentheses
+\def\[{\left [}
+    \def\]{\right ]}
+% \def\({\left (}
+%   \def\){\right )}
+
+
+
+\usepackage{color}
+\definecolor{Red}{rgb}{1,0,0}
+\definecolor{Blue}{rgb}{0,0,1}
+\definecolor{Purple}{rgb}{.5,0,.5}
+\def\red{\color{Red}}
+\def\blue{\color{Blue}}
+\def\gray{\color{gray}}
+\def\purple{\color{Purple}}
+\definecolor{RoyalBlue}{cmyk}{1, 0.50, 0, 0}
+\newcommand{\dempfcolor}[1]{{\color{RoyalBlue}#1}} 
+\newcommand{\demph}[1]{\dempfcolor{\textit{\textbf{#1}}}}
+
+% comment exactly one of the following line to show / hide the solutions
+% \newcommand{\solution}[1]{{\purple #1}} % uncomment to show the solutions
+\newcommand{\solution}[1]{} % uncomment to hide the solutions
+
+\usepackage{pst-poker}
+
+
+\begin{document}
+\begin{center}
+  \section*{Math 372: Worksheet 3}
+  \subsection*{February 20, 2026}
+\end{center}
+\textit{\textbf{Instructions:} Write your answers on a separate sheet.}
+
+\begin{problem}
+  Suppose we lay out the following four playing cards in a line like this:
+  \begin{center}
+    \crdAs \crdtwos \crdtres \crdfours
+  \end{center}
+  A \demph{random transposition} is where two different cards are selected at random and
+  their positions swapped. For example, the transposition $(23)$ swaps cards 2
+  and 3. If the cards started in the above order, then the effect of applying
+  $(23)$ would be to reorder the cards as follows:
+  \begin{center}
+    \crdAs \crdtres \crdtwos \crdfours
+  \end{center}
+
+  
+  Anna's nemesis Mark challenges her to a betting game. In the game, Mark lays
+  out four cards in the order $1,2,3,4$ and then performs $k$ random
+  transpositions, one after the other. As this happens, Anna is blindfolded,
+  so she can't see which transpositions were performed---however, because she
+  can hear Mark moving the cards, she does know the value of $k$. Anna then
+  has to guess the final order of the cards. If she guesses correctly, Mark
+  will pay her $\$20$; otherwise she has to pay Mark $\$1$.
+
+  Mark believes that as long as he performs at least $4$ transpositions, then
+  all $4!=24$ permutations of the cards will be equally likely, so that Anna
+  is expected to lose money when she plays the game. Moreover Mark believes
+  that Anna is a sucker and he can make lots of money from her.
+
+  But Mark is wrong. Design a guessing strategy for Anna to bleed Mark for all
+  he's worth.
+
+  \fl{Hint:} \textit{First consider the simpler problem where the game is
+    played with just 2 cards, and design a guessing strategy for Anna in that
+    case.}
+
+  \textit{Then, consider the game with 3 cards. In that case, there are six
+    outcomes (shown below). For each $k=2,3,4,5$, write down a table which
+    gives the probability mass function these six outcomes. This will lead you
+    to to a good guessing strategy for Anna.}
+  \begin{align*}
+    &\scalebox{0.4}{\crdAs \crdtwos \crdtres}  &\scalebox{0.4}{\crdAs \crdtres \crdtwos} \\
+    &\scalebox{0.4}{\crdtwos \crdAs \crdtres}  &\scalebox{0.4}{\crdtres \crdtwos \crdAs} \\
+    &\scalebox{0.4}{\crdtwos \crdtres \crdAs}  &\scalebox{0.4}{\crdtres \crdAs \crdtwos} 
+  \end{align*}
+  \textit{Once you understand the case with 3 cards, move to
+    4.}
+\end{problem}
+
+\begin{problem}
+  What does Mark think his probability of winning is? What does he think his
+  expected payoff for playing the game is?
+
+  \textit{Hint:} use the formula
+  \begin{equation*}
+    \text{expected payoff} = \text{(payoff if he wins)}\P\left[\text{win} \right] +
+    (\text{payoff if he loses}) \P\left[\text{lose} \right]
+  \end{equation*}
+  
+\end{problem}
+
+\begin{problem}
+  What is Anna's expected payoff if she adopts your strategy? If she adopts
+  your strategy, how much money can she expect to make if she agrees to play
+  the game 100 times?
+\end{problem}
+
+\begin{problem}[Exercise 3.2.16]
+  For the last 21 months, the Ukrainian city of Kherson has been subject to an
+  ongoing campaign of drone attacks by Russian forces entrenched across the
+  nearby Dnipro River. Suppose that $25\%$ of Ukrainian air-defense crews in
+  the city are equipped with an experimental electromagnetic drone jammer.
+
+  Suppose that, on a given night, four crews are selected at random to defend
+  a neighborhood near the riverbank. Let $X$ denote the number among the four
+  that are equipped with the jammer.
+
+  \begin{enumerate}[(a)]
+    \item Find the probability distribution of $X$. \textit{[Hint: Let $J$
+    denote a crew equipped with the jammer and $N$ one who does not. Then one
+    possible outcome is \texttt{JJNJ}, with probability $(.25)(.75)(.25)(.25)$
+    and associated $X$ value $3$. There are 15 other outcomes.]}
+    \item Draw the corresponding probability histogram.
+    \item What is the most likely value for $X$?
+    \item What is the probability that at least two of the four selected crews
+    have the jammer?
+  \end{enumerate}
+\end{problem}
+
+\begin{problem}[Excersise 3.2.21 in the textbook]
+  Suppose that you read through this year’s issues of the New York Times and
+  record each number that appears in a news article---the income of a CEO, the
+  number of cases of wine produced by a winery, the age of a
+  celebrity, and so on. Now focus on the leading digit of each number, which
+  could be $1, 2, \ldots , 8$, or $9$. Your first thought might be that the
+  leading digit $X$ of a randomly selected number would be equally likely to
+  be one of the nine possibilities. However, much empirical evidence as well
+  as some theoretical arguments suggest an alternative probability
+  distribution called Benford's law:
+  \begin{equation*}
+    p(x) = \P\left[\text{first digit is }x \right] = \log_{10}\left(
+      \frac{x+1}{x} \right), \quad \text{for }x=1,2,\ldots,9.
+  \end{equation*}
+  \begin{enumerate}[(a)]
+    \item Without computing individual probabilities from this formula, show
+    that it specifies a legitimate pdf (i.e., show that $\sum_{k=1}^{9}p(k)=1$
+    and that $p(x) \geq 0$ for all $x=1,\ldots,9$).
+    \item Now compute the individual probabilities and compare to the
+    corresponding discrete distribution.
+    \item Plot the cdf of $X$.
+    \item Using the cdf, what is the probability that the leading digit is at
+    most 3? At least 5?
+  \end{enumerate}
+  \textit{[Note: Benford's law is the basis for some auditing procedures used
+  to detect fraud in financial reporting---for example, by the Internal
+  Revenue Service]}
+\end{problem}
+
+
+For the remaining problem, we'll need the following definition.
+\begin{definition}
+  Let $X$ be a discrete random variable with finite expected value
+  $\mu= \E\left[X \right]$. The \demph{variance} of $X$, denoted $\Var(X)$, is
+  the quantity
+  \begin{equation*}
+    \Var(X) = \sum_{x} \left( x- \mu\right)^{2}  
+  \end{equation*}
+  where the sum ranges over all distinct values $x$ that the random variable
+  $X$ can take.
+\end{definition}
+
+\begin{problem}
+  A certain brand of upright freezer is available in three different rated
+  capacities: $16$,  $18$, and $20$ cubic feet. Let $X$ be the rated capacity
+  of a freezer of this brand sold at a certain store. Suppose that $X$ has
+  probability mass function
+  \begin{center}
+    \begin{tabular}[c]{c|ccc}
+      $x$&16&18&20\\ 
+      \hline
+      $p(x)$&.2&.5&.3 
+    \end{tabular}
+  \end{center}
+  \begin{enumerate}[(a)]
+    \item Compute $\E\left[X \right], \E\left[X^{2} \right], \Var(X)$.
+    \item If the price of a freezer having capacity $X$ is $70X-650$, what is
+    the expected price paid by the next customer to buy a freezer?
+    \item What is the variance of the price paid by the next customer?
+    \item Suppose that although the rated capacity of a freezer is $X$, the
+    actual capacity is $h(X)=X-.008X^{2}$. What is the expected actual
+    capacity of the freezer purchased by the next customer.
+  \end{enumerate}
+\end{problem}
+
+
+% \begin{problem}
+%   Compute $\E\left[X \right]$, $\E\left[X^{2} \right]$ and $\Var(X)$ for the
+%   following random variables:
+%   \begin{enumerate}[(a)]
+%     \item $X = (\text{value of one roll of a 6-sided dice})$.
+%     \item A fair toss. $Y = \left\{ \begin{array}{l@{\quad:\quad}l} 1 &  \text{with
+%           probability }\frac{1}{2}\\0 & \text{with probability }\frac{1}{2} \end{array}\right.$
+%     \item A biased coin toss. $Z = \left\{ \begin{array}{l@{\quad:\quad}l} 1 &  \text{with
+%           probability }p\\0 & \text{with probability }1-p \end{array}\right.$
+%   \end{enumerate}
+% \end{problem}
+
+\end{document}

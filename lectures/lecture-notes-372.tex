@@ -1540,8 +1540,10 @@ we know that event $B$ happened.
 
     \fl{Solution:} Let $X$ be the number of tested bags. We
     want to find $\P\left[X \geq 3\right]$. Let
-    $A = \left[ \text{first bag isn't O+} \right]$. Let
-    $B = \left[ \text{second bag isn't O+} \right]$
+    \begin{equation*}
+      A = \left[ \text{first bag isn't O+} \right]
+      \quad \text{and} \quad B = \left[ \text{second bag isn't O+} \right]
+    \end{equation*}
     \begin{align*}
       \P\left[ X \geq 3\right] 
       &= \P\left[A\cap B \right]\\
@@ -1746,7 +1748,7 @@ that we know $B$ happened.
   \begin{equation*}
     \P\left[M_{3}\mid D \right] = \frac{.001}{.025}=.04.
   \end{equation*}
-  In other words, $4\%$ of defective rounds are produce by machine III.
+  In other words, $4\%$ of defective rounds are produced by machine III.
   
 \end{example}
 
@@ -1766,7 +1768,7 @@ that we know $B$ happened.
   Therefore
   \begin{equation*}
     \P\left[A\mid B \right] 
-    = \frac{\P\left[AB \right]}{\P\left[B \right]} 
+    = \frac{\P\left[A\cap B \right]}{\P\left[B \right]} 
     = \frac{{10\choose 7} + {10\choose 8}}{{10\choose 7} + {10\choose 8} + {10\choose 9} + {10\choose 10}} 
     = \frac{15}{16}.
   \end{equation*}
@@ -1830,7 +1832,6 @@ that we know $B$ happened.
   disease is about 7.5\%. Is this result surprising?
 \end{example}
 
-
 \subsection{Independence}
 \textit{This is based on section 2.5}
 
@@ -1843,8 +1844,6 @@ and a \textbf{negative relationship} if
   \P\left[B\mid A \right]< \P\left[B \right]
 \end{equation*}
 What about when $\P\left[B\mid A \right] = \P\left[B \right]?$
-
-
 
 \begin{definition}[Independence]
   \label{def:independence}
@@ -1890,6 +1889,13 @@ This definition generalizes in the natural way:
   about as far from independence as you can get!
 \end{remark}
 
+\newpage
+\section{2026-02-11 | Week 05 | Lecture 12}
+
+\subsection{Examples of using independence}
+Recall that two events $A$ and $B$ are \textbf{independent} if
+$\P\left[A\cap B \right]=\P\left[A \right]\P\left[B \right]$. This means that knowledge of one event gives no information about the other.
+
 \begin{example}[Example 2.34 in textbook]
   It is known that $30\%$ of a company's washing machines require service in
   the first five years, wheras only $10\%$ of their dryers need such service.
@@ -1923,6 +1929,7 @@ This definition generalizes in the natural way:
     \end{align*}
     \item What is the probability that two randomly-selected people have
     matching blood types?
+    
     \fl{Solution:} Let $M$ be the event that the people have matching blood
     type, and let $M_{X}$ be the event that both people have type $X$
     blood, for $X\in \left\{A,B,AB,O\right\}$.
@@ -1941,111 +1948,195 @@ This definition generalizes in the natural way:
       \P\left[M \right] = (.40)(.40)+(.11)(.11)+ (.04)(.04) + (.45)(.45) = .3762.
     \end{equation*}
   \end{enumerate}
-  
 \end{example}
 
-\newpage
-\subsection{Law of Total Probability + Bayes' Theorem}
-\begin{theorem}[The Law of Total Probability]
-  Let $A_{1},\ldots,A_{n}$ be events which partition the sample space (i.e., they are mutually exclusive
-  and $A_{1}\cup \cdots \cup A_{n} = S$). Then
+
+
+
+\subsection{Dicrete Random Variables}
+\textit{Based on sections 3.1 and 3.2 of the textbook}
+
+We often associate numbers with outcomes of an experiment.
+
+\begin{definition}[Random variables]
+  \label{def:random-variables}
+  Let $S$ be a sample space of an experiment. A \demph{random variable} is any
+  rule that associates a number with each outcome in $S$. In other words, it
+  is a function whose domain is $S$ and whose range is $\R$.
+\end{definition}
+
+The value of a random variable is thought of as varying depending on the
+outcome of the experiment. Random variables are usually denoted with capital
+letters, like $X,Y,Z$.
+
+\begin{example}
+  \label{ex:sum-2d4}
+  Roll a 4-sided dice twice (this is the \textbf{experiment}). There are 16
+  possible \textbf{outcomes}. The \textbf{sample space} is
   \begin{equation*}
-    \P\left[B \right] = \sum_{i=1}^{n} \P\left[B\mid A_{i} \right] \P\left[A_{i} \right]
+    S = \left\{(x,y): x,y\in \left\{1,2,3,4\right\} \right\}.
   \end{equation*}
-\end{theorem}
-
-\begin{proof}
-  Proof by picture.
-\end{proof}
-
-\begin{example}[Questing adventurers]
-  \label{ex:questing-adventurers}
-  \textit{[Similar to example 2.29 from text]}
-  A large group of adventurers are given the choice of one of three quests: slay a dragon $(Q_{1})$,
-  defeat the lich king $(Q_{2})$, or retrieve the long-lost scepter of fire in the underground kingdom of
-  Avernus $(Q_{3})$. Out of this group, 50\% of the adventurers undertake $Q_{1}$, 30\% undertake
-  $Q_{2}$, and the remaining 20\% choose $Q_{3}$.
-
-  It is known that within the first year, $25\%$ of adventurers who set out to slay a dragon become
-  dragon food instead. Moreover, $20\%$ of adventurers who attempt to stop the lich king end up joining
-  the ranks of his growing undead army, and $10\%$ of adventurers who descend into Avernus to retrieve
-  the scepter of fire get slain by underground lizardmen.
-
-  \begin{enumerate}[(a)]
-    \item What is the probability that a randomly-selected adventurer undertakes quest $(1)$ and gets
-    eaten by a dragon?
-
-    \noindent \textit{Solution:} In other words, we want to compute $\P\left[\skull \cap Q_{1}\right]$.
-    Using the multiplication rule, we have
-    \begin{equation*}
-      \P\left[\skull \cap Q_{1} \right] 
-      = \P\left[\skull \mid Q_{1} \right]\cdot \P\left[Q_{1} \right] 
-      = \frac{1}{4}\cdot \frac{1}{2} 
-      = \frac{1}{8}
-      = .125
-    \end{equation*}
-
-    \item What is the probability that a randomly-selected adventurer meets an untimely demise?
-
-    \noindent\textit{Solution:}
-    \begin{align*}
-      \P\left[\skull \right] 
-      &= \P\left[(Q_{1} \cap \skull)\cup (Q_{2} \cap \skull)\cup (Q_{3} \cap \skull) \right] \\
-      &= \P\left[Q_{1}\cap \skull \right]+\P\left[Q_{2}\cap \skull \right]+\P\left[Q_{3}\cap \skull \right]\\
-      &= .125+.06+.02\\
-      &= .205,
-    \end{align*}
-    so we conclude that 20.5\% of adventurers meet an untimely demise $\skull$ within the first year.
-
-    % \begin{center}
-    %   \includegraphics[scale=.1]{images/quest-example}
-    % \end{center}
-    \item If an adventurer meets an untimely demise, what is the probability that they undertook quest
-    (1)? What about quests (2) and (3)?
-
-
-    \noindent \textit{Solution:} In other words, we want to compute $\P\left[Q_{i}\mid\skull \right]$ for
-    $i=1,2,3$. For this we use the definition of conditional probabiblity. For $i=1$, we have:
-    \begin{align*}
-      \P\left[Q_{1} \mid \skull \right]
-      &= \frac{\P\left[Q_{1}\cap \skull \right]}{\P\left[\skull \right]}\\
-      &= \frac{.125}{.205} &&\text{by parts (a) and (b)}\\
-      &= \frac{25}{41}\\
-      &\approx 61\%.
-    \end{align*}
-    We conclude that $61\%$ of adventurers who met an untimely end were done in by a dragon.
-  \end{enumerate} 
+  Let $X$ be the sum of the two rolls. We can represent $X$ by the following
+  table:
+  \begin{equation*}
+    \begin{array}{c@{\quad}c|cccc} & \multicolumn{5}{c}{\text{Dice 2}} \\ & &
+      1 & 2 & 3 & 4 \\ \cline{2-6}  & 1 & 2 & 3 & 4 & 5 \\ \text{Dice 1} & 2 & 3 & 4 & 5 & 6 \\ & 3 & 4 & 5 & 6 & 7 \\ & 4 & 5 & 6 & 7 & 8 \end{array}
+  \end{equation*}
 \end{example}
 
-In part (b), we used the \demph{law of total probability}:
-\begin{equation*}
-  \P\left[A\right] = \sum_{i} \P\left[A\cap B_{i} \right] = \sum_{i} \P\left[A\mid B_{i} \right]\P\left[B_{i} \right],
-\end{equation*}
-(which holds as long as the sequence $B_{1},B_{2},\ldots$ are mutually exclusive and exhaustive). In
-particular, we found $\P\left[\skull \right]$ by taking $A=\skull$, along with $B_{1}=Q_{1}$, $B_{2}=Q_{2}$, and $B_{3}= Q_{3}$.
+\begin{definition}[Discrete random variable]
+  We say that a random variable $X$ is a \demph{discrete random variable} if
+  it can assume only a finite or countably infinite number of distinct values.
+\end{definition}
 
 
-In part (c), we have used \demph{Bayes' Theorem}, which is usually stated as
-\begin{equation*}
-  \P\left[B_{i} \mid A \right] 
-  = \frac{\P\left[A\cap B \right]}{\P\left[A \right]} 
-  = \frac{\P\left[A\mid B_{i} \right] \P\left[B_{i} \right]}{ \sum_{k} \P\left[A\mid B_{k} \right] \P\left[B_{k} \right] }.
-\end{equation*}
-In part (c) of \cref{ex:questing-adventurers}, we had $A=\skull$ and $B_{i} = Q_{i}$ for $i=1,2,3$. We
-were able to interpet $\P\left[Q_{1}\mid \skull \right]$ as ``the proportion of dead aventurers who were
-done in by a dragon''. More generally, the right-hand side of Bayes' theorem suggests that we can think
-of $\P\left[B_{i}\mid A \right]$ as ``the contribution of $B_{i}$ to the total probability of $A$''.
+\begin{definition}[Probability mass function (pmf)]
+  \label{def:probability-mass-function-pmf}
+  Let $X$ be a discrete random variable. The \demph{probability mass function}
+  (or \demph{pmf}) of $X$ is the function
+  \begin{equation*}
+    p(x) = \P\left[X=x \right],
+  \end{equation*}
+  defined for every $x\in \R$.
+\end{definition}
 
-You can memorize the RHS of the above formula, but it should suffice to know how to use tree digrams like
-we did in this problem, which will work as long as you know the law of total probability and the
-definition of conditional probability.
+\begin{example}
+  The pmf of $X$ in \cref{ex:sum-2d4} is
+  \begin{equation*}
+    p(2) = 1/16 \quad p(3) = 2/16, \quad p(4) = 3/16, \quad p(5) = 4/16, \quad p(6) = 3/16, \quad p(7)=2/16, \quad p(8) = 1/16
+  \end{equation*}
+  and $p(x)=0$ for all other $x\in \R$. It is often useful to write these as a
+  table:
+  \begin{center}
+    \begin{tabular}{l|l}
+      $x$ & $\P[X=x]$ \\ \hline
+      2   & $1/16$     \\
+      3   & $2/16$     \\
+      4   & $3/16$     \\
+      5   & $4/16$    \\
+      6   & $3/16$    \\
+      7   & $2/16$    \\
+      8   & $1/16$    
+    \end{tabular}
+  \end{center}
+\end{example}
 
+\begin{definition}
+  For a discrete random variable $X$, the \demph{expected value} of $X$,
+  denoted $\E\left[X \right]$, is
+  \begin{equation*}
+    \E\left[X \right] = \sum_{x}x \P\left[X=x \right] 
+  \end{equation*}
+  where the sum ranges over all distinct values that $X$ can take.
+\end{definition}
 
+\begin{remark}
+  $\E\left[X \right]$ is the long-run average of $X$, if we were to repeat the
+  experiment many times.
+\end{remark}
 
+\begin{example}
+  Let $X$ be the random variable in \cref{ex:sum-2d4}. Then
+  \begin{align*}
+    \E\left[X \right] 
+    &= \sum_{x}x \P\left[X=x \right]\\
+    &=2 \left( \frac{1}{16} \right) +
+      3 \left( \frac{2}{16} \right) +
+      4 \left( \frac{3}{16} \right) +  
+      5 \left( \frac{4}{16} \right) +  
+      6 \left( \frac{3}{16} \right) +  
+      7 \left( \frac{2}{16} \right) +  
+      8 \left( \frac{1}{16} \right)\\
+    &= \frac{80}{16}\\
+    &=5.
+  \end{align*}
+  Therefore, the sum of two 4-sided dice rolls is, on average, 5.
+\end{example}
 
+\begin{definition}[Cumulative distribution function (cdf)]
+  \label{def:cumulative-distribution-function-cdf}
+  Let $X$ be any random variable. The \demph{cumulative distribution function}
+  (or \demph{cdf}) of $X$ is the function
+  \begin{equation*}
+    F(x) = \P\left[X \leq x\right],
+  \end{equation*}
+  defined for all $x\in \R$.
+\end{definition}
+
+\begin{example}
+  For the random variable in \cref{ex:sum-2d4}, the cdf is given by the
+  following table
+  \begin{center}
+    \begin{tabular}{l|l}
+      $x$ & $F(x) = \P[X \leq x]$ \\ \hline
+      2   & $1/16$     \\
+      3   & $3/16$     \\
+      4   & $6/16$     \\
+      5   & $10/16$    \\
+      6   & $13/16$    \\
+      7   & $15/16$    \\
+      8   & $1$    
+    \end{tabular}
+  \end{center}
+
+  Here is a plot of $F(x)$. It is the step function shown in blue:
+
+  \begin{center}
+    \begin{tikzpicture}[x=1.2cm,y=6cm,scale=.8]
+
+      % axes
+      \draw[->] (0,0) -- (10,0) node[right] {$x$};
+      \draw[->] (0,0) -- (0,1.05) node[above] {$$};
+
+      % x-axis ticks
+      \foreach \x in {1,2,3,4,5,6,7,8,9}
+      {
+        \draw (\x,.01) -- (\x,-0.01);
+        \node[below] at (\x,0) {\small $\x$};
+      }
+
+      % y-axis ticks
+      \foreach \y/\lab in {
+        0.0625/{1/16},
+        0.1875/{3/16},
+        0.3750/{6/16},
+        0.6250/{10/16},
+        0.8125/{13/16},
+        0.9375/{15/16},
+        1/{1}
+      }
+      {
+        \draw (.04,\y) -- (-.04,\y);
+        \node[left] at (0,\y) {\small $\lab$};
+      }
+
+      % horizontal pieces
+      \draw[thick,blue,<-] (0,0) -- (2,0);
+      \draw[thick,blue] (2,0.0625) -- (3,0.0625);
+      \draw[thick,blue] (3,0.1875) -- (4,0.1875);
+      \draw[thick,blue] (4,0.3750) -- (5,0.3750);
+      \draw[thick,blue] (5,0.6250) -- (6,0.6250);
+      \draw[thick,blue] (6,0.8125) -- (7,0.8125);
+      \draw[thick,blue] (7,0.9375) -- (8,0.9375);
+      \draw[thick,blue,->] (8,1.0000) -- (10,1.0000);
+
+      % open circles
+      \foreach \x/\y in {
+        2/0, 3/0.0625, 4/0.1875, 5/0.3750, 6/0.6250, 7/0.8125, 8/0.9375}
+      \draw[blue,fill=white] (\x,\y) circle (1.6pt);
+
+      % closed circles
+      \foreach \x/\y in {
+        2/0.0625, 3/0.1875, 4/0.3750, 5/0.6250, 6/0.8125, 7/0.9375, 8/1.0000}
+      \fill[blue] (\x,\y) circle (1.6pt);
+
+    \end{tikzpicture}
+  \end{center}
+\end{example}
 
 \newpage
-\section{2025-02-05 | Week 4 | Lecture 10}
+\section{2026-02-13}
+
 \subsection{Application of the Law of Total Probability: The probability of winning at craps}
 
 Recall the rules of craps:
@@ -2132,7 +2223,7 @@ So
   &= \frac{1}{3}.
 \end{align*}
 
-\textbf{(Method 2: The sort way)}. Given $F_{4}$, you know you're gonna keep rolling until you get a 4 or
+\textbf{(Method 2: The short way)}. Given $F_{4}$, you know you're gonna keep rolling until you get a 4 or
 a 7, which is eventually going to happen. And whether you win or lose is determined by what you roll on
 that last roll. Your probability of winning is the probability of rolling a 4 on your last roll, given
 that your last roll is a 4 or a 7. Thus,
@@ -2162,90 +2253,11 @@ Continue in this manner to get all the values of the table. Then plugging the va
 Your chance of winning is about 49.3\%.
 
 
-\subsection{Independence}
-
-Two events $A$ and $B$ are said to be \demph{indpendent} if and only if
-\begin{equation*}
-  \P\left[A\cap B \right] = \P\left[A \right]\times \P\left[B \right].
-\end{equation*}
-We denote this by writing $A\indep B$.
-
-Otherwise, we say that $A$ and $B$ are \demph{dependent}.
-
-Remarks:
-\begin{itemize}
-  \item \textit{Intuition:} Independence means that if I know that $A$ occurred or didn't occur, that gives me no
-  information about whether $B$ occurred or not. And vis-versa. Then
-  \begin{align*}
-    \P\left[A\mid B \right]
-    &=\frac{\P\left[A\cap B \right]}{\P\left[B \right]}\\
-    &=\frac{\P\left[A\cap \right] \P\left[B \right]}{\P\left[B \right]} &&\text{by independence }\\ 
-    &=\P\left[A \right]
-  \end{align*}
-
-\end{itemize}
-
-
-\subsection{Random Variables}
-\textit{Based on sections 3.1 and 3.2 of the textbook}
-
-A \demph{random variable} is a variable whose value depends on the outcome of a random process or
-phenomenon.
-
-Technically, a random variable $X$ is a function which assigns to each outcome $\omega\in S$ in the
-sample space a real number $X(\omega)$:
-\begin{equation*}
-  X:S \to \R.
-\end{equation*}
-But in this class, we usually won't think of a random variable in this way.
-
-
-It is customary to denote random variables by capital letters like $X,Y$ etc., and the values they take
-by $x,y$, etc.
-
-The \demph{state space} of a random variable $X$ is the set of values it can take. We say that a random
-variable is \demph{discrete} if the state space is ``countable'' (either finitely many values, or, for
-example integers or rational numbers).
-
-Given a discrete random variable $X$, the \demph{probability mass function (pmf)} is the function
-\begin{equation*}
-  p(x) := \P\left[X=x \right]
-\end{equation*}
-To avoid ambiguity, sometimes we name the pmf of X $p_{X}(x)$ instead of just $p(x)$.
-
-
-Here are some standard random variables to be familiar with:
-\begin{example}[Bernoulli random variable]
-  Any random varible whose only values are 0 or 1. For any fixed value $0<\alpha<1$, we say that $X$ \demph{is a
-  Bernoulli random variable with success parameter $\sigma$} if
-  \begin{equation*}
-    X = \left\{ \begin{array}{l@{\quad}l} 1 & \text{with probability } \alpha\\0  & \text{with
-          probability } 1-\alpha \end{array}\right.
-  \end{equation*}
-  In this case, we write $X\sim \text{Bern}(\alpha)$. 
-  The pmf of $X$ is the function taking the following values:
-  \begin{equation*}
-    p(1) = \alpha,
-    \quad  p(0) = 1-\alpha,
-    \quad \text{and} \quad p(x)=0 \text{ for all other values of }x
-  \end{equation*}
-  
-  A Bernoulli random variable is nothing other than a coin flip (with a coin that lands `head' with
-  probability $\alpha$.)
-\end{example}
-
 
 \newpage
+\section{CUTOFF FOR OLD MATERIAL}
+\section{2025-02-05 | Week 4 | Lecture 10}
 
-
-\section{2025-02-07 | Week 4 | Lecture 11}
-\begin{itemize}
-  \item please read sections 3.1-3.5 in the textbook
-  \item there is a webassign homework due next Friday
-  \item handwritten assignment too
-\end{itemize}
-\subsection{Discrete random variables (continued)}
-We often associate numbers with outcomes of experiments. This is what we mean by random variables. 
 
 \begin{example}[Random variables and pmfs]
   \label{ex:random-variables-and-pmfs}
@@ -2262,9 +2274,7 @@ We often associate numbers with outcomes of experiments. This is what we mean by
   \end{table}
   Here
   $Z = \left\{ \begin{array}{l@{\quad:\quad}l} 1 & \text{more tails than heads}\\ 0 &
-      \text{otherwise} \end{array}\right.$ $X,Y,Z$ are examples of random variables. This is an example
-  of what's called an ``indicator'' random variable. To be precise random variables are functions
-  $X: S \to \R$ and $Y: S \to \R$.
+      \text{otherwise} \end{array}\right.$
 
   In this example, the sample space is
   \begin{equation*}
@@ -2346,6 +2356,38 @@ Let $X$ be a discrete random varible. The \demph{cumulative distribution functio
     \includegraphics[scale=.3]{images/dice-cdf}
   \end{center}
 \end{example}
+
+
+
+
+\newpage
+
+
+\section{2025-02-07 | Week 4 | Lecture 11}
+
+
+
+
+
+\begin{example}[Bernoulli random variable]
+  Any random varible whose only values are 0 or 1. For any fixed value $0<\alpha<1$, we say that $X$ \demph{is a
+    Bernoulli random variable with success parameter $\sigma$} if
+  \begin{equation*}
+    X = \left\{ \begin{array}{l@{\quad}l} 1 & \text{with probability } \alpha\\0  & \text{with
+          probability } 1-\alpha \end{array}\right.
+  \end{equation*}
+  In this case, we write $X\sim \text{Bern}(\alpha)$. 
+  The pmf of $X$ is the function taking the following values:
+  \begin{equation*}
+    p(1) = \alpha,
+    \quad  p(0) = 1-\alpha,
+    \quad \text{and} \quad p(x)=0 \text{ for all other values of }x
+  \end{equation*}
+  
+  A Bernoulli random variable is nothing other than a coin flip (with a coin that lands `head' with
+  probability $\alpha$.)
+\end{example}
+
 
 
 \begin{proposition}[cdf properties]
