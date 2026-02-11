@@ -8,6 +8,8 @@ permalink: /exam-information/
 
 - Wednesday, February 18 in class
 
+[practice exams](exams/midterm-1/practice-midterm-exam.pdf)
+
 ## midterm 2
 
 - Friday, March 27 in class
