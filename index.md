@@ -21,9 +21,14 @@ title: Lecture Notes
  2026-01-26  | [lecture-06](lectures/lecture-notes-by-day/lecture-06.pdf)     | (Section 2.3) Counting techniques: the multiplication principle
  2026-01-28  | [lecture-07](lectures/lecture-notes-by-day/lecture-07.pdf)     | (Section 2.3) Counting techniques: the permutation principle, the combination principle
  2026-01-30  | [lecture-08](lectures/lecture-notes-by-day/lecture-08.pdf)     | (Section 2.3, 2.4) Counting techniques, intro to craps, and conditional probability
- 2026-02-02  | [lecture-09](lectures/lecture-notes-by-day/lecture-09.pdf), [quiz-1-study-guide](quizzes/quiz-01-study-guide.pdf)    | (Section 2.4) Conditional probability
+ 2026-02-02  | [lecture-09](lectures/lecture-notes-by-day/lecture-09.pdf), [quiz-1-study-guide](quizzes/quiz-01-study-guide.pdf) | (Section 2.4) Conditional probability [worksheet-02](worksheets/worksheet-02_conditional-probability/main.pdf)
  2026-02-04  | [lecture-10](lectures/lecture-notes-by-day/lecture-10.pdf) | (Section 2.4) Conditional probability, law of total probability 
  2026-02-06  | [lecture-11](lectures/lecture-notes-by-day/lecture-11.pdf) | (Section 2.4) Conditional probability, law of total probability 
+ 2026-02-09  | none | no class due to wind
+ 2026-02-11  | not uploaded yet | (Section 2.5,3.1,3.2) Independence, discrete random variables
+ 2026-02-16  | none | no class due to holiday
+ 2026-02-18  | none | in-class midterm
+ 2026-02-20  | none | [worksheet-03](worksheets/worksheet-03/worksheet-03.pdf)
  
 
 # Other links
