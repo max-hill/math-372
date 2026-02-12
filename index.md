@@ -25,7 +25,7 @@ title: Lecture Notes
  2026-02-04  | [lecture-10](lectures/lecture-notes-by-day/lecture-10.pdf) | (Section 2.4) Conditional probability, law of total probability 
  2026-02-06  | [lecture-11](lectures/lecture-notes-by-day/lecture-11.pdf) | (Section 2.4) Quiz 1, and conditional probability, law of total probability 
  2026-02-09  | none | no class due to wind
- 2026-02-11  | not uploaded yet | (Section 2.5,3.1,3.2) Independence, discrete random variables
+ 2026-02-11  | [lecture-12](lectures/lecture-notes-by-day/lecture-12.pdf) | (Section 2.5,3.1,3.2) Independence, discrete random variables
  2026-02-16  | none | no class due to holiday
  2026-02-18  | none | in-class midterm
  2026-02-20  | none | [worksheet-03](worksheets/worksheet-03/worksheet-03.pdf)
