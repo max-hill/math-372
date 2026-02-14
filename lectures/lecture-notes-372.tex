@@ -1952,7 +1952,51 @@ $\P\left[A\cap B \right]=\P\left[A \right]\P\left[B \right]$. This means that kn
   \end{enumerate}
 \end{example}
 
+\newpage
+\section{2026-02-13 | Week 05 | Lecture 13}
 
+We went over some example problems:
+\begin{itemize}
+  \item The solution to problem 1 on homework 2. The key idea involves
+  correctly filling out the venn diagram as shown:
+  \begin{center}
+    \includegraphics[scale=.3]{images/hw2-solution}
+  \end{center}
+  \item The solution to problem 14 on homework 4. 
+  \item An example about computing probabilities invovling the phrase ``at
+  least'' (shown below).
+\end{itemize}
+
+\begin{example}
+  Suppose we roll a 6-sided dice three times. What's the probability that we
+  get at least one 6?
+
+  \Fl{Solution:} The key idea is the following
+  \begin{equation*}
+    \P\left[\text{at least one six is rolled} \right] = 1 - \P\left[\text{no
+        sixes are rolled} \right]
+  \end{equation*}
+
+  To put this idea into practice, let
+  $A_{1}= \left[ \text{the first dice roll is a 6} \right]$,
+  $A_{2} = \left[ \text{the second dice roll is a 6} \right]$, and
+  $A_{3}= \left[ \text{the third dice roll is a 6} \right]$. Clearly,
+  $A_{1},A_{2},A_{3}$ are independent because the dice rolls don't influence
+  each other. Then
+  \begin{align*}
+    \P\left[ \text{at least one six is rolled}\right] 
+    &= \P\left[A_{1}\cup A_{2}\cup A_{3} \right]\\
+    &= 1- \P\left[A_{1}^{c}\cap A_{2}^{c}\cap A_{3}^{c} \right] && \text{by de
+                                                                   Morgan's law}\\
+    &= 1 - \P\left[A_{1}^{c} \right] \P\left[A_{2}^{c} \right]
+      \P\left[A_{3}^{c} \right] &&\text{by independence}\\
+    &= 1 - \left( \frac{5}{6} \right) \left( \frac{5}{6} \right) \left( \frac{5}{6} \right)\\ 
+    &= 1- \left( \frac{5}{6} \right)^{3}.
+  \end{align*}
+  
+\end{example}
+
+\newpage
 
 
 \subsection{Dicrete Random Variables}
@@ -2143,6 +2187,136 @@ letters, like $X,Y,Z$.
 \newpage
 \section{2026-02-13 | Week 05 | Lecture 13}
 
+
+\begin{example}[Random variables and pmfs]
+  \label{ex:random-variables-and-pmfs}
+  Say we flip a fair coin three times
+
+  \begin{table}[htb]
+    \centering
+    \begin{tabular}{l|llllllll}
+      &  HHH & HHT & HTH & THH & TTH & THT & HTT & TTT \\ \hline
+      $X =$\text{ \# heads}                      & 3   & 2   & 2   & 2   & 1   & 1   & 1   & 0   \\
+      $Y= $\text{ \# tails prior to first heads} & 0   & 0   & 0   & 1   & 2   & 1   & 0   & 3  \\
+      $Z= $ \text{(more tails than heads?)} & 1   & 1   & 1   & 1   & 0   & 0   & 0   & 0  
+    \end{tabular}
+  \end{table}
+  Here
+  $Z = \left\{ \begin{array}{l@{\quad:\quad}l} 1 & \text{more tails than heads}\\ 0 &
+      \text{otherwise} \end{array}\right.$
+
+  In this example, the sample space is
+  \begin{equation*}
+    S = \left\{\text{HHH, HHT, HTH, THH, TTH, THT, HTT, TTT} \right\}
+  \end{equation*}
+  $X=2$ is an event:
+  \begin{equation*}
+    \left[ X=2 \right]  = \left\{s \in  S: X(s) = 2\right\} = \left\{ \text{HHT, HTH, THH} \right\}
+  \end{equation*}
+  $X \leq 2$ is also an event:
+  \begin{equation*}
+    \left[ X \leq 2 \right]  = \left\{s \in  S: X(s) \leq 2\right\} = \left\{ \text{HHT, HTH, THH, TTH,
+        THT, HTT, TTT} \right\}
+  \end{equation*}
+  We can specify $X,Y,Z$ by the following tables:
+
+  \begin{table}[htb]
+    \centering
+    \begin{tabular}{l|l}
+      $x$ & $\P[X=x]$ \\ \hline
+      0   & $1/8$     \\
+      1   & $3/8$     \\
+      2   & $3/8$     \\
+      3   & $1/8$    
+    \end{tabular}
+    \quad
+    \quad
+    \begin{tabular}{l|l}
+      $y$ & $\P[Y=y]$ \\ \hline
+      0   & $4/8$     \\
+      1   & $2/8$     \\
+      2   & $1/8$     \\
+      3   & $1/8$    
+    \end{tabular}
+    \quad
+    \begin{tabular}{l|l}
+      $z$ & $\P[Z=z]$ \\ \hline
+      0   & $4/8$     \\
+      1   & $4/8$     
+    \end{tabular}
+
+  \end{table}
+  Recall that given a discrete random variable $X$, the \demph{probability mass function (pmf)} is the
+  function
+  \begin{equation*}
+    p(x) := \P\left[X=x \right]
+  \end{equation*}
+  For example, the pmf of $X$ is the function $p$ which take the following values
+  \begin{equation*}
+    p(0) = 1/8 \quad p(1) = 3/8 \quad p(2) = 3/8, \quad \text{and} \quad p(3)=1/8
+  \end{equation*}
+  It's just a different way of writing the above table!
+
+  \textbf{General fact:} For any discrete r.v., we have $p(x) \geq 0$ for all $x$, and that 
+  \begin{equation*}
+    \sum_{x}p(x) =1,
+  \end{equation*}
+  where the sum ranges over all values that $X$ can take.
+\end{example}
+
+
+
+
+Let $X$ be a discrete random varible. The \demph{cumulative distribution function (cdf)} of $X$ is the function
+\begin{equation*}
+  F_{X}(x) := \P\left[X \leq x\right]
+\end{equation*}
+
+\begin{example}[cdf of a dice roll]
+  What is the pmf and cdf a dice roll?
+
+  The pmf is:
+  \begin{center}
+    \includegraphics[scale=.3]{images/pmf-of-dice-roll}
+  \end{center}
+
+  The cdf is
+  \begin{center}
+    \includegraphics[scale=.3]{images/dice-cdf}
+  \end{center}
+\end{example}
+
+
+\begin{example}[Geometric distribution]
+  Throw a basketbball. Then
+  \begin{gather}
+    1 = \text{success} = \text{made basket}\\
+    0 = \text{failed} = \text{missed basket}
+  \end{gather}
+  Fix a parameter $\alpha\in (0,1)$. Say that success has probability $\alpha$ and failure has
+  probability $1-\alpha$.
+
+  Let $X$ be the number of throws until I make a basket. Let $p(x)$ the pmf of $X$.
+  Then
+  \begin{table}[H]
+    \centering
+    \begin{tabular}{l|l}
+      $x$      & $p(x)$               \\ \hline
+      1        & $\alpha$             \\
+      2        & $(1-\alpha)\alpha$ \\
+      3        & $(1-\alpha)^{2}\alpha$ \\
+      4        & $(1-\alpha)^{3}\alpha$   \\
+      $\vdots$ & $\vdots$            
+    \end{tabular}
+  \end{table}
+  In other words, the pmf is
+  \begin{equation*}
+    p(x) = \left\{ \begin{array}{l@{\quad}l} \left( 1-\alpha \right)^{x-1}\alpha  & \text{if }x=1,2,\ldots\\0 & \text{otherwise} \end{array}\right.
+  \end{equation*}
+  A random variable with this pmf is called a \demph{geometric random variable with success parameter $\alpha$.}
+\end{example}
+
+\newpage
 \subsection{Application of the Law of Total Probability: The probability of winning at craps}
 
 Recall the rules of craps:
@@ -2262,111 +2436,8 @@ Your chance of winning is about 49.3\%.
 
 \newpage
 \section{CUTOFF FOR OLD MATERIAL}
-\section{2025-02-05 | Week 4 | Lecture 10}
 
 
-\begin{example}[Random variables and pmfs]
-  \label{ex:random-variables-and-pmfs}
-  Say we flip a fair coin three times
-
-  \begin{table}[htb]
-    \centering
-    \begin{tabular}{l|llllllll}
-      &  HHH & HHT & HTH & THH & TTH & THT & HTT & TTT \\ \hline
-      $X =$\text{ \# heads}                      & 3   & 2   & 2   & 2   & 1   & 1   & 1   & 0   \\
-      $Y= $\text{ \# tails prior to first heads} & 0   & 0   & 0   & 1   & 2   & 1   & 0   & 3  \\
-      $Z= $ \text{(more tails than heads?)} & 1   & 1   & 1   & 1   & 0   & 0   & 0   & 0  
-    \end{tabular}
-  \end{table}
-  Here
-  $Z = \left\{ \begin{array}{l@{\quad:\quad}l} 1 & \text{more tails than heads}\\ 0 &
-      \text{otherwise} \end{array}\right.$
-
-  In this example, the sample space is
-  \begin{equation*}
-    S = \left\{\text{HHH, HHT, HTH, THH, TTH, THT, HTT, TTT} \right\}
-  \end{equation*}
-  $X=2$ is an event:
-  \begin{equation*}
-    \left[ X=2 \right]  = \left\{s \in  S: X(s) = 2\right\} = \left\{ \text{HHT, HTH, THH} \right\}
-  \end{equation*}
-  $X \leq 2$ is also an event:
-  \begin{equation*}
-    \left[ X \leq 2 \right]  = \left\{s \in  S: X(s) \leq 2\right\} = \left\{ \text{HHT, HTH, THH, TTH,
-        THT, HTT, TTT} \right\}
-  \end{equation*}
-  We can specify $X,Y,Z$ by the following tables:
-
-  \begin{table}[htb]
-    \centering
-    \begin{tabular}{l|l}
-      $x$ & $\P[X=x]$ \\ \hline
-      0   & $1/8$     \\
-      1   & $3/8$     \\
-      2   & $3/8$     \\
-      3   & $1/8$    
-    \end{tabular}
-    \quad
-    \quad
-    \begin{tabular}{l|l}
-      $y$ & $\P[Y=y]$ \\ \hline
-      0   & $4/8$     \\
-      1   & $2/8$     \\
-      2   & $1/8$     \\
-      3   & $1/8$    
-    \end{tabular}
-    \quad
-    \begin{tabular}{l|l}
-      $z$ & $\P[Z=z]$ \\ \hline
-      0   & $4/8$     \\
-      1   & $4/8$     
-    \end{tabular}
-
-  \end{table}
-  Recall that given a discrete random variable $X$, the \demph{probability mass function (pmf)} is the
-  function
-  \begin{equation*}
-    p(x) := \P\left[X=x \right]
-  \end{equation*}
-  For example, the pmf of $X$ is the function $p$ which take the following values
-  \begin{equation*}
-    p(0) = 1/8 \quad p(1) = 3/8 \quad p(2) = 3/8, \quad \text{and} \quad p(3)=1/8
-  \end{equation*}
-  It's just a different way of writing the above table!
-
-  \textbf{General fact:} For any discrete r.v., we have $p(x) \geq 0$ for all $x$, and that 
-  \begin{equation*}
-    \sum_{x}p(x) =1,
-  \end{equation*}
-  where the sum ranges over all values that $X$ can take.
-\end{example}
-
-
-
-
-Let $X$ be a discrete random varible. The \demph{cumulative distribution function (cdf)} of $X$ is the function
-\begin{equation*}
-  F_{X}(x) := \P\left[X \leq x\right]
-\end{equation*}
-
-\begin{example}[cdf of a dice roll]
-  What is the pmf and cdf a dice roll?
-
-  The pmf is:
-  \begin{center}
-    \includegraphics[scale=.3]{images/pmf-of-dice-roll}
-  \end{center}
-
-  The cdf is
-  \begin{center}
-    \includegraphics[scale=.3]{images/dice-cdf}
-  \end{center}
-\end{example}
-
-
-
-
-\newpage
 
 
 \section{2025-02-07 | Week 4 | Lecture 11}
@@ -2413,34 +2484,6 @@ Let $X$ be a discrete random varible. The \demph{cumulative distribution functio
   \end{equation*}
 \end{proposition}
 
-\begin{example}[Geometric distribution]
-  Throw a basketbball. Then
-  \begin{gather}
-    1 = \text{success} = \text{made basket}\\
-    0 = \text{failed} = \text{missed basket}
-  \end{gather}
-  Fix a parameter $\alpha\in (0,1)$. Say that success has probability $\alpha$ and failure has
-  probability $1-\alpha$.
-
-  Let $X$ be the number of throws until I make a basket. Let $p(x)$ the pmf of $X$.
-  Then
-  \begin{table}[H]
-    \centering
-    \begin{tabular}{l|l}
-      $x$      & $p(x)$               \\ \hline
-      1        & $\alpha$             \\
-      2        & $(1-\alpha)\alpha$ \\
-      3        & $(1-\alpha)^{2}\alpha$ \\
-      4        & $(1-\alpha)^{3}\alpha$   \\
-      $\vdots$ & $\vdots$            
-    \end{tabular}
-  \end{table}
-  In other words, the pmf is
-  \begin{equation*}
-    p(x) = \left\{ \begin{array}{l@{\quad}l} \left( 1-\alpha \right)^{x-1}\alpha  & \text{if }x=1,2,\ldots\\0 & \text{otherwise} \end{array}\right.
-  \end{equation*}
-  A random variable with this pmf is called a \demph{geometric random variable with success parameter $\alpha$.}
-\end{example}
 \newpage
 \section{2025-02-10 | Week 5 | Lecture 12}
 \textit{Today's lecture is on sections 3.3 and 3.4 in the textbook}
