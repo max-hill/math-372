@@ -1952,53 +1952,6 @@ $\P\left[A\cap B \right]=\P\left[A \right]\P\left[B \right]$. This means that kn
   \end{enumerate}
 \end{example}
 
-\newpage
-\section{2026-02-13 | Week 05 | Lecture 13}
-
-We went over some example problems:
-\begin{itemize}
-  \item The solution to problem 1 on homework 2. The key idea involves
-  correctly filling out the venn diagram as shown:
-  \begin{center}
-    \includegraphics[scale=.3]{images/hw2-solution}
-  \end{center}
-  \item The solution to problem 14 on homework 4. 
-  \item An example about computing probabilities invovling the phrase ``at
-  least'' (shown below).
-\end{itemize}
-
-\begin{example}
-  Suppose we roll a 6-sided dice three times. What's the probability that we
-  get at least one 6?
-
-  \Fl{Solution:} The key idea is the following
-  \begin{equation*}
-    \P\left[\text{at least one six is rolled} \right] = 1 - \P\left[\text{no
-        sixes are rolled} \right]
-  \end{equation*}
-
-  To put this idea into practice, let
-  $A_{1}= \left[ \text{the first dice roll is a 6} \right]$,
-  $A_{2} = \left[ \text{the second dice roll is a 6} \right]$, and
-  $A_{3}= \left[ \text{the third dice roll is a 6} \right]$. Clearly,
-  $A_{1},A_{2},A_{3}$ are independent because the dice rolls don't influence
-  each other. Then
-  \begin{align*}
-    \P\left[ \text{at least one six is rolled}\right] 
-    &= \P\left[A_{1}\cup A_{2}\cup A_{3} \right]\\
-    &= 1- \P\left[A_{1}^{c}\cap A_{2}^{c}\cap A_{3}^{c} \right] && \text{by de
-                                                                   Morgan's law}\\
-    &= 1 - \P\left[A_{1}^{c} \right] \P\left[A_{2}^{c} \right]
-      \P\left[A_{3}^{c} \right] &&\text{by independence}\\
-    &= 1 - \left( \frac{5}{6} \right) \left( \frac{5}{6} \right) \left( \frac{5}{6} \right)\\ 
-    &= 1- \left( \frac{5}{6} \right)^{3}.
-  \end{align*}
-  
-\end{example}
-
-\newpage
-
-
 \subsection{Dicrete Random Variables}
 \textit{Based on sections 3.1 and 3.2 of the textbook}
 
@@ -2184,9 +2137,57 @@ letters, like $X,Y,Z$.
   right endpoints and filled-in circles on the left endpoints.
 \end{example}
 
+
 \newpage
 \section{2026-02-13 | Week 05 | Lecture 13}
 
+We went over some example problems:
+\begin{itemize}
+  \item The solution to problem 1 on homework 2. The key idea involves
+  correctly filling out the venn diagram as shown:
+  \begin{center}
+    \includegraphics[scale=.3]{images/hw2-solution}
+  \end{center}
+  \item The solution to problem 14 on homework 4. 
+  \item An example about computing probabilities invovling the phrase ``at
+  least'' (shown below).
+\end{itemize}
+
+\begin{example}
+  Suppose we roll a 6-sided dice three times. What's the probability that we
+  get at least one 6?
+
+  \Fl{Solution:} The key idea is the following
+  \begin{equation*}
+    \P\left[\text{at least one six is rolled} \right] = 1 - \P\left[\text{no
+        sixes are rolled} \right]
+  \end{equation*}
+
+  To put this idea into practice, let
+  $A_{1}= \left[ \text{the first dice roll is a 6} \right]$,
+  $A_{2} = \left[ \text{the second dice roll is a 6} \right]$, and
+  $A_{3}= \left[ \text{the third dice roll is a 6} \right]$. Clearly,
+  $A_{1},A_{2},A_{3}$ are independent because the dice rolls don't influence
+  each other. Then
+  \begin{align*}
+    \P\left[ \text{at least one six is rolled}\right] 
+    &= \P\left[A_{1}\cup A_{2}\cup A_{3} \right]\\
+    &= 1- \P\left[A_{1}^{c}\cap A_{2}^{c}\cap A_{3}^{c} \right] && \text{by de
+                                                                   Morgan's law}\\
+    &= 1 - \P\left[A_{1}^{c} \right] \P\left[A_{2}^{c} \right]
+      \P\left[A_{3}^{c} \right] &&\text{by independence}\\
+    &= 1 - \left( \frac{5}{6} \right) \left( \frac{5}{6} \right) \left( \frac{5}{6} \right)\\ 
+    &= 1- \left( \frac{5}{6} \right)^{3}.
+  \end{align*}
+  
+\end{example}
+
+\newpage
+
+
+\section{2026-02-13 | Week 07 | Lecture 14}
+\textbf{Note to self: } Make sure to do the binomial random variable, the
+Possion random variable, and variance calculation
 
 \begin{example}[Random variables and pmfs]
   \label{ex:random-variables-and-pmfs}
