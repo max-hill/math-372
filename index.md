@@ -30,7 +30,7 @@ title: Lecture Notes
  2026-02-16  | none | no class due to holiday
  2026-02-18  | none | in-class midterm
  2026-02-20  | none | [worksheet-03](worksheets/worksheet-03/worksheet-03.pdf)
- 
+ 2026-02-23  | none | [lecture-14](lectures/lecture-notes-by-day/lecture-14.pdf) | (Section 3.3) Expected value, variance
 
 # Other links
 
