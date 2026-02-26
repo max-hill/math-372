@@ -2346,13 +2346,296 @@ which is mathematically easer to work with because it doesn't have an absolute v
 \newpage
 \section{2026-02-25 | Week 07 | Lecture 15}
 
-\textbf{Important formula:} There is a shortcut for computing variance
-\begin{align*}
-  \text{Var}(X) 
-  &= \E\left[X^{2} \right] - \left( \E\left[X \right] \right)^{2}
-\end{align*}
+
+\subsection{Properties of Variance}
+Recall that the \demph{variance} of a random variable $X$ is
+\begin{equation*}
+  \Var(X) = \E\left[(X-\mu)^{2} \right]
+\end{equation*}
+where $\mu= \E\left[X \right]$.
+
+For a discrete random variable $X$, this expectation can be written as
+\begin{equation*}
+  \Var(X) = \sum_{x}(x-\mu)^{2}\P\left[X=x \right]
+\end{equation*}
+by \cref{thm:LOTUS-discrete-case}.
+
+The positive square root of the variance is called the \demph{standard deviation}.
+
+There is a shortcut for computing variance, given in the next theorem.
+\begin{theorem}[Variance shortcut formula]
+  \label{thm:variance-shortcut-formula}
+  Let $X$ be a random variable with $\E\left[X^{2} \right]<\infty$. Then
+  \begin{align*}
+    \Var(X) 
+    &= \E\left[X^{2} \right] - \left( \E\left[X \right] \right)^{2}
+  \end{align*}
+\end{theorem}
+The condition $\E\left[X^{2} \right]<\infty$ in
+\cref{thm:variance-shortcut-formula} is there to exclude the possibility that
+the right hand side of the formula be the undefined form $\infty-\infty$.
+
+% \begin{example}
+%   Suppose
+%   \begin{equation*}
+%     U =  \left\{ \begin{array}{l@{\quad:\quad}l} 2 & \text{with probability }\alpha\\ 3& \text{with
+%           probability }1-\alpha \end{array}\right.
+%   \end{equation*}
+%   What is $\E\left[U \right]$ and $\Var(U)$?
+
+%   \textit{Solution:} First, we will compute the expectation:
+%   \begin{align}\label{eq:8}
+%     \E\left[U \right] 
+%     &= 2\alpha+3(1-\alpha) \nonumber\\
+%     &= 3-\alpha
+%   \end{align}
+
+%   Next, we will compute $\Var(U)$. We will use the formula  \cref{eq:7}. In particular we wil need
+%   $\E\left[U^{2} \right]$, so let's compute that:
+%   \begin{align}\label{eq:9}
+%     \E\left[U^{2} \right] 
+%     &=2^{2}\alpha+3^{2}(1-\alpha) &&\text{by \cref{thm:expectation-of-function-of-X} }\nonumber\\
+%     &=4\alpha+9(1-\alpha)\nonumber\\
+%     &=9-5\alpha
+%   \end{align}
+%   We can now plug the values from \cref{eq:9,eq:8} into \cref{eq:7} to get
+%   \begin{align*}
+%     \Var(U) 
+%     &= \E\left[U^{2} \right] - \left( \E\left[U \right] \right)^{2}\\
+%     &= 9-5\alpha - (3-\alpha)^{2}
+%   \end{align*}
+%   For example, if $\alpha=\frac{1}{2}$, then we get
+%   $\E\left[U \right] = 3-\frac{1}{2} = 2.5$
+%   and
+%   \begin{equation*}
+%     \Var(U) = 9-\frac{5}{2}- \frac{25}{4} = \frac{1}{4}
+%   \end{equation*}
+%   Now, someone asked ``how do we interpret this $1/4$?'' The short answer is, it's complicated. There
+%   isn't a nice interpretation that works for every random variable, so often the best we can do is
+%   understand this as some measure of how much our random variable tends to deviate from its mean. In this
+%   case, the $1/4$ is pretty small, so the random variable doesn't seem to deviate all that much from its
+%   mean.
+% \end{example}
 
 
+While variance does give us some information, it's only a single number and so the amount of information
+it gives us about the random variable is actually very limited, and it is impossible to interpret it
+precisely without additional information about the random variable. This is illustrated in the following
+example.
+
+\begin{example}
+  Let $M = 1,000,000$. And let
+  \begin{equation*}
+    X = \left\{ \begin{array}{l@{\quad:\quad}l} 0 & \text{with probability } .99  \\ 10M &
+        \text{with probability }.01 \end{array}\right.
+  \end{equation*}
+  The random variable $X$ is like winning the lottery.
+
+  On the other hand,  let
+  \begin{equation*}
+    Y = \left\{ \begin{array}{l@{\quad:\quad}l} -10 & \text{with probability }\frac{1}{2}\\ 10 & \text{with probability }\frac{1}{2} \end{array}\right.
+  \end{equation*}
+
+  In the case of $X$, we have
+  \begin{align*}
+    \Var(X) 
+    &= \E\left[X^{2} \right] - \left( \E\left[X \right] \right)^{2}\\
+    &= \left[(10M)^{2}(0.01)+ 0^{2}(0.99)\right] - \left[10M(0.01)+ 0(0.99)\right]^{2}\\
+    &= M^{2} - \frac{M^{2}}{100}\\
+    &= \frac{99}{100}M^{2}
+  \end{align*}
+  This is a HUGE variance, because $M=10,000,000$. But for the most part, intuitvely, few people would
+  say that this r.v. ``varies'' all that much. After all, it's almost always $0$.
+
+
+  On the other hand, what if we compute the variance of $Y$? In this, we have $\E\left[Y
+  \right]=-10\frac{1}{2}+10\frac{1}{2}=0$, so
+  \begin{align*}
+    \Var(Y) 
+    &= \E\left[Y^{2} \right]-0\\
+    &= (-10)^{2}\frac{1}{2} + (10)^{2}\frac{1}{2}\\
+    &= 100
+  \end{align*}
+  In this case, the variance is pretty big---not huge, but pretty big. Yet the random variable $Y$
+  doesn't really seem to ``vary'' all that much: after all, we know it is always either 10 more than the
+  mean (which is zero), or 10 less than the mean.
+\end{example}
+
+Hopefully this example doesn't give you the impression that variance is useless. It's actually a really
+important measure. The issue is just that random variables can ``vary'' in lots of different ways that
+can be hard to summarize as a single value.
+
+Variance has several properties that are often useful, described in the next
+theorem.
+
+\begin{theorem}[Properties of Variance]
+  \label{thm:variance-properties}
+  Let $X$ be a random variable. Then:
+  \begin{itemize}
+    \item For any scalars $a,b$,
+    \begin{equation}\label{eq:5}
+      \Var(aX+b) = a^{2}\Var(X).
+    \end{equation}
+    \item If $X$ and $Y$ are independent random variables then
+    \begin{equation}\label{eq:7}
+      \Var(aX+bY+c) = a^{2}\Var(X)+b^{2}\Var(Y).
+    \end{equation}
+  \end{itemize}
+\end{theorem}
+\fl{Implications of \cref{thm:variance-properties}:}
+\begin{itemize}
+  \item Taking $b=0$ in \cref{eq:5} gives
+  \begin{equation}\label{eq:4}
+    \Var(aX) = a^{2}\Var(X).
+  \end{equation}
+  \item Taking $a=1$ in \cref{eq:5} gives
+  \begin{equation*}
+    \Var(X+b) = \Var(X)
+  \end{equation*}
+  which says that adding a nonrandom quantity to a random variable doesn't
+  change its variance.
+  \item Taking $a=b=1$ and $c=0$ in \cref{eq:7} implies that
+  \begin{equation*}
+    \Var(X+ Y) = \Var(X) + \Var(Y).
+  \end{equation*}
+  This says that for independent random variables, variance is additive.
+
+  (Of course, we always have
+  $\E\left[X+Y \right] = \E\left[X \right]+ \E\left[Y \right]$, even if $X$
+  and $Y$ are not independent. This is called \demph{linearity of
+    expectation}. But for variance, we need $X$ and $Y$ to be independent to
+  do something similar.)
+\end{itemize}
+
+
+\begin{proof}[Here is a proof of \cref{eq:4}:]
+  \begin{align*}
+    \Var(aX)
+    &= \E\left[\left( aX- \E\left[aX \right] \right)^{2}  \right]
+    &&\text{by \cref{def:variance}}\\
+    &= E\left[  \left( aX- a\E\left[X \right] \right)^{2}  \right]
+    &&\text{by \cref{prop:linearity-of-expectation}}\\
+    &= \E\left[a^{2}\left(X- \E\left[X \right]  \right)  \right]\\
+    &= a^{2} \E\left[ X- \E\left[X \right]   \right] &&\text{by \cref{prop:linearity-of-expectation}}\\
+    &= a^{2}\Var(X) &&\text{by \cref{def:variance} }
+  \end{align*}
+\end{proof}
+
+\subsection{Binomial random variable}
+
+% \begin{example}[Bernoulli random variable]
+%   Any random varible whose only values are 0 or 1. For any fixed value $0<\alpha<1$, we say that $X$ \demph{is a
+%     Bernoulli random variable with success parameter $\sigma$} if
+%   \begin{equation*}
+%     X = \left\{ \begin{array}{l@{\quad}l} 1 & \text{with probability } \alpha\\0  & \text{with
+%           probability } 1-\alpha \end{array}\right.
+%   \end{equation*}
+%   In this case, we write $X\sim \text{Bern}(\alpha)$. 
+%   The pmf of $X$ is the function taking the following values:
+%   \begin{equation*}
+%     p(1) = \alpha,
+%     \quad  p(0) = 1-\alpha,
+%     \quad \text{and} \quad p(x)=0 \text{ for all other values of }x
+%   \end{equation*}
+  
+%   A Bernoulli random variable is nothing other than a coin flip (with a coin that lands `head' with
+%   probability $\alpha$.)
+% \end{example}
+
+Next we introduce an important type of random variable, called the
+``binomial'' random variable. The motivation is the following idea: if you
+flip a coin $n$ times, and let $\alpha\in (0,1)$ be the probability of `heads'
+on any given coin flip. We can define a random variable
+$X=\text{(\# of heads in $n$ flips)}$.
+
+The probability that you get exactly $k$ heads in $n$ flips is given by the formula:
+\begin{equation}\label{eq:32}
+  {n\choose k} \alpha^{k}(1-\alpha)^{n-k}.
+\end{equation}
+This is the probability that $X=k$. To see where \cref{eq:32} comes from, work
+out an example, say $n=5$ and $k=3$, and the general idea will become clear.
+
+The precise definition of a binomial random variable is as follows:
+
+\begin{definition}[Binomial random variable]
+  \label{def:binomial-random-variable}
+  A random variable is said to be a \demph{Binomial random variable} with $n$
+  trials and success probability $\alpha$ if
+  \begin{equation*}
+    \P\left[X=k\right] = {n\choose k} \alpha^{k}(1-\alpha)^{n-k}
+  \end{equation*}
+  for every $k\in \left\{0,1,\ldots,n\right\}$. In this case, we write
+  $X\sim \text{Bin}(n,\alpha)$.
+\end{definition}
+
+\begin{remark}[Useful characterization of binomial random variables]
+  \label{rmk:useful-characterization-binomial-random-variables}
+  If $X$ is a Binomial random variable with $n$
+  trials and success probability $\alpha$, then we can write
+  \begin{equation*}
+    X = \xi_{1}+\ldots+\xi_{n}
+  \end{equation*}
+  where
+  \begin{equation*}
+    \xi_{i} = \left\{ \begin{array}{l@{\quad:\quad}l} 1 & \text{with probability
+        }\alpha\\0 & \text{with probability }1-\alpha \end{array}\right..
+  \end{equation*}
+  In words $\xi_{i}$ is either one or zero depending on whether the
+  $i^{\rm th}$ coin flip was `heads' or not. Hence, the sum
+  $\xi_{1}+\ldots+\xi_{n}$ counts the number of heads in $n$ coin flips.
+\end{remark}
+
+\begin{example}
+  Suppose we wish to compute $\E\left[X \right]$, when $X$ is binomial with
+  $n$ trials and success parameter $\alpha$.
+
+  To do this computation, we'll use the idea of
+  \cref{rmk:useful-characterization-binomial-random-variables}:
+  \begin{align*}
+    \E\left[X \right] 
+    &= \E\left[\xi_{1}+\ldots+\xi_{n} \right]\\ 
+    &= \E\left[\xi_{1} \right]+\ldots+ \E\left[\xi_{n} \right] &&\text{by \cref{prop:linearity-of-expectation}}.
+  \end{align*}
+  Observe that $\E\left[\xi_{i} \right]=p$ for all $i\in
+  \left\{1,\ldots,n\right\}$, and hence
+  \begin{equation*}
+    \E\left[X \right]= n \alpha.
+  \end{equation*}
+\end{example}
+\newpage
+\section{2026-02-27 | Week 07 | Lecture 16}
+\textbf{Compute variance of binomial}
+
+
+\begin{example}[Geometric random variable]
+  Throw a basketball. Then
+  \begin{gather}
+    1 = \text{success} = \text{made basket}\\
+    0 = \text{failed} = \text{missed basket}
+  \end{gather}
+  Fix a parameter $\alpha\in (0,1)$. Say that success has probability $\alpha$ and failure has
+  probability $1-\alpha$.
+
+  Let $X$ be the number of throws until I make a basket. Let $p(x)$ the pmf of $X$.
+  Then
+  \begin{table}[H]
+    \centering
+    \begin{tabular}{l|l}
+      $x$      & $p(x)$               \\ \hline
+      1        & $\alpha$             \\
+      2        & $(1-\alpha)\alpha$ \\
+      3        & $(1-\alpha)^{2}\alpha$ \\
+      4        & $(1-\alpha)^{3}\alpha$   \\
+      $\vdots$ & $\vdots$            
+    \end{tabular}
+  \end{table}
+  In other words, the pmf is
+  \begin{equation*}
+    p(x) = \left\{ \begin{array}{l@{\quad}l} \left( 1-\alpha \right)^{x-1}\alpha  & \text{if }x=1,2,\ldots\\0 & \text{otherwise} \end{array}\right.
+  \end{equation*}
+  A random variable with this pmf is called a \demph{geometric random variable with success parameter $\alpha$.}
+\end{example}
+\newpage
 \subsection{Application of the Law of Total Probability: The probability of winning at craps}
 
 Recall the rules of craps:
@@ -2472,139 +2755,75 @@ Your chance of winning is about 49.3\%.
 
 
 
-\subsection{More random variable notes}
+
+
+\section{More rvs}
 \textbf{Note to self: } Make sure to do the binomial random variable, the
 Possion random variable, and variance calculation
 
-\begin{example}[Random variables and pmfs]
-  \label{ex:random-variables-and-pmfs}
-  Say we flip a fair coin three times
 
-  \begin{table}[htb]
-    \centering
-    \begin{tabular}{l|llllllll}
-      &  HHH & HHT & HTH & THH & TTH & THT & HTT & TTT \\ \hline
-      $X =$\text{ \# heads}                      & 3   & 2   & 2   & 2   & 1   & 1   & 1   & 0   \\
-      $Y= $\text{ \# tails prior to first heads} & 0   & 0   & 0   & 1   & 2   & 1   & 0   & 3  \\
-      $Z= $ \text{(more tails than heads?)} & 1   & 1   & 1   & 1   & 0   & 0   & 0   & 0  
-    \end{tabular}
-  \end{table}
-  Here
-  $Z = \left\{ \begin{array}{l@{\quad:\quad}l} 1 & \text{more tails than heads}\\ 0 &
-      \text{otherwise} \end{array}\right.$
+\begin{theorem}[The exponential function]
+  \label{thm:exponential-function}
+  For any real number $x$, it holds that
+  \begin{equation*}
+    e^{x} = \sum_{n=0}^{\infty}\frac{x^{n} }{n!}.
+  \end{equation*}
+\end{theorem}
 
-  In this example, the sample space is
-  \begin{equation*}
-    S = \left\{\text{HHH, HHT, HTH, THH, TTH, THT, HTT, TTT} \right\}
-  \end{equation*}
-  $X=2$ is an event:
-  \begin{equation*}
-    \left[ X=2 \right]  = \left\{s \in  S: X(s) = 2\right\} = \left\{ \text{HHT, HTH, THH} \right\}
-  \end{equation*}
-  $X \leq 2$ is also an event:
-  \begin{equation*}
-    \left[ X \leq 2 \right]  = \left\{s \in  S: X(s) \leq 2\right\} = \left\{ \text{HHT, HTH, THH, TTH,
-        THT, HTT, TTT} \right\}
-  \end{equation*}
-  We can specify $X,Y,Z$ by the following tables:
 
-  \begin{table}[htb]
-    \centering
-    \begin{tabular}{l|l}
-      $x$ & $\P[X=x]$ \\ \hline
-      0   & $1/8$     \\
-      1   & $3/8$     \\
-      2   & $3/8$     \\
-      3   & $1/8$    
-    \end{tabular}
-    \quad
-    \quad
-    \begin{tabular}{l|l}
-      $y$ & $\P[Y=y]$ \\ \hline
-      0   & $4/8$     \\
-      1   & $2/8$     \\
-      2   & $1/8$     \\
-      3   & $1/8$    
-    \end{tabular}
-    \quad
-    \begin{tabular}{l|l}
-      $z$ & $\P[Z=z]$ \\ \hline
-      0   & $4/8$     \\
-      1   & $4/8$     
-    \end{tabular}
+\begin{definition}[Poisson (``Pwason'')]
+  Let $\lambda>0$. A random variable $X$ that takes on the values $0,1,2,\ldots$ is a \demph{Poisson}
+  random variable with parameter $\lambda$ if its probability mass function is given by
+  \begin{equation*}
+    p(k) := \P\left[X = k \right] = e^{-\lambda} \frac{\lambda^{k}}{k!} \quad \text{ for }k=0,1,2,\ldots.
+  \end{equation*}
+  Before explaining this, we should check that it is actually a probability mass function: remember, it
+  needs to sum to 1:
+  \begin{align*}
+    \sum_{k=0}^{\infty}  p(k) 
+    &= \sum_{k=0}^{\infty}e^{-\lambda}\frac{\lambda^{k}}{k!} \\
+    &=e^{-\lambda}\sum_{k=0}^{\infty}\frac{\lambda^{k}}{k!} \\
+    &= e^{-\lambda} e^{\lambda} &&\text{by \cref{thm:exponential-function} }\\
+    &=1.
+  \end{align*}
 
-  \end{table}
-  Recall that given a discrete random variable $X$, the \demph{probability mass function (pmf)} is the
-  function
-  \begin{equation*}
-    p(x) := \P\left[X=x \right]
-  \end{equation*}
-  For example, the pmf of $X$ is the function $p$ which take the following values
-  \begin{equation*}
-    p(0) = 1/8 \quad p(1) = 3/8 \quad p(2) = 3/8, \quad \text{and} \quad p(3)=1/8
-  \end{equation*}
-  It's just a different way of writing the above table!
+  The Poisson distribution is a common model since it models ``accidents''.
+\end{definition}
 
-  \textbf{General fact:} For any discrete r.v., we have $p(x) \geq 0$ for all $x$, and that 
+\begin{example}
+  Oahu has about a million cars and averages about 6 car accidents per day. The probability that any one
+  car will have an accident is very small, and they are all (nearly) independent from each other, bus
+  since there are so many cars, you expect 6 accidents, on average. But actual number of accidents each
+  day is $X=0$ or $1$ or $2$ or $\ldots$. The number of car accidents is thus poisson distributed with
+  mean $\lambda=6$ What is
   \begin{equation*}
-    \sum_{x}p(x) =1,
+    F(2) = \P\left[X \leq 2\right]?
   \end{equation*}
-  where the sum ranges over all values that $X$ can take.
+  
+  The probabilities of no accidents, one accident, and two accidents
+  are
+  \begin{equation*}
+    p(0) = e^{-6} \frac{6^{0}}{0!} = e^{-6} \approx 0.002
+  \end{equation*}
+  \begin{equation*}
+    p(1) = e^{-6} \frac{6^{1}}{1!} = 6e^{-6} \approx 0.015
+  \end{equation*}
+  \begin{equation*}
+    p(2) = e^{-6} \frac{6^{2}}{2!} = 18e^{-6} \approx 0.045
+  \end{equation*}
+
+  Therefore $F(2) = p(0)+p(1)+p(2)\approx 0.002+0.015+0.045  = 0.062$
 \end{example}
 
 
-
-
-Let $X$ be a discrete random varible. The \demph{cumulative distribution function (cdf)} of $X$ is the function
-\begin{equation*}
-  F_{X}(x) := \P\left[X \leq x\right]
-\end{equation*}
-
-\begin{example}[cdf of a dice roll]
-  What is the pmf and cdf a dice roll?
-
-  The pmf is:
-  \begin{center}
-    \includegraphics[scale=.3]{images/pmf-of-dice-roll}
-  \end{center}
-
-  The cdf is
-  \begin{center}
-    \includegraphics[scale=.3]{images/dice-cdf}
-  \end{center}
-\end{example}
-
-
-\begin{example}[Geometric distribution]
-  Throw a basketball. Then
-  \begin{gather}
-    1 = \text{success} = \text{made basket}\\
-    0 = \text{failed} = \text{missed basket}
-  \end{gather}
-  Fix a parameter $\alpha\in (0,1)$. Say that success has probability $\alpha$ and failure has
-  probability $1-\alpha$.
-
-  Let $X$ be the number of throws until I make a basket. Let $p(x)$ the pmf of $X$.
-  Then
-  \begin{table}[H]
-    \centering
-    \begin{tabular}{l|l}
-      $x$      & $p(x)$               \\ \hline
-      1        & $\alpha$             \\
-      2        & $(1-\alpha)\alpha$ \\
-      3        & $(1-\alpha)^{2}\alpha$ \\
-      4        & $(1-\alpha)^{3}\alpha$   \\
-      $\vdots$ & $\vdots$            
-    \end{tabular}
-  \end{table}
-  In other words, the pmf is
+\begin{proposition}
+  Let $X\sim \text{Pois}(\lambda)$. Then
   \begin{equation*}
-    p(x) = \left\{ \begin{array}{l@{\quad}l} \left( 1-\alpha \right)^{x-1}\alpha  & \text{if }x=1,2,\ldots\\0 & \text{otherwise} \end{array}\right.
+    \E\left[X \right]= \lambda \quad \text{and} \quad \Var(X) = \lambda
   \end{equation*}
-  A random variable with this pmf is called a \demph{geometric random variable with success parameter $\alpha$.}
-\end{example}
+\end{proposition}
+That the variance and expected values are the same for the Poisson random variable is a neat coincidence.
 
-\newpage
 
 
 \newpage
@@ -2612,217 +2831,11 @@ Let $X$ be a discrete random varible. The \demph{cumulative distribution functio
 
 
 
-
-\section{2025-02-07 | Week 4 | Lecture 11}
-
-
-
-
-
-\begin{example}[Bernoulli random variable]
-  Any random varible whose only values are 0 or 1. For any fixed value $0<\alpha<1$, we say that $X$ \demph{is a
-    Bernoulli random variable with success parameter $\sigma$} if
-  \begin{equation*}
-    X = \left\{ \begin{array}{l@{\quad}l} 1 & \text{with probability } \alpha\\0  & \text{with
-          probability } 1-\alpha \end{array}\right.
-  \end{equation*}
-  In this case, we write $X\sim \text{Bern}(\alpha)$. 
-  The pmf of $X$ is the function taking the following values:
-  \begin{equation*}
-    p(1) = \alpha,
-    \quad  p(0) = 1-\alpha,
-    \quad \text{and} \quad p(x)=0 \text{ for all other values of }x
-  \end{equation*}
-  
-  A Bernoulli random variable is nothing other than a coin flip (with a coin that lands `head' with
-  probability $\alpha$.)
-\end{example}
-
-
-
-\begin{proposition}[cdf properties]
-  We note that $F_{X}: \R \to [0,1]$ and that
-  \begin{equation*}
-    F_{X}(x) = \sum_{y \leq x} p_{X}(y)
-  \end{equation*}
-  From this equation, we can deduce that
-  \begin{equation*}
-    F_{X}(x_{1}) \leq  F_{X}(x_{2}) \text{ whenever } x_{1} \leq x_{2}.
-  \end{equation*}
-  In other words, $F_{X}$ is an \demph{increasing function} (or maybe more appropriately,
-  ``nondecreasing'').
-  Also,
-  \begin{equation*}
-    \P\left[a<X \leq b\right] = F_{X}(b)- F_{X}(a)
-  \end{equation*}
-\end{proposition}
-
-\newpage
-\section{2025-02-10 | Week 5 | Lecture 12}
-
 \newpage
 \section{2025-02-12 | Week 5 | Lecture 13}
 \textit{Please read 3.4, 3.6. Skip 3.5}.
 
 
-In the homework, we say the following problem:
-
-
-
-
-
-\begin{problem}
-  Two cards are randomly drawn from a deck of cards. Let $A$ be the event that at least one ace is
-  drawn. Let $A_{\rm s}$ be the event that the ace of spades is chosen. And let $B$ be the event that
-  both cards are aces. Compute the following conditional probabilities:
-  \begin{enumerate}[(a)]
-    \item $\P\left[B\mid A_{\rm s} \right]$ 
-    \item $\P\left[B\mid A \right]$ 
-  \end{enumerate}
-\end{problem}
-
-We computed that $\P\left[B\mid A_{\rm s} \right] = \frac{1}{17}\approx .06$ and that
-$\P\left[B\mid A \right] = \frac{1}{33}\approx .03$. The first of these is twice as big as the second.
-Why on earth does knowing $A_{\rm s}$ increase the probability of $B$, compared to knowing $A$?!
-
-
-\subsection{Variance}
-
-
-
-Recall, the \demph{variance} of a random variable $X$ is
-\begin{equation*}
-  \text{Var}(X) := \sum_{x} (x-\mu)^{2}p(x) 
-\end{equation*}
-where $\mu= \E\left[X \right]$ and $x$ ranges over all possible values that $X$ can take. The variance of
-a random variable is often denoted $\sigma^{2}$.
-
-\textbf{Important formula:} There is a shortcut for computing variance
-\begin{align}\label{eq:7}
-  \text{Var}(X) 
-  &= \E\left[X^{2} \right] - \left( \E\left[X \right] \right)^{2}
-\end{align}
-
-Also, we have the following useful properties. Let $a,b$ be fixed, nonrandom numbers. Then
-\begin{itemize}
-  \item $\text{Var}(aX) = a^{2}\text{Var}(X)$
-  \item $\text{Var}(X+b) = \text{Var}(X)$
-\end{itemize}
-Moreover, if $X,Y$ are independent random variables,
-then
-\begin{equation*}
-  \Var(X+Y) = \Var(X)+\Var(Y)
-\end{equation*}
-(Of course, we always have $\E\left[X+Y \right] = \E\left[X \right]+ \E\left[Y \right]$, even if $X$ and
-$Y$ are not independent. This is called \demph{linearity of expectation}. But for variance, we need $X$
-and $Y$ to be independent to do something similar.)
-
-\begin{example}
-  Suppose
-  \begin{equation*}
-    U =  \left\{ \begin{array}{l@{\quad:\quad}l} 2 & \text{with probability }\alpha\\ 3& \text{with
-          probability }1-\alpha \end{array}\right.
-  \end{equation*}
-  What is $\E\left[U \right]$ and $\Var(U)$?
-
-  \textit{Solution:} First, we will compute the expectation:
-  \begin{align}\label{eq:8}
-    \E\left[U \right] 
-    &= 2\alpha+3(1-\alpha) \nonumber\\
-    &= 3-\alpha
-  \end{align}
-
-  Next, we will compute $\Var(U)$. We will use the formula  \cref{eq:7}. In particular we wil need
-  $\E\left[U^{2} \right]$, so let's compute that:
-  \begin{align}\label{eq:9}
-    \E\left[U^{2} \right] 
-    &=2^{2}\alpha+3^{2}(1-\alpha) &&\text{by \cref{thm:expectation-of-function-of-X} }\nonumber\\
-    &=4\alpha+9(1-\alpha)\nonumber\\
-    &=9-5\alpha
-  \end{align}
-  We can now plug the values from \cref{eq:9,eq:8} into \cref{eq:7} to get
-  \begin{align*}
-    \Var(U) 
-    &= \E\left[U^{2} \right] - \left( \E\left[U \right] \right)^{2}\\
-    &= 9-5\alpha - (3-\alpha)^{2}
-  \end{align*}
-  For example, if $\alpha=\frac{1}{2}$, then we get
-  $\E\left[U \right] = 3-\frac{1}{2} = 2.5$
-  and
-  \begin{equation*}
-    \Var(U) = 9-\frac{5}{2}- \frac{25}{4} = \frac{1}{4}
-  \end{equation*}
-  Now, someone asked ``how do we interpret this $1/4$?'' The short answer is, it's complicated. There
-  isn't a nice interpretation that works for every random variable, so often the best we can do is
-  understand this as some measure of how much our random variable tends to deviate from its mean. In this
-  case, the $1/4$ is pretty small, so the random variable doesn't seem to deviate all that much from its
-  mean.
-\end{example}
-
-
-While variance does give us some information, it's only a single number and so the amount of information
-it gives us about the random variable is actually very limited, and it is impossible to interpret it
-precisely without additional information about the random variable. This is illustrated in the following
-example.
-
-\begin{example}
-  Let $M = 1,000,000$. And let
-  \begin{equation*}
-    X = \left\{ \begin{array}{l@{\quad:\quad}l} 0 & \text{with probability } .99  \\ 10M &
-        \text{with probability }.01 \end{array}\right.
-  \end{equation*}
-  The random variable $X$ is like winning the lottery.
-
-  On the other hand,  let
-  \begin{equation*}
-    Y = \left\{ \begin{array}{l@{\quad:\quad}l} -10 & \text{with probability }\frac{1}{2}\\ 10 & \text{with probability }\frac{1}{2} \end{array}\right.
-  \end{equation*}
-
-  In the case of $X$, we have
-  \begin{align*}
-    \Var(X) 
-    &= \E\left[X^{2} \right] - \left( \E\left[X \right] \right)^{2}\\
-    &= \left[(10M)^{2}(0.01)+ 0^{2}(0.99)\right] - \left[10M(0.01)+ 0(0.99)\right]^{2}\\
-    &= M^{2} - \frac{M^{2}}{100}\\
-    &= \frac{99}{100}M^{2}
-  \end{align*}
-  This is a HUGE variance, because $M=10,000,000$. But for the most part, intuitvely, few people would
-  say that this r.v. ``varies'' all that much. After all, it's almost always $0$.
-
-
-  On the other hand, what if we compute the variance of $Y$? In this, we have $\E\left[Y
-  \right]=-10\frac{1}{2}+10\frac{1}{2}=0$, so
-  \begin{align*}
-    \Var(Y) 
-    &= \E\left[Y^{2} \right]-0\\
-    &= (-10)^{2}\frac{1}{2} + (10)^{2}\frac{1}{2}\\
-    &= 100
-  \end{align*}
-  In this case, the variance is pretty big---not huge, but pretty big. Yet the random variable $Y$
-  doesn't really seem to ``vary'' all that much: after all, we know it is always either 10 more than the
-  mean (which is zero), or 10 less than the mean.
-\end{example}
-
-Hopefully this example doesn't give you the impression that variance is useless. It's actually a really
-important measure. The issue is just that random variables can ``vary'' in lots of different ways that
-can be hard to summarize as a single value.
-
-\begin{definition}[Binomial Distribution]
-  Flip a coin $n$ times, and let $\alpha\in (0,1)$ be the probability of `heads' on any given coin flip. The
-  probability that you get exactly $k$ heads is
-  \begin{equation*}
-    {n\choose k} \alpha^{k}(1-\alpha)^{n-k}
-  \end{equation*}
-  A random variable with state space $\left\{0,1,2,\ldots,n\right\}$ is said to have \demph{Binomial distribution with $n$ trials and success probability $\alpha$} if its pmf is
-  \begin{equation*}
-    p(k) = {n\choose k} \alpha^{k}(1-\alpha)^{n-k}
-  \end{equation*}
-  for $k=0,1,\ldots,n$. We write $X\sim \text{Bin}(n,\alpha)$.
-\end{definition}
-
-You've already seen binomial random variables before. For an example, the random variable $X$ from
-\cref{ex:random-variables-and-pmfs} is an example of a random variable with
-$X\sim \text{Bin}(3,\frac{1}{2})$.
 
 \subsection{Poisson convergence}
 Fix $\lambda\in (0,1)$. Suppose have a sequence of magic coins $1,2,\ldots$.
@@ -2930,67 +2943,6 @@ random variable, one that we haven't seen yet?
 
 Yes.
 
-\begin{theorem}[The exponential function]
-  \label{thm:exponential-function}
-  For any real number $x$, it holds that
-  \begin{equation*}
-    e^{x} = \sum_{n=0}^{\infty}\frac{x^{n} }{n!}.
-  \end{equation*}
-\end{theorem}
-
-
-\begin{definition}[Poisson (``Pwason'')]
-  Let $\lambda>0$. A random variable $X$ that takes on the values $0,1,2,\ldots$ is a \demph{Poisson}
-  random variable with parameter $\lambda$ if its probability mass function is given by
-  \begin{equation*}
-    p(k) := \P\left[X = k \right] = e^{-\lambda} \frac{\lambda^{k}}{k!} \quad \text{ for }k=0,1,2,\ldots.
-  \end{equation*}
-  Before explaining this, we should check that it is actually a probability mass function: remember, it
-  needs to sum to 1:
-  \begin{align*}
-    \sum_{k=0}^{\infty}  p(k) 
-    &= \sum_{k=0}^{\infty}e^{-\lambda}\frac{\lambda^{k}}{k!} \\
-    &=e^{-\lambda}\sum_{k=0}^{\infty}\frac{\lambda^{k}}{k!} \\
-    &= e^{-\lambda} e^{\lambda} &&\text{by \cref{thm:exponential-function} }\\
-    &=1.
-  \end{align*}
-
-  The Poisson distribution is a common model since it models ``accidents''.
-\end{definition}
-
-\begin{example}
-  Oahu has about a million cars and averages about 6 car accidents per day. The probability that any one
-  car will have an accident is very small, and they are all (nearly) independent from each other, bus
-  since there are so many cars, you expect 6 accidents, on average. But actual number of accidents each
-  day is $X=0$ or $1$ or $2$ or $\ldots$. The number of car accidents is thus poisson distributed with
-  mean $\lambda=6$ What is
-  \begin{equation*}
-    F(2) = \P\left[X \leq 2\right]?
-  \end{equation*}
-  
-  The probabilities of no accidents, one accident, and two accidents
-  are
-  \begin{equation*}
-    p(0) = e^{-6} \frac{6^{0}}{0!} = e^{-6} \approx 0.002
-  \end{equation*}
-  \begin{equation*}
-    p(1) = e^{-6} \frac{6^{1}}{1!} = 6e^{-6} \approx 0.015
-  \end{equation*}
-  \begin{equation*}
-    p(2) = e^{-6} \frac{6^{2}}{2!} = 18e^{-6} \approx 0.045
-  \end{equation*}
-
-  Therefore $F(2) = p(0)+p(1)+p(2)\approx 0.002+0.015+0.045  = 0.062$
-\end{example}
-
-
-\begin{proposition}
-  Let $X\sim \text{Pois}(\lambda)$. Then
-  \begin{equation*}
-    \E\left[X \right]= \lambda \quad \text{and} \quad \Var(X) = \lambda
-  \end{equation*}
-\end{proposition}
-That the variance and expected values are the same for the Poisson random variable is a neat coincidence.
 
 
 \begin{theorem}[Poisson approximation]
