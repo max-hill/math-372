@@ -2488,6 +2488,18 @@ theorem.
   \begin{equation}\label{eq:4}
     \Var(aX) = a^{2}\Var(X).
   \end{equation}
+  \begin{proof}[Here is a direct proof of \cref{eq:4}:]
+    \begin{align*}
+      \Var(aX)
+      &= \E\left[\left( aX- \E\left[aX \right] \right)^{2}  \right]
+      &&\text{by \cref{def:variance}}\\
+      &= E\left[  \left( aX- a\E\left[X \right] \right)^{2}  \right]
+      &&\text{by \cref{prop:linearity-of-expectation}}\\
+      &= \E\left[a^{2}\left(X- \E\left[X \right]  \right)  \right]\\
+      &= a^{2} \E\left[ X- \E\left[X \right]   \right] &&\text{by \cref{prop:linearity-of-expectation}}\\
+      &= a^{2}\Var(X) &&\text{by \cref{def:variance} }
+    \end{align*}
+  \end{proof}
   \item Taking $a=1$ in \cref{eq:5} gives
   \begin{equation*}
     \Var(X+b) = \Var(X)
@@ -2508,18 +2520,7 @@ theorem.
 \end{itemize}
 
 
-\begin{proof}[Here is a proof of \cref{eq:4}:]
-  \begin{align*}
-    \Var(aX)
-    &= \E\left[\left( aX- \E\left[aX \right] \right)^{2}  \right]
-    &&\text{by \cref{def:variance}}\\
-    &= E\left[  \left( aX- a\E\left[X \right] \right)^{2}  \right]
-    &&\text{by \cref{prop:linearity-of-expectation}}\\
-    &= \E\left[a^{2}\left(X- \E\left[X \right]  \right)  \right]\\
-    &= a^{2} \E\left[ X- \E\left[X \right]   \right] &&\text{by \cref{prop:linearity-of-expectation}}\\
-    &= a^{2}\Var(X) &&\text{by \cref{def:variance} }
-  \end{align*}
-\end{proof}
+
 
 \subsection{Binomial random variable}
 
@@ -2596,7 +2597,7 @@ The precise definition of a binomial random variable is as follows:
     &= \E\left[\xi_{1}+\ldots+\xi_{n} \right]\\ 
     &= \E\left[\xi_{1} \right]+\ldots+ \E\left[\xi_{n} \right] &&\text{by \cref{prop:linearity-of-expectation}}.
   \end{align*}
-  Observe that $\E\left[\xi_{i} \right]=p$ for all $i\in
+  Observe that $\E\left[\xi_{i} \right]=1\cdot\alpha+0\cdot(1-\alpha)=\alpha$ for all $i\in
   \left\{1,\ldots,n\right\}$, and hence
   \begin{equation*}
     \E\left[X \right]= n \alpha.
