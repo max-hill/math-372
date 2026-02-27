@@ -2545,13 +2545,13 @@ theorem.
 
 Next we introduce an important type of random variable, called the
 ``binomial'' random variable. The motivation is the following idea: if you
-flip a coin $n$ times, and let $\alpha\in (0,1)$ be the probability of `heads'
+flip a coin $n$ times, and let $p\in (0,1)$ be the probability of `heads'
 on any given coin flip. We can define a random variable
 $X=\text{(\# of heads in $n$ flips)}$.
 
 The probability that you get exactly $k$ heads in $n$ flips is given by the formula:
 \begin{equation}\label{eq:32}
-  {n\choose k} \alpha^{k}(1-\alpha)^{n-k}.
+  {n\choose k} p^{k}(1-p)^{n-k}.
 \end{equation}
 This is the probability that $X=k$. To see where \cref{eq:32} comes from, work
 out an example, say $n=5$ and $k=3$, and the general idea will become clear.
@@ -2561,25 +2561,25 @@ The precise definition of a binomial random variable is as follows:
 \begin{definition}[Binomial random variable]
   \label{def:binomial-random-variable}
   A random variable is said to be a \demph{Binomial random variable} with $n$
-  trials and success probability $\alpha$ if
+  trials and success probability $p$ if
   \begin{equation*}
-    \P\left[X=k\right] = {n\choose k} \alpha^{k}(1-\alpha)^{n-k}
+    \P\left[X=k\right] = {n\choose k} p^{k}(1-p)^{n-k}
   \end{equation*}
   for every $k\in \left\{0,1,\ldots,n\right\}$. In this case, we write
-  $X\sim \text{Bin}(n,\alpha)$.
+  $X\sim \text{Bin}(n,p)$.
 \end{definition}
 
 \begin{remark}[Useful characterization of binomial random variables]
   \label{rmk:useful-characterization-binomial-random-variables}
   If $X$ is a Binomial random variable with $n$
-  trials and success probability $\alpha$, then we can write
+  trials and success probability $p$, then we can write
   \begin{equation*}
     X = \xi_{1}+\ldots+\xi_{n}
   \end{equation*}
   where
   \begin{equation*}
     \xi_{i} = \left\{ \begin{array}{l@{\quad:\quad}l} 1 & \text{with probability
-        }\alpha\\0 & \text{with probability }1-\alpha \end{array}\right..
+        }p\\0 & \text{with probability }1-p \end{array}\right..
   \end{equation*}
   In words $\xi_{i}$ is either one or zero depending on whether the
   $i^{\rm th}$ coin flip was `heads' or not. Hence, the sum
@@ -2588,7 +2588,7 @@ The precise definition of a binomial random variable is as follows:
 
 \begin{example}
   Suppose we wish to compute $\E\left[X \right]$, when $X$ is binomial with
-  $n$ trials and success parameter $\alpha$.
+  $n$ trials and success parameter $p$.
 
   To do this computation, we'll use the idea of
   \cref{rmk:useful-characterization-binomial-random-variables}:
@@ -2597,46 +2597,15 @@ The precise definition of a binomial random variable is as follows:
     &= \E\left[\xi_{1}+\ldots+\xi_{n} \right]\\ 
     &= \E\left[\xi_{1} \right]+\ldots+ \E\left[\xi_{n} \right] &&\text{by \cref{prop:linearity-of-expectation}}.
   \end{align*}
-  Observe that $\E\left[\xi_{i} \right]=1\cdot\alpha+0\cdot(1-\alpha)=\alpha$ for all $i\in
+  Observe that $\E\left[\xi_{i} \right]=1\cdotp+0\cdot(1-p)=p$ for all $i\in
   \left\{1,\ldots,n\right\}$, and hence
   \begin{equation*}
-    \E\left[X \right]= n \alpha.
+    \E\left[X \right]= n p.
   \end{equation*}
 \end{example}
 \newpage
 \section{2026-02-27 | Week 07 | Lecture 16}
-\textbf{Compute variance of binomial}
 
-
-\begin{example}[Geometric random variable]
-  Throw a basketball. Then
-  \begin{gather}
-    1 = \text{success} = \text{made basket}\\
-    0 = \text{failed} = \text{missed basket}
-  \end{gather}
-  Fix a parameter $\alpha\in (0,1)$. Say that success has probability $\alpha$ and failure has
-  probability $1-\alpha$.
-
-  Let $X$ be the number of throws until I make a basket. Let $p(x)$ the pmf of $X$.
-  Then
-  \begin{table}[H]
-    \centering
-    \begin{tabular}{l|l}
-      $x$      & $p(x)$               \\ \hline
-      1        & $\alpha$             \\
-      2        & $(1-\alpha)\alpha$ \\
-      3        & $(1-\alpha)^{2}\alpha$ \\
-      4        & $(1-\alpha)^{3}\alpha$   \\
-      $\vdots$ & $\vdots$            
-    \end{tabular}
-  \end{table}
-  In other words, the pmf is
-  \begin{equation*}
-    p(x) = \left\{ \begin{array}{l@{\quad}l} \left( 1-\alpha \right)^{x-1}\alpha  & \text{if }x=1,2,\ldots\\0 & \text{otherwise} \end{array}\right.
-  \end{equation*}
-  A random variable with this pmf is called a \demph{geometric random variable with success parameter $\alpha$.}
-\end{example}
-\newpage
 \subsection{Application of the Law of Total Probability: The probability of winning at craps}
 
 Recall the rules of craps:
@@ -2734,7 +2703,8 @@ that your last roll is a 4 or a 7. Thus,
   &= \frac{\P\left[ \text{(roll 4) and (roll 4 or 7)} \right]}{\P\left[ \text{roll 4 or 7} \right]}
   &&\text{by def of conditional prob. }\\
   &= \frac{\P\left[ \text{roll 4} \right]}{\P\left[\text{roll 4 or 7} \right]} \\
-  &= \frac{3/36}{\frac{3}{36}+6/36}\\
+  &= \frac{3/36}{3/36+6/36}\\
+  &= \frac{3}{9}
   &= \frac{1}{3}.
 \end{align*}
 Continue in this manner to get all the values of the table. Then plugging the values from the table into
@@ -2752,7 +2722,107 @@ Continue in this manner to get all the values of the table. Then plugging the va
 \end{equation*}
 Your chance of winning is about 49.3\%.
 
-\textit{Today's lecture is on sections 3.3 and 3.4 in the textbook}
+
+\subsection{Binomial random variable (continued)}
+(\textit{Based on chapter 3.4 in the textbook.})
+
+Recall that a random variable is called a \demph{binomial random variable}
+with number of trials $n$ and success probability $p\in (0,1)$ if
+\begin{equation*}
+  \P\left[X=k \right] = {n\choose k} p^{k}(1-p)^{n-k}
+\end{equation*}
+for every $k\in \left\{0,\ldots,n\right\}$. 
+
+\Fl{Interpretation:} If $p$ is the probability of a coin landing on
+heads, then
+\begin{equation*}
+  X = (\text{\# of heads in $n$ coin tosses}).
+\end{equation*}
+
+\begin{example}[Variance of a binomial random variable]
+  \label{ex:variance-binomial-random-variable}
+  Let $X$ be a binomial random variable. In the last lecture we showed that
+  \begin{equation*}
+    \E\left[X \right] = np.
+  \end{equation*}
+
+  \textit{Question:} What is the variance of $X$?
+
+  \textit{Solution:} Recall that we can write
+  \begin{equation*}
+    X= \xi_{1}+\ldots+\xi_{n},
+  \end{equation*}
+  where
+  \begin{equation*}
+    \xi_{i} = \left\{ \begin{array}{l@{\quad:\quad}l} 1 & \text{with probability
+        }p\\0 & \text{with probability }1-p \end{array}\right..
+  \end{equation*}
+  Therefore, using the additivity of variance
+  (\cref{thm:variance-properties}), we have
+  \begin{equation}\label{eq:33}
+    \Var(X) = \Var( \xi_{1}+\ldots+\xi_{n}) = \Var(\xi_{1})+\ldots+\Var(\xi_{n}).
+  \end{equation}
+  We need to compute $\Var(\xi_{i})$, for $i=1,\ldots,n$. Observe that by the
+  shortcut formula for variance (\cref{thm:variance-shortcut-formula}, for
+  every $i$, we have
+  \begin{align*}
+    \Var(\xi_{i}) 
+    &= \E\left[\xi_{i}^{2} \right]- \left( \E\left[\xi_{i} \right] \right)^{2}\\
+    &= p - p^{2}\\
+    &= p(1-p).
+  \end{align*}
+  Plugging this into \cref{eq:33} implies that
+  \begin{equation*}
+    \Var(X) = np(1-p).
+  \end{equation*}
+\end{example}
+
+
+\newpage
+
+\section{LEFT OFF HERE}
+The next example presents another important discrete random variable: the
+geometric random variable.
+
+\begin{example}[Geometric random variable]
+  \label{ex:geometric-random-variable}
+  A basketball player is shooting hoops. For the $i^{\rm th}$ shot, let
+  \begin{equation*}
+    \xi_{i} = \left\{ \begin{array}{l@{\quad:\quad}l} 1 & \text{they make the
+          shot}\\0 & \text{they the shot} \end{array}\right..
+  \end{equation*}
+  Suppose that for each shot, the probability of successfully making the shot
+  is $p\in (0,1)$, (where $p$ depends on the skill of the player), and the
+  probability of missing the shot it $1-p$. Let
+  \begin{equation*}
+    Y = \text{(\# of throws until they make a basket)}
+  \end{equation*}
+  Then $Y$ is a random variable and its probability mass function is given by
+  the following table:
+  \begin{center}
+    \begin{tabular}{l|l}
+      $k$      & $\P\left[Y=k \right]$               \\ \hline
+      1        & $p$             \\
+      2        & $(1-p)p$ \\
+      3        & $(1-p)^{2}p$ \\
+      4        & $(1-p)^{3}p$   \\
+      $\vdots$ & $\vdots$            
+    \end{tabular}
+  \end{center}
+  In other words, the pmf is
+  \begin{equation*}
+    \P\left[Y=k \right] = \left\{ \begin{array}{l@{\quad}l} \left( 1-p \right)^{k-1}p  & \text{if }k=1,2,\ldots\\0 & \text{otherwise} \end{array}\right.
+  \end{equation*}
+  A random variable with this pmf is called a \demph{geometric random variable
+    with success parameter $p$.}
+
+  \Fl{Other properties:}
+  \begin{itemize}
+    \item   For every positive integer $k$, $\P\left[Y > k\right]=
+    (1-p)^{k}$, and therefore $\P\left[Y \leq k\right]=1-(1-p)^{k}$.
+    \item $\E\left[Y \right]= \frac{1}{p}$ (Homework problem, maybe)
+  \end{itemize}
+\end{example}
 
 
 
@@ -5938,6 +6008,5 @@ like the ones we did for the skittle distribution.
 
 
  
-
 \end{document}
 
