@@ -2772,70 +2772,116 @@ heads, then
     &= p(1-p).
   \end{align*}
   Plugging this into \cref{eq:33} implies that
-  \begin{equation*}
+  \begin{equation}\label{eq:34}
     \Var(X) = np(1-p).
-  \end{equation*}
+  \end{equation}
 \end{example}
 
 
 \newpage
 
-\section{LEFT OFF HERE}
+\section{2026-03-02 | Week 08 | Lecture 17}
 The next example presents another important discrete random variable: the
 geometric random variable.
 
-\begin{example}[Geometric random variable]
-  \label{ex:geometric-random-variable}
-  A basketball player is shooting hoops. For the $i^{\rm th}$ shot, let
-  \begin{equation*}
-    \xi_{i} = \left\{ \begin{array}{l@{\quad:\quad}l} 1 & \text{they make the
-          shot}\\0 & \text{they the shot} \end{array}\right..
-  \end{equation*}
-  Suppose that for each shot, the probability of successfully making the shot
-  is $p\in (0,1)$, (where $p$ depends on the skill of the player), and the
-  probability of missing the shot it $1-p$. Let
-  \begin{equation*}
-    Y = \text{(\# of throws until they make a basket)}
-  \end{equation*}
-  Then $Y$ is a random variable and its probability mass function is given by
-  the following table:
-  \begin{center}
-    \begin{tabular}{l|l}
-      $k$      & $\P\left[Y=k \right]$               \\ \hline
-      1        & $p$             \\
-      2        & $(1-p)p$ \\
-      3        & $(1-p)^{2}p$ \\
-      4        & $(1-p)^{3}p$   \\
-      $\vdots$ & $\vdots$            
-    \end{tabular}
-  \end{center}
-  In other words, the pmf is
-  \begin{equation*}
-    \P\left[Y=k \right] = \left\{ \begin{array}{l@{\quad}l} \left( 1-p \right)^{k-1}p  & \text{if }k=1,2,\ldots\\0 & \text{otherwise} \end{array}\right.
-  \end{equation*}
-  A random variable with this pmf is called a \demph{geometric random variable
-    with success parameter $p$.}
+\subsection{Poisson random variable}
+Fix $\lambda\in (0,1)$. Suppose have the following coins:
+\begin{itemize}
+  \item Coin \#1 has probability of heads $\lambda$
+  \item Coin \#2 has probability of heads $\frac{\lambda}{2}$
+  \item Coin \#3 has probability of heads $\frac{\lambda}{3}$
+  \item And so forth.
+\end{itemize}
+Consider the following sequence of experiments:
+\begin{itemize}
+  \item Experiment 1: Flip coin \#1 once. 
+  \item Experiment 2: Flip coin \#2 twice.
+  \item Experiment 3: Flip coin \#3 three times.
+  \item Experiment $n$: Flip coin $\#n$, $n$ times. 
+\end{itemize}
 
-  \Fl{Other properties:}
-  \begin{itemize}
-    \item   For every positive integer $k$, $\P\left[Y > k\right]=
-    (1-p)^{k}$, and therefore $\P\left[Y \leq k\right]=1-(1-p)^{k}$.
-    \item $\E\left[Y \right]= \frac{1}{p}$ (Homework problem, maybe)
-  \end{itemize}
-\end{example}
+Let us focus now on the $n^{\rm th}$ experiment. Let $\xi_{1},\ldots,\xi_{n}$ represent the $n$ coin flips, where
+\begin{equation*}
+  \xi_{k} = \left\{ \begin{array}{l@{\quad:\quad}l} 1 & \text{ $k^{\rm th}$ coin flip is heads} \\ 0 & \text{otherwise}\end{array}\right.
+\end{equation*}
+for each $k\in \left\{1,\ldots,n\right\}$.
+
+Let
+\begin{equation*}
+  X_{n} = \xi_{1}+\xi_{2}+\ldots+\xi_{n} = \text{(\# of heads in $n$ flips)}
+\end{equation*}
+
+\Fl{Question:} How many heads do we expect to get? We can use the linearity of
+expectation:
+\begin{align*} 
+  \E\left[X_{n} \right] 
+  &= \E\left[ \xi_{1}+\xi_{2}+\ldots+\xi_{n} \right] \\
+  &= \E\left[\xi_{1} \right]+ \E\left[\xi_{2} \right]+\ldots+ \E\left[\xi_{n} \right]\\
+  &= \underbrace{\frac{\lambda}{n}+ \frac{\lambda}{n} + \ldots+\frac{\lambda}{n}}_{n\text{ terms}}\\
+  &=\lambda.
+\end{align*}
+
+So the expected number of heads that we get doesn't change from experiment to experiment, even if we send
+$n \to \infty$. Think!---for each experiment, the probability of heads is $\frac{\lambda}{n}$ and that is
+getting smaller. However the total number of coin flips is getting larger and larger.
+
+\Fl{Question} Is it possible that as $n \to \infty$, the random variable $X_{n}$ converges to some new
+random variable $Y$, one that we haven't seen yet? What properties would that new
+random variable have?
 
 
+\begin{itemize}
+  \item Its expectation should be $\lambda$, since $\E\left[Y
+  \right]=\lim_{n\to\infty} \E\left[X_{n} \right] = \lambda$
+  \item It should be able to take any positive integer value, and not any
+  other values.
+\end{itemize}
+
+\Fl{Question:} What do we expect the variance of $Y$ to be?
+
+To answer this, observe that, as the sum of $n$ coin flips (each with
+$\P\left[\text{Heads} \right]=\frac{\lambda}{n}$), it follows by
+\cref{rmk:useful-characterization-binomial-random-variables} that
+$X_{n}\sim \text{Bin}(n,\lambda/n)$.
+
+Applying \cref{eq:34} from \cref{ex:variance-binomial-random-variable}, we
+find that
+\begin{equation*}
+  \Var(X_{n}) = \lambda\left( 1-\frac{\lambda}{n} \right).
+\end{equation*}
+Therefore we expect the following to be true of $Y$:
+\begin{equation*}
+  \Var(Y) = \lim_{n\to\infty} \Var(X_{n}) = \lim_{n\to\infty} \lambda\left( 1-\frac{\lambda}{n} \right) = \lambda.
+\end{equation*}
+If this limit were $0$, then we would expect our final result to not vary at
+all---in other words, we'd expect the limit to be a fixed number, rather than
+a random quantity. But since the limiting variance $\lambda$ is positive, we
+expect the limit to be a random variable. 
+
+\Fl{Qustion:} What should the probability mass function of $Y$ look like?
 
 
-
-\section{More rvs}
-\textbf{Note to self: } Make sure to do the binomial random variable, the
-Possion random variable, and variance calculation
-
+By \cref{def:binomial-random-variable}, the probability mass function of $X_{n}$
+is
+\begin{equation*}
+  \P\left[X_{n} = k \right] = {n\choose k }p^{k}(1-p)^{n-k}, \quad k=0,1,2,\ldots
+\end{equation*}
+It turns out that when $n$ is large and $p$ is small, the following
+approximation holds:
+\begin{equation*}
+  {n\choose k }p^{k}(1-p)^{n-k} \approx e^{-\lambda}\frac{\lambda^{k}}{k!}
+\end{equation*}
+So we might expect that in the limit, if our our coin-flipping process
+converges to a random variable $Y$, that random variable should have
+probability mass function
+\begin{equation*}
+  \P\left[Y=k \right] = e^{-\lambda}\frac{\lambda^{k}}{k!}.
+\end{equation*}
 
 \begin{theorem}[The exponential function]
   \label{thm:exponential-function}
-  For any real number $x$, it holds that
+  For any real number $x$, the \demph{exponential fucntion}, denoted $e^{x}$,
+  is the function
   \begin{equation*}
     e^{x} = \sum_{n=0}^{\infty}\frac{x^{n} }{n!}.
   \end{equation*}
@@ -2844,7 +2890,7 @@ Possion random variable, and variance calculation
 
 \begin{definition}[Poisson (``Pwason'')]
   Let $\lambda>0$. A random variable $X$ that takes on the values $0,1,2,\ldots$ is a \demph{Poisson}
-  random variable with parameter $\lambda$ if its probability mass function is given by
+  random variable with parameter $\lambda$ if its probability mass function is
   \begin{equation*}
     p(k) := \P\left[X = k \right] = e^{-\lambda} \frac{\lambda^{k}}{k!} \quad \text{ for }k=0,1,2,\ldots.
   \end{equation*}
@@ -2857,9 +2903,16 @@ Possion random variable, and variance calculation
     &= e^{-\lambda} e^{\lambda} &&\text{by \cref{thm:exponential-function} }\\
     &=1.
   \end{align*}
-
-  The Poisson distribution is a common model since it models ``accidents''.
 \end{definition}
+
+\begin{proposition}
+  Let $X\sim \text{Pois}(\lambda)$. Then
+  \begin{equation*}
+    \E\left[X \right]= \lambda \quad \text{and} \quad \Var(X) = \lambda
+  \end{equation*}
+\end{proposition}
+
+The Poisson distribution is a common model since it models ``accidents''.
 
 \begin{example}
   Oahu has about a million cars and averages about 6 car accidents per day. The probability that any one
@@ -2887,13 +2940,46 @@ Possion random variable, and variance calculation
 \end{example}
 
 
-\begin{proposition}
-  Let $X\sim \text{Pois}(\lambda)$. Then
+\newpage
+
+\subsection{Geometric random variable}
+
+\begin{example}[Geometric random variable]
+  \label{ex:geometric-random-variable}
+  A basketball player is shooting hoops. Suppose that for each shot, the
+  probability of successfully making the shot is $p\in (0,1)$, (where $p$
+  depends on the skill of the player), and the probability of missing the shot
+  it $1-p$. Let
   \begin{equation*}
-    \E\left[X \right]= \lambda \quad \text{and} \quad \Var(X) = \lambda
+    Y = \text{(\# of throws until they make a basket)}
   \end{equation*}
-\end{proposition}
-That the variance and expected values are the same for the Poisson random variable is a neat coincidence.
+  Then $Y$ is a random variable and its probability mass function is given by
+  the following table:
+  \begin{center}
+    \begin{tabular}{l|l}
+      $k$      & $\P\left[Y=k \right]$               \\ \hline
+      1        & $p$             \\
+      2        & $(1-p)p$ \\
+      3        & $(1-p)^{2}p$ \\
+      4        & $(1-p)^{3}p$   \\
+      $\vdots$ & $\vdots$            
+    \end{tabular}
+  \end{center}
+  In other words, the pmf is
+  \begin{equation*}
+    \P\left[Y=k \right] = \left\{ \begin{array}{l@{\quad}l} \left( 1-p \right)^{k-1}p  & \text{if }k=1,2,\ldots\\0 & \text{otherwise} \end{array}\right.
+  \end{equation*}
+  A random variable with this pmf is called a \demph{geometric random variable
+    with success parameter $p$.}
+
+  \Fl{Properties:}
+  \begin{itemize}
+    \item   For every positive integer $k$, $\P\left[Y > k\right]=
+    (1-p)^{k}$, and therefore $\P\left[Y \leq k\right]=1-(1-p)^{k}$.
+    \item $\E\left[Y \right]= \frac{1}{p}$ (Homework problem, maybe)
+  \end{itemize}
+\end{example}
+
 
 
 
@@ -2902,117 +2988,11 @@ That the variance and expected values are the same for the Poisson random variab
 
 
 
-\newpage
-\section{2025-02-12 | Week 5 | Lecture 13}
-\textit{Please read 3.4, 3.6. Skip 3.5}.
-
-
-
-\subsection{Poisson convergence}
-Fix $\lambda\in (0,1)$. Suppose have a sequence of magic coins $1,2,\ldots$.
-\begin{itemize}
-  \item Coin 1 has probability of heads $\lambda$
-  \item Coin 2 has probability of heads $\frac{\lambda}{2}$
-  \item Coin 3 has probability of heads $\frac{\lambda}{3}$
-  \item And so forth.
-\end{itemize}
-Consider the following sequence of experiments:
-\begin{itemize}
-  \item Experiment 1: Flip coin 1 once. 
-  \item Experiment 2: Flip coin 2 twice.
-  \item Experiment 3: Flip coin 3 three times.
-  \item Experiment $n$: Flip coin $n$, $n$ times. 
-\end{itemize}
-
-Now let us consider the $n$th experiment. Let $F_{1},\ldots,F_{n}$ represent the $n$ coin flips, with
-\begin{equation*}
-  F_{1} = \left\{ \begin{array}{l@{\quad:\quad}l} 1 & \text{first coin flip is heads} \\ 0 & \text{first
-        coin flip is tails}\end{array}\right.
-\end{equation*}
-\begin{equation*}
-  F_{2} = \left\{ \begin{array}{l@{\quad:\quad}l} 1 & \text{second coin flip is heads} \\ 0 &
-      \text{second coin flip is tails} \end{array}\right.
-\end{equation*}
-and so forth for all $n$ coin flips. So
-\begin{equation*}
-  X_{n} = F_{1}+F_{2}+\ldots+F_{n}
-\end{equation*}
-is the number of heads that you get.
-
-
-\textbf{Question:} What is the expectation of $X_{n}$?  We can use the linearity of expectation:
-\begin{align*} 
-  \E\left[X_{n} \right] 
-  &= \E\left[ F_{1}+F_{2}+\ldots+F_{n} \right] \\
-  &= \E\left[F_{1} \right]+ \E\left[F_{2} \right]+\ldots+ \E\left[F_{n} \right]\\
-  &= \underbrace{\frac{\lambda}{n}+ \frac{\lambda}{n} + \ldots+\frac{\lambda}{n}}_{n\text{ terms}}\\
-  &=\lambda.
-\end{align*}
-So the expected number of heads that we get doesn't change from experiment to experiment, even if we send
-$n \to \infty$. Think!---for each experiment, the probability of heads is $\frac{\lambda}{n}$ and that is
-getting smaller. However the total number of coin flips is getting larger and larger.
-
-\fl{Question} Is it possible that as $n \to \infty$, the random variable $X_{n}$ converges to some new
-random variable, one that we haven't seen yet?
-
-
-
-Yes.
 
 \newpage
 \section{2025-02-14 | Week 5 | Lecture 14}
 \textit{Read 3.1-3.4 and 3.6}
 
-\subsection{Poisson convergence}
-Fix $\lambda\in (0,1)$. Suppose have a sequence of magic coins $1,2,\ldots$.
-\begin{itemize}
-  \item Coin 1 has probability of heads $\lambda$
-  \item Coin 2 has probability of heads $\frac{\lambda}{2}$
-  \item Coin 3 has probability of heads $\frac{\lambda}{3}$
-  \item And so forth.
-\end{itemize}
-Consider the following sequence of experiments:
-\begin{itemize}
-  \item Experiment 1: Flip coin 1 once. 
-  \item Experiment 2: Flip coin 2 twice.
-  \item Experiment 3: Flip coin 3 three times.
-  \item Experiment $n$: Flip coin $n$, $n$ times. 
-\end{itemize}
-
-Now let us consider the $n$th experiment. Let $F_{1},\ldots,F_{n}$ represent the $n$ coin flips, with
-\begin{equation*}
-  F_{1} = \left\{ \begin{array}{l@{\quad:\quad}l} 1 & \text{first coin flip is heads} \\ 0 & \text{first
-        coin flip is tails}\end{array}\right.
-\end{equation*}
-\begin{equation*}
-  F_{2} = \left\{ \begin{array}{l@{\quad:\quad}l} 1 & \text{second coin flip is heads} \\ 0 &
-      \text{second coin flip is tails} \end{array}\right.
-\end{equation*}
-and so forth for all $n$ coin flips. So
-\begin{equation*}
-  X_{n} = F_{1}+F_{2}+\ldots+F_{n}
-\end{equation*}
-is the number of heads that you get.
-
-
-\textbf{Question:} What is the expectation of $X_{n}$?  We can use the linearity of expectation:
-\begin{align*} 
-  \E\left[X_{n} \right] 
-  &= \E\left[ F_{1}+F_{2}+\ldots+F_{n} \right] \\
-  &= \E\left[F_{1} \right]+ \E\left[F_{2} \right]+\ldots+ \E\left[F_{n} \right]\\
-  &= \underbrace{\frac{\lambda}{n}+ \frac{\lambda}{n} + \ldots+\frac{\lambda}{n}}_{n\text{ terms}}\\
-  &=\lambda.
-\end{align*}
-So the expected number of heads that we get doesn't change from experiment to experiment, even if we send
-$n \to \infty$. Think!---for each experiment, the probability of heads is $\frac{\lambda}{n}$ and that is
-getting smaller. However the total number of coin flips is getting larger and larger.
-
-\fl{Question} Is it possible that as $n \to \infty$, the random variable $X_{n}$ converges to some new
-random variable, one that we haven't seen yet?
-
-
-
-Yes.
 
 
 
@@ -3025,7 +3005,7 @@ Yes.
   Let $\lambda=np$. When $n$ is large and $p$ is small (e.g., $n>50$ and $\lambda<5$), then we have the
   following approximation:
   \begin{equation*}
-    \P\left[X  = k \right] \approx \frac{e^{-\lambda}\lambda^{k}}{k!} \quad \text{for }k=0,1,2,\ldots.
+    \P\left[X  = k \right] \approx e^{-\lambda}\frac{\lambda^{k}}{k!} \quad \text{for }k=0,1,2,\ldots.
   \end{equation*}
   In other words, when $n$ is large and $p$ is small, $X$ is well-approximated by a Poisson distribution
   with parameter $\lambda=np$.

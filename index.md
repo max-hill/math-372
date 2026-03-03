@@ -33,6 +33,7 @@ title: Lecture Notes
  2026-02-23  | [lecture-14](lectures/lecture-notes-by-day/lecture-14.pdf) | (Section 3.3) Expected value, variance
  2026-02-25  | [lecture-15](lectures/lecture-notes-by-day/lecture-15.pdf) | (Sections 3.3, 3.4) Variance, binomial random variables
  2026-02-27  | [lecture-16](lectures/lecture-notes-by-day/lecture-16.pdf) | (Section 3.4) Probability of winning at craps, variance of binomial random variable
+ 2026-03-02  | [lecture-17](lectures/lecture-notes-by-day/lecture-17.pdf) | (Section 3.6) Poisson random variable
 
 # Other links
 
