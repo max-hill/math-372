@@ -39,4 +39,4 @@ title: Lecture Notes
 
 [syllabus](syllabus/syllabus.pdf)
 
-[old lecture notes (Spring 2025)](lectures/lecture-notes-372_FINAL.pdf)
+[working draft of lecture notes (based on Spring 2025 notes)](lectures/lecture-notes-372.pdf)
