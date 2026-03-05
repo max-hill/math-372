@@ -2945,8 +2945,10 @@ We didn't finish the following example, so I'll start next time with it.
 \newpage
 
 \section{2026-03-04 | Week 08 | Lecture 18}
-\textit{Based on section 3.6 in the textbook.}
-\subsection{Examples of Poisson random variable}
+\subsection{Applications of the Poisson random variable}
+\textit{(Based on section 3.6 in the textbook.)}
+
+
 Recall that a random variable $X$ is said to have a \demph{Poisson
   distribution} with mean $\lambda>0$ if
 \begin{equation*}
@@ -3081,27 +3083,50 @@ Let's try an application of this:
 %   \end{itemize}
 % \end{example}
 
+\subsection{Continuous random variables}
+
+\textit{(This section is based on Chapter 4.1)}
 
 
+Recall that a random variable is \demph{discrete} if it can assume only a
+finite number of values, or if its values can be listed in an infinite
+sequence. Chapter 4 introduces another class of random variables, which are
+called continuous random variables.
 
-\newpage
-\section{CUTOFF FOR OLD MATERIAL}
 
-
-
-
-\newpage
-\section{2025-02-19 | Week 6 | Lecture 15}
 \begin{definition}[Continuous random variable]
-  A random variable $X$ is said to be \demph{continuous} if it takes values in an interval $I$ (or disjoint union of
-  intervals) AND $\P\left[X = x \right] = 0$ for all $x\in I$.
+  A random variable $X$ is said to be \demph{continuous} if it takes values in
+  an interval $I$ (or disjoint union of intervals) AND
+  $\P\left[X = x \right] = 0$ for all $x\in I$.
 \end{definition}
-To be precise, a random variable $x$ is continuous if its cdf
-\begin{equation*}
-  F(x) = \P\left[X \leq x\right]
-\end{equation*}
-is a continuous function.
+% To be precise, a random variable $x$ is continuous if its cdf
+% \begin{equation*}
+%   F(x) = \P\left[X \leq x\right]
+% \end{equation*}
+% is a continuous function.
 
+
+\begin{example}[Pinwheel]
+  \label{ex:pinwheel}
+  Suppose you have a pinwheel as follows.
+  \begin{center}
+    \includegraphics[scale=0.08]{images/pinwheel}
+  \end{center}
+
+  Suppose we spin the needle. When the needle stops spinning, we measure its
+  angle from the dotted line. Let $X$ be the angle of the needle. So $X$ is a
+  random variable. If $X$ is measured in degrees, then
+  \begin{equation*}
+    X \in  [0,360)
+  \end{equation*}
+  but $A$ could take \textit{any} value, not just integer values. On the other hand, if we measure $X$ in
+  radians, then
+  \begin{equation*}
+    X\in [0,2\pi).
+  \end{equation*}
+  Moreover we have no reason to believe any one angle is more likely than any others -- for our idealized
+  pinwheel, all values between $0$ and $2\pi$ should all be equally likely.
+\end{example}
 
 \begin{definition}[pdf]
   Let $X$ be a continuous random variable. The \demph{probability density function} (aka ``pdf'' or
@@ -3110,38 +3135,30 @@ is a continuous function.
   \begin{equation*}
     \P\left[X\in (a,b ) \right] = \int_{a}^{b} f_{X}(x)dx
   \end{equation*}
-  The graph of $f_{X}$ is called the \demph{density curve}.
+  The graph of $f_{X}$ is called the \demph{density curve} of $X$.
 \end{definition}
 
-Observations
+\newpage
+\section{2026-03-06 | Week 08 | Lecture 19}
+\begin{definition}[pdf]
+  Let $X$ be a continuous random variable. The \demph{probability density function} (aka ``pdf'' or
+  ``density'') of $X$ is a function $f_{X}$ such that for any real
+  numbers $a,b$ with $a \leq b$, we have
+  \begin{equation*}
+    \P\left[X\in (a,b ) \right] = \int_{a}^{b} f_{X}(x)dx
+  \end{equation*}
+  The graph of $f_{X}$ is called the \demph{density curve} of $X$.
+\end{definition}
+
+\Fl{Observatioins about pdfs:}
 \begin{itemize}
   \item $f_{X}(x) \geq 0$ for all $x$
   \item $\int_{-\infty}^{\infty}f_{X}(x) dx= 1 $
-  \item $f_{X}(x)$ is not a probability!!! But you can think of it as ``relative likeliood''
+  \item $f_{X}(x)$ is not a probability because it could be greater than 1.
+  Insteady, you can think of it vaguely as a ``relative likeliood''.
 \end{itemize}
 
 
-\begin{example}[Pinwheel]
-  \label{ex:pinwheel}
-  Suppose you have a pinwheel as follows.
-  \begin{center}
-    \includegraphics[scale=0.1]{images/pinwheel}
-  \end{center}
-
-  Suppose we spin the needle. When the needle stops spinning, we measure its angle from the dotted line.
-  Let $X$ be the angle of the needle. If $X$ is measured in degrees, then
-  \begin{equation*}
-    X \in  [0,360)
-  \end{equation*}
-  but $X$ could take \textit{any} value, not just integer values. On the other hand, if we measure $X$ in
-  radians, then
-  \begin{equation*}
-    X\in [0,2\pi).
-  \end{equation*}
-  Moreover we have no reason to believe any one angle is more likely than any others -- for our idealized
-  pinwheel, all values between $0$ and $2\pi$ should all be equally likely. This is an example of a
-  uniform random variable, which we define next.
-\end{example}
 
 \begin{definition}[Uniform distribution]
   Let $I$ be an interval with endpoints $a$ and $b$, such that $a<b$. A continuous random variable $X$
@@ -3158,7 +3175,7 @@ In the case of the pinwheel example, the pdf is
 \end{equation*}
 so the density curve is
 \begin{center}
-  \includegraphics[scale=.05]{images/pinwheel-density-curve}
+  \includegraphics[scale=.045]{images/pinwheel-density-curve}
 \end{center}
 
 
@@ -3168,11 +3185,26 @@ so the density curve is
     F_{X}(x) = \P\left[X \leq x\right] = \int_{-\infty}^{x}f_{X}(t)dt 
   \end{equation*}
 \end{proposition}
-Observations
+Observations about cdfs of continuous random variables
 \begin{itemize}
   \item $\P\left[a \leq X \leq b\right] = F_{X}(b)-F_{X}(a)$
+  \item $F_{X}$ is increasing
+  \item $F_{X}(+\infty)=1$
+  \item $F_{X}(-\infty)=0$
+  \item By the fundamental theorem of calculus, $F_{X}'(x)=f_{X}(x)$.
+  Incidentally, this shows that $F_{X}$ is continuous.
 \end{itemize}
+
+
+
 \newpage
+\section{CUTOFF FOR OLD MATERIAL}
+
+
+
+
+\newpage
+
 
 \section{2025-02-21 | Week 6 | Lecture 16}
 

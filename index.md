@@ -34,6 +34,7 @@ title: Lecture Notes
  2026-02-25  | [lecture-15](lectures/lecture-notes-by-day/lecture-15.pdf) | (Sections 3.3, 3.4) Variance, binomial random variables
  2026-02-27  | [lecture-16](lectures/lecture-notes-by-day/lecture-16.pdf) | (Section 3.4) Probability of winning at craps, variance of binomial random variable
  2026-03-02  | [lecture-17](lectures/lecture-notes-by-day/lecture-17.pdf) | (Section 3.6) Poisson random variable
+ 2026-03-04  | [lecture-18](lectures/lecture-notes-by-day/lecture-18.pdf) | (Sections 3.6, 4.1) Poisson random variable, continuous random variables
 
 # Other links
 
