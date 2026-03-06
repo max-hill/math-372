@@ -1,0 +1,399 @@
+\documentclass[10pt]{article}
+% Math Packages
+\usepackage{amsmath, mathtools}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{bbm}
+\usepackage{breqn}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{calc}
+\usepackage{forest}
+\usepackage{tikz-qtree}
+\graphicspath{ {./images/} }
+\usepackage{hyperref}
+\usepackage[capitalize]{cleveref}
+\usepackage[shortlabels]{enumitem}
+\usetikzlibrary{arrows,matrix,positioning}
+\usepackage{multicol}
+
+% for the pipe symbol
+\usepackage[T1]{fontenc}
+
+% Citing theorems by name. (source: https://tex.stackexchange.com/questions/109843/cleveref-and-named-theorems)
+\makeatletter
+\newcommand{\ncref}[1]{\cref{#1}\mynameref{#1}{\csname r@#1\endcsname}}
+
+\def\mynameref#1#2{%
+  \begingroup
+  \edef\@mytxt{#2}%
+  \edef\@mytst{\expandafter\@thirdoffive\@mytxt}%
+  \ifx\@mytst\empty\else
+  \space(\nameref{#1})\fi
+  \endgroup
+}
+\makeatother
+
+% Colorful Notes
+\usepackage{color} \definecolor{Red}{rgb}{1,0,0} \definecolor{Blue}{rgb}{0,0,1}
+\definecolor{Purple}{rgb}{.5,0,.5} \def\red{\color{Red}} \def\blue{\color{Blue}}
+\def\gray{\color{gray}} \def\purple{\color{Purple}}
+\newcommand{\rnote}[1]{{\red [#1]}} % \rnote{foo} gives '[foo]' in red
+\newcommand{\pnote}[1]{{\purple [#1]}} % \pnote{foo} gives '[foo]' in purple
+\newcommand{\bnote}[1]{{\blue #1}} % \bnote{foo} gives 'foo' in blue
+\newcommand{\gnote}[1]{{\gray #1}} % \gnote{foo} gives 'foo' in gray
+\newcommand{\Max}[1]{{\purple [#1]}} % \bnote{foo} then 'foo' is blue
+
+
+% Claim numbering (the counter restarts after each proof environment)
+\newcounter{claimcount}
+\setcounter{claimcount}{0}
+\newenvironment{claim}{\refstepcounter{claimcount}\par\addvspace{\medskipamount}\noindent\textbf{Claim \arabic{claimcount}:}}{}
+\usepackage{etoolbox}
+\AtBeginEnvironment{proof}{\setcounter{claimcount}{0}}
+\newenvironment{claimproof}{\par\addvspace{\medskipamount}\noindent\textit{Proof of Claim  \arabic{claimcount}.}}{\hfill\ensuremath{\qedsymbol} \tiny{Claim}
+
+  \medskip}
+% Add claim support to cleverref
+\crefname{claimcount}{Claim}{Claims}
+
+
+% Math Environments
+\newtheorem{theorem}{Theorem}
+\newtheorem{assumption}[theorem]{Assumption}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{question}[theorem]{Question}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{notation}[theorem]{Notation}
+\newtheorem{problem}[theorem]{Problem}
+
+% Matrices and Column Vectors. 
+\usepackage{stackengine}
+\setstackgap{L}{1.0\normalbaselineskip}
+\usepackage{tabstackengine}
+\setstackEOL{;}% row separator
+\setstackTAB{,}% column separator
+\setstacktabbedgap{1ex}% inter-column gap
+\setstackgap{L}{1.5\normalbaselineskip}% inter-row baselineskip
+\let\nmatrix\bracketMatrixstack  %Usage: \nmatrix{1,2,3\4,5,6}
+\newcommand\cv[1]{\setstackEOL{,}\bracketMatrixstack{#1}} %usage: \cv{1,2,3}
+
+% Custom Math Coqmmands
+\newcommand{\vt}{\vskip 5mm} % vertical space
+\newcommand{\fl}{\noindent\textbf} % first line
+\newcommand{\Fl}{\vt\noindent\textbf} % first line with space above
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert} % norm
+\newcommand{\pnorm}[1]{\left\lVert#1\right\rVert_p} % p-norm
+\newcommand{\qnorm}[1]{\left\lVert#1\right\rVert_q} % q-norm
+\newcommand{\1}[1]{\textbf{1}_{\left[#1\right]}} % indicator function 
+\def\limn{\lim_{n\to\infty}} % shortcut for lim as n-> infinity
+\def\sumn{\sum_{n=1}^{\infty}} % shortcut for sum from n=1 to infinity
+\def\sumkn{\sum_{k=1}^{n}} % shortcut for sum from k=1 to n
+\def\sumin{\sum_{i=1}^{n}} % shortcut for sum from i=1 to n
+\def\SAs{\sigma\text{-algebras}} % shortcut for $\sigma$-algebras
+\def\SA{\sigma\text{-algebra}} % shortcut for $\sigma$-algebra
+\def\Ft{\mathcal{F}_t} % time-indexed sigma-algebra (t)
+\def\Fs{\mathcal{F}_s} % time-indexed sigma-algebra (s)
+\def\F{\mathcal{F}} % sigma-algebra
+\def\G{\mathcal{G}} % sigma-algebra
+\def\R{\mathbb{R}} % Real numbers
+\def\N{\mathbb{N}} % Natural numbers
+\def\Z{\mathbb{Z}} % Integers
+\def\E{\mathbb{E}} % Expectation
+\def\P{\mathbb{P}} % Probability
+\def\Q{\mathbb{Q}} % Q probability
+\def\dist{\text{dist}} %Text 'dist' for things like 'dist(x,y)'
+\newcommand{\indep}{\perp \!\!\! \perp}  %independence symbol
+\def\Var{\mathrm{Var}} % Variance
+\def\tr{\mathrm{tr}} % trace
+
+% Brackets and Parentheses
+\def\[{\left [}
+    \def\]{\right ]}
+% \def\({\left (}
+%   \def\){\right )}
+
+
+
+\usepackage{color}
+\definecolor{Red}{rgb}{1,0,0}
+\definecolor{Blue}{rgb}{0,0,1}
+\definecolor{Purple}{rgb}{.5,0,.5}
+\def\red{\color{Red}}
+\def\blue{\color{Blue}}
+\def\gray{\color{gray}}
+\def\purple{\color{Purple}}
+\definecolor{RoyalBlue}{cmyk}{1, 0.50, 0, 0}
+\newcommand{\dempfcolor}[1]{{\color{RoyalBlue}#1}} 
+\newcommand{\demph}[1]{\dempfcolor{{\sl #1}}}
+
+% comment exactly one of the following line to show / hide the solutions
+% \newcommand{\solution}[1]{{\purple #1}} % uncomment to show the solutions
+\newcommand{\solution}[1]{} % uncomment to hide the solutions
+
+
+
+\title{Lecture Notes for Math 372: \\Elementary Probability and Statistics}
+\date{Last updated: \today}
+% \author{mh}
+
+\begin{document}
+\begin{center}
+  \section*{Math 372: Homework 07}
+  \textit{Due Thursday, March 12}
+\end{center}
+
+\textit{Instructions: Do not write your solutions on this sheet---you don't have enough space to show
+your work. So use separate sheets of paper. For all problems you need to show your work.}
+
+\begin{problem}
+  % Zeilberger's notes
+  The continuous random variable $X$ has probability density function
+  \begin{equation*}
+    f(x) = \left\{ \begin{array}{l@{\quad:\quad}l}
+        1/5& 0<x<1\\
+        2/5& 1<x<3\\
+        0& \text{elsewhere}
+      \end{array}\right.
+  \end{equation*}
+  Let $n$ be a positive integer. Find $\E\left[X^{n} \right]$.
+\end{problem}
+
+
+
+\begin{problem}
+  Let $f(x) = 3x^{2}$ for all $x$ with $0<x<1$.
+  \begin{enumerate}[(a)] 
+    \item Show that $f$ is a valid pdf. 
+    \item Suppose $Y$ is a random variable whose pdf is $f$. Find
+    $\E\left[Y \right]$.
+    \item Find the variance of $Y$.
+  \end{enumerate}
+\end{problem}
+
+
+
+
+\Fl{Note:} In the next two problems, we'll use the indicator variable notation
+$\mathbf{1}_{\left[ t \geq 0\right]}$, which means the following:
+\begin{equation*}
+  \mathbf{1}_{\left[ t \geq 0\right]}= \left\{ \begin{array}{l@{\quad:\quad}l}
+      1 & t\geq0 \\ 0 & t<0\end{array}\right.
+\end{equation*}
+
+\begin{problem}[Waiting times 1/2]
+  Suppose you station yourself at a spot on an idyllic country road and watch
+  as cars pass by. Let $T$ be the waiting time, in minutes, between the first
+  and second cars to pass by. Assume $T$ is an exponentially distributed
+  random variable with rate $\lambda>0$. In other words, the pdf of $T$ is
+  \begin{equation*}
+    f_{T}(t) 
+    = \lambda e^{-\lambda t}\mathbf{1}_{\left[  t \geq 0\right] } 
+    = \left\{ 
+      \begin{array}{l@{\quad:\quad}l} \lambda e^{-\lambda t} & t \geq 0\\ 0& t<0 \end{array}\right.
+  \end{equation*}
+
+  \begin{enumerate}[(a)]
+    \item Compute $\E\left[T \right]$ using the formula $\E\left[T \right] = \int_{-\infty}^{\infty} tf_{T}(t)dt$.
+    \item Suppose that $\lambda=3$ cars per minute. What is the average waiting time, in seconds, for a
+    car to pass by?
+    \item \label{item:1} Show that
+    $\P\left[ T>s+t\mid T>s\right] = \P\left[T>t \right]$ for all $t,s>0$.
+    \item Interpret the equation from Part \ref{item:1} in words.
+    \textit{Hint: compare with proble 2c from homework 6.} 
+  \end{enumerate}
+\end{problem}
+
+\begin{problem}[Waiting times 2/2]
+  Let $T$ be the time, in minutes, between successive drink orders at a bar. Suppose that a reasonable
+  probability model for $T$ is given by the pdf
+  \begin{equation*}
+    f_{T}(t) = Ce^{-\frac{t}{4}} \mathbf{1}_{\left[ t \geq 0\right] },
+  \end{equation*}
+  where is $C>0$ is some number that you'll have to determine.
+  \begin{enumerate}[(a)]
+    \item Find a value for $C$ such that $f_{T}(t)$ is a valid pdf. (Hint: use the fact that in order to
+    be a valid pdf, the function $f_{T}$ must satisfy $\int_{-\infty}^{\infty}f_{T}(t)dt=1$).
+    \item What is the probability that the time between successive orders is greater than 4 minutes?
+    \item On average, how long must the bartender wait between drink orders?
+  \end{enumerate}
+\end{problem}
+
+\begin{problem}
+  Let $X$ denote the amount of time a book on two-hour reserve is actually
+  checked out, and supposed the cdf of $X$ is
+  \begin{equation*}
+    F(x) = \left\{ \begin{array}{l@{\quad:\quad}l} 0 & x<0\\ \frac{x^{2}}{4}& 0 \leq x<2\\ 1 &2 \leq x\end{array}\right.
+  \end{equation*}
+  \begin{enumerate}[(a)]
+    \item Find $\P\left[X \leq 1\right]$
+    \item Find $\P\left[.5 \leq X \leq 1\right]$
+    \item What is the median checkout duration of $\tilde{\mu}$? [In other
+    words, solve $F(\tilde{\mu})=.5$.]
+    \item Obtain the density function $f(x)$
+    \item Calculate $\E\left[X \right]$
+    \item Calculate $\Var(X)$.
+    \item If the borrower is charged an an amount $h(X)=X^{2}$ when checkout
+    duration is $X$, compute the expected charge $\E\left[h(X) \right]$.
+  \end{enumerate}
+\end{problem}
+
+\begin{problem}
+  % Zeilberger
+  Let $T$ be the waiting time until the lightbulb spontaneoulsy burns out. Assume that $T$ is
+  exponentially distributed and that the expected lifetime of the bulb is 2 years.
+  \begin{enumerate}[(a)]
+    \item What is the rate parameter of $T$?
+    \item What is the probability density function of $T$? What is the cumulative density function?
+    \item Compute $\P\left[1<T<2 \right]$.
+    \item Let $\sigma$ denote the standard deviation of $T$. Compute $\sigma$.
+    \item Compute $\P\left[T \leq 4\sigma \right]$
+    \item Compute $\P\left[T>2 \right]$.
+    \item Compute $\P\left[T>4\mid T>2 \right]$.
+    \item Using several complete sentences, interpret your answers to parts (d) and (e). Is there a
+    contradiction?
+  \end{enumerate}
+\end{problem}
+
+
+\begin{problem}[Exercise 4.1.2]
+  Suppose the reaction temperature $X$ (in celsius) in a certain chemical
+  process has uniform distribution with $A=-5$ and $B=5$.
+  \begin{enumerate}[(a)]
+    \item Compute $\P\left[X<0 \right]$
+    \item Compute $\P\left[-2.5<X<2.5 \right]$
+    \item Compute $\P\left[-2 \leq X \leq 3\right]$
+    \item For $k$ satisfying $-5<k<k+4<5$, compute $\P\left[k<X<k+4 \right]$.
+  \end{enumerate}
+\end{problem}
+
+
+\begin{problem}
+  % Zeilberger
+  The lifetime of a gadget costing \$300 is exponentially distributed with mean 3
+  years. The manufacturer agrees to pay a full refund to a buyer if the gadget fails during the first
+  year following the purchase, a two-thirds refund if it fails between the first and second year, and a
+  one-third refund if it fails between the second and third year.
+  If the manufacturer sells 1000 gadgets, how much should it expect to pay in refunds?
+\end{problem}
+
+
+\begin{problem}[Extra credit]
+  An `exploding' dice roll is a dice mechanic in various boad games whereby a player gets to roll a dice,
+  and then if they rolled the maximum number on the die, they get to roll it again and add the new roll
+  to the old one. This can happen more than once. Compute the expectation of an exploding 6-sided dice.
+\end{problem}
+
+
+
+\newpage
+% \begin{problem}
+%   In this problem, we will compute $\Var(X)$, when $X\sim \text{Pois}(\lambda)$. We will utilize the
+%   important series
+%   \begin{equation*}
+%     e^{x} = \sum_{k=0}^{\infty}\frac{x^{k}}{k!}
+%   \end{equation*}
+%   \begin{enumerate}[(a)]
+%     \item By computing the infinite sesries, show that $\E\left[X \right] =\lambda$. 
+%     % \begin{proof}
+%     %   We'll show that $\E\left[X \right] = \lambda$. To see this, observe that
+%     %   \begin{align*}
+%     %     \E\left[X \right] 
+%     %     &= \sum_{x}xp(x) \\
+%     %     &= \sum_{k=0}^{\infty} k e^{-\lambda}\frac{\lambda^{k}}{k!}\\
+%     %     &=e^{-\lambda} \sum_{k=0}^{\infty}\frac{k\lambda^{k}}{k!}\\ 
+%     %     &= e^{-\lambda} \left( 0+\lambda+ \lambda^{2}+\frac{\lambda^{3}}{2!}+\frac{\lambda^{4}}{3!}+\frac{\lambda^{5}}{4!}+\ldots \right)\\ 
+%     %     &= e^{-\lambda} \lambda\left( 1+\lambda + \frac{\lambda^{2}}{2!}+\frac{\lambda^{3}}{3!}+\ldots \right)\\ 
+%     %     &= e^{-\lambda} \lambda e^{\lambda}\\
+%     %     &= \lambda.
+%     %   \end{align*}
+%     %   The variance is a bit trickier, so we'll skip the proof of that for now.
+%     % \end{proof}
+%     \item Compute $\E\left[X(X-1) \right]$ using the formula $\E\left[h(X) \right] = \sum_{x}h(x)p(x)$
+%     from class
+%     \item Using your answer to the previous part, compute $\E\left[X^{2} \right]$. 
+%     \item Using your answers to parts (a) and (c), compute $\Var(X)$.
+%   \end{enumerate}
+% \end{problem}
+
+% \begin{problem}
+%   Consider another approach where we show that
+%   \begin{equation*}
+%     \E\left[e^{tX} \right] = \exp \left( \lambda \left( e^{t}-1 \right)  \right) 
+%   \end{equation*}
+%   and then differentiate once or twice, and then set $t=0$. This would be a nice problem to introduce mgf.
+% \end{problem}
+
+
+% \begin{problem}
+%   Let $X$ be a random variable, and let $\mu= \E\left[X \right]$. The variance of $X$ is defined as 
+%   \begin{equation*}
+%     \Var(X) = \E\left[(X-\mu)^{2} \right].
+%   \end{equation*}
+%   Starting from the above definition, prove that
+%   \begin{equation*}
+%     \Var(X) = \E\left[X^{2} \right] - \mu^{2}.
+%   \end{equation*}
+% \end{problem}
+
+
+
+
+% \begin{problem}
+%   The human genome consists of 3.2 billion nucleotides $(A,T,C,G)$. For this problem we can think of the
+%   human genome as a sequence of nucleotides
+
+%   \begin{center}
+%     \texttt{CAGGAAGCATTTATATAGAGGTAATAATTAAATTTAACTTTTTATTATTCTCTATGCCCAAGAGAATGTG...}
+%   \end{center}
+%   and the sequence consists of 3,200,000,000 nucleotide letters.
+
+%   The DNA mutation rate in humans is approximately $2\times 10^{-8}=0.00000002$ mutations per nucleotide
+%   per generation. Assume that nucleotides mutate \textit{independently}, that is, whether one nucleotide
+%   undergoes mutates is indepdenent from any other nucleotides.
+
+
+%   Let $X$ be the number of mutations in
+%   the genome of a randomly selected newborn baby.
+%   \begin{enumerate}[(a)]
+%     \item What is $\E\left[X \right]$? (Interpretation: this is the average number of mutations in a
+%     human baby's genome).
+%     \item Explain why $X$ is a binomial random variable. Identify the value of the two parameters $n$
+%     (number of trials) and $p$ (success probability).
+
+%     %     \item For statistical reasons that we will get to later in the class,\footnote{The Central Limit
+%     %     Theorem} over 95\% of babies will have a number of mutations in the interval
+%     %     \begin{equation*}
+%     %       (\mu-\sigma,\mu+\sigma)
+%     %     \end{equation*}
+%     %     where $\mu= \E\left[X \right]$ and $\sigma = \sqrt{\Var(X)}$.
+%     %     \item Compute $\Var(X)$. 
+%     \item Attempt to compute some probabilities, such as $\P\left[X=1 \right]$ and $\P\left[X=60
+%     \right]$, and $\P\left[X \leq 100\right]$. I do not expect you to be successful with this. What
+%     makes this task difficult (even with access to a calculator or computer)?
+%     %     \item Let $\lambda = \E\left[X \right]$ (which is the value you just computed). Let $Y$ be a Poisson
+%     %     distribution with parameter $\lambda$. We can approximate $X$ with $Y$. Compute the following
+%     %     probabilities
+%     %     \begin{itemize}
+%     %       \item $\P\left[Y=0 \right]$
+%     %       \item $\P\left[Y=1 \right]$
+%     %       \item $\P\left[Y=5 \right]$
+%     %       \item $\P\left[Y \geq 3\right]$
+%     %     \end{itemize}
+%   \end{enumerate}
+% \end{problem}
+
+
+
+\newpage
+
+
+\end{document}
