@@ -1,0 +1,279 @@
+\documentclass[10pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\graphicspath{{./images/}}
+
+\usepackage{amsmath, amssymb, amsthm, amsfonts, mathtools, bbm, breqn}
+\usepackage{enumitem}       % for shortlabels
+\usepackage{multicol}       % multiple columns
+\usepackage{abraces}        % asymmetric braces
+\usepackage{skull}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, arrows, calc, matrix, positioning}
+
+\usepackage{hyperref}
+\usepackage[capitalize]{cleveref}
+
+
+% Citing theorems by name. (source: https://tex.stackexchange.com/questions/109843/cleveref-and-named-theorems)
+\makeatletter
+\newcommand{\ncref}[1]{\cref{#1}\mynameref{#1}{\csname r@#1\endcsname}}
+
+\def\mynameref#1#2{%
+  \begingroup
+  \edef\@mytxt{#2}%
+  \edef\@mytst{\expandafter\@thirdoffive\@mytxt}%
+  \ifx\@mytst\empty\else
+  \space(\nameref{#1})\fi
+  \endgroup
+}
+\makeatother
+
+% for the pipe symbol
+\usepackage[T1]{fontenc}
+
+\usepackage{xcolor} % Enables a broader range of colors
+
+% Define custom colors
+\definecolor{RoyalBlue}{cmyk}{1, 0.50, 0, 0}
+
+% Note commands
+\definecolor{Red}{rgb}{1,0,0}
+\definecolor{Blue}{rgb}{0,0,1}
+\definecolor{Purple}{rgb}{.75,0,.25}
+\newcommand{\rnote}[1]{\textcolor{Red}{[#1]}}       % Red note
+\newcommand{\pnote}[1]{\textcolor{Purple}{[#1]}}    % Purple note
+\newcommand{\bnote}[1]{\textcolor{Blue}{#1}}        % Blue text
+
+\usepackage{xparse} % allows paragraph-spaning color environment
+\NewDocumentCommand{\Max}{+m}{%
+  {\color{Red}#1}%
+}
+
+% Emphasized text
+\newcommand{\demph}[1]{\textcolor{RoyalBlue}{\textbf{\slshape #1}}} % Slanted
+
+
+% Claim numbering (the counter restarts after each proof environment)
+\newcounter{claimcount}
+\setcounter{claimcount}{0}
+\newenvironment{claim}{\refstepcounter{claimcount}\par\addvspace{\medskipamount}\noindent\textbf{Claim \arabic{claimcount}:}}{}
+\usepackage{etoolbox}
+\AtBeginEnvironment{proof}{\setcounter{claimcount}{0}}
+\newenvironment{claimproof}{\par\addvspace{\medskipamount}\noindent\textit{Proof of Claim  \arabic{claimcount}.}}{\hfill\ensuremath{\qedsymbol} \tiny{Claim}
+
+  \medskip}
+% Add claim support to cleverref
+\crefname{claimcount}{Claim}{Claims}
+
+
+% Math Environments
+\newtheorem{theorem}{Theorem}
+\newtheorem{assumption}[theorem]{Assumption}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{question}[theorem]{Question}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{notation}[theorem]{Notation}
+\newtheorem{problem}[theorem]{Problem}
+
+% Redefine the Example environment to include "End of example [number]"
+\makeatletter
+\let\oldexample\example
+\renewenvironment{example}
+{\begin{oldexample}}
+  {\par\smallskip\hfill   End of Example~\theexample. $\square$    \par\end{oldexample}}
+\makeatother
+
+% Custom Math Commands
+\newcommand{\vt}{\vspace{5mm}}                       % Vertical space
+\newcommand{\fl}[1]{\noindent\textbf{#1}}            % Bold first line
+\newcommand{\Fl}[1]{\vspace{5mm}\noindent\textbf{#1}}% Bold first line with space above
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}   % Norm
+
+% Common math symbols
+\newcommand{\R}{\mathbb{R}}           % Real numbers
+\newcommand{\N}{\mathbb{N}}           % Natural numbers
+\newcommand{\C}{\mathbb{C}}           % Complex numbers
+\newcommand{\Z}{\mathbb{Z}}           % Integers
+\newcommand{\Q}{\mathbb{Q}}           % Rational numbers
+\newcommand{\E}{\mathbb{E}}           % Expectation
+\renewcommand{\P}{\mathbb{P}}         % Probability (renamed to avoid \P clash)
+\newcommand{\indep}{\perp\!\!\!\perp} % Independence symbol
+
+% Operators
+\newcommand{\Var}{\mathrm{Var}}   % Variance
+\newcommand{\tr}{\mathrm{tr}}     % Trace
+\newcommand{\dist}{\mathrm{dist}} % Distance
+
+
+\usepackage{biblatex}
+\addbibresource{refs.bib}
+
+
+\begin{document}
+\begin{center}
+  \subsection*{Quiz 1 Study Guide}
+\end{center}
+\textit{\textbf{The quiz will be in-class on Friday, March 13. It will be 15
+    minutes long.} Some combination of the following problems will be on the
+  quiz. You do not need to turn this study guide in; it is purely for your
+  benefit. On the exam, please aim to answer the questions as precisely as you
+  can (when grading your answers, I will be looking for mathematical
+  definitions, not examples).} \vspace{1em}
+
+\section{Questions from before quiz 1 (some of these will be on quiz 2)}
+
+\begin{problem}
+  What does it mean for two events $A$ and $B$ to be \demph{mutually exclusive}?
+\end{problem}
+
+\begin{problem}
+  In order for a function $\P$ to be a \demph{probability measure}, it must
+  satisfy three axioms. State all three axioms.
+\end{problem}
+
+
+\begin{problem}
+  Let $A$ and $B$ be events, and assume that $\P\left[A \right]>0$. What is the
+  \demph{conditional probability of $B$ given $A$}?
+\end{problem}
+
+\begin{problem}
+  What is a \demph{$k$-tuple}?
+\end{problem}
+
+\begin{problem}
+  Describe the difference between a \demph{combination} and a \demph{permutation}.
+\end{problem}
+
+\begin{problem}
+  A \demph{set} is an \underline{\phantom{\quad \quad \quad \quad}} collection
+  of elements, all of which are \underline{\phantom{\quad \quad \quad \quad}}.
+\end{problem}
+
+\begin{problem}
+  What does it mean for two events to be \demph{disjoint}?
+\end{problem}
+
+\begin{problem}
+  What is the \demph{sample space} of an experiment? What is an \demph{event}?
+\end{problem}
+
+
+\begin{problem}
+  What does it mean for a sequence of events $E_{1},E_{2},E_{3},\ldots $ to be
+  \demph{pairwise disjoint}?
+\end{problem}
+
+\begin{problem}
+  Let $A$ and $B$ be events. Define the following terms
+  \begin{itemize}
+    \item the \demph{complement} of $A$
+    \item the \demph{union} of $A$ and $B$
+    \item the \demph{intersection} of $A$ and $B$
+  \end{itemize}
+\end{problem}
+
+\begin{problem}
+  What does it mean for to events $A$ and $B$ to have a \demph{positive relationship}?
+  A \demph{negative relationship}?
+\end{problem}
+
+
+\section{New stuff since quiz 1}
+
+\begin{problem}
+  What does it mean for $n$ events $A_{1},\ldots,A_{n}$ to be \demph{mutually exhaustive}?
+\end{problem}
+
+\begin{problem}
+  What does it mean for two events to be \demph{independent}? What does it
+  mean for them to be \demph{dependent}?
+\end{problem}
+
+\begin{problem}
+  What is a \demph{random variable}?
+\end{problem}
+
+\begin{problem}
+  What does it mean for $n$ events $A_{1},\ldots,A_{n}$ to be \demph{mutually independent}?
+\end{problem}
+
+
+
+
+
+\begin{problem}
+  What does it mean for a random variable to be \demph{discrete}?
+\end{problem}
+
+\begin{problem}
+  What is the \demph{probability mass function} (pmf) of a discrete random variable?
+\end{problem}
+
+\begin{problem}
+  What is the \demph{cumulative distribution function} (cdf) of a random variable $X$?
+\end{problem}
+
+
+
+\begin{problem}
+  Suppose $X$ is a discrete random variable. What is the \demph{expected
+    value} of $X$?
+\end{problem}
+
+
+\begin{problem}
+  What is \demph{linearity of expectation}?
+\end{problem}
+
+
+\begin{problem}
+  What is the \demph{variance} of a random variable? The \demph{standard deviation}?
+\end{problem}
+
+
+\begin{problem}
+  What is a \demph{binomial} random variable? Make sure to state the probability
+  mass function.
+\end{problem}
+
+
+\begin{problem}
+  What is a \demph{geometric} random variable? Make sure to state the
+  probability mass function.
+\end{problem}
+
+
+\begin{problem}
+  What is a \demph{Poisson} random variable? Make sure to state the
+  probability mass function.
+\end{problem}
+
+\begin{problem}
+  What is a \demph{probability density function}?
+\end{problem}
+
+\begin{problem}
+  What does it mean for a random variable to be \demph{continuous}?
+\end{problem}
+
+\begin{problem}
+  What is a \demph{uniform} random variable? Make sure to write down the
+  pdf.
+\end{problem}
+
+\begin{problem}
+  What is an \demph{exponential} random variable? Make sure to write down the
+  pdf.
+\end{problem}
+
+\begin{problem}
+  What is the \demph{expected value} of a continous random variable?
+\end{problem}
+\end{document}
