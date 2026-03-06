@@ -3140,6 +3140,10 @@ called continuous random variables.
 
 \newpage
 \section{2026-03-06 | Week 08 | Lecture 19}
+
+\subsection{Continuous random variables}
+\textit{(This lecture is based on sections 4.1-4.2 in the textbook)}
+
 \begin{definition}[pdf]
   Let $X$ be a continuous random variable. The \demph{probability density function} (aka ``pdf'' or
   ``density'') of $X$ is a function $f_{X}$ such that for any real
@@ -3158,145 +3162,120 @@ called continuous random variables.
   Insteady, you can think of it vaguely as a ``relative likeliood''.
 \end{itemize}
 
-
-
-\begin{definition}[Uniform distribution]
-  Let $I$ be an interval with endpoints $a$ and $b$, such that $a<b$. A continuous random variable $X$
-  has \demph{uniform} distribution on $I$ if
-  \begin{equation*}
-    \left\{ \begin{array}{l@{\quad:\quad}l} \frac{1}{b-a} & x\in I\\0 & x\notin I \end{array}\right.
-  \end{equation*}
-  We note that $b-a$ is the length of the interval. 
-\end{definition}
-
-In the case of the pinwheel example, the pdf is
-\begin{equation*}
-  f_{X}(x) = \left\{ \begin{array}{l@{\quad:\quad}l} \frac{1}{2\pi} & 0 \leq x<2\pi\\ 0 & \text{else}\end{array}\right.
-\end{equation*}
-so the density curve is
-\begin{center}
-  \includegraphics[scale=.045]{images/pinwheel-density-curve}
-\end{center}
-
-
 \begin{proposition}
-  The \demph{cumulative density function} or cdf is the function
+  Let $F(x) = \P\left[X \leq x\right]$ be the cdf of $X$, and let $f$ be the
+  pdf of $X$. Then
   \begin{equation*}
-    F_{X}(x) = \P\left[X \leq x\right] = \int_{-\infty}^{x}f_{X}(t)dt 
+    F(x) = \int_{-\infty}^{x}f(t)dt
+    \quad \text{and} \quad 
+    F'(x) = f(x)
   \end{equation*}
 \end{proposition}
-Observations about cdfs of continuous random variables
-\begin{itemize}
-  \item $\P\left[a \leq X \leq b\right] = F_{X}(b)-F_{X}(a)$
-  \item $F_{X}$ is increasing
-  \item $F_{X}(+\infty)=1$
-  \item $F_{X}(-\infty)=0$
-  \item By the fundamental theorem of calculus, $F_{X}'(x)=f_{X}(x)$.
-  Incidentally, this shows that $F_{X}$ is continuous.
-\end{itemize}
+
+\begin{proposition}[Properties of cdfs of uniform random variables]
+  \begin{itemize}
+    \item []
+    \item $\P\left[a \leq X \leq b\right] = F_{X}(b)-F_{X}(a)$
+    \item $F$ is a nondecreasing function
+    \item  $F(-\infty)=0$ and $F(+\infty)=1$.
+  \end{itemize}
+\end{proposition}
 
 
 
-\newpage
-\section{CUTOFF FOR OLD MATERIAL}
-
-
-
-
-\newpage
-
-
-\section{2025-02-21 | Week 6 | Lecture 16}
-
-
-Recall the example of the pinwheel \cref{ex:pinwheel}, with the angle $X$ measured in radians, so that
-the state space of $X$ is $[0,2\pi)$, with all values equally likely. Recall that we computed the pdf as
-\begin{equation*}
-  f_{X}(x) = \frac{1}{2\pi}\cdot\mathbf{1}_{[0,2\pi)}(x) = \left\{ \begin{array}{l@{\quad:\quad}l} \frac{1}{2\pi} & x\in [0,2\pi)\\0 &x\notin [0,2\pi) \end{array}\right.
-\end{equation*}
-Recall also that the cdf is defined as
-\begin{equation*}
-  F_{X}(x) := \int_{-\infty}^{x}f_{X}(t)dt.
-\end{equation*}
-So that for the pinwheel angle $X$, we have
-\begin{align}\label{eq:10}
-  F_{X}(x) 
-  &= \int_{-\infty}^{x} \frac{1}{2\pi}\cdot \mathbf{1}_{[0,2\pi)}(t)dt\nonumber\\
-  &= \frac{1}{2\pi}\int_{-\infty}^{x}  \mathbf{1}_{[0,2\pi)}(t)dt.
-\end{align}
-To evaluate an integral of this form, we have to consider three cases:
-\begin{itemize}
-  \item $x < 0$ (i.e. when $x$ is to the left of the interval)
-  \item $x \geq 2\pi$ (i.e. when $x$ is to the right of the interval)
-  \item $0 \leq x<2\pi $ (i.e. when $x$ is in the interval)
-\end{itemize}
-Let's think through these cases:
-\begin{itemize}
-  \item When $x<0$, the integral on the right-hand side of \cref{eq:10} is zero.
-  \item When $x \geq 2\pi$, the integral equals
+\begin{example}[Pinwheel example continued]
+  Recall the example of the pinwheel \cref{ex:pinwheel}, with the angle $X$ measured in radians, so that
+  the state space of $X$ is $[0,2\pi)$, with all values equally likely. Recall that we computed the pdf as
   \begin{equation*}
-    \int_{-\infty}^{0}0dt + \frac{1}{2\pi}\int_{0}^{2\pi} dt + \int_{2\pi}^{x}0dt = 0+1+0=1 
+    f_{X}(x) = \frac{1}{2\pi}\cdot\mathbf{1}_{[0,2\pi)}(x) = \left\{ \begin{array}{l@{\quad:\quad}l} \frac{1}{2\pi} & x\in [0,2\pi)\\0 &x\notin [0,2\pi) \end{array}\right.
   \end{equation*}
-  \item When $0 \leq x<2\pi$, the integral equals
+  \begin{center}
+    \includegraphics[scale=.045]{images/pinwheel-density-curve}
+  \end{center}
+  Recall also that the cdf is defined as
   \begin{equation*}
-    \int_{-\infty}^{0}0dt+ \frac{1}{2\pi}\int_{0}^{x} dt =0+ \frac{x}{2\pi} = \frac{x}{2\pi}
+    F_{X}(x) := \int_{-\infty}^{x}f_{X}(t)dt.
   \end{equation*}
-\end{itemize}
-From this analysis and \cref{eq:10}, we can conclude that
-\begin{equation*}
-  F_{X}(x) = \left\{ \begin{array}{l@{\quad:\quad}l}
-      0 & x < 0\\
-      \frac{x}{2\pi} & 0 \leq x<2\pi\\
-      1 & x \geq 2\pi \end{array}\right.
-\end{equation*}
+  So that for the pinwheel angle $X$, we have
+  \begin{align}\label{eq:10}
+    F_{X}(x) 
+    &= \int_{-\infty}^{x} \frac{1}{2\pi}\cdot \mathbf{1}_{[0,2\pi)}(t)dt\nonumber\\
+    &= \frac{1}{2\pi}\int_{-\infty}^{x}  \mathbf{1}_{[0,2\pi)}(t)dt.
+  \end{align}
+  To evaluate an integral of this form, we have to consider three cases:
+  \begin{itemize}
+    \item $x < 0$ (i.e. when $x$ is to the left of the interval)
+    \item $x \geq 2\pi$ (i.e. when $x$ is to the right of the interval)
+    \item $0 \leq x<2\pi $ (i.e. when $x$ is in the interval)
+  \end{itemize}
+  Let's think through these cases:
+  \begin{itemize}
+    \item When $x<0$, the integral on the right-hand side of \cref{eq:10} is
+    zero.
+    \item When $x \geq 2\pi$, the integral equals
+    \begin{equation*}
+      \int_{-\infty}^{0}0dt + \frac{1}{2\pi}\int_{0}^{2\pi} dt + \int_{2\pi}^{x}0dt = 0+1+0=1 
+    \end{equation*}
+    \item When $0 \leq x<2\pi$, the integral equals
+    \begin{equation*}
+      \int_{-\infty}^{0}0dt+ \frac{1}{2\pi}\int_{0}^{x} dt =0+ \frac{x}{2\pi} = \frac{x}{2\pi}
+    \end{equation*}
+  \end{itemize}
+  From this analysis and \cref{eq:10}, we can conclude that
+  \begin{equation*}
+    F_{X}(x) = \left\{ \begin{array}{l@{\quad:\quad}l}
+        0 & x < 0\\
+        \frac{x}{2\pi} & 0 \leq x<2\pi\\
+        1 & x \geq 2\pi \end{array}\right.
+  \end{equation*}
 
-\begin{center}
-  \begin{tikzpicture}
-    % Axes
-    \draw[->] (-2,0) -- (6,0) node[right] {$x$};%
-    \draw[->] (0,-0.4) -- (0,2.2) node[above] {Probability};%
-  
-    % Function segments
-    \draw[thick,blue,<-] (-2,0) -- (0,0);% % f(x) = 0 for x < 0
-    \draw[thick,blue] (0,0) -- (3.14,1);% % f(x) = x / (2π) for 0 ≤ x ≤ 2π
-    \draw[thick,blue,->] (3.14,1) -- (6,1);% % f(x) = 1 for x > 2π
+  \begin{center}
+    \begin{tikzpicture}
+      % Axes
+      \draw[->] (-2,0) -- (6,0) node[right] {$x$};%
+      \draw[->] (0,-0.4) -- (0,2.2) node[above] {Probability};%
+      
+      % Function segments
+      \draw[thick,blue,<-] (-2,0) -- (0,0);% % f(x) = 0 for x < 0
+      \draw[thick,blue] (0,0) -- (3.14,1);% % f(x) = x / (2π) for 0 ≤ x ≤ 2π
+      \draw[thick,blue,->] (3.14,1) -- (6,1);% % f(x) = 1 for x > 2π
 
-    % tick marks
-    \draw (-0.1,1) -- (0.1,1); % Tick at y = 1
-    \draw (3.14,0.1) -- (3.14,-0.1); % Tick at x = π
-    % Labels
-    \node[below] at (0,-0.4) {$0$};%
-    \node[below] at (3.14,0) {$2\pi$};%
-    \node[left] at (0,1) {$1$};%
-  \end{tikzpicture}
-\end{center}
-  
-
-The \demph{median} of a continuous random variable is the point $x^{*}$ where $F(x^{*})=\frac{1}{2}$.
-Interpretation: A random variable is equally likely to be greater or less than than its median.
+      % tick marks
+      \draw (-0.1,1) -- (0.1,1); % Tick at y = 1
+      \draw (3.14,0.1) -- (3.14,-0.1); % Tick at x = π
+      % Labels
+      \node[below] at (0,-0.4) {$0$};%
+      \node[below] at (3.14,0) {$2\pi$};%
+      \node[left] at (0,1) {$1$};%
+    \end{tikzpicture}
+  \end{center}
+\end{example}
 
 
-The \demph{expected value} of a continuous random variable $X$ is
-\begin{equation*}
-  \E\left[X \right] := \int_{-\infty}^{\infty}xf_{X}(x)dx 
-\end{equation*}
-where $f_{X}(x)$ is the pdf of $X$. (Provided that the integral above converges absolutely).
+\begin{definition}[Uniform random variable]
+  \label{def:uniform-random-variable}
+  Let $I$ be an interval with endpoints $a$ and $b$, such that $a<b$. A continuous random variable $X$
+  has \demph{uniform distribution} on $I$ if it has pdf
+  \begin{equation*}
+    f(x) = \left\{ \begin{array}{l@{\quad:\quad}l} \frac{1}{b-a} & x\in I\\0 & x\notin I \end{array}\right.
+  \end{equation*}
+  In this case, $X$ is called a \demph{uniform} random variable.
+\end{definition}
 
-Similarly, for any function $h:\R \to \R$  we have
-\begin{equation*}
-  \E\left[h(X) \right] = \int_{-\infty}^{\infty}h(x)f_{X}(x)dx 
-\end{equation*}
-This is the continuous analogue of the very important theorem \cref{thm:expectation-of-function-of-X} which was for
-discrete random variables.
+\begin{definition}[Exponential random variable]
+  \label{def:exponential-random-variable}
+  We say that $X$ is an \demph{exponential} random variable with rate
+  $\lambda>0$ if it has pdf
+  \begin{equation*}
+    f(x)= \lambda e^{-\lambda x}\mathbf{1}_{\left[ x \geq 0\right]}.
+  \end{equation*}
+\end{definition}
 
-We also have variance defined like it was for discrete random variables:
-\begin{equation*}
-  \Var(X) := \E\left[(X-\mu)^{2} \right],
-\end{equation*}
-where $\mu= \E\left[X \right]$, and as before we have the formula
-\begin{equation*}
-  \Var(X) = \E\left[X^{2} \right]- \left( \E\left[X \right] \right)^{2} 
-\end{equation*}
+\begin{remark}
+  In \cref{def:exponential-random-variable}, the term
+  $\mathbf{1}_{\left[ x \geq 0 \right] }$ is an ``indicator function'' which takes value $1$ when
+  $x \geq 0$ and $0$ if $x<0$. 
+\end{remark}
 
 
 \begin{example}[Waiting times]
@@ -3309,11 +3288,7 @@ where $\mu= \E\left[X \right]$, and as before we have the formula
     \label{eq:exponential-density}
     f(x) = \lambda e^{-\lambda x}\mathbf{1}_{\left[ x \geq 0 \right] }
   \end{equation}
-  for a certain (fixed) value of $\lambda>0$. In this expression, the term
-  $\mathbf{1}_{\left[ x \geq 0 \right] }$ is an ``indicator function'' which takes value $1$ when
-  $x \geq 0$ and $0$ if $x<0$. A random variable with pdf like in \cref{eq:exponential-density} is called
-  an \demph{exponential random variable with rate $\lambda$}, and these are some of the most important
-  random variables.
+  for a certain (fixed) value of $\lambda>0$.
 
   For concreteness, let's assume that $\lambda=3$, so
   \begin{equation*}
@@ -3358,6 +3333,146 @@ where $\mu= \E\left[X \right]$, and as before we have the formula
   % So if the rate of cars coming is $\lambda=3$ cars per minute, then on average, we'll have to wait 20
   % seconds.
 \end{example}
+
+\begin{definition}[Expected value -- continuous random variables]
+  \label{def:expected-value-continuous-random-variables}
+  The \demph{expected value} of a continuous random variable $X$ is 
+  \begin{equation*}
+    \E\left[X \right] := \int_{-\infty}^{\infty}xf(x)dx 
+  \end{equation*}
+  where $f(x)$ is the pdf of $X$. (Provided that the integral above converges absolutely).
+\end{definition}
+
+We also have an analogue of the law of the unconscious statistician
+(\cref{thm:LOTUS-discrete-case})
+
+\begin{theorem}[LOTUS - continuous case]
+  \label{thm:lotus-continuous-case}
+  Let $X$ be a continous random variable with pdf $f$. Then for any function
+  $h:\R \to \R$,
+  \begin{equation*}
+    \E\left[h(X) \right]= \int_{-\infty}^{\infty}h(x)f(x)dx,
+  \end{equation*}
+  provided that the integral exists and is finite.
+\end{theorem}
+
+
+Suppose $\mu= \E\left[X \right]$. Applying \cref{thm:lotus-continuous-case} to
+the function $h(x)= (x- \mu)^{2}$ gives the following formula for the variance
+of a continuous random variable:
+\begin{equation*}
+  \Var(X) := \E\left[(X-\mu)^{2} \right]=\int_{-\infty}^{\infty}(x-\mu)^{2}f(x)dx.
+\end{equation*}
+
+And again, we have the shortcut formula
+\begin{equation*}
+  \Var(X) = \E\left[X^{2} \right]- \left( \E\left[X \right] \right)^{2} .
+\end{equation*}
+
+\newpage
+\section{2026-03-09 | Week 09 | Lecture 20}
+
+\subsection{Normal random variables}
+\textit{This lecture is based on section 4.3}.
+
+
+The most important continuous r.v. is the following,
+
+\begin{example}[Gaussian random variable]
+  We say that $X$ is a \demph{Gaussian random variable with mean $\mu$
+    and variance $\sigma^{2}$} if $X$ is a continuous r.v. with density given by
+  the formula
+  \begin{equation*}
+    f(x) = \frac{1}{\sigma\sqrt{2\pi}} e^{-\frac{(x-\mu)^{2}}{2\sigma^{2}}}, \quad -\infty<x<\infty
+  \end{equation*}
+  In this case, we write $X\sim \mathcal{N}(\mu,\sigma^{2})$. Gaussian r.v.'s
+  are also known as \demph{Normal} random variables.
+\end{example}
+
+Normal random variables have a ``bell-curve'' distribution. Here are some example density curves for
+various values of $\mu$ and $\sigma$. Note that $\mu$ determines where the peak of the bell curve is
+located, and $\sigma$ determines how wide or narrow it is:
+\begin{center}
+  \includegraphics[scale=1]{images/some-normal-density-curves}
+  % picture taken from https://www.probabilitycourse.com/chapter4/4_2_3_normal.php
+\end{center}
+
+Normal random variables arise naturally when we have a random quantity that is the result of adding up
+many small random quantities. A classic example of this is the height of a random person, as height is
+influenced by the effects of thousands of genes and environmental factors.
+
+
+\Fl{Most important special case:} The most important special case is where $\mu=0$ and $\sigma^{2}=1$, in which
+case the density is
+\begin{equation*}
+  \phi(x) = \frac{1}{\sqrt{2\pi}}e^{-\frac{x^{2}}{2}} \quad -\infty<x<\infty
+\end{equation*}
+A random variable with this density is called a \demph{standard normal} and is usually denoted with the
+letter $Z$.
+
+
+\Fl{Fact:} if $X\sim \mathcal{N}(\mu,\sigma^{2})$, then
+the random variable
+\begin{equation}\label{eq:standardization}
+  Z = \frac{X-\mu}{\sigma}
+\end{equation}
+is a standard normal random variable.
+
+This transformation
+\begin{equation*}
+  X\mapsto \frac{X-\mu}{\sigma}
+\end{equation*}
+is called \demph{standardization.} Because we can standardize any normal random variable, that means we
+can focus our attention on standard normal random variables.
+
+But first, we should really check that $\phi$ is really a density. Namely, we
+need to check that
+\begin{equation*}
+  \int_{-\infty}^{\infty}\phi(x)dx = 1. 
+\end{equation*}
+
+We showed how to do this by using Fubini's theorem and converting to polar coordinates.
+
+
+\Fl{The CDF of a standard normal:} The cdf of a standard normal is usually denoted with the symbol
+$\Phi$:
+\begin{equation*}
+  \Phi(x) = \int_{-\infty}^{x}\phi(u)du  = \frac{1}{\sqrt{2\pi}}\int_{-\infty}^{x} e^{-\frac{u^{2}}{2}}du. 
+\end{equation*}
+There is no elementary form for the antiderivative $\Phi$, so generally we
+compute the values with a computer.
+
+
+An example of normal random variable and standardization:
+
+\begin{example}
+  Due to variation in the manufacturing process, the peak power consumption $X$ of
+  the latest Nvidia GPU varies slightly from chip to chip. Assume the power
+  consumption is normally distributed $X\sim \mathcal{N}(\mu,\sigma^{2})$. What
+  is the probability that $X$ is within one standard deviation of its mean?
+
+  \begin{align*}
+    \P\left[\mu-\sigma \leq X \leq \mu+\sigma\right]
+    &= \P\left[ \frac{(\mu-\sigma)-\mu}{\sigma}\leq Z \leq \frac{(\mu+\sigma)-\mu}{\sigma}\right]\\
+    &= \P\left[-1 \leq Z \leq 1\right]\\
+    &\Phi(1)-\Phi(-1)\\
+    &\approx .68
+  \end{align*}
+  So if $\mu=700$ watts and $\sigma= 35$ watts (realistic values for the
+  Nvidia's new \$30,000 H100 GPU), we have
+  \begin{equation*}
+    \P\left[665 \leq X \leq 735\right]\approx 0.68.
+  \end{equation*}
+  In other words, about 68\% of chips will have peak power consumption between
+  665 and 735 watts.
+\end{example}
+
+\newpage
+\section{CUTOFF FOR OLD MATERIAL}
+
+
+
+
 
 \newpage
 \section{2025-02-24 | Week 7 | Lecture 17}
@@ -3618,101 +3733,6 @@ And this is how the moment generating function got its name.
   \begin{equation*}
     \P\left[X>2\sigma \right] = e^{-3\sigma} = e^{-2} \approx 0.14.
   \end{equation*}
-\end{example}
-
-\subsection{Normal random variables}
-The most important continuous r.v. is the following,
-
-\begin{example}[Gaussian random variable]
-  We say that $X$ is a \demph{Gaussian random variable with mean $\mu$
-    and variance $\sigma^{2}$} if $X$ is a continuous r.v. with density given by
-  the formula
-  \begin{equation*}
-    f(x) = \frac{1}{\sigma\sqrt{2\pi}} e^{-\frac{(x-\mu)^{2}}{2\sigma^{2}}}, \quad -\infty<x<\infty
-  \end{equation*}
-  In this case, we write $X\sim \mathcal{N}(\mu,\sigma^{2})$. Gaussian r.v.'s
-  are also known as \demph{Normal} random variables.
-\end{example}
-
-Normal random variables have a ``bell-curve'' distribution. Here are some example density curves for
-various values of $\mu$ and $\sigma$. Note that $\mu$ determines where the peak of the bell curve is
-located, and $\sigma$ determines how wide or narrow it is:
-\begin{center}
-  \includegraphics[scale=1]{images/some-normal-density-curves}
-  % picture taken from https://www.probabilitycourse.com/chapter4/4_2_3_normal.php
-\end{center}
-
-Normal random variables arise naturally when we have a random quantity that is the result of adding up
-many small random quantities. A classic example of this is the height of a random person, as height is
-influenced by the effects of thousands of genes and environmental factors.
-
-
-\Fl{Most important special case:} The most important special case is where $\mu=0$ and $\sigma^{2}=1$, in which
-case the density is
-\begin{equation*}
-  \phi(x) = \frac{1}{\sqrt{2\pi}}e^{-\frac{x^{2}}{2}} \quad -\infty<x<\infty
-\end{equation*}
-A random variable with this density is called a \demph{standard normal} and is usually denoted with the
-letter $Z$.
-
-
-\Fl{Fact:} if $X\sim \mathcal{N}(\mu,\sigma^{2})$, then
-the random variable
-\begin{equation}\label{eq:standardization}
-  Z = \frac{X-\mu}{\sigma}
-\end{equation}
-is a standard normal random variable.
-
-This transformation
-\begin{equation*}
-  X\mapsto \frac{X-\mu}{\sigma}
-\end{equation*}
-is called \demph{standardization.} Because we can standardize any normal random variable, that means we
-can focus our attention on standard normal random variables.
-
-But first, we should really check that $\phi$ is really a density. Namely, we
-need to check that
-\begin{equation*}
-  \int_{-\infty}^{\infty}\phi(x)dx = 1. 
-\end{equation*}
-
-We showed how to do this by using Fubini's theorem and converting to polar coordinates.
-
-
-\Fl{The CDF of a standard normal:} The cdf of a standard normal is usually denoted with the symbol
-$\Phi$:
-\begin{equation*}
-  \Phi(x) = \int_{-\infty}^{x}\phi(u)du  = \frac{1}{\sqrt{2\pi}}\int_{-\infty}^{x} e^{-\frac{u^{2}}{2}}du. 
-\end{equation*}
-There is no elementary form for the antiderivative $\Phi$, so generally we
-compute the values with a computer.
-
-
-\newpage
-
-\section{2025-02-28 | Week 7 | Lecture 19}
-An example of normal random variable and standardization:
-
-\begin{example}
-  Due to variation in the manufacturing process, the peak power consumption $X$ of
-  the latest Nvidia GPU varies slightly from chip to chip. Assume the power
-  consumption is normally distributed $X\sim \mathcal{N}(\mu,\sigma^{2})$. What
-  is the probability that $X$ is within one standard deviation of its mean?
-
-  \begin{align*}
-    \P\left[\mu-\sigma \leq X \leq \mu+\sigma\right]
-    &= \P\left[ \frac{(\mu-\sigma)-\mu}{\sigma}\leq Z \leq \frac{(\mu+\sigma)-\mu}{\sigma}\right]\\
-    &= \P\left[-1 \leq Z \leq 1\right]\\
-    &\Phi(1)-\Phi(-1)\\
-    &\approx .68
-  \end{align*}
-  So if $\mu=700$ watts and $\sigma= 35$ watts (realistic values for the
-  Nvidia's new \$30,000 H100 GPU), we have
-  \begin{equation*}
-    \P\left[665 \leq X \leq 735\right]\approx 0.68.
-  \end{equation*}
-  In other words, about 68\% of chips will have peak power consumption between
-  665 and 735 watts.
 \end{example}
 
 \subsection{Joint distributions}
