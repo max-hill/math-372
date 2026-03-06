@@ -3142,23 +3142,23 @@ called continuous random variables.
 \section{2026-03-06 | Week 08 | Lecture 19}
 
 \subsection{Continuous random variables}
-\textit{(This lecture is based on sections 4.1-4.2 in the textbook)}
+\textit{(This lecture is based on sections 4.1-4.3 in the textbook)}
 
 \begin{definition}[pdf]
   Let $X$ be a continuous random variable. The \demph{probability density function} (aka ``pdf'' or
-  ``density'') of $X$ is a function $f_{X}$ such that for any real
+  ``density'') of $X$ is a function $f$ such that for any real
   numbers $a,b$ with $a \leq b$, we have
   \begin{equation*}
-    \P\left[X\in (a,b ) \right] = \int_{a}^{b} f_{X}(x)dx
+    \P\left[X\in (a,b ) \right] = \int_{a}^{b} f(x)dx
   \end{equation*}
-  The graph of $f_{X}$ is called the \demph{density curve} of $X$.
+  The graph of $y=f(x)$ is called the \demph{density curve} of $X$.
 \end{definition}
 
 \Fl{Observatioins about pdfs:}
 \begin{itemize}
-  \item $f_{X}(x) \geq 0$ for all $x$
-  \item $\int_{-\infty}^{\infty}f_{X}(x) dx= 1 $
-  \item $f_{X}(x)$ is not a probability because it could be greater than 1.
+  \item $f(x) \geq 0$ for all $x$
+  \item $\int_{-\infty}^{\infty}f(x) dx= 1 $
+  \item $f(x)$ is not a probability because it could be greater than 1.
   Insteady, you can think of it vaguely as a ``relative likeliood''.
 \end{itemize}
 
@@ -3175,7 +3175,7 @@ called continuous random variables.
 \begin{proposition}[Properties of cdfs of uniform random variables]
   \begin{itemize}
     \item []
-    \item $\P\left[a \leq X \leq b\right] = F_{X}(b)-F_{X}(a)$
+    \item $\P\left[a \leq X \leq b\right] = F(b)-F(a)$
     \item $F$ is a nondecreasing function
     \item  $F(-\infty)=0$ and $F(+\infty)=1$.
   \end{itemize}
@@ -3277,6 +3277,8 @@ called continuous random variables.
   $x \geq 0$ and $0$ if $x<0$. 
 \end{remark}
 
+\newpage
+\section{2026-03-09 | Week 09 | Lecture 20}
 
 \begin{example}[Waiting times]
   \label{ex:waiting-times}
@@ -3467,6 +3469,8 @@ An example of normal random variable and standardization:
   665 and 735 watts.
 \end{example}
 
+\section{2026-03-11 | Week 09 | Lecture 18}
+\textit{(Joint distributions -- chapter 5.1, 5.2)}
 \newpage
 \section{CUTOFF FOR OLD MATERIAL}
 
