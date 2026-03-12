@@ -12,7 +12,7 @@ permalink: /exam-information/
 
 ## midterm 2
 
-- Friday, March 27 in class
+- Wednesday, April 1 in class
 
 ## final exam
 

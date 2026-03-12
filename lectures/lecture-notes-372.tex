@@ -2141,6 +2141,7 @@ letters, like $X,Y,Z$.
 \newpage
 \section{2026-02-13 | Week 05 | Lecture 13}
 
+\subsection{Exam review problems}
 We went over some example problems:
 \begin{itemize}
   \item The solution to problem 1 on homework 2. The key idea involves
@@ -3278,8 +3279,9 @@ called continuous random variables.
 \end{remark}
 
 \newpage
-\section{2026-03-06 | Week 09 | Lecture 20}
+\section{2026-03-09 | Week 09 | Lecture 20}
 
+\subsection{Continuous random variables}
 \begin{example}[Waiting times]
   \label{ex:waiting-times}
   Suppose you station yourself at spot on a road and watch as cars pass by. Let $T$ be the time in
@@ -3371,78 +3373,123 @@ And again, we have the shortcut formula
   \Var(X) = \E\left[X^{2} \right]- \left( \E\left[X \right] \right)^{2} .
 \end{equation*}
 
+\section{2026-03-11 | Week 09 | Lecture 21}
+
 \subsection{Normal random variables}
 \textit{This section is based on chapter 4.3}.
 
 
-The most important continuous r.v. is the following,
-
-\begin{example}[Gaussian random variable]
-  We say that $X$ is a \demph{Gaussian random variable with mean $\mu$
-    and variance $\sigma^{2}$} if $X$ is a continuous r.v. with density given by
-  the formula
+\begin{definition}[Normal / Gaussian Distribution]
+  \label{def:gaussian-distribution}
+  A random variable $X$ is said to be \demph{normally distributed} with mean
+  $\mu\in \R$ and variance $\sigma^{2}>0$ if it has pdf
   \begin{equation*}
-    f(x) = \frac{1}{\sigma\sqrt{2\pi}} e^{-\frac{(x-\mu)^{2}}{2\sigma^{2}}}, \quad -\infty<x<\infty
+    f(x) = \frac{1}{\sqrt{2\pi\sigma^{2}}}
+    \exp\left(-\frac{(x-\mu)^{2}}{2\sigma^{2}} \right),
   \end{equation*}
-  In this case, we write $X\sim \mathcal{N}(\mu,\sigma^{2})$. Gaussian r.v.'s
-  are also known as \demph{Normal} random variables.
+  defined for all $x\in \R$. We abbreviate this by writing
+  $X\sim \mathcal{N}(\mu,\sigma^{2})$. If $X\sim \mathcal{N}(0,1)$, we say $Y$
+  has \demph{standard normal distribution}. The parameter $\sigma$ is called
+  the \demph{standard deviation} of $X$, and is the positive square root of
+  the variance.
+\end{definition}
+
+\begin{remark}[Notation]
+  \begin{itemize}
+    \item []
+    \item It is a common convention to denote a standard normal random
+    variable with the letter $Z$.
+  
+    \item random variables/distributions are also called \demph{Gaussian}
+    random variables/distributions.
+  \end{itemize}
+\end{remark}
+
+\begin{example}
+  Normal distributions are the classic ``bell curve'' distributions. Whenever
+  a random quantity is the result of adding up many small, independent random
+  effects, we expect it to be approximately normally distributed.
+
+  \begin{itemize}
+    \item A classic example is human height, which is influenced by the
+    combined effects of thousands of genes together with environmental
+    factors.
+    \item Another example is repeated measurements of the same physical
+    quantity (e.g., if we all went out and measured the temperature outside
+    tomorrow at midday), this is because the total error is the sum of many
+    small independent sources of noise (e.g., instrument precision, time,
+    location, shade, wind, etc).
+  \end{itemize}
 \end{example}
 
-Normal random variables have a ``bell-curve'' distribution. Here are some example density curves for
-various values of $\mu$ and $\sigma$. Note that $\mu$ determines where the peak of the bell curve is
-located, and $\sigma$ determines how wide or narrow it is:
-\begin{center}
-  \includegraphics[scale=1]{images/some-normal-density-curves}
-  % picture taken from https://www.probabilitycourse.com/chapter4/4_2_3_normal.php
-\end{center}
 
-Normal random variables arise naturally when we have a random quantity that is the result of adding up
-many small random quantities. A classic example of this is the height of a random person, as height is
-influenced by the effects of thousands of genes and environmental factors.
+\begin{remark}[Standardization]
+  \label{rmk:standardization}
+  If $Y \sim \mathcal{N}(\mu,\sigma^{2})$ then the random
+  variable
+  \begin{equation*}
+    Z = \frac{X-\mu}{\sigma}
+  \end{equation*}
+  is a standard normal random variable (i.e., $Z\sim \mathcal{N}(0,1)$. The transformation
+  \begin{equation*}
+    X \mapsto \frac{X-\mu}{\sigma}
+  \end{equation*}
+  in which we subtract off the mean of $X$ and then divide by its standard
+  deviation is called \demph{standardization}.
+\end{remark}
 
+\begin{remark}[The Empirical Rule]
+  \label{rmk:empirical-rule}
+  The \textbf{Empirical Rule} (also called the \textbf{68-95-99.7 rule}; see
+  textbook section 1.3) is summarized by the following figure, for normal
+  distributions:
+  \begin{center}
+    \includegraphics[scale=.25]{images/empirical-rule-normdist2.jpg}
+    
+    \textit{\tiny Image source: \url{https://andymath.com/wp-content/uploads/2019/12/empirical-rule-normdist2.jpg}}
+  \end{center}
+\end{remark}
 
-\Fl{Most important special case:} The most important special case is where $\mu=0$ and $\sigma^{2}=1$, in which
-case the density is
-\begin{equation*}
-  \phi(x) = \frac{1}{\sqrt{2\pi}}e^{-\frac{x^{2}}{2}} \quad -\infty<x<\infty
-\end{equation*}
-A random variable with this density is called a \demph{standard normal} and is usually denoted with the
-letter $Z$.
+\begin{remark}
+  Note that $\mu$ determines where the peak of the bell curve is
+  located, and $\sigma$ determines how wide or narrow it is.
+\end{remark}
+% Normal random variables have a ``bell-curve'' distribution. Here are some example density curves for
+% various values of $\mu$ and $\sigma$. Note that $\mu$ determines where the peak of the bell curve is
+% located, and $\sigma$ determines how wide or narrow it is:
+% \begin{center}
+%   \includegraphics[scale=1]{images/some-normal-density-curves}
+%   % picture taken from https://www.probabilitycourse.com/chapter4/4_2_3_normal.php
+% \end{center}
 
-
-\Fl{Fact:} if $X\sim \mathcal{N}(\mu,\sigma^{2})$, then
-the random variable
-\begin{equation}\label{eq:standardization}
-  Z = \frac{X-\mu}{\sigma}
-\end{equation}
-is a standard normal random variable.
-
-This transformation
-\begin{equation*}
-  X\mapsto \frac{X-\mu}{\sigma}
-\end{equation*}
-is called \demph{standardization.} Because we can standardize any normal random variable, that means we
-can focus our attention on standard normal random variables.
-
-But first, we should really check that $\phi$ is really a density. Namely, we
-need to check that
-\begin{equation*}
-  \int_{-\infty}^{\infty}\phi(x)dx = 1. 
-\end{equation*}
-
-We showed how to do this by using Fubini's theorem and converting to polar coordinates.
-
-
-\Fl{The CDF of a standard normal:} The cdf of a standard normal is usually denoted with the symbol
-$\Phi$:
-\begin{equation*}
-  \Phi(x) = \int_{-\infty}^{x}\phi(u)du  = \frac{1}{\sqrt{2\pi}}\int_{-\infty}^{x} e^{-\frac{u^{2}}{2}}du. 
-\end{equation*}
-There is no elementary form for the antiderivative $\Phi$, so generally we
-compute the values with a computer.
+% \Fl{Most important special case:} The most important special case is where $\mu=0$ and $\sigma^{2}=1$, in which
+% case the density is
+% \begin{equation*}
+%   \phi(x) = \frac{1}{\sqrt{2\pi}}e^{-\frac{x^{2}}{2}} \quad -\infty<x<\infty
+% \end{equation*}
+% A random variable with this density is called a \demph{standard normal} and is usually denoted with the
+% letter $Z$.
 
 
-An example of normal random variable and standardization:
+% But first, we should really check that $\phi$ is really a density. Namely, we
+% need to check that
+% \begin{equation*}
+%   \int_{-\infty}^{\infty}\phi(x)dx = 1. 
+% \end{equation*}
+
+% We showed how to do this by using Fubini's theorem and converting to polar coordinates.
+
+
+% \Fl{The CDF of a standard normal:} The cdf of a standard normal is usually denoted with the symbol
+% $\Phi$:
+% \begin{equation*}
+%   \Phi(x) = \int_{-\infty}^{x}\phi(u)du  = \frac{1}{\sqrt{2\pi}}\int_{-\infty}^{x} e^{-\frac{u^{2}}{2}}du. 
+% \end{equation*}
+% There is no elementary form for the antiderivative $\Phi$, so generally we
+% compute the values with a computer.
+
+
+The next example shows how we can use standardization to do calculations:
 
 \begin{example}
   Due to variation in the manufacturing process, the peak power consumption $X$ of
@@ -3452,10 +3499,12 @@ An example of normal random variable and standardization:
 
   \begin{align*}
     \P\left[\mu-\sigma \leq X \leq \mu+\sigma\right]
-    &= \P\left[ \frac{(\mu-\sigma)-\mu}{\sigma}\leq Z \leq \frac{(\mu+\sigma)-\mu}{\sigma}\right]\\
+    &= \P\left[ \frac{(\mu-\sigma)-\mu}{\sigma}\leq \frac{X-\mu}{\sigma} \leq \frac{(\mu+\sigma)-\mu}{\sigma}\right]\\
+    &= \P\left[ \frac{(\mu-\sigma)-\mu}{\sigma}\leq Z \leq
+      \frac{(\mu+\sigma)-\mu}{\sigma}\right] &&\text{by \cref{rmk:standardization} }\\
     &= \P\left[-1 \leq Z \leq 1\right]\\
-    &\Phi(1)-\Phi(-1)\\
-    &\approx .68
+    &= \int_{-1}^{1}\frac{1}{\sqrt{2 \pi}} e^{-\frac{x^{2}}{2}}dx\\
+    &\approx .68 &&\text{using the figure in \cref{rmk:empirical-rule}}
   \end{align*}
   So if $\mu=700$ watts and $\sigma= 35$ watts (realistic values for the
   Nvidia's new \$30,000 H100 GPU), we have
@@ -3466,6 +3515,109 @@ An example of normal random variable and standardization:
   665 and 735 watts.
 \end{example}
 
+\newpage
+\section{2026-03-13  | Week 09 | Lecture 22}
+\subsection{Joint distributions}
+\textit{Please read chapter 5.1}
+
+We are interested in understanding the properties of \demph{random vectors}, which are vectors whose
+entries are random variables.
+\begin{definition}[Joint pmf]
+  Let $X$ and $Y$ be two discrete random variables. The \demph{joint
+    probability mass function} for $X$ and $Y$ is the function
+  \begin{equation*}
+    p(x,y) = \P\left[X=x,Y=y \right],
+  \end{equation*}
+  defined for all $x,y\in \R$.
+\end{definition}
+
+\begin{remark}
+  \begin{itemize}
+    \item []
+    \item It must be the case that $p(x,y) \geq 0$ and
+    $\sum_{x,y}p(x,y)=1$.
+    \item  Let $A$ be any set consisting of pairs of $(x,y)$ values. For example,
+    \begin{equation*}
+      A = \left\{(1,2), (1,4), (1,6), (2,5)\right\}
+    \end{equation*}
+    Then the probability
+    \begin{equation*}
+      \P\left[(X,Y)\in A\right] = \sum_{\overset{x,y\in S}{(x,y)\in A}} p(x,y)
+    \end{equation*}
+  \end{itemize}
+\end{remark}
+
+\begin{example}
+  Cars made in a factory experience two kinds of defects: defective joint welds, and and improperly
+  tightened bolts. Let
+  \begin{itemize}
+    \item $X = $ number of defective welds in a new car
+    \item $Y = $ number of improperly tightened bolts
+  \end{itemize}
+  Past data suggests that the joint pdf of $(X,Y)$ is given by the following table:
+  \begin{center}
+    \begin{tabular}{ll|llll}
+      &   & & \quad Y    \\
+      &   & 0   & 1    & 2    & 3    \\ \hline
+      & 0 & .840 & .030  & .020  & .010  \\
+      X& 1 & .060 & .010  & .008 & .002 \\
+      & 2 & .010 & .005 & .004 & .001
+    \end{tabular}
+  \end{center}
+  The probability that there are no defects in the car is
+  \begin{equation*}
+    p(0,0) = \P\left[X=0,Y=0 \right] = .84
+  \end{equation*}
+  The probability that there will be exactly one defect is
+  \begin{equation*}
+    p(0,1)+p(1,0) = \P\left[X=0,Y=1 \right]+ \P\left[X=1,Y=0 \right] = .06+.03 = .09.
+  \end{equation*}
+  What is the probability that there will be no improperly tightened bolts? This concerns only the
+  variable $Y$. This can be obtained by summing  over all values of $x$:
+  \begin{align*}
+    \P\left[Y=0 \right] 
+    &= \sum_{x=0}^{2}\P\left[X=x, Y=0 \right]\\
+    &= p(0,0)+p(1,0)+p(2,0)\\
+    &= .84+.06+.01\\
+    &= .91
+  \end{align*}
+\end{example}
+
+Given the joint pmf for a two-dimensional discrete random vector $(X,Y)$, it is easy to derive the
+individual pmfs for $X$ and $Y$. The manner in which this is done is suggested by the previous example:
+
+If $p$ is the pdf of $(X,Y)$, then the pdf of $X$ alone is obtained by the formula
+\begin{equation*}
+  p_{X}(x)= \sum_{\text{all }y}p(x,y) 
+\end{equation*}
+and the pdf of $Y$ alone is given by
+\begin{equation*}
+  p_{Y}(y) = \sum_{\text{all } x}p(x,y) 
+\end{equation*}
+\begin{definition}
+  In this setting, the pdfs $p_{X}$ and $p_{Y}$ given by the two above
+  formulas are called the \demph{marginal pmfs} of $X$ and $Y$ (respectively).
+\end{definition}
+
+
+\begin{definition}
+  If $X,Y$ are continuous r.v.s, then the \demph{joint pdf} $f(x,y)$ is a
+  function satisfying $f(x,y) \geq 0$ and
+  $\int_{-\infty }^{\infty}\int_{-\infty}^{\infty}f(x,y)dxdy=1$ such that for
+  any 2-dimensional set $A$,
+  \begin{equation*}
+    \P\left[(X,Y)\in A \right] = \int_{A}\int f(x,y)dxdy
+  \end{equation*}
+
+  In addition, we can compute the \demph{marginal density} of $X$ and $Y$ as
+  \begin{equation*}
+    f_{X}(x) = \int_{\text{all }y} f(x,y)dy 
+  \end{equation*}
+  and
+  \begin{equation*}
+    f_{Y}(y) = \int_{\text{all }x} f(x,y)dx 
+  \end{equation*}
+\end{definition}
 \newpage
 \section{2026-03-11 | Week 09 | Lecture 18}
 \textit{(Joint distributions -- chapter 5.1, 5.2)}
@@ -3737,104 +3889,7 @@ And this is how the moment generating function got its name.
   \end{equation*}
 \end{example}
 
-\subsection{Joint distributions}
-\textit{Please read chapter 5.1}
 
-We are interested in understanding the properties of \demph{random vectors}, which are vectors whose
-entries are random variables.
-\begin{definition}[Joint pmf]
-  Let $X$ and $Y$ be two discrete random variables. The \demph{joint
-    probability mass function} for $X$ and $Y$ is the function
-  \begin{equation*}
-    p(x,y) = \P\left[X=x,Y=y \right],
-  \end{equation*}
-  defined for all $x,y\in \R$.
-\end{definition}
-
-It must be the case that $p(x,y) \geq 0$ and
-$\sum_{x,y}p(x,y)=1$.
-
-
-Let $A$ be any set consisting of pairs of $(x,y)$ values. For example,
-\begin{equation*}
-  A = \left\{(x,y) : x+y=5\right\}
-\end{equation*}
-or
-\begin{equation*}
-  A = \left\{(1,2), (1,4), (1,6), (2,5)\right\}
-\end{equation*}
-Then the probability
-\begin{equation*}
-  \P\left[(X,Y)\in A\right] = \sum_{\overset{x,y\in S}{(x,y)\in A}} p(x,y)
-\end{equation*}
-
-
-\begin{example}
-  Cars made in a factory experience two kinds of defects: defective joint welds, and and improperly
-  tightened bolts. Let
-  \begin{itemize}
-    \item $X = $ number of defective welds in a new car
-    \item $Y = $ number of improperly tightened bolts
-  \end{itemize}
-  Past data suggests that the joint pdf of $(X,Y)$ is given by the following table:
-  \begin{center}
-    \begin{tabular}{ll|llll}
-      &   & & \quad Y    \\
-      &   & 0   & 1    & 2    & 3    \\ \hline
-      & 0 & .840 & .030  & .020  & .010  \\
-     X& 1 & .060 & .010  & .008 & .002 \\
-      & 2 & .010 & .005 & .004 & .001
-    \end{tabular}
-  \end{center}
-  The probability that there are no defects in the car is
-  \begin{equation*}
-    p(0,0) = \P\left[X=0,Y=0 \right] = .84
-  \end{equation*}
-  The probability that there will be exactly one defect is
-  \begin{equation*}
-    p(0,1)+p(1,0) = \P\left[X=0,Y=1 \right]+ \P\left[X=1,Y=0 \right] = .06+.03 = .09.
-  \end{equation*}
-  What is the probability that there will be no improperly tightened bolts? This concerns only the
-  variable $Y$. This can be obtained by summing  over all values of $x$:
-  \begin{align*}
-    \P\left[Y=0 \right] 
-    &= \sum_{x=0}^{2}\P\left[X=x, Y=0 \right]\\
-    &= p(0,0)+p(1,0)+p(2,0)\\
-    &= .84+.06+.01\\
-    &= .91
-\end{align*}
-\end{example}
-
-Given the joint pmf for a two-dimensional discrete random vector $(X,Y)$, it is easy to derive the
-individual pmfs for $X$ and $Y$. The manner in which this is done is suggested by the previous example:
-
-If $p$ is the pdf of $(X,Y)$, then the pdf of $X$ alone is obtained by the formula
-\begin{equation*}
-  p_{X}(x)= \sum_{\text{all }y}p(x,y) 
-\end{equation*}
-and the pdf of $Y$ alone is given by
-\begin{equation*}
-  p_{Y}(y) = \sum_{\text{all } x}p(x,y) 
-\end{equation*}
-In this setting, the pdfs $p_{X}$ and $p_{Y}$ are called the \demph{marginal pmfs} of $X$ and $Y$
-(respectively).
-
-
-Similarly, if $X,Y$ are continuous r.v.s, then the \demph{joint pdf} $f(x,y)$ is a function satisfying
-$f(x,y) \geq 0$ and $\int_{-\infty }^{\infty}\int_{-\infty}^{\infty}f(x,y)dxdy=1$ such that for any
-2-dimensional set $A$,
-\begin{equation*}
-  \P\left[(X,Y)\in A \right] = \int_{A}\int f(x,y)dxdy
-\end{equation*}
-
-In addition, we can compute the \demph{marginal density} of $X$ and $Y$ as
-\begin{equation*}
-  f_{X}(x) = \int_{\text{all }y} f(x,y)dy 
-\end{equation*}
-and
-\begin{equation*}
-  f_{Y}(y) = \int_{\text{all }x} f(x,y)dx 
-\end{equation*}
 
 
 \newpage
