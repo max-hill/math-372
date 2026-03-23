@@ -24,6 +24,12 @@
 \usepackage{mathtools}% http://ctan.org/pkg/mathtools
 \usepackage{abraces} %xyz
 
+% Hawai'i
+\usepackage{fontspec}
+\newfontface\OkinaFallback{Gentium Plus} % or Noto Serif / Charis SIL / Gentium Plus
+\newcommand{\okina}{{\OkinaFallback ʻ}} % genuine U+02BB
+
+
 
 
 \usepackage{empheq} % for boxed equations
@@ -2881,7 +2887,7 @@ probability mass function
 
 \begin{theorem}[The exponential function]
   \label{thm:exponential-function}
-  For any real number $x$, the \demph{exponential fucntion}, denoted $e^{x}$,
+  For any real number $x$, the \demph{exponential function}, denoted $e^{x}$,
   is the function
   \begin{equation*}
     e^{x} = \sum_{n=0}^{\infty}\frac{x^{n} }{n!}.
@@ -3516,15 +3522,19 @@ The next example shows how we can use standardization to do calculations:
 \end{example}
 
 \newpage
-\section{2026-03-13  | Week 09 | Lecture 22}
-\subsection{Joint distributions}
+\section{2026-03-23  | Week 10 | Lecture 22}
+\subsection{Joint distributions - discrete case}
+\label{sec:joint-distributions-discrete-case}
 \textit{Please read chapter 5.1}
 
 We are interested in understanding the properties of \demph{random vectors}, which are vectors whose
-entries are random variables.
+entries are random variables. We'll start with the case where the random
+variables are discrete.
+
+
 \begin{definition}[Joint pmf]
-  Let $X$ and $Y$ be two discrete random variables. The \demph{joint
-    probability mass function} for $X$ and $Y$ is the function
+  Let $X$ and $Y$ be two discrete random variables. The \demph{joint pmf} of
+  $X$ and $Y$ is the function
   \begin{equation*}
     p(x,y) = \P\left[X=x,Y=y \right],
   \end{equation*}
@@ -3533,16 +3543,13 @@ entries are random variables.
 
 \begin{remark}
   \begin{itemize}
-    \item []
+    \item[]
     \item It must be the case that $p(x,y) \geq 0$ and
     $\sum_{x,y}p(x,y)=1$.
-    \item  Let $A$ be any set consisting of pairs of $(x,y)$ values. For example,
+    \item Let $A$ be any set consisting of pairs of $(x,y)$ values. Then the
+    probability
     \begin{equation*}
-      A = \left\{(1,2), (1,4), (1,6), (2,5)\right\}
-    \end{equation*}
-    Then the probability
-    \begin{equation*}
-      \P\left[(X,Y)\in A\right] = \sum_{\overset{x,y\in S}{(x,y)\in A}} p(x,y)
+      \P\left[(X,Y)\in A\right] = \sum_{(x,y)\in A} p(x,y)
     \end{equation*}
   \end{itemize}
 \end{remark}
@@ -3583,341 +3590,39 @@ entries are random variables.
   \end{align*}
 \end{example}
 
-Given the joint pmf for a two-dimensional discrete random vector $(X,Y)$, it is easy to derive the
-individual pmfs for $X$ and $Y$. The manner in which this is done is suggested by the previous example:
-
-If $p$ is the pdf of $(X,Y)$, then the pdf of $X$ alone is obtained by the formula
-\begin{equation*}
-  p_{X}(x)= \sum_{\text{all }y}p(x,y) 
-\end{equation*}
-and the pdf of $Y$ alone is given by
-\begin{equation*}
-  p_{Y}(y) = \sum_{\text{all } x}p(x,y) 
-\end{equation*}
-\begin{definition}
-  In this setting, the pdfs $p_{X}$ and $p_{Y}$ given by the two above
-  formulas are called the \demph{marginal pmfs} of $X$ and $Y$ (respectively).
-\end{definition}
-
+Given the joint pmf for a two-dimensional discrete random vector $(X,Y)$, it
+is easy to derive the individual pmfs for $X$ and $Y$, and in this context we
+call them ``marginal pmfs''. The manner in which this is done is suggested by
+the previous example.
 
 \begin{definition}
-  If $X,Y$ are continuous r.v.s, then the \demph{joint pdf} $f(x,y)$ is a
-  function satisfying $f(x,y) \geq 0$ and
-  $\int_{-\infty }^{\infty}\int_{-\infty}^{\infty}f(x,y)dxdy=1$ such that for
-  any 2-dimensional set $A$,
+  If $p(x,y)$ is the pmf of $(X,Y)$, then the \demph{marginal pmf} of $X$ is
   \begin{equation*}
-    \P\left[(X,Y)\in A \right] = \int_{A}\int f(x,y)dxdy
+    p_{X}(x)=  \P\left[X=x \right] = \sum_{\text{all }y}p(x,y).
   \end{equation*}
-
-  In addition, we can compute the \demph{marginal density} of $X$ and $Y$ as
+  Similary, the \demph{marginal pmf} of $Y$
   \begin{equation*}
-    f_{X}(x) = \int_{\text{all }y} f(x,y)dy 
-  \end{equation*}
-  and
-  \begin{equation*}
-    f_{Y}(y) = \int_{\text{all }x} f(x,y)dx 
+    p_{Y}(y) = \P\left[Y = y \right] = \sum_{\text{all } x}p(x,y).
   \end{equation*}
 \end{definition}
-\newpage
-\section{2026-03-11 | Week 09 | Lecture 18}
-\textit{(Joint distributions -- chapter 5.1, 5.2)}
-\newpage
-\section{CUTOFF FOR OLD MATERIAL}
-
-
-
-
-
-\newpage
-\section{2025-02-24 | Week 7 | Lecture 17}
-
-\textit{Topic: moment generating functions -- this isn't in the textbook}
-
-\begin{definition}[Equal in distribution]
-  Let $X$ and $Y$ be two random variables. We say that $X$ and $Y$ \demph{have the same distribution},
-  denoted $X\overset{d}{=}Y$ if they have the same cdf (i.e., if $F_{X}=F_{Y}$).
-  \begin{itemize}
-    \item If $X$ and $Y$ are discrete and have pmfs $p_{X}$ and $p_{Y}$, then this is equivalent to
-    $p_{X}=p_{Y}.$
-    \item If $X$ and $Y$ are continuous with pdfs $f_{X}$ and $f_{Y}$, then this is equivalent to
-    $f_{X}=f_{Y}.$
-  \end{itemize}
-\end{definition}
-
-\begin{example}
-  Warning: equality in distribution does not imply that $X=Y$. For example, if I roll a red dice $X$ and
-  a blue dice $Y$, both with 6 sides, the chances are pretty good that $X\neq Y$. But of course these are
-  equal in distribution, since
+Recall that two events are independent if knowledge that one has occurred
+gives no information about whether the other has occurred. We can extend this
+idea to random variables:
+\begin{definition}[Independence of rvs - discrete case]
+  Let $X,Y$ be discrete random variables with joint pmf $p(x,y)$. We say that
+  $X$ and $Y$ are \demph{independent} if for every pair of $(x,y)$-values,
   \begin{equation*}
-    p_{X}(k)=p_{Y}(k) = \frac{1}{6} \quad \text{for all }k=1,2,\ldots,6.
-  \end{equation*}
-\end{example}
-
-\begin{definition}[Standard deviation]
-  The \demph{standard deviation} of $X$ is the square root of $\text{Var}(X)$:
-  \begin{equation*}
-    \text{SD}(X) = \sqrt{\text{Var}(X)}.
-  \end{equation*}
-  Standard deviation is often denoted $\sigma$.
-\end{definition}
-
-\begin{definition}[Moment generating function]
-  The \demph{moment generating function} or $m.g.f.$~of a random variable $X$ is
-  the function
-  \begin{equation*}
-    M(t):= \E\left[e^{tX} \right].
-  \end{equation*}
-\end{definition}
-\begin{itemize}
-  \item For a discrete random variable with pmf $p(x)$, we have
-  \begin{equation*}
-    M(t) = \sum_{x}e^{tx}p(x)dx.
-  \end{equation*}
-  \item For a continuous r.v., with pdf $f(x)$, we have
-  \begin{equation*}
-    M(t) = \int_{-\infty}^{\infty}e^{tx}f(x)dx.
-  \end{equation*}
-\end{itemize}
-
-The moment generating function is important because if two random variables $X$ and $Y$ have the same
-mgf, then they have the same distribution. 
-
-\Fl{Question:} But what are ``moments'' and why is this called a ``moment-generating'' function?!
-
-\begin{definition}
-  Let $X$ be a r.v., and let $k$ be a nonnegative integer. The \demph{$k$-th
-    moment of $X$} is the quantity
-  \begin{equation*}
-    \E\left[X^{k} \right].
-  \end{equation*}
-  So, the $0$-th moment is always 1. The first moment is just the expectation of
-  the r.v. The second moment shows up in the variance fomrula:
-  \begin{equation*}
-    \Var(X) 
-    = \E\left[X^{2} \right] - \left( \E\left[X \right] \right)^{2} 
-    = \E\left[X^{2} \right].
-  \end{equation*}
-  To the best of my knowledge, moments don't have a straightforward interpretation that holds generally.
-  But they are important for two reasons (1) they often show up in things we care about, like the
-  variance formula, as well as in the assumptions and proofs of important theorems, like the central
-  limit theorem, and (2) when taken together, all the moments of a random variable
-  $\left\{ \E\left[X^{k} \right]: k=0,1,2,\ldots\right\}$ will usually completely determine the distribution
-  of the random variable.\footnote{It is necessary that the sequence $\E\left[X \right], \E\left[X^{2} \right],
-    \E\left[X^{3} \right],\ldots$ does not grow too quickly, but we can ignore this technical issue for now.}
-\end{definition}
-
-As the name suggests, the mgf of $X$ has a close connection to the moments of $X$. To see this, observe
-that
-\begin{equation*}
-  e^{tX}= \sum_{k=0}^{\infty}\frac{(tX)^{k}}{k!} = \sum_{k=0}^{\infty}\frac{t^{k}X^{k}}{k!}.
-\end{equation*}
-So
-\begin{equation}\label{eq:11}
-  \E\left[e^{tX} \right] 
-  = \E\left[\sum_{k=0}^{\infty}\frac{t^{k}X^{k}}{k!} \right] 
-  = \sum_{k=0}^{\infty} \frac{t^{k}}{k!}\E\left[X^{k} \right] 
-\end{equation}
-
-
-
-\begin{example}[Using a mgf to compute moments]
-  \label{ex:using-mgf-compute-moments}
-  
-  Let $X\sim \exp(\lambda)$. That is, $X$ is an exponential random variable with
-  rate $\lambda$.
-
-  \fl{Question \#1: What is the moment generating function of $X$?}
-
-  
-  First, recall that
-  \begin{itemize}
-    \item The pdf of $X$ is $f_{X}(x)=\lambda e^{-\lambda x}$, for all $x>0$.
-    \item For any function $h:\R \to \R$, we have
-    \begin{equation*}
-      \E\left[h(X) \right] = \int_{-\infty}^{\infty} h(x) f_{X}(x)dx 
-    \end{equation*}
-  \end{itemize}
-  Using these two facts, we have:
-  \begin{align*}
-    M(t) 
-    &= \E\left[e^{tX} \right]\\
-    &= \int_{0}^{\infty} e^{tx} \lambda e^{-\lambda x} dx\\
-    &= \lambda\int_{0}^{\infty} e^{(t-\lambda)x}dx\\ 
-    &=  \frac{\lambda}{t-\lambda} \left[ e^{(t-\lambda)x} \right]^{x=\infty}_{x=0}.\\
-    &=  \frac{\lambda}{t-\lambda}
-      \left[ \left(\lim_{x\to\infty} e^{(t-\lambda)x}\right) - 1 \right]
-  \end{align*}
-  When we try to evaluate the limit as $x \to \infty$, something goes wrong if
-  $t>\lambda$. Indeed, we have:
-  \begin{equation*}
-    \lim_{x\to\infty} e^{(t-\lambda)x}
-    =\left\{ \begin{array}{l@{\quad:\quad}l}
-        +\infty &t>\lambda \\
-        0& t<\lambda \end{array}\right.
-  \end{equation*}
-  Therefore we have
-  \begin{equation*}
-    M(t) = \frac{\lambda}{t-\lambda}(-1)= \frac{\lambda}{\lambda-t}
-  \end{equation*}
-  but this function is defined only for $t<\lambda$.
-
-  \fl{Question \#2: For concreteness, let's suppose that $\lambda=9$. What is the $2$-nd moment of $X$?}
-
-  \fl{Solution 1.} We can compute the second moment using the formula
-  \begin{equation*}
-    \E\left[X^{2} \right] 
-    = \int_{0}^{\infty} x^{2} f_{X}(x)dx 
-    = \int_{0}^{\infty} x^{2} 9e^{-9 x}dx  
-  \end{equation*}
-  This would work. But this would require integrating by parts twice, which we
-  may wish to avoid. So instead, I'll present a different approach which
-  utilizes the moment generating function.
-
-  \fl{Solution 2.} From our earlier calculations, we have
-  \begin{equation*}
-    M(t) = \frac{9}{9-t}, \quad\text{defined for }t<9
-  \end{equation*}
-  Differentiating $M$ with respect to $t$ gives
-  \begin{equation*}
-    M'(t) = \frac{9}{(9-t)^{2}}.
-  \end{equation*}
-  Differentiating again, we have:
-  \begin{equation}\label{eq:12}
-    M''(t) = \frac{9}{2(9-t)^{3}}
-  \end{equation}
-  But recall by \cref{eq:11}, we have
-  \begin{equation*}
-    M(t) 
-    = \sum_{k=0}^{\infty} \frac{t^{k}}{k!}\E\left[X^{k} \right] 
-    = 1+ t \E\left[X \right] + \frac{t^{2}}{2!} \E\left[X^{2} \right] + \frac{t^{3}}{3!} \E\left[X^{3} \right] + \frac{t^{4}}{4!} \E\left[X^{4} \right]+\ldots,
-  \end{equation*}
-  and differentiating \textit{this} equation twice gives
-  \begin{equation}\label{eq:13}
-    M''(t) = \E\left[X^{2} \right]+ t \E\left[X^{3} \right]+ \frac{t^{2}}{2!} \E\left[X^{4} \right]+\ldots.
-  \end{equation}
-  Combining \cref{eq:12,eq:13}, it follows that
-  \begin{equation*}
-    \E\left[ X^{2}e^{tX} \right]= \frac{9}{2(9-t)^{3}}.
-  \end{equation*}
-  The above equation holds for all $t$ such that both sides are defined. In particular, it holds when
-  $t=0$. Setting $t=0$, something almost magical happens:
-  \begin{equation*}
-    \E\left[X^{2}e^{0} \right] = \frac{9}{2(9)^{3}}
-  \end{equation*}
-  which simplifies to 
-  \begin{equation*}
-    \E\left[X^{2} \right] = \frac{2}{81}.
-  \end{equation*}
-  We've computed the second moment (and all we had to do was differentiate the mgf twice and then plug in zero!).
-\end{example}
-This example illustrates the following general property of a moment generating function: 
-\begin{equation}\label{eq:mgf-property}
-  \E\left[X^{k}  \right] = \left[\frac{d^{k}}{dx^{k}}\left[ M(t) \right]\right]_{t=0} 
-\end{equation}
-And this is how the moment generating function got its name.
-\newpage
-\section{2025-02-26 | Week 7 | Lecture 18}
-\textit{Please read chapter 4.3}
-
-\textbf{Announcment: I would like to pushing back the midterm until March 14.}
-
-
-\begin{example}
-  Let $X\sim \exp(3/2)$. What is the probability is that $X$ is greater than twice
-  its standard deviation $\sigma$?
-
-  
-  \Fl{Solution:} Recall that for an exponential r.v. $Y$ with rate $\lambda$, we have
-  \begin{equation}\label{eq:15}
-    \E\left[Y  \right] = \frac{1}{\lambda}.
-  \end{equation}
-  and
-  \begin{equation*}
-    F_{Y}(t) := \P\left[Y \leq t\right]= 1-e^{-\lambda t}.
-  \end{equation*}
-  This implies that
-  \begin{equation}\label{eq:14}
-    \P\left[Y>t \right] = e^{-\lambda t}.
-  \end{equation}
-  In our case, we have $\lambda=3/2$. Let $\sigma$ be the standard deviation of $X$. We want to compute
-  \begin{equation*}
-    \P\left[X>2\sigma \right].
-  \end{equation*}
-  By \cref{eq:14}, with $\lambda=\frac{3}{2}$ and $t=2\sigma$, we have
-  \begin{equation}\label{eq:17}
-    \P\left[X>2\sigma \right] = e^{-\frac{3}{2}(2\sigma)} = e^{-3\sigma}.
-  \end{equation}
-  So it remains to find $\sigma$. We have
-  \begin{equation*}
-    \Var(X) = \E\left[X^{2} \right] - \left( \E\left[X \right] \right)^{2}.
-  \end{equation*}
-  From \cref{eq:15}, have $\E\left[X \right] = \frac{2}{3}$, so
-  \begin{equation}\label{eq:16}
-    \Var(X) = \E\left[X^{2} \right] - \frac{4}{9}
-  \end{equation}
-  Next, let's compute
-  $\E\left[X^{2} \right]$. Recall from \cref{ex:using-mgf-compute-moments} that
-  \begin{equation*}
-    M(t) = \left\{ \begin{array}{l@{\quad:\quad}l}
-        \frac{\lambda}{\lambda-t} & t<\lambda\\
-        0 & t \geq \lambda\end{array}\right.
-  \end{equation*}
-  which for our setting is
-  \begin{equation*}
-    M(t) = \frac{\frac{3}{2}}{\frac{3}{2}-t} \quad \text{for }t<\frac{3}{2}.
-  \end{equation*}
-  From \cref{eq:mgf-property}, we have $M''(0) = \E\left[X^{2} \right]$.
-
-  Indeed, $M''(t) = 3 \left( \frac{3}{2}- t \right)^{-3}$. Then
-  \begin{equation*}
-    \E\left[X^{2} \right] 
-    = M''(0) 
-    = 3\left(\frac{3}{2}\right)^{-3} 
-    = \frac{8}{9}
-  \end{equation*}
-  Plugging this into \cref{eq:16}, we get
-  \begin{equation*}
-    \Var(X) = \frac{8}{9}- \frac{4}{9}= \frac{4}{9}.
-  \end{equation*}
-  And hence 
-  \begin{equation*}
-    \sigma = \sqrt{\Var(X)} = \sqrt{\frac{4}{9}} = \frac{2}{3}.
-  \end{equation*}
-  Therefore by \cref{eq:17}, we have
-  \begin{equation*}
-    \P\left[X>2\sigma \right] = e^{-3\sigma} = e^{-2} \approx 0.14.
-  \end{equation*}
-\end{example}
-
-
-
-
-\newpage
-\section{2025-03-03 | Week 8 | Lecture 20}
-\textit{Sections 5.1, 5.2}
-Recall that two events are independent if knowledge that one has occurred gives no information about
-whether the other has occurred. We can extend this idea to random variables:
-\begin{definition}[Independence of rvs]
-  Two random variables $X$ and $Y$ are \demph{independent} if for every pair of $(x,y)$-values,
-  \begin{equation*}
-    p(x,y) = p_{X}(x)\cdot p_{Y}(y) \quad\text{when $X$ and $Y$ are discrete}
-  \end{equation*}
-  or
-  \begin{equation*}
-    f(x,y) = f_{X}(x)\cdot f_{Y}(y) \quad\text{when $X$ and $Y$ are continuous}
+    p(x,y) = p_{X}(x)\cdot p_{Y}(y)
   \end{equation*}
   If this condition isn't satisfied for all $(x,y)$, then $X$ and $Y$ are said to be \demph{dependent}.
-
-  [For clarity in the above: $p(x,y)$ is the joint pmf of $(X,Y)$. And $f(x,y)$ is the joint pdf of
-  $(X,Y)$.]
 \end{definition}
 
 The intuition is this: two random variables are independent if observing one of them doesn't give you any
 information about the other. 
 
 \begin{example}
-  In the car factory example from last lecture, we had two random variables, $X$ and $Y$, with joint pmf
-  given by
+  In the car factory example, $X$ and $Y$ have with joint pmf is specified by
+  the table
   \begin{center}
     \begin{tabular}{ll|llll}
       &   & & \quad Y    \\
@@ -3927,8 +3632,9 @@ information about the other.
       & 2 & .010 & .005 & .004 & .001
     \end{tabular}
   \end{center}
-
-  Are $X$ and $Y$ independent? To determine this, we need to first obtain the pmfs:
+  where, for example $p(1,3) = .002$.
+  
+  The marginal pmfs are given by the following tables:
   \begin{center}
     \begin{tabular}{l|l}
       $x$ & $p_X(x)$\\ \hline
@@ -3945,12 +3651,43 @@ information about the other.
       3& .013\\
     \end{tabular}
   \end{center}
-  Having computed the pmfs, we can verify that $X$ and $Y$ are \textbf{not independent}. This is because
+  Are $X$ and $Y$ independent? Having computed the pmfs, we can verify that
+  $X$ and $Y$ are \textbf{not independent}. This is because
   \begin{equation*}
     p(0,0) = .84 \neq (.9)(.91) = .819 = p_{X}(0)p_{Y}(0).
   \end{equation*}
 \end{example}
 
+\subsection{Joint distributions - continuous case}
+
+\textit{Based on chapter 5.1 in the textbook -- in particular, please read
+  examples 5.5 and 5.14 in the textbook.}
+
+The theory for continuous random vectors parallels closely the theory for
+discrete random variables presented in \cref{sec:joint-distributions-discrete-case}.
+
+\begin{definition}
+  If $X,Y$ are continuous r.v.s, then the \demph{joint pdf} $f(x,y)$ is a
+  function satisfying $f(x,y) \geq 0$ and
+  $\int_{-\infty }^{\infty}\int_{-\infty}^{\infty}f(x,y)dxdy=1$ such that for
+  any 2-dimensional set $A$,
+  \begin{equation*}
+    \P\left[(X,Y)\in A \right] = \int_{A}\int f(x,y)dxdy
+  \end{equation*}
+  The \demph{marginal densities} of $X$ and $Y$ are
+  \begin{equation*}
+    f_{X}(x) = \int_{\text{all }y} f(x,y)dy \quad \text{and} \quad f_{Y}(y) = \int_{\text{all }x} f(x,y)dx
+  \end{equation*}
+  We say that $X$ and $Y$ are \demph{independent} if
+  \begin{equation*}
+    f(x,y) = f_{X}(x)\cdot f_{Y}(y).
+  \end{equation*}
+  for all $x,y\in \R$.
+\end{definition}
+
+\newpage
+\section{2026-03-25 | Week 10 | Lecture 23}
+
 \begin{example}
   Let $X$ and $Y$ be the lifetimes of two lightbulbs. Assume that $X\sim \exp(\alpha)$ and
   $Y\sim \exp(\beta)$, where $\alpha$ and $\beta$ are positive numbers. It's reasonable to assume of these
@@ -3991,280 +3728,265 @@ information about the other.
     &= \P\left[X \geq 900\right] \P\left[Y \geq 900\right]\\
     &= e^{-900 \alpha} e^{-900 \beta}\\
     &= e^{-1.65}
-\end{align*}
+  \end{align*}
 \end{example}
 
+\subsection{LOTUS Theorem - multivariate case}
+\textit{Chapter 5.2 in the textbook.}
 
-\newpage
-\section{2025-03-05 | Week 8 | Lecture 21}
-\textit{Please read 5.1-5.4}
-
-\begin{example}
-  Let $X$ and $Y$ be the lifetimes of two lightbulbs. Assume that $X\sim \exp(\alpha)$ and
-  $Y\sim \exp(\beta)$, where $\alpha$ and $\beta$ are positive numbers. It's reasonable to assume of these
-  as independent. Then the joint pdf is
-  \begin{align*}
-    f(x,y) 
-    &= f_{X}(x)f_{Y}(y)\\
-    &= \left( \alpha e^{-\alpha x}\mathbf{1}_{[x>0]} \right) \left( \beta e^{-\beta y}\mathbf{1}_{[y>0]} \right)\\ 
-    &= \alpha \beta e^{-\alpha x-\beta y }\mathbf{1}_{[x,y>0]}\\
-    &= \left\{ \begin{array}{l@{\quad:\quad}l} \alpha \beta e^{-\alpha x-\beta y } & x,y>0\\ 0& \text{else}
+\begin{theorem}[LOTUS - multivariate case]
+  \label{thm:LOTUS-multivariate-case}
+  Let $(X,Y)$ be a random vector with pmf $p(x,y)$ if $X,Y$ are discrete or
+  pdf $f(x,y)$ if $X,Y$ are continuous. Then for any function $h:\R^{2} \to \R$,
+  \begin{equation*}
+    \E\left[h(X,Y) \right] =\left\{ \begin{array}{l@{\quad:\quad}l}
+        \displaystyle\sum_{\text{all }x,y} h(x,y)p(x,y) & \text{if $X,Y$ are discrete}\\
+        \displaystyle \int_{-\infty}^{\infty}\int_{-\infty}^{\infty}h(x,y)f(x,y)dxdy   & \text{if $X,Y$ are continuous}
       \end{array}\right.
-  \end{align*}
-  Suppose $\alpha=1/1000$ and $\beta= 1/1200$. Then the expected lifetimes of the bulbs are $1000$ hours and
-  $1200$ hours, respectively.
-
-  \textbf{Question:} What is the probability that both lightbulbs last at least 900 hours?
-
-  Want:
-  \begin{align*}
-    \P\left[X \geq 900, Y \geq 900\right]
-    &= \int_{900}^{\infty}\int_{900}^{\infty}\left( \alpha e^{-\alpha x} \right)
-      \left( \beta e^{-\beta y} \right)  dx dy\\
-    &= \int_{900}^{\infty}\left[ \int_{900}^{\infty}\alpha e^{-\alpha x}dx  \right]  \left( \beta e^{-\beta y} \right)dy\\ 
-    &= \left( \int_{900}^{\infty}\alpha e^{-\alpha x}dx  \right)  \left( \int_{900}^{\infty}\beta e^{-\beta y}dy  \right)\\ 
-    &= \left( \left[ e^{-\alpha x} \right]^{x=900}_{x\to \infty}  \right) \left( \left[ e^{-\beta y} \right]^{y=900}_{y \to \infty}  \right)\\ 
-    &= \left( e^{-900 \alpha} -0\right) \left( e^{-900 \beta}-0 \right)\\ 
-    &= e^{-900(\alpha+\beta)}\\
-    &= e^{-900(\frac{1}{1000}+ \frac{1}{1200})}\\
-    &= e^{-1.65}\\
-    &\approx .2
-  \end{align*}
-  So with probability about one fifth, both ligthbulbs will last at least 900 hours.
-
-  A faster way to do this. Observe that the events $\left[ X \geq 900\right]$ and $\left[ Y \geq
-    900\right]$ are independent, because the random variables are. Then
-  \begin{align*}
-    \P\left[X \geq 900, Y \geq 900\right] 
-    &= \P\left[X \geq 900\right] \P\left[Y \geq 900\right]\\
-    &= e^{-900 \alpha} e^{-900 \beta}\\
-    &= e^{-1.65}
-  \end{align*}
-\end{example}
-
-
-\begin{example}[Treasure chest]
-  \label{ex:treasure-chest}
-  A randomly looted pirate chest contains treasure, consisting of a mix of gemstones, gold pieces, and
-  valuable navigational charts. The weight of the treasure chest is 10lbs, but the weight contribution
-  of each type of treasure is random. Let $X$ be the proportion of the treasure consisting of gemstones
-  (by weight). Let $Y$ be the proportion which is gold pieces. And let $Z$ the proportion which
-  consisting of charts.
-
-  Because the proportions sum to 1, it is enough to consider only two of them, $X$ and $Y$.
-
-  Because $X$ and $Y$ are \textit{proportions}, they take values in the following set:
-  \begin{equation*}
-    D = \left\{(x,y): 0 \leq x \leq 1, 0 \leq y \leq 1, x+y \leq 1\right\}
-  \end{equation*}
-  For this problem, we will assume the joint pdf of $(X,Y)$ is
-  \begin{equation*}
-    f(x,y) = \left\{ \begin{array}{l@{\quad:\quad}l} 24xy & (x,y)\in D\\0 & (x,y)\notin D\end{array}\right.
-  \end{equation*}
-  Observe that the density increases as $x$ and $y$ increase. So points near the diagonal boundary are
-  \textit{relatively more likely} than points in the bottom left corner. This is appropriate: since gold
-  and gems are heavier than paper, we expect that most of the weight of the treasure will consist of
-  these things, rather than navigational charts.
-
-  \textbf{Question:} What is the probability that more than half of the weight of the treasure comes from
-  navigational charts, rather than gems and gold?
-
-  We want to compute
-  \begin{equation*}
-    \P\left[Z \geq 1/2\right] 
-  \end{equation*}
-  We know $X+Y+Z=1$, so $Z= 1-X-Y$.
-  Therefore we want to compute
-  \begin{equation*}
-    \P\left[1-X-Y \geq 1/2\right]
-  \end{equation*}
-  or equivalently,
-  \begin{equation*}
-    \P\left[ X+Y \leq 1/2\right]
-  \end{equation*}
-  Let $A = \left\{(x,y): 0 \leq x\leq 1, 0 \leq y \leq 1,x+y \leq .5\right\}$
-  \begin{align*}
-    \P\left[ X+Y \leq 1/2\right] = \P\left[(X,Y)\in A \right] = \int_{0}^{.5}\int_{0}^{.5-x} f(x,y)dydx 
-  \end{align*}
-
-  Some other things we can do:
-  \begin{itemize}
-    \item check of $f$ is a pdf
-    \item compute the marginal densities $f_{X}$ and $f_{Y}$
-  \end{itemize}
-\end{example}
-
-
-
-\newpage
-\section{2025-03-07 | Week 8 | Lecture 22}
-\textit{Please read sections 5.1-5.4}
-
-\begin{theorem}[Expectation of functions of random vectors]
-  \label{thm:expectation-functions-random-vectors}
-  Let $(X,Y)$ be a random vector with pmf $p(x,y)$ if $X,Y$ are discrete or pdf $f(x,y)$ if $X,Y$ are
-  continuous. Let $h:\R^{2} \to \R$ be a function. [Note: then $h(X,Y)$ is a random variable.] Then
-  \begin{equation*}
-    \E\left[h(X,Y) \right] \left\{ \begin{array}{l@{\quad:\quad}l}
-        \sum_{\text{all }x,y} h(x,y)p(x,y) & \text{discrete case}\\
-        \int_{-\infty}^{\infty}\int_{-\infty}^{\infty}h(x,y)f(x,y)dxdy   & \text{continuous case}\end{array}\right.
   \end{equation*}
 \end{theorem}
 
+An important aplication of \cref{thm:LOTUS-multivariate-case}:
 
-\begin{example}
-  Gemstones are worth $\$22,500$ per pound, gold is worth $\$15,000$ per pound, and navigational charts
-  are worth $\$7500$ per pound. The value of a random pound of treasure is
+\begin{theorem}
+  \label{thm:independent-expectations-factorize}
+  If $X,Y$ are indepenedent random variables then
   \begin{equation*}
-    15,000X + 22,500Y + 7,500(1-X-Y)
+    \E\left[XY \right] = \E\left[X \right] \E\left[Y \right]
   \end{equation*}
-  Recalling that the chest is 10lbs, the total value of the contents of the
-  treasure chest is
-  \begin{align*} 
-    h(X,Y) 
-    &= 150000X + 225000Y+ (75000)(1-X-Y) \\
-    &= 75000 + 75000X + 150000Y
-\end{align*}
-  The expected total value is therefore
-  \begin{equation*}
-    \E\left[h(X,Y)  \right] =\int_{-\infty}^{\infty}\int_{-\infty}^{\infty}h(x,y)f(x,y) dxdy =... \$1,650,000  
-  \end{equation*}
-\end{example}
+\end{theorem}
+\begin{proof}
+  Let's prove the case with $X,Y$ discrete. Let $p(x,y)$ be the joint pmf of
+  $X$ and $Y$. Taking $h(x,y) = xy$, \cref{thm:LOTUS-multivariate-case} implies
+  \begin{align*}
+    \E\left[XY \right] 
+    &= \sum_{\text{all }x,y} xyp(x,y)\\
+    &= \sum_{\text{all }x,y} xyp_{X}(x) \cdot p_{Y}(y) &&\text{by independence}\\
+    &= \left( \sum_{\text{all }x} xp_{X}(x) \right) \left( \sum_{\text{all }y}yp_{Y}(y)  \right)\\   
+    &= \E\left[X \right] \E\left[Y \right] &&\text{by \cref{thm:LOTUS-discrete-case}}
+  \end{align*}
+  The continuous case is similar.
+\end{proof}
 
-
-
-One important function for \cref{thm:expectation-functions-random-vectors} is when $h(X,Y) =
+One important function for \cref{thm:LOTUS-multivariate-case}  is when $h(X,Y) =
 (X-\mu_{X})(Y-\mu_{Y})$, where $\mu_{X}= \E\left[X \right]$ and $\mu_{Y} = \E\left[Y \right]$. That gives
 us a formula for what is called the \demph{covariance}:
 \begin{equation*}
   \text{Cov}(X,Y) = \E\left[(X-\mu_{X})(Y-\mu_{Y}) \right]
 \end{equation*}
-We also have
+By foiling this out, we get
 \begin{equation*}
   \text{Cov}(X,Y) = \E\left[XY \right] - \mu_{X}\mu_{Y}
 \end{equation*}
-
-For example, we can compute the covariance of $X$ and $Y$ from the treasure example.
-
-\begin{align*}
-  \text{Cov}(X,Y) = \E\left[XY \right] - \mu_{X}\mu_{Y}
-\end{align*}
-To compute $\E\left[XY \right]$, let's take $h(x,y)=xy$. Recalling that $f(x,y) = 24xy$ for $(x,y)\in D$,
-we have
-\begin{align*}
-  \E\left[XY \right] 
-  &= \int_{D} h(x,y) f(x,y)dxdy \\
-  &= \int_{D} (xy)24xy dxdy\\
-  &= 24\int_{D} x^{2}y^{2}dxdy\\
-  &= 24 \int_{0}^{1} \int_{0}^{1-y}  x^{2}y^{2}dxdy\\
-  &= 24 \int_{0}^{1}y^{2} \left[\int_{0}^{1-y}x^{2} dx \right] dy
-\end{align*}
-and so forth.
+By \cref{thm:independent-expectations-factorize}, if $X,Y$ are independent, then
+\begin{equation*}
+  \text{Cov}(X,Y) = \E\left[XY \right] - \mu_{X}\mu_{Y} = \E\left[X \right] \E\left[Y \right] -\mu_{X}\mu_{Y} = 0.
+\end{equation*}
+\fl{Interpetation:} covariance is a rough measure of the relationship between
+the two random variables.
 
 
 
-
-\begin{example}
-  Five friends purchased tickets to a concert. The tickets are all in the same row, next to each other,
-  and numberd 1 through 5. What is the expected number of seats separating any two friends?
-
-  Let $X,Y$ be the seat number of the first and second individual (chosen randomly). Possible $(X,Y)$
-  pairs are
+\begin{example}[Covariance calculation]
+  Let $X,Y$ be random variables with joint distribution
   \begin{equation*}
-    \left\{(1,2), (1,3), \ldots, (5,4)\right\}
+    f(x,y) = 24xy
   \end{equation*}
-  and the joint pmf is
+  whose domain is
   \begin{equation*}
-    p(x,y) = \left\{ \begin{array}{l@{\quad:\quad}l} \frac{1}{20} & x,y\in \left\{1,2,3,4,5\right\}
-        \text{ and } x\neq y\\ 0&else \end{array}\right.
+    D:= \left\{(x,y)\in \R^{2}: x \geq 0, y \geq 0, x+y \leq 1\right\}
   \end{equation*}
-  The number of seats separating individuals $X$ and $Y$ is $h(X,Y)=|X-Y|-1$.
+  which is shown below:
+  \begin{center}
+    \begin{tikzpicture}[scale=4]
+      % axes
+      \draw[->] (-0.05,0) -- (1.15,0) node[right] {$x$}; \draw[->] (0,-0.05)
+      -- (0,1.15) node[above] {$y$};
 
-  (Make a table)
+      % shaded region
+      \fill[gray!25] (0,0) -- (1,0) -- (0,1) -- cycle;
 
-  Then
-  \begin{equation*}
-    \E\left[h(X,Y) \right] 
-    = \sum_{(x,y): x\neq y} h(x,y) p(x,y) 
-    = \sum_{x=1}^{5}\sum_{\underset{y\neq x}{y=1}}^{5} \left( |x-y|-1 \right) \frac{1}{20} 
-    = 1.
-  \end{equation*}
+      % boundary lines
+      \draw[thick] (0,0) -- (1,0); \draw[thick] (0,0) -- (0,1); \draw[thick]
+      (1,0) -- (0,1);
+
+      % labels
+      \node[below left] at (0,0) {$0$}; \node[below] at (1,0) {$1$};
+      \node[left] at (0,1) {$1$}; \node at (0.33,0.33) {$D$};
+    \end{tikzpicture}
+  \end{center}
+  \Fl{What is the covariance} To compute $\E\left[XY \right]$, let's take
+  $h(x,y)=xy$. Recalling that $f(x,y) = 24xy$ for $(x,y)\in D$, we have
+  \begin{align*}
+    \E\left[XY \right] 
+    &= \int_{D} h(x,y) f(x,y)dxdy \\
+    &= \int_{D} (xy)24xy dxdy\\
+    &= 24\int_{D} x^{2}y^{2}dxdy\\
+    &= 24 \int_{0}^{1} \int_{0}^{1-y}  x^{2}y^{2}dxdy\\
+    &= 24 \int_{0}^{1}y^{2} \left[\int_{0}^{1-y}x^{2} dx \right] dy\\
+    &= 8 \int_{0}^{1}y^{2}(1-y)^{3}dy\\ 
+    &= \ldots\\
+    &= -8.
+  \end{align*}
 \end{example}
 
 \newpage
-\section{2025-03-10 | Week 9 | Lecture 23}
 
 
+\section{2025-03-27 | Week 10 | Lecture 24}
+
+\subsection{Statistics: a general framework}
+
+\textit{Chapters 5.3 and 5.4}
 
 
-\begin{example}[Birthday paradox]
-  \label{ex:birthday-problem}
-  Let
-  \begin{equation*}
-    E =  \left[\text{At least one birthday match in a room of $n$ people } \right]
-  \end{equation*}
-  Want to compute 
-  \begin{equation*}
-    \P\left[E \right].
-  \end{equation*}
-  We will use
-  \begin{equation*}
-    \P\left[E \right] = 1- \P\left[E^{c} \right].
-  \end{equation*}
-  In words, $E^{c} = \left[\text{no birthday match} \right]$. Let's assume there are 365 days in a year,
-  and that all days are equally likely. Let
-  \begin{equation*}
-    D_{j} = \P\left[ j\text{-th person differs from all predecessors} \right]  
-  \end{equation*}
-  Then
-  \begin{align*}
-    \P\left[E  \right]
-    &= 1-\P\left[E^{c} \right]\\
-    &= 1-\P\left[D_{1} \right] \P\left[D_{2}\mid D_{1} \right] \P\left[D_{3}\mid D_{1}D_{2} \right]\ldots \P\left[D_{n}\mid D_{1}\cdots D_{n-1} \right]\\
-    &= 1 - \frac{365}{365} \cdot\frac{364}{365}\cdot \frac{363}{365}\cdots \frac{365-(n-1)}{365}
-  \end{align*}
+\textit{The objective of statistics to is to make an inference about a
+  population based on information contained in a sample from that population
+  and to provide an associated measure of goodness for the inference.} Here we
+introduce a conceptual framework for mathematical statistics.
 
-  When $n=23$, $\P\left[E \right]>\frac{1}{2}$. When $n=35$, $\P\left[E \right]\approx .8$.
+
+A \demph{population} is a large body of data that is the target of our
+interest. The subset collected from it is our \demph{sample}. 
+
+\begin{example}[Populations]
+  A population can be real or theoretical. Here are some examples
+  \begin{itemize}
+    \item The set of people in Hawai{\okina}i (real, finite)
+    \item The set of voters in the 2026 Midterm elections (hypothetical, finite)
+    \item The decimal expansion of $\pi$ (countably infinite)
+    \item The infinitely many observations that could be made during a
+    laboratory experiment if the experiment were repeated over and over again
+    (hypothetical)
+    \item The lifetimes of light bulbs produced by a factory
+  \end{itemize}
+  Importantly, a population can also be a \textit{probability distribution},
+  specified by a pdf, pmf, or cdf
+  \begin{itemize}
+    \item Observations made from an exponential distribution with mean
+    $\lambda>0$ (i.e., the distribution with pdf
+    $f(x)=\lambda e^{-\lambda x}\mathbf{1}_{\left[ x>0 \right] }$.)
+  \end{itemize}
 \end{example}
 
 
+More commonly in mathematical statistics, we think of the population as a
+distribution.
 
-\begin{definition}[iid]
-  We say that a sequence $X_{1},\ldots,X_{n}$ of random variables is \demph{independent and identically
-    distributed (iid)} if
-  \begin{itemize}
-    \item The $X_{i}$'s are independent rvs
-    \item Every $X_{i}$ has the same probability distribution as $X_{1}$
-  \end{itemize}
-  In statistics, such a sequence of r.v.s is called a \demph{random sample from the distribution $X_{1}$}
-  The partial sum is
-  \begin{equation*}
-    T_{n} = X_{1}+\ldots+X_{n}
-  \end{equation*}
-  The \demph{sample mean} is 
-  \begin{equation*}
-    \overline{X}=\frac{X_{1}+\ldots+X_{n}}{n}
-  \end{equation*}
-  and the \demph{sample variance} is $S^{2} =  \frac{1}{n-1}\sum_{i=1}^{n}(X_{i} - \overline{X})^{2}$. 
+\begin{definition}[Random sample from a distribution]
+  Consider a given probability distribution on $\R$ that can be represented by
+  a pdf or pmf $f$. We say that the random variables $X_{1},\ldots,X_{n}$ form
+  a \demph{random sample} from this distribution if these random variables are
+  independent and the distribution of each is given by $f$. Such random
+  variables are also said to be \demph{independent and identically
+    distributed} (iid). The number of random variables $n$ is the
+  \demph{sample size}.
 \end{definition}
 
-Recall that $\mathcal{N}(\alpha,\beta)$ means ``normal distribution with mean $\alpha$ and variance
-$\beta$''.
 
-\begin{theorem}[Central Limit Theorem]
-  \label{thm:central-limit-theorem}
-  Let $X_{1},\ldots,X_{n}$ be a random sample from a distribution with mean $\mu$ and variance
-  $\sigma^{2}$. If $n$ is sufficiently large, then
-  \begin{equation*}
-    T_{n} \text{ is approximately } \mathcal{N} \left( n\mu, n\sigma^{2} \right) 
-  \end{equation*}
-  and
-  \begin{equation*}
-    \overline{X}\text{ is approximately }\mathcal{N}\left(\mu, \frac{\sigma^{2}}{n}\right)
-  \end{equation*}
-  The larger $n$, the better the approximation. Usually $n=30$ is big enough.
+\begin{definition}[Statistic]
+  A \demph{statistic} is any quantity whose value can be calculated from
+  sample data.
+\end{definition}
+
+Here are two important examples of statistics:
+
+\begin{example}
+  Let $X_{1},\ldots,X_{n}$ be random sample.
+  \begin{itemize}
+    \item The \demph{sample mean}, denoted $\overline{X}$, is
+    \begin{equation*}
+      \overline{X}=\frac{X_{1}+\ldots+X_{n}}{n}.
+    \end{equation*}
+    \item The \demph{sample variance}, denoted $S^{2}$, is
+    \begin{equation*}
+      S^{2} = \frac{1}{n-1}\sum_{i=1}^{n}(X_{i} - \overline{X})^{2}
+    \end{equation*}
+  \end{itemize}
+\end{example}
+Because a statistic is a \textit{function} of random variables, it is itself a
+random variable. The probability distribution of a statistic is called its
+\demph{sampling distribution}.
+
+\begin{theorem}
+  Let $X_{1},\ldots,X_{n}$ be a random sample from a distribution with mean $\mu$ and standard
+  deviation $\sigma$. Then
+  \begin{itemize}
+    \item $\mu_{\overline{X}}:=\E\left[\overline{X} \right]= \mu$
+    \item $\sigma^{2}_{\overline{X}}:= \Var(\overline{X})= \sigma^{2}/n$ (and  $\sigma_{\overline{X}}=\sigma/n$)
+  \end{itemize}
 \end{theorem}
 
+\begin{theorem}
+  Let $X_{1},\ldots,X_{n}$ be a random sample from a normal distribution with
+  mean $\mu$ and standard deviation $\sigma$. Then for any $n$,
+  $\overline{X}\sim \mathcal{N}(\mu,\sigma^{2}/n)$.
+\end{theorem}
+
+
+\subsection{The central limit theorem}
+
+\begin{theorem}[Central limit theorem]
+  \label{thm:central-limit-theorem}
+  Let $X_{1},X_{2},\ldots,X_{n}$ be a random sample from a distribution with
+  mean $\mu$ and variance $\sigma^{2}>0$. If $n$ is sufficiently large, then
+  $\overline{X}$ has approximately a normal distribution with mean
+  $\mu_{\overline{X}}=\mu$ and variance
+  $\sigma^{2}_{\overline{X}}= \frac{\sigma^{2}}{n}$. The larger $n$, the
+  better the approximation.
+
+  In symbols,
+  \begin{equation}\label{eq:20}
+    \overline{X} \approx \underbrace{\mu + \frac{\sigma}{\sqrt{n}}Z}_{\mathcal{N}(\mu, \frac{\sigma^{2}}{n})}
+  \end{equation}
+  where $Z\sim \mathcal{N}(0,1)$. 
+
+  Usually $n \geq 30$ is big enough for the approximation to be valid.
+\end{theorem}
+
+\begin{corollary}
+  The distribution of the standardardized sample mean is approximately a
+  standard normal; that is,
+  \begin{equation*}
+    \frac{\overline{X}-\mu}{\sigma/\sqrt{n}} \approx Z,
+  \end{equation*}
+  where $Z\sim \mathcal{N}(0,1)$.
+\end{corollary}
+
+\begin{example}[Witch's brew - similar to example 5.27 in textbook]
+  A witch decides to make 50 batches of potions. Unfortunately, her hut is not
+  very clean and bugs keep crawling into the brew. Suppose that the amount of
+  bugs contaminating the $i$th batch is a random variable $X_{i}$ with mean
+  $\mu=4g$ and standard deviation $\sigma=1.5g$. Assume the witch prepares her
+  50 batches independently. Let
+  \begin{equation*}
+    \overline{X}= \frac{X_{1}+\ldots+X_{50}}{50}
+  \end{equation*}
+  be the average amount of impurity.
+  
+  \Fl{Question:} What is the probability that $3.5 \leq \overline{X}\leq 3.8$?
+
+  \fl{Solution:} Here, $n=50>30$ so we can apply the central limit theorem. By
+  the central limit theorem, $\overline{X}$ has distribution approximately
+  \begin{align*}
+    \overline{X} 
+    &\approx \mu + \frac{\sigma}{\sqrt{n}}Z\\
+    &= 4 + \frac{3}{2 \sqrt{50}}Z,
+  \end{align*}
+  where $Z\sim \mathcal{N}(0,1)$ is a standard normal random variable.
+  Therefore
+  \begin{align*}
+    \P\left[3.5 \leq \overline{X}\leq 3.8\right]
+    &\approx \P\left[3.5 \leq 4 + \frac{3}{2 \sqrt{50}}Z \leq 3.8\right]\\
+    &= \P\left[-\frac{1}{2} \leq \frac{3}{2 \sqrt{50}}Z \leq  -\frac{1}{5}\right]\\
+    &= \P\left[-\frac{\sqrt{50}}{3}\leq Z \leq - \frac{2 \sqrt{50}}{15}\right]\\
+    &= \P\left[-2.36 \leq Z \leq -.94\right]\\
+    &= \int_{-2.36}^{-.94}\frac{1}{\sqrt{2\pi}}e^{-y^{2}/2}dy\\ 
+    &\approx .16
+  \end{align*}
+
+
+\end{example}
 
 \begin{example}
   Flip a coin $1000$ times. What is the probability that you get at least $550$ heads?
@@ -4312,48 +4034,15 @@ $\beta$''.
     &= \frac{1}{\sqrt{2\pi}} \int_{2.236}^{\infty}e^{-x^{2}/2}dx\\ 
     &\approx 0.013
   \end{align*}
-  
 \end{example}
 
 
 \newpage
+\section{CUTOFF FOR OLD MATERIAL}
+
+
+\newpage
 \section{2025-03-24 | Week 10 | Lecture 24 }
-
-\subsection{Shuffling Cards}
-I mostly talked about the paper ``Trailing the Dovetail Shuffle to its Lair'',
-by Bayer and Diaconis (1992). This is a classical paper that discusses the
-question, ``how many times must one shuffle a deck for it to be sufficiently
-randomized?'' The short answer is ``about 7'', but the mathematics to get to
-that answer are quite sophisticated. Some of the key ideas are as follows:
-
-The \demph{symmetric group of order $n$} is the set
-\begin{equation*}
-  S_{n} = \text{the set of permtuations of $\left\{1,2,\ldots,n\right\}$ },
-\end{equation*}
-where we can combine permutations by composing them together.
-
-
-Formally, a function $f$ is a \demph{permutation} of $\left\{1,\ldots,n\right\}$ if
-\begin{equation*}
-  f: \left\{1,\ldots,n\right\} \to \left\{1,\ldots,n\right\}
-\end{equation*}
-and $f$ is both injective and surjective.
-
-Informally, a \demph{permutation} of $\left\{1,\ldots,n\right\}$ is simply any
-reordering of $n$ distinc objects.
-
-We wrote out all the permutations of $\left\{1,2,3\right\}$ and showed how to
-compose them. Composing permutations is like doing one permutation and then
-doing the other. The result is always a new permutation.
-
-\textbf{Key idea:} shuffling a deck of 52 cards induces a probability
-distribution on the set $S_{52}$. The shuffling procedure ``fully
-randomizes'' the deck if the resulting probability distribution is close to
-the uniform distribution on $S_{52}$.
-
-The first 6 or so riffle shuffles don't do much to randomize, but after 7
-shuffles there is an inflection point and, the distribution quickly converges
-to uniform.
 
 \subsection{The Coupon Collector Problem}
 \Fl{Problem statement:} Suppose a dart board is divided up into $n$
@@ -4413,74 +4102,6 @@ with probability at least $99\%$, we will hit every section on the dartboard.
 
 \section{2025-03-28 | Week 10 | Lecture 25}
 \textit{Start reading 6.1, 6.2}
-
-Recall that we say that a sequence $X_{1},X_{2},\ldots$ of random variables is
-\demph{independent and identically distributed (IID)} if 
-\begin{itemize}
-  \item The $X_{i}$'s are independent rvs
-  \item Every $X_{i}$ has the same probability distribution as $X_{1}$
-\end{itemize}
-
-
-\begin{theorem}[Central limit theorem]
-  Suppose we have an IID sequence of random variables $X_{1},X_{2},\ldots$
-  with finite mean $\E\left[X_{1} \right]= \mu$ and finite variance
-  $\Var(X_{1}) = \sigma^{2}>0$. Let
-  \begin{equation*}
-    S_{n} = X_{1}+\ldots+X_{n}.
-  \end{equation*}
-  Then for any fixed $-\infty \leq a \leq b \leq +\infty$, we have
-  \begin{equation}\label{eq:21}
-    \lim_{n\to\infty} \P\left[a \leq \frac{S_{n}-n\mu}{\sigma \sqrt{n}}\leq b\right] 
-    = \Phi(b)-\Phi(a)
-    = \int_{a}^{b} \frac{1}{\sqrt{2\pi}}e^{-y^{2}/2}dy 
-  \end{equation}
-  The conclusion of the CLT can be stated in many equivalent ways. One useful
-  way involves the \demph{sample average} $\overline{X}:=\frac{S_{n}}{n}$. The
-  CLT says that 
-  \begin{equation}\label{eq:20}
-    \overline{X} \approx \underbrace{\mu + \frac{\sigma}{\sqrt{n}}Z}_{\mathcal{N}(\mu, \frac{\sigma^{2}}{n})}
-  \end{equation}
-  where $Z\sim \mathcal{N}(0,1)$. 
-
-  Usually $n \geq 30$ is big enough for the approximation to be valid.
-\end{theorem}
-
-
-\begin{example}
-  A witch decides to make 50 batches of potions. Unfortunately, her hut is not
-  very clean and bugs keep crawling into the brew. Suppose that the amount of
-  bugs contaminating the $i$th batch is a random variable $X_{i}$ with mean
-  $\mu=4g$ and standard deviation $\sigma=1.5g$. Assuem the witch prepares her
-  50 batches independently. Let
-  \begin{equation*}
-    \overline{X}= \frac{X_{1}+\ldots+X_{50}}{50}
-  \end{equation*}
-  be the average amount of impurity.
-  
-  \Fl{Question:} What is the probability that $3.5 \leq \overline{X}\leq 3.8$?
-
-  \fl{Solution:} Here, $n=50>30$ so we can apply the central limit theorem. By
-  the central limit theorem, $\overline{X}$ has distribution approximately
-  \begin{align*}
-    \overline{X} 
-    &\approx \mu + \frac{\sigma}{\sqrt{n}}Z\\
-    &= 4 + \frac{3}{2 \sqrt{50}}Z
-  \end{align*}
-  where $Z\sim \mathcal{N}(0,1)$ is a standard normal random variable.
-  Therefore
-  \begin{align*}
-    \P\left[3.5 \leq \overline{X}\leq 3.8\right]
-    &\approx \P\left[3.5 \leq 4 + \frac{3}{2 \sqrt{50}}Z \leq 3.8\right]\\
-    &= \P\left[-\frac{1}{2} \leq \frac{3}{2 \sqrt{50}}Z \leq  -\frac{1}{5}\right]\\
-    &= \P\left[-\frac{\sqrt{50}}{3}\leq Z \leq - \frac{2 \sqrt{50}}{15}\right]\\
-    &= \P\left[-2.36 \leq Z \leq -.94\right]\\
-    &= \int_{-2.36}^{-.94}\frac{1}{\sqrt{2\pi}}e^{-y^{2}/2}dy\\ 
-    &\approx .16
-  \end{align*}
-
-
-\end{example}
 
 \begin{example}[Application of CLT]
   The human genome consists of a sequence of nucleotides $(A,T,C,G)$. For this problem we can think of the

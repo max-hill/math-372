@@ -37,7 +37,10 @@ title: Lecture Notes
  2026-03-04  | [lecture-18](lectures/lecture-notes-by-day/lecture-18.pdf) | (Sections 3.6, 4.1) Poisson random variable, continuous random variables
  2026-03-06  | [lecture-19](lectures/lecture-notes-by-day/lecture-19.pdf), [quiz-2-study-guide](quizzes/quiz-02-study-guide.pdf) | (Sections 4.1, 4.2) Continuous random variables
  2026-03-09  | [lecture-20](lectures/lecture-notes-by-day/lecture-20.pdf) | (Sections 4.1, 4.2) Continuous random variables, exponential random variables
- 2026-03-11  | [lecture-21](lectures/lecture-notes-by-day/lecture-21.pdf) | (Sections 4.4) Normal random variables
+ 2026-03-11  | [lecture-21](lectures/lecture-notes-by-day/lecture-21.pdf) | (Section 4.4) Normal random variables
+ 2026-03-23  | [lecture-22](lectures/lecture-notes-by-day/lecture-22.pdf) | (Section 5.1) Joint distributions
+ 2026-03-25  |  | (Sections 5.1, 5.2) Joint distributions, multivariate LOTUS theorem
+ 2026-03-27  |  | (Sections 5.3, 5.4) Statistics
 
 # Other links
 
