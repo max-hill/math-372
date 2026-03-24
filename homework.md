@@ -15,5 +15,6 @@ permalink: /homework/
 2026-03-04 | [homework-06](homework/homework-06/homework-06.pdf)     | poisson random variable, geometric random variable, variance
 2026-03-13 | [homework-07](homework/homework-07/homework-07.pdf)     | continuous random variables, exponential random variables
 2026-03-25 | [homework-08](homework/homework-08/homework-08.pdf)     | continuous random variables (normal, exponential, etc)
+2026-03-31 | [homework-09](homework/homework-09/homework-09.pdf)     | joint distributions
  
 

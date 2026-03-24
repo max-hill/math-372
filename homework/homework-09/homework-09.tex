@@ -1,0 +1,303 @@
+\documentclass[10pt]{article}
+% Math Packages
+\usepackage{amsmath, mathtools}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{bbm}
+\usepackage{breqn}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{calc}
+\usepackage{forest}
+\usepackage{tikz-qtree}
+\graphicspath{ {./images/} }
+\usepackage{hyperref}
+\usepackage[capitalize]{cleveref}
+\usepackage[shortlabels]{enumitem}
+\usetikzlibrary{arrows,matrix,positioning}
+\usepackage{multicol}
+
+% for the pipe symbol
+\usepackage[T1]{fontenc}
+
+% Citing theorems by name. (source: https://tex.stackexchange.com/questions/109843/cleveref-and-named-theorems)
+\makeatletter
+\newcommand{\ncref}[1]{\cref{#1}\mynameref{#1}{\csname r@#1\endcsname}}
+
+\def\mynameref#1#2{%
+  \begingroup
+  \edef\@mytxt{#2}%
+  \edef\@mytst{\expandafter\@thirdoffive\@mytxt}%
+  \ifx\@mytst\empty\else
+  \space(\nameref{#1})\fi
+  \endgroup
+}
+\makeatother
+
+% Colorful Notes
+\usepackage{color} \definecolor{Red}{rgb}{1,0,0} \definecolor{Blue}{rgb}{0,0,1}
+\definecolor{Purple}{rgb}{.5,0,.5} \def\red{\color{Red}} \def\blue{\color{Blue}}
+\def\gray{\color{gray}} \def\purple{\color{Purple}}
+\newcommand{\rnote}[1]{{\red [#1]}} % \rnote{foo} gives '[foo]' in red
+\newcommand{\pnote}[1]{{\purple [#1]}} % \pnote{foo} gives '[foo]' in purple
+\newcommand{\bnote}[1]{{\blue #1}} % \bnote{foo} gives 'foo' in blue
+\newcommand{\gnote}[1]{{\gray #1}} % \gnote{foo} gives 'foo' in gray
+\newcommand{\Max}[1]{{\purple [#1]}} % \bnote{foo} then 'foo' is blue
+
+
+% Claim numbering (the counter restarts after each proof environment)
+\newcounter{claimcount}
+\setcounter{claimcount}{0}
+\newenvironment{claim}{\refstepcounter{claimcount}\par\addvspace{\medskipamount}\noindent\textbf{Claim \arabic{claimcount}:}}{}
+\usepackage{etoolbox}
+\AtBeginEnvironment{proof}{\setcounter{claimcount}{0}}
+\newenvironment{claimproof}{\par\addvspace{\medskipamount}\noindent\textit{Proof of Claim  \arabic{claimcount}.}}{\hfill\ensuremath{\qedsymbol} \tiny{Claim}
+
+  \medskip}
+% Add claim support to cleverref
+\crefname{claimcount}{Claim}{Claims}
+
+
+% Math Environments
+\newtheorem{theorem}{Theorem}
+\newtheorem{assumption}[theorem]{Assumption}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{question}[theorem]{Question}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{notation}[theorem]{Notation}
+\newtheorem{problem}[theorem]{Problem}
+
+% Matrices and Column Vectors. 
+\usepackage{stackengine}
+\setstackgap{L}{1.0\normalbaselineskip}
+\usepackage{tabstackengine}
+\setstackEOL{;}% row separator
+\setstackTAB{,}% column separator
+\setstacktabbedgap{1ex}% inter-column gap
+\setstackgap{L}{1.5\normalbaselineskip}% inter-row baselineskip
+\let\nmatrix\bracketMatrixstack  %Usage: \nmatrix{1,2,3\4,5,6}
+\newcommand\cv[1]{\setstackEOL{,}\bracketMatrixstack{#1}} %usage: \cv{1,2,3}
+
+% Custom Math Coqmmands
+\newcommand{\vt}{\vskip 5mm} % vertical space
+\newcommand{\fl}{\noindent\textbf} % first line
+\newcommand{\Fl}{\vt\noindent\textbf} % first line with space above
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert} % norm
+\newcommand{\pnorm}[1]{\left\lVert#1\right\rVert_p} % p-norm
+\newcommand{\qnorm}[1]{\left\lVert#1\right\rVert_q} % q-norm
+\newcommand{\1}[1]{\textbf{1}_{\left[#1\right]}} % indicator function 
+\def\limn{\lim_{n\to\infty}} % shortcut for lim as n-> infinity
+\def\sumn{\sum_{n=1}^{\infty}} % shortcut for sum from n=1 to infinity
+\def\sumkn{\sum_{k=1}^{n}} % shortcut for sum from k=1 to n
+\def\sumin{\sum_{i=1}^{n}} % shortcut for sum from i=1 to n
+\def\SAs{\sigma\text{-algebras}} % shortcut for $\sigma$-algebras
+\def\SA{\sigma\text{-algebra}} % shortcut for $\sigma$-algebra
+\def\Ft{\mathcal{F}_t} % time-indexed sigma-algebra (t)
+\def\Fs{\mathcal{F}_s} % time-indexed sigma-algebra (s)
+\def\F{\mathcal{F}} % sigma-algebra
+\def\G{\mathcal{G}} % sigma-algebra
+\def\R{\mathbb{R}} % Real numbers
+\def\N{\mathbb{N}} % Natural numbers
+\def\Z{\mathbb{Z}} % Integers
+\def\E{\mathbb{E}} % Expectation
+\def\P{\mathbb{P}} % Probability
+\def\Q{\mathbb{Q}} % Q probability
+\def\dist{\text{dist}} %Text 'dist' for things like 'dist(x,y)'
+\newcommand{\indep}{\perp \!\!\! \perp}  %independence symbol
+\def\Var{\mathrm{Var}} % Variance
+\def\tr{\mathrm{tr}} % trace
+
+% Brackets and Parentheses
+\def\[{\left [}
+    \def\]{\right ]}
+% \def\({\left (}
+%   \def\){\right )}
+
+
+
+\usepackage{color}
+\definecolor{Red}{rgb}{1,0,0}
+\definecolor{Blue}{rgb}{0,0,1}
+\definecolor{Purple}{rgb}{.5,0,.5}
+\def\red{\color{Red}}
+\def\blue{\color{Blue}}
+\def\gray{\color{gray}}
+\def\purple{\color{Purple}}
+\definecolor{RoyalBlue}{cmyk}{1, 0.50, 0, 0}
+\newcommand{\dempfcolor}[1]{{\color{RoyalBlue}#1}} 
+\newcommand{\demph}[1]{\dempfcolor{{\sl #1}}}
+
+% comment exactly one of the following line to show / hide the solutions
+% \newcommand{\solution}[1]{{\purple #1}} % uncomment to show the solutions
+\newcommand{\solution}[1]{} % uncomment to hide the solutions
+
+
+
+\title{Lecture Notes for Math 372: \\Elementary Probability and Statistics}
+\date{Last updated: \today}
+% \author{mh}
+
+\begin{document}
+\begin{center}
+  \section*{Math 372: Homework 09}
+  \textit{Due Tuesday, March 31}
+\end{center}
+
+\textit{Instructions: Do not write your solutions on this sheet---you don't
+  have enough space to show your work. So use separate sheets of paper. For
+  all problems you need to show your work.}
+
+
+
+\begin{problem}[Exercise 5.1.1]
+  A service station has both self-service and full-service
+  islands. On each island, there is a single regular unleaded
+  pump with two hoses. Let $X$ denote the number of hoses
+  being used on the self-service island at a particular time,
+  and let $Y$ denote the number of hoses on the full-service
+  island in use at that time. The joint pmf of $X$ and $Y$ is described by the
+  following table:
+  \begin{equation*}
+    \begin{array}{c|ccc}
+      p(x,y) & y=0 & y=1 & y=2 \\ \hline
+      x=0 & 0.10 & 0.08 & 0.06 \\
+      x=1 & 0.04 & 0.20 & 0.14 \\
+      x=2 & 0.02 & 0.06 & 0.30 \\
+    \end{array}
+  \end{equation*}
+  \begin{enumerate}[(a)]
+    \item What is $\P\left[X = 1\text{ and }Y = 1\right]$? 
+    \item Compute $\P\left[ X \leq 1 \text{ and } Y \leq 1\right]$?
+    \item Using words, describe the event $\left[ X\neq 0 \text{ and } Y\neq 0
+    \right]$, and then compute its probability.
+    \item Compute the marginal pmf of $X$ and $Y$. Using $p_{X}(x)$, what is
+    $\P\left[X \leq 1\right]$?
+    \item Are $X$ and $Y$ independent random variables?
+  \end{enumerate}
+\end{problem}
+
+\begin{problem}[Exercise 5.1.3]
+  \label{problem:exercise-5.1.3}
+  A grocery store has both an express checkout lane and a superexpress
+  checkout lane. Let $X_{1}$ denote the number of customers in line at the
+  express checkout at a particular time of day, and let $X_{2}$ denote the
+  number of customers in line at the superexpress checkout at the same time.
+  Suppose the joint pmf of $X_{1}$ and $X_{2}$ is given by the following
+  table:
+
+  \begin{equation*}
+    \begin{array}{c|ccccc}
+      & x_2=0 & x_2=1 & x_2=2 & x_2=3 & x_2=4 \\ \hline
+      x_1=0 & 0.08 & 0.06 & 0.05 & 0.00 & 0.00 \\
+      x_1=1 & 0.07 & 0.15 & 0.04 & 0.03 & 0.01 \\
+      x_1=2 & 0.04 & 0.05 & 0.10 & 0.04 & 0.05 \\
+      x_1=3 & 0.00 & 0.04 & 0.06 & 0.07 & 0.06 \\
+    \end{array}
+  \end{equation*}
+  \begin{enumerate}[(a)]
+    \item What $\P\left[X_{1}=1,X_{2}=1 \right]$, that is, the probability
+    that there is exactly one customer in each line?
+    \item What is $\P\left[X_{1}=X_{2}\right]$, that is, the probability that
+    the number of customers in the two lines is identical?
+    \item Let $A$ denote the event that there are at least two more customers
+    in one line than in the other? Express $A$ in terms of $X_{1}$ and $X_{2}$
+    and calculate the probability of this event.
+    \item What is the probability that the total number of customers in the
+    two lines is exactly four? At least four?
+  \end{enumerate}
+\end{problem}
+
+\begin{problem}[Exercise 5.1.3]
+  Return to the situation described in \cref{problem:exercise-5.1.3}.
+  \begin{enumerate}[(a)]
+    \item Determine the marginal pmf of $X_{1},$ and then calculate the
+    expected number of customers in line at the express checkout.
+    \item Determine the marginal pmf of $X_{2}$.
+    \item By inspection of the probabilities $\P\left[X_{1}=4 \right]$,
+    $\P\left[X_{2}=0 \right]$, and $\P\left[X_{1}=4,X_{2}=0 \right]$, are
+    $X_{1}$ and $X_{2}$ independent random variables? Explain.
+  \end{enumerate}
+\end{problem}
+
+\begin{problem}[Exercise 4.3.46]
+  The Rockwell hardness of a metal is determined by impressing a hardened
+  point into the surface of the metal and then measuring the depth of
+  penetration of the point. Suppose the Rockwell hardness of a particular
+  alloy is normally distributed with mean 70 and standard deviation 3.
+
+  \begin{enumerate}[(a)]
+    \item If a specimen is acceptable only if its hardness is between 67 and
+    75, what is the probability that a randomly chosen specimen has an
+    acceptable hardness?
+    \item If the acceptable range of hardness is $(70 - c, 70 + c)$, for what
+    value of $c$ would 95\% of all specimens have acceptable hardness?
+    \item  If the acceptable range is as in part (a) and the hardness of each of
+    ten randomly selected specimens is independently determined, what is the
+    expected number of acceptable specimens among the ten?
+    \item  What is the probability that at most eight of ten independently selected
+    specimens have a hardness of less than 73.84? [Hint: If $Y$ is the number
+    among the ten specimens with hardness less than 73.84, then $Y$ is a
+    binomial variable; what is $p$?]
+  \end{enumerate}
+\end{problem}
+
+
+
+
+
+
+\begin{problem}
+  Annie and Alvie have agreed to meet for lunch between noon and 1:00pm.
+  Denote Annie's arrival time by $X$ and Alvie's by $Y$. Suppose that $X$ and
+  $Y$ are indpendent with pdfs
+  \begin{equation*}
+    f_{X}(x) = \left\{ \begin{array}{l@{\quad:\quad}l} 3x^{2} & 0 \leq x \leq 1\\ 0& \text{otherwise}
+      \end{array}\right.
+    \quad \text{and} \quad 
+    f_{Y}(y) = \left\{ \begin{array}{l@{\quad:\quad}l}2y & 0 \leq y \leq 1\\ 0& \text{otherwise}
+      \end{array}\right.
+  \end{equation*}
+  What is the expected amount of time that the one who arrives first must wait
+  for the other person. \textit{Hint: $h(X,Y) = |X-Y|$}
+\end{problem}
+
+
+
+
+% \begin{problem}
+%   The joint probability density function of $X$ and $Y$ is given by
+%   \begin{equation*}
+%     f(x,y)
+%     = \left\{ \begin{array}{l@{\quad:\quad}l} \frac{27 y^{2} e^{-3x}}{x^{2}} &0<y<x<\infty \\
+%         0 & \text{otherwise} \end{array}\right.
+%   \end{equation*}
+%   \begin{enumerate}[(a)]
+%     \item Find the marginal density for $X$.
+%     \item Are $X$ and $Y$ indpendent? Why or why not?
+%     \item Find $\P\left[X>2Y \right]$
+%   \end{enumerate}
+% \end{problem}
+
+\begin{problem}
+  Let $(X,Y)$ be uniformly distributed on the unit square $0<x<1$, $0<y<1$.
+  Find the following probabilities: \textit{[hint: sketch the regions in the unit
+  square]}
+  \begin{enumerate}[(a)]
+    \item $\P\left[X<Y \right]$
+    \item $\P\left[X+Y<1 \right]$
+    \item $\P\left[\min(X,Y) >\frac{3}{4} \right]$
+    \item $\P\left[XY \leq \frac{1}{2}\right]$
+  \end{enumerate}
+\end{problem}
+
+
+
+\end{document}
