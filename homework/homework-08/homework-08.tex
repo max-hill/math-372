@@ -1,0 +1,363 @@
+\documentclass[10pt]{article}
+% Math Packages
+\usepackage{amsmath, mathtools}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{bbm}
+\usepackage{breqn}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{calc}
+\usepackage{forest}
+\usepackage{tikz-qtree}
+\graphicspath{ {./images/} }
+\usepackage{hyperref}
+\usepackage[capitalize]{cleveref}
+\usepackage[shortlabels]{enumitem}
+\usetikzlibrary{arrows,matrix,positioning}
+\usepackage{multicol}
+
+% for the pipe symbol
+\usepackage[T1]{fontenc}
+
+% Citing theorems by name. (source: https://tex.stackexchange.com/questions/109843/cleveref-and-named-theorems)
+\makeatletter
+\newcommand{\ncref}[1]{\cref{#1}\mynameref{#1}{\csname r@#1\endcsname}}
+
+\def\mynameref#1#2{%
+  \begingroup
+  \edef\@mytxt{#2}%
+  \edef\@mytst{\expandafter\@thirdoffive\@mytxt}%
+  \ifx\@mytst\empty\else
+  \space(\nameref{#1})\fi
+  \endgroup
+}
+\makeatother
+
+% Colorful Notes
+\usepackage{color} \definecolor{Red}{rgb}{1,0,0} \definecolor{Blue}{rgb}{0,0,1}
+\definecolor{Purple}{rgb}{.5,0,.5} \def\red{\color{Red}} \def\blue{\color{Blue}}
+\def\gray{\color{gray}} \def\purple{\color{Purple}}
+\newcommand{\rnote}[1]{{\red [#1]}} % \rnote{foo} gives '[foo]' in red
+\newcommand{\pnote}[1]{{\purple [#1]}} % \pnote{foo} gives '[foo]' in purple
+\newcommand{\bnote}[1]{{\blue #1}} % \bnote{foo} gives 'foo' in blue
+\newcommand{\gnote}[1]{{\gray #1}} % \gnote{foo} gives 'foo' in gray
+\newcommand{\Max}[1]{{\purple [#1]}} % \bnote{foo} then 'foo' is blue
+
+
+% Claim numbering (the counter restarts after each proof environment)
+\newcounter{claimcount}
+\setcounter{claimcount}{0}
+\newenvironment{claim}{\refstepcounter{claimcount}\par\addvspace{\medskipamount}\noindent\textbf{Claim \arabic{claimcount}:}}{}
+\usepackage{etoolbox}
+\AtBeginEnvironment{proof}{\setcounter{claimcount}{0}}
+\newenvironment{claimproof}{\par\addvspace{\medskipamount}\noindent\textit{Proof of Claim  \arabic{claimcount}.}}{\hfill\ensuremath{\qedsymbol} \tiny{Claim}
+
+  \medskip}
+% Add claim support to cleverref
+\crefname{claimcount}{Claim}{Claims}
+
+
+% Math Environments
+\newtheorem{theorem}{Theorem}
+\newtheorem{assumption}[theorem]{Assumption}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{question}[theorem]{Question}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{notation}[theorem]{Notation}
+\newtheorem{problem}[theorem]{Problem}
+
+% Matrices and Column Vectors. 
+\usepackage{stackengine}
+\setstackgap{L}{1.0\normalbaselineskip}
+\usepackage{tabstackengine}
+\setstackEOL{;}% row separator
+\setstackTAB{,}% column separator
+\setstacktabbedgap{1ex}% inter-column gap
+\setstackgap{L}{1.5\normalbaselineskip}% inter-row baselineskip
+\let\nmatrix\bracketMatrixstack  %Usage: \nmatrix{1,2,3\4,5,6}
+\newcommand\cv[1]{\setstackEOL{,}\bracketMatrixstack{#1}} %usage: \cv{1,2,3}
+
+% Custom Math Coqmmands
+\newcommand{\vt}{\vskip 5mm} % vertical space
+\newcommand{\fl}{\noindent\textbf} % first line
+\newcommand{\Fl}{\vt\noindent\textbf} % first line with space above
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert} % norm
+\newcommand{\pnorm}[1]{\left\lVert#1\right\rVert_p} % p-norm
+\newcommand{\qnorm}[1]{\left\lVert#1\right\rVert_q} % q-norm
+\newcommand{\1}[1]{\textbf{1}_{\left[#1\right]}} % indicator function 
+\def\limn{\lim_{n\to\infty}} % shortcut for lim as n-> infinity
+\def\sumn{\sum_{n=1}^{\infty}} % shortcut for sum from n=1 to infinity
+\def\sumkn{\sum_{k=1}^{n}} % shortcut for sum from k=1 to n
+\def\sumin{\sum_{i=1}^{n}} % shortcut for sum from i=1 to n
+\def\SAs{\sigma\text{-algebras}} % shortcut for $\sigma$-algebras
+\def\SA{\sigma\text{-algebra}} % shortcut for $\sigma$-algebra
+\def\Ft{\mathcal{F}_t} % time-indexed sigma-algebra (t)
+\def\Fs{\mathcal{F}_s} % time-indexed sigma-algebra (s)
+\def\F{\mathcal{F}} % sigma-algebra
+\def\G{\mathcal{G}} % sigma-algebra
+\def\R{\mathbb{R}} % Real numbers
+\def\N{\mathbb{N}} % Natural numbers
+\def\Z{\mathbb{Z}} % Integers
+\def\E{\mathbb{E}} % Expectation
+\def\P{\mathbb{P}} % Probability
+\def\Q{\mathbb{Q}} % Q probability
+\def\dist{\text{dist}} %Text 'dist' for things like 'dist(x,y)'
+\newcommand{\indep}{\perp \!\!\! \perp}  %independence symbol
+\def\Var{\mathrm{Var}} % Variance
+\def\tr{\mathrm{tr}} % trace
+
+% Brackets and Parentheses
+\def\[{\left [}
+    \def\]{\right ]}
+% \def\({\left (}
+%   \def\){\right )}
+
+
+
+\usepackage{color}
+\definecolor{Red}{rgb}{1,0,0}
+\definecolor{Blue}{rgb}{0,0,1}
+\definecolor{Purple}{rgb}{.5,0,.5}
+\def\red{\color{Red}}
+\def\blue{\color{Blue}}
+\def\gray{\color{gray}}
+\def\purple{\color{Purple}}
+\definecolor{RoyalBlue}{cmyk}{1, 0.50, 0, 0}
+\newcommand{\dempfcolor}[1]{{\color{RoyalBlue}#1}} 
+\newcommand{\demph}[1]{\dempfcolor{{\sl #1}}}
+
+% comment exactly one of the following line to show / hide the solutions
+% \newcommand{\solution}[1]{{\purple #1}} % uncomment to show the solutions
+\newcommand{\solution}[1]{} % uncomment to hide the solutions
+
+
+
+\title{Lecture Notes for Math 372: \\Elementary Probability and Statistics}
+\date{Last updated: \today}
+% \author{mh}
+
+\begin{document}
+\begin{center}
+  \section*{Math 372: Homework 08}
+  \textit{Due Wednesday, March 25}
+\end{center}
+
+\textit{Instructions: Do not write your solutions on this sheet---you don't have enough space to show
+your work. So use separate sheets of paper. For all problems you need to show your work.}
+
+
+\begin{problem}
+  The density function for the standard normal distribution is the function
+  \begin{equation*}
+    \phi(z)=\frac{1}{\sqrt{2\pi}}e^{-z^{2}/2}, \quad -\infty<z<\infty.
+  \end{equation*}
+  By computing first and second derivatives, show that $\phi$ is concave down
+  for $|z|<1$, concave up for $|z|>1$, with inflection points at $z=\pm 1$.
+  Carefully sketch the density curve.
+\end{problem}
+
+
+
+\begin{problem}[continuous r.v.]
+  The continuous random variable $X$ has probability density function
+  \begin{equation*}
+    f(x) = \left\{ \begin{array}{l@{\quad:\quad}l}
+        1/3& 0<x<1\\
+        1/6& 1<x<5\\
+        0& \text{elsewhere}
+      \end{array}\right.
+  \end{equation*}
+  \begin{enumerate}[(a)]
+    \item Compute $\E\left[X \right]$ and $\E\left[X^{2} \right]$
+    \item Compute $\Var(X)$
+    \item Compute $\E\left[(X+1)^{2} \right]$
+  \end{enumerate}
+\end{problem}
+
+
+
+\begin{problem}
+  Let $X$ be a random variable with Poisson distribution with parameter
+  $\lambda>0$. Using the formula
+  $\E\left[X \right] = \sum_{k=0}k \P\left[X=k \right]$ show that $\E\left[X
+  \right] =\lambda$. [Hint: use the fact that $e^{x}=\sum_{k=0}^{\infty}\frac{x^{k}}{k!}$.]
+    
+    % \begin{proof}
+    %   We'll show that $\E\left[X \right] = \lambda$. To see this, observe that
+    %   \begin{align*}
+    %     \E\left[X \right] 
+    %     &= \sum_{x}xp(x) \\
+    %     &= \sum_{k=0}^{\infty} k e^{-\lambda}\frac{\lambda^{k}}{k!}\\
+    %     &=e^{-\lambda} \sum_{k=0}^{\infty}\frac{k\lambda^{k}}{k!}\\ 
+    %     &= e^{-\lambda} \left( 0+\lambda+ \lambda^{2}+\frac{\lambda^{3}}{2!}+\frac{\lambda^{4}}{3!}+\frac{\lambda^{5}}{4!}+\ldots \right)\\ 
+    %     &= e^{-\lambda} \lambda\left( 1+\lambda + \frac{\lambda^{2}}{2!}+\frac{\lambda^{3}}{3!}+\ldots \right)\\ 
+    %     &= e^{-\lambda} \lambda e^{\lambda}\\
+    %     &= \lambda.
+    %   \end{align*}
+    %   The variance is a bit trickier, so we'll skip the proof of that for now.
+    % \end{proof}
+    % \item Compute $\E\left[X(X-1) \right]$ using the formula $\E\left[h(X) \right] = \sum_{k=0}^{\infty}h(k)\P\left[X=k \right]$
+    % from class
+    % \item Using your answer to the previous part, compute $\E\left[X^{2} \right]$. 
+    % \item Using your answers to parts (a) and (c), compute $\Var(X)$.
+\end{problem}
+
+
+\begin{problem}[continuous r.v.]
+  Let $T$ be the waiting time, in hours, between successive purchases at a
+  furniture store. Suppose that $T$ has pdf
+  \begin{equation*}
+    f_{T}(t) = C e^{-\frac{t}{4}}\mathbf{1}_{\left[ t \geq 0\right] } = \left\{ \begin{array}{l@{\quad:\quad}l} Ce^{-\frac{t}{4}} & t \geq 0\\ 0& t<0\end{array}\right.
+  \end{equation*}
+  where $C>0$ is some number that you'll have to determine.
+  \begin{enumerate}[(a)]
+    \item Find a value of $C$ so that $f_{T}(t)$ is a valid pdf.
+    \item What is the probability that the time between purchases is greater
+    than $6$ minutes? [Note: $6\text{ minutes }= 1/10\text{ of an hour}$].
+    \item Compute $\E\left[T \right]$.
+  \end{enumerate}
+\end{problem}
+
+\begin{problem}
+  The Pareto distribution is ``power-law'' distribution used for modeling
+  things like income distribution and earthquake magnitudes. Specifically,
+  given a random variable $X$, we say that the distribution of $X$ is a member
+  of the \demph{Pareto family of distributions} if its cdt is
+  \begin{equation*}
+    F(x) = \P\left[X \leq x\right] = \left\{ \begin{array}{l@{\quad:\quad}l} 1-\left( \frac{b}{x} \right)^{a}  & x \geq b\\ 0& x<b\end{array}\right.
+  \end{equation*}
+  for some fixed positive parameters $a$ and $b$.
+  \begin{enumerate}[(a)]
+    \item Derive the pdf of $X$. Make sure to specify the function on all
+    parts of its domain: both when $x \geq b$ and when $x<b$. 
+    \item Show that the improper integral
+    $\int_{1}^{\infty}\frac{1}{x^{c}}dx$ diverges to $+\infty$ when $c \leq
+    1$, but converges to $\frac{1}{c-1}$ when $c>1$. \textit{Hint:} recall that
+    \begin{equation*}
+      \int_{1}^{\infty}\frac{1}{x^{c}}dx = \lim_{y \to \infty} \int_{1}^{y}  \frac{1}{x^{c}}dx.
+    \end{equation*}
+    \item What is $\E\left[X \right]$? Consider the cases with $a \leq 1$ and
+    $a>0$ separately.
+  \end{enumerate}
+\end{problem}
+
+
+
+\begin{problem}[Exercise 4.4.61]
+  Data collected at Toronto Pearson International Airport suggests that an
+  exponential distribution with mean value $2.725$ is a good model for
+  rainfall duration.
+  \begin{enumerate}[(a)]
+    \item What is the probability that the duration of a particular rainfall
+    event at this location is at least 2 hours? At most 3 hours? Between 2 and
+    3 hoours?
+    \item What is the probability that the raindfall duration exceeds the mean
+    value by more than 2 standard deviations? 
+  \end{enumerate}
+\end{problem}
+
+\begin{problem}[Exercise 4.1.4]
+  Let $X$ denote the vibratory stress (psi) on a wind turbine blade at a
+  particular wind speed in a wind tunnel. The article ``Blade Fatigue Life Assessment with
+  Application to VAWTS'' \textit{(J. of Solar Energy Engr., 1982)} propose the Rayleigh
+  distribution, with pdf
+  \begin{equation*}
+    f(x) = \left\{ \begin{array}{l@{\quad:\quad}l} \frac{x}{\theta^{2}}e^{-\frac{x^{2}}{2\theta^{2}}} & x>0\\ 0& \text{otherwise}\end{array}\right.
+  \end{equation*}
+  as a model for the $X$ distribution. (Here, $\theta>0$ is a parameter.)
+  \begin{enumerate}[(a)]
+    \item Verify that $f(x)$ is a legitimate parameter for any $\theta>0$.
+    \item Suppose $\theta=100$ (a value suggested in the article). What is the
+    probability that $X$ is at most $200$? Less than 200? At least 200?
+    \item What is the probability that $X$ is between 100 and 200 (again
+    assuming $\theta=100$)?
+    \item Give an expression for $\P\left[X \leq x\right]$.
+  \end{enumerate}
+\end{problem}
+
+\begin{problem}%[continuous random variable]
+  Suppose $X$ is a random variable with probability density function
+  \begin{equation*}
+    f(x) = \left\{ \begin{array}{l@{\quad:\quad}l} 3x^{2} &0<x<1 \\ 0& \text{otherwise}\end{array}\right.
+  \end{equation*}
+  \begin{enumerate}[(a)]
+    \item Find the cumulative density function $F(x)$. \textit{(Hint: don't forget to specify the value of $F(x)$ when $x<0$ and $x>0$.)}
+    \item What is $\P\left[0.1<X<0.5 \right]$? \textit{(You don't need to simplify your answer)}
+    \item What is $\Var(X)$?
+    \item What is $\E\left[(X+3)^{2} \right]$?
+  \end{enumerate}
+\end{problem}
+
+
+
+For the remaining problems, the following curve of the density of a standard
+normal random variable $Z$ may be helpful:
+\begin{center}
+  \includegraphics[scale=.3]{images/standard-normal-small}
+\end{center}
+
+\begin{problem}[Exercise 4.3.32]
+  Suppose the foce acting on a column that supports a building is normally
+  distributed with mean value $15$ kips and standard deviation 1.25 kips.
+  Compute the following probabilities by standardizing and then inspecting the
+  standard normal curve:
+  \begin{enumerate}[(a)]
+    \item $\P\left[X \leq 15\right]$
+    \item $\P\left[X \leq 17.5\right]$
+    \item $\P\left[X \geq 10\right]$
+    \item $\P\left[14 \leq X \leq 18\right]$
+    \item $\P\left[\left| X-15 \right| \leq 3\right]$
+  \end{enumerate}
+\end{problem}
+
+
+\begin{problem}[Normal distribution]
+  Resting breathing rates for college-age students are approximately normally distributed with
+  mean 12 and standard deviation 2.3 breaths per minute. What fraction of all college-age students
+  have breathing rates in the following intervals?
+  \begin{enumerate}[(a)]
+    \item   9.7 to 14.3 breaths per minute
+    \item   7.4 to 16.6 breaths per minute
+    \item   9.7 to 16.6 breaths per minute
+    \item   Less than 5.1 or more than 18.9 breaths per minute
+  \end{enumerate}
+\end{problem}
+
+\begin{problem}[Exercise 4.3.41]
+  The automatic opening device of a military cargo parachute has been
+  designed to open when the parachute is 200 m above the ground. Suppose
+  opening altitude actually has a normal distribution with mean value 200 m
+  and standard deviation 30 m. Equipment damage will occur if the parachute
+  opens at an altitude of less than 100 m. What is the probability that there
+  is equipment damage to the payload of at least one of five independently
+  dropped parachutes?
+\end{problem}
+
+
+% \begin{problem}
+%   Let $p\in (0,1)$, and suppose that $X\sim \text{geom}(p)$. This means that $X$ has probability density
+%   \begin{equation*}
+%     \P\left[X=k \right]=(1-p)^{k-1}p \quad \text{ for }k=1,2,\ldots
+%   \end{equation*}
+%   \begin{enumerate}[(a)]
+%     \item Show that the moment generating function for the geometric r.v. $X\sim \text{geom}(p)$ is
+%     \begin{equation}
+%       M(t) =  \frac{pe^{t}}{1-(1-p)e^{t}} \quad \text{for all $t$ with }-\infty<t<-\ln(1-p).
+%     \end{equation}
+%     \item Use $M(t)$ to compute the variance of $X$.
+%   \end{enumerate}
+% \end{problem}
+
+
+
+
+\end{document}
