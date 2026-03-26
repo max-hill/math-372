@@ -3688,47 +3688,56 @@ discrete random variables presented in \cref{sec:joint-distributions-discrete-ca
 \newpage
 \section{2026-03-25 | Week 10 | Lecture 23}
 
+\subsection{An example of using a joint distribution to compute probabilities}
 \begin{example}
-  Let $X$ and $Y$ be the lifetimes of two lightbulbs. Assume that $X\sim \exp(\alpha)$ and
-  $Y\sim \exp(\beta)$, where $\alpha$ and $\beta$ are positive numbers. It's reasonable to assume of these
-  as independent. Then the joint pdf is
+  Let $X$ and $Y$ be the lifetimes of two lightbulbs, in months. Assume that
+  the expected lifetimes are 10 months and 12 months, respectively. Also
+  assume that the lifetimes are independent, exponentially-distributed random variables.
+
+  Then
+  \begin{equation*}
+    f_{X}(x) = \frac{1}{10} e^{-\frac{1}{10} x}\mathbf{1}_{[x>0]} \quad \text{and} \quad f_{Y}(y) = \frac{1}{12} e^{-\frac{1}{12} y}\mathbf{1}_{[y>0]}.
+  \end{equation*}
+  
+  Since $X$ and $Y$ are independent, the joint pdf is
   \begin{align*}
     f(x,y) 
     &= f_{X}(x)f_{Y}(y)\\
-    &= \left( \alpha e^{-\alpha x}\mathbf{1}_{[x>0]} \right) \left( \beta e^{-\beta y}\mathbf{1}_{[y>0]} \right)\\ 
-    &= \alpha \beta e^{-\alpha x-\beta y }\mathbf{1}_{[x,y>0]}\\
-    &= \left\{ \begin{array}{l@{\quad:\quad}l} \alpha \beta e^{-\alpha x-\beta y } & x,y>0\\ 0& \text{else}
+    &= \left( \frac{1}{10} e^{-\frac{1}{10} x}\mathbf{1}_{[x>0]} \right) \left( \frac{1}{12} e^{-\frac{1}{12} y}\mathbf{1}_{[y>0]} \right)\\ 
+    &= \frac{1}{120} e^{-\frac{1}{10} x-\frac{1}{12} y }\mathbf{1}_{[x,y>0]}\\
+    &= \left\{ \begin{array}{l@{\quad:\quad}l} \frac{1}{120} e^{-\frac{1}{10}
+          x-\frac{1}{12} y } & x>0 \text{ and }y>0\\ 0& \text{else}
       \end{array}\right.
   \end{align*}
-  Suppose $\alpha=1/1000$ and $\beta= 1/1200$. Then the expected lifetimes of the bulbs are $1000$ hours and
-  $1200$ hours, respectively.
 
-  \textbf{Question:} What is the probability that both lightbulbs last at least 900 hours?
+
+  \textbf{Question:} What is the probability that both lightbulbs last at
+  least 9 months?
 
   Want:
   \begin{align*}
-    \P\left[X \geq 900, Y \geq 900\right]
-    &= \int_{900}^{\infty}\int_{900}^{\infty}\left( \alpha e^{-\alpha x} \right)
-      \left( \beta e^{-\beta y} \right)  dx dy\\
-    &= \int_{900}^{\infty}\left[ \int_{900}^{\infty}\alpha e^{-\alpha x}dx  \right]  \left( \beta e^{-\beta y} \right)dy\\ 
-    &= \left( \int_{900}^{\infty}\alpha e^{-\alpha x}dx  \right)  \left( \int_{900}^{\infty}\beta e^{-\beta y}dy  \right)\\ 
-    &= \left( \left[ e^{-\alpha x} \right]^{x=900}_{x\to \infty}  \right) \left( \left[ e^{-\beta y} \right]^{y=900}_{y \to \infty}  \right)\\ 
-    &= \left( e^{-900 \alpha} -0\right) \left( e^{-900 \beta}-0 \right)\\ 
-    &= e^{-900(\alpha+\beta)}\\
-    &= e^{-900(\frac{1}{1000}+ \frac{1}{1200})}\\
-    &= e^{-1.65}\\
-    &\approx .2
+    \P\left[X \geq 9, Y \geq 9\right]
+    &= \int_{9}^{\infty} \int_{9}^{\infty} f(x,y)dxdy\\
+    &= \int_{9}^{\infty} \int_{9}^{\infty} f_{X}(x) f_{Y}(y) dxdy\\
+    &= \int_{9}^{\infty} \left[ \int_{9}^{\infty} f_{X}(x) f_{Y}(y) dx \right] dy\\
+    &= \int_{9}^{\infty} \left[ \int_{9}^{\infty} f_{X}(x)  dx \right] f_{Y}(y)dy\\
+    &= \left( \int_{9}^{\infty} f_{X}(x)dx \right)  \left( \int_{9}^{\infty} f_{Y}(y) dy \right) \\
+    &= \left( \int_{9}^{\infty} \frac{1}{10}e^{-\frac{1}{10}x}dx \right)  \left( \int_{9}^{\infty} \frac{1}{12}e^{-\frac{1}{12}y}dy \right) \\
+    &= \left[ -e^{\frac{1}{10}x} \right]^{x=\infty}_{x=9} \cdot \left[ -e^{\frac{1}{12}y} \right]^{y=\infty}_{y=9}\\  
+    &=e^{-9 \left( \frac{1}{10}+\frac{1}{12} \right) }\\
+    &=e^{-1.65}\\
+    &\approx .2.
   \end{align*}
   So with probability about one fifth, both ligthbulbs will last at least 900 hours.
 
-  A faster way to do this. Observe that the events $\left[ X \geq 900\right]$ and $\left[ Y \geq
-    900\right]$ are independent, because the random variables are. Then
-  \begin{align*}
-    \P\left[X \geq 900, Y \geq 900\right] 
-    &= \P\left[X \geq 900\right] \P\left[Y \geq 900\right]\\
-    &= e^{-900 \alpha} e^{-900 \beta}\\
-    &= e^{-1.65}
-  \end{align*}
+  % A faster way to do this. Observe that the events $\left[ X \geq 9\right]$ and $\left[ Y \geq
+  %   9\right]$ are independent, because the random variables are. Then
+  % \begin{align*}
+  %   \P\left[X \geq 9, Y \geq 9\right] 
+  %   &= \P\left[X \geq 9\right] \P\left[Y \geq 9\right]\\
+  %   &= e^{-9 \alpha} e^{-9 \beta}\\
+  %   &= e^{-1.65}
+  % \end{align*}
 \end{example}
 
 \subsection{LOTUS Theorem - multivariate case}
@@ -3736,8 +3745,9 @@ discrete random variables presented in \cref{sec:joint-distributions-discrete-ca
 
 \begin{theorem}[LOTUS - multivariate case]
   \label{thm:LOTUS-multivariate-case}
-  Let $(X,Y)$ be a random vector with pmf $p(x,y)$ if $X,Y$ are discrete or
-  pdf $f(x,y)$ if $X,Y$ are continuous. Then for any function $h:\R^{2} \to \R$,
+  Let $X,Y$ be random variables with joint pmf $p(x,y)$ if $X,Y$ are discrete,
+  or joint pdf $f(x,y)$ if $X,Y$ are continuous. Then for any function
+  $h:\R^{2} \to \R$,
   \begin{equation*}
     \E\left[h(X,Y) \right] =\left\{ \begin{array}{l@{\quad:\quad}l}
         \displaystyle\sum_{\text{all }x,y} h(x,y)p(x,y) & \text{if $X,Y$ are discrete}\\
@@ -3778,12 +3788,13 @@ By foiling this out, we get
 \begin{equation*}
   \text{Cov}(X,Y) = \E\left[XY \right] - \mu_{X}\mu_{Y}
 \end{equation*}
+\fl{Interpetation:} covariance is a rough measure of the relationship between
+the two random variables.
 By \cref{thm:independent-expectations-factorize}, if $X,Y$ are independent, then
 \begin{equation*}
   \text{Cov}(X,Y) = \E\left[XY \right] - \mu_{X}\mu_{Y} = \E\left[X \right] \E\left[Y \right] -\mu_{X}\mu_{Y} = 0.
 \end{equation*}
-\fl{Interpetation:} covariance is a rough measure of the relationship between
-the two random variables.
+
 
 
 
@@ -3798,7 +3809,7 @@ the two random variables.
   \end{equation*}
   which is shown below:
   \begin{center}
-    \begin{tikzpicture}[scale=4]
+    \begin{tikzpicture}[scale=2]
       % axes
       \draw[->] (-0.05,0) -- (1.15,0) node[right] {$x$}; \draw[->] (0,-0.05)
       -- (0,1.15) node[above] {$y$};
