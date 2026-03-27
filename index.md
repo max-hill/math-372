@@ -40,7 +40,7 @@ title: Lecture Notes
  2026-03-11  | [lecture-21](lectures/lecture-notes-by-day/lecture-21.pdf) | (Section 4.4) Normal random variables
  2026-03-23  | [lecture-22](lectures/lecture-notes-by-day/lecture-22.pdf) | (Section 5.1) Joint distributions
  2026-03-25  | [lecture-23](lectures/lecture-notes-by-day/lecture-23.pdf) | (Sections 5.1, 5.2) Joint distributions, multivariate LOTUS theorem
- 2026-03-27  |  | (Sections 5.3, 5.4) Statistics
+ 2026-03-27  | [lecture-24](lectures/lecture-notes-by-day/lecture-24.pdf) | (Sections 5.3, 5.4) Population-sample framework, statistics, sample mean, sample variance
 
 # Other links
 

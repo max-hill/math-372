@@ -2492,10 +2492,10 @@ theorem.
 \fl{Implications of \cref{thm:variance-properties}:}
 \begin{itemize}
   \item Taking $b=0$ in \cref{eq:5} gives
-  \begin{equation}\label{eq:4}
+  \begin{equation}\label{eq:variance-squre-scaling}
     \Var(aX) = a^{2}\Var(X).
   \end{equation}
-  \begin{proof}[Here is a direct proof of \cref{eq:4}:]
+  \begin{proof}[Here is a direct proof of \cref{eq:variance-squre-scaling}:]
     \begin{align*}
       \Var(aX)
       &= \E\left[\left( aX- \E\left[aX \right] \right)^{2}  \right]
@@ -2514,9 +2514,9 @@ theorem.
   which says that adding a nonrandom quantity to a random variable doesn't
   change its variance.
   \item Taking $a=b=1$ and $c=0$ in \cref{eq:7} implies that
-  \begin{equation*}
+  \begin{equation}\label{eq:additivity-of-variance}
     \Var(X+ Y) = \Var(X) + \Var(Y).
-  \end{equation*}
+  \end{equation}
   This says that for independent random variables, variance is additive.
 
   (Of course, we always have
@@ -3874,9 +3874,7 @@ interest. The subset collected from it is our \demph{sample}.
   Importantly, a population can also be a \textit{probability distribution},
   specified by a pdf, pmf, or cdf
   \begin{itemize}
-    \item Observations made from an exponential distribution with mean
-    $\lambda>0$ (i.e., the distribution with pdf
-    $f(x)=\lambda e^{-\lambda x}\mathbf{1}_{\left[ x>0 \right] }$.)
+    \item Observations made from an exponential distribution with rate $\lambda>0$ (i.e., the distribution with pdf $f(x)=\lambda e^{-\lambda x}\mathbf{1}_{\left[ x>0 \right] }$.)
   \end{itemize}
 \end{example}
 
@@ -3895,6 +3893,7 @@ distribution.
 \end{definition}
 
 
+\subsection{What is a statistic?}
 \begin{definition}[Statistic]
   A \demph{statistic} is any quantity whose value can be calculated from
   sample data.
@@ -3921,12 +3920,31 @@ random variable. The probability distribution of a statistic is called its
 
 \begin{theorem}
   Let $X_{1},\ldots,X_{n}$ be a random sample from a distribution with mean $\mu$ and standard
-  deviation $\sigma$. Then
+  deviation $\sigma>0$. Then
   \begin{itemize}
     \item $\mu_{\overline{X}}:=\E\left[\overline{X} \right]= \mu$
-    \item $\sigma^{2}_{\overline{X}}:= \Var(\overline{X})= \sigma^{2}/n$ (and  $\sigma_{\overline{X}}=\sigma/n$)
+    \item $\sigma^{2}_{\overline{X}}:= \Var(\overline{X})= \sigma^{2}/n$ (and  $\sigma_{\overline{X}}=\sigma/\sqrt{n}$)
   \end{itemize}
 \end{theorem}
+\begin{proof}
+  First we compute $\E\left[\overline{X} \right]$:
+  \begin{align*}
+    \E\left[\overline{X} \right] 
+    &= \E\left[\frac{X_{1}+\ldots+X_{n}}{n} \right] &&\text{by definition of $\overline{X}$}\\
+    &= \frac{1}{n}\left( \E\left[X_{1} \right]+\ldots+ \E\left[X_{n} \right] \right)  &&\text{by linearity of expectation}\\
+    &= \frac{1}{n}\left( n\mu \right) &&\text{since $\E\left[X_{i} \right]=\mu$ for all $i$}\\
+    &= \mu.
+  \end{align*}
+  Next we compute $\Var(\overline{X})$:
+  \begin{align*}
+    \Var(\overline{X})
+    &= \Var \left( \frac{X_{1}+\ldots+X_{n}}{n} \right) &&\text{by defintion of $\overline{X}$}\\
+    &= \frac{1}{n^{2}}\Var \left( X_{1}+\ldots+X_{n} \right) &&\text{by \cref{eq:variance-squre-scaling}}\\
+    &= \frac{1}{n^{2}}\left( \Var(X_{1})+\ldots+\Var(X_{n}) \right) &&\text{by additivity (see \cref{eq:additivity-of-variance})}\\
+    &= \frac{1}{n^{2}} \left( n\sigma^{2} \right) &&\text{since $\Var(X_{i})=\sigma^{2}$ for all $i$}\\
+    &= \frac{\sigma^{2}}{n}.
+  \end{align*}
+\end{proof}
 
 \begin{theorem}
   Let $X_{1},\ldots,X_{n}$ be a random sample from a normal distribution with
@@ -3934,6 +3952,9 @@ random variable. The probability distribution of a statistic is called its
   $\overline{X}\sim \mathcal{N}(\mu,\sigma^{2}/n)$.
 \end{theorem}
 
+
+\newpage
+\section{2026-04-07 | Week 12 | Central Limit Theorem}
 
 \subsection{The central limit theorem}
 
