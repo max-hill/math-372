@@ -3954,7 +3954,9 @@ random variable. The probability distribution of a statistic is called its
 
 
 \newpage
-\section{2026-04-07 | Week 12 | Central Limit Theorem}
+\section{2026-04-06 | Week 12 | Lecture 25}
+
+\textit{Based on chapter 5.4}
 
 \subsection{The central limit theorem}
 
@@ -3979,9 +3981,9 @@ random variable. The probability distribution of a statistic is called its
 \begin{corollary}
   The distribution of the standardardized sample mean is approximately a
   standard normal; that is,
-  \begin{equation*}
+  \begin{equation}\label{eq:4}
     \frac{\overline{X}-\mu}{\sigma/\sqrt{n}} \approx Z,
-  \end{equation*}
+  \end{equation}
   where $Z\sim \mathcal{N}(0,1)$.
 \end{corollary}
 
@@ -4020,52 +4022,181 @@ random variable. The probability distribution of a statistic is called its
 
 \end{example}
 
-\begin{example}
-  Flip a coin $1000$ times. What is the probability that you get at least $550$ heads?
+\begin{example}[CLT Coin Flipping]
+  \label{ex:clt-coin-flipping}
+  Flip a fair coin $100$ times. What is the probability that you get at least $55$ heads?
 
-  Let $T$ be the total number of heads. Then $T$ is binomial distribution with $n=1000$ and
-  $p=\frac{1}{2}$. For each $k\in \left\{0,1,\ldots,1000\right\}$, we have the formula
+  \Fl{Solution:} Let
   \begin{equation*}
-    \P\left[T = k \right] = {n \choose k} p^{k}(1-p)^{k} = {n\choose k} \frac{1}{4^{k}}
+    X_{i} 
+    = \left\{ 
+      \begin{array}{l@{\quad:\quad}l} 0 & i^{th}\text{ coin flip is tails}\\
+        1& i^{th}\text{ coin flip is heads} \end{array}\right.
   \end{equation*}
-  So we want
+  We want to compute $\P\left[X_{1}+\ldots+X_{n}\geq 55\right]$, or
+  equivalently,
   \begin{equation*}
-    \P\left[T \geq 550\right] = \sum_{k=550}^{1000} {n \choose k} \frac{1}{4^{k}} 
+    \P\left[\overline{X}\geq .55\right].
   \end{equation*}
-  Good luck with that. Instead, let's use the central limit theorem. Write
+  We will use \cref{eq:4}. First observe that
+  \begin{equation*}
+    \mu= \E\left[X_{i} \right] = \frac{1}{2}
+  \end{equation*}
+  and that
+  \begin{equation*}
+    \sigma = \sqrt{\Var(X_{i})} = \frac{1}{2}
+  \end{equation*}
+  (you should check these equations).
 
-  \begin{equation*}
-    T = X_{1}+X_{2}+\ldots+X_{1000}
-  \end{equation*}
-  where
-  \begin{equation*}
-    X_{i} = \left\{ \begin{array}{l@{\quad:\quad}l} 0 & i^{th}\text{ coin flip is tails}\\ 1& i^{th}\text{ coin flip is heads} \end{array}\right.
-  \end{equation*}
-  Then
-  \begin{equation*}
-    \E\left[X_{i} \right] = \frac{1}{2}
-  \end{equation*}
-  and
+  Therefore
   \begin{align*}
-    \Var(X_{i}) 
-    &= \E\left[X_{i}^{2} \right]- \left( \E\left[X \right] \right)^{2} \\
-    &= \frac{1}{2}  - \left( \frac{1}{2} \right)^{2} \\
-    &= \frac{1}{2}
+    \P\left[\overline{X}\geq .55\right]
+    &=\P\left[\frac{\overline{X}-\mu}{\sigma/\sqrt{n}}\geq \frac{.55-\mu}{\sigma/\sqrt{n}}\right]\\
+    &\approx \P\left[Z \geq \frac{.55-\mu}{\sigma/\sqrt{n}} \right] &&\text{by CLT (\cref{eq:4}) }.
   \end{align*}
-  So by the central limit theorem, $T$ is approximately $\mathcal{N}(1000\mu,1000\sigma^{2})$ where
-  $\mu=\frac{1}{2}$ and $\sigma^{2}=\frac{1}{2}$
-  or
+  The above is the key step. Plugging in $n=100$, $\mu=\frac{1}{2}$ and
+  $\sigma=\frac{1}{2}$ gives
   \begin{equation*}
-    T\sim \mathcal{N}(500,500)
+    \P\left[\overline{X}\geq .55\right] = \P\left[Z \geq 1\right] \approx .16,
   \end{equation*}
-  Therefore using the standardization trick,
-  \begin{align*}
-    \P\left[T \geq 550\right]
-    &\approx \P\left[Z \geq \frac{550-500}{\sqrt{500}}\right]\\
-    &\approx \P\left[Z \geq 2.236\right]\\
-    &= \frac{1}{\sqrt{2\pi}} \int_{2.236}^{\infty}e^{-x^{2}/2}dx\\ 
-    &\approx 0.013
-  \end{align*}
+  where we get $.16$ by consulting the following figure:
+  \begin{center}
+    \includegraphics[scale=.3]{images/standard-normal-small}
+  \end{center}
+\end{example}
+
+\begin{remark}
+  When reviewing the key step in \cref{ex:clt-coin-flipping}, it is helpful to
+  recall the standardization transformation defined in
+  \cref{rmk:standardization}. The central limit theorem says that,
+  approximately, $\overline{X}\sim \mathcal{N}(\mu, \sigma^{2}/n)$. Hence, by
+  \cref{rmk:standardization},
+  \begin{equation*}
+    \frac{\overline{X}-\mu}{\sigma/\sqrt{n}}\approx Z
+  \end{equation*}
+  where $Z\sim \mathcal{N}(0,1)$. This is what justifies the key step in
+  \cref{ex:clt-coin-flipping}.
+\end{remark}
+
+\subsection{Point estimation}
+\textit{Section 6.1}
+
+Recall a \textbf{population} is a large body of data that is the target of our
+interest, and a \textbf{statistic} is any quantity whose value can be computed from a
+sample.
+
+Often, we have some quantity of interest, called a \demph{target parameter},
+and we want a single ``best guess'' of some quantity of interest. When this is
+the case, the we call a statistic an estimator:
+
+\begin{definition}[Estimator]
+  \label{def:estimator}
+  An \demph{estimator} is a statistic, that is a function
+  $T(X_{1},\ldots,X_{n})$ of a sample, that is used to approximate a target
+  parameter.
+  An \demph{estimate} is the realized value of an
+  estimator (e.g., a number) that is obtained when the sample is actually
+  taken.
+\end{definition}
+In words, an estimator is a rule, often expressed as a formula, that tells us
+how to calculate the value of an estimate based on the measurements contained
+in a sample.
+
+\newpage
+\section{2026-04-08 | Week 12 | Lecture 26}
+
+
+
+\begin{example}[Broccoli Poll]
+  \label{ex:broccoli-poll}
+  Suppose the fraction of people in Hawaii who like broccoli is $p$. This is
+  an unknown target parameter. We don't know what $p$ is, but we would like to
+  estimate it. In principle, we could ask everyone in the state, but that
+  would be impractical. Instead, we take a random sample: we choose randomly
+  $n$ individuals and ask each of them whether they like broccoli or not. Let
+  \begin{equation*}
+    \widehat{p} := \text{ fraction of our sample who like broccoli}
+  \end{equation*}
+  Suppose we sample $n=100$ individuals and $20$ of them like broccoli. Then
+  \begin{equation*}
+    \widehat{p} = \frac{20}{100}=.2
+  \end{equation*}
+
+  The \textbf{sample} in this example consists of $n$ random variables
+  $X_{1},\ldots,X_{n}$, where
+  \begin{equation*}
+    X_{i}  =\left\{ \begin{array}{l@{\quad:\quad}l} 1 & \text{i-th sampled person
+          likes broccoli}\\ 0 &\text{they don't} \end{array}\right.
+  \end{equation*}
+  Our \textbf{point estimate} is $\widehat{p}=0.2$ and the \textbf{point
+    estimator} is the function $\widehat{p} = \frac{X_{1}+\ldots+X_{n}}{n}$.
+
+  Taking a step back, we can think of our estimate as
+  \begin{equation*}
+    \widehat{p} = p + \text{error of estimation}
+  \end{equation*}
+  It is perhaps clear that if we increase the sample size $n$, then the
+  estimation error should decrease, so that
+  \begin{equation*}
+    \widehat{p} \to p \text{ as } n \to  \infty.
+  \end{equation*}
+\end{example}
+\begin{definition}[Bias and standard error]
+  \label{def:bias-and-standard-error}
+  Let $\widehat{\theta}$ be a point estimator of a target parameter $\theta$. We
+  say that $\widehat{\theta}$ is \demph{unbiased} if
+  \begin{equation*}
+    \E[\widehat{\theta}] = \theta.
+  \end{equation*}
+  The \demph{bias} of $\widehat{\theta}$ is the number $\E\left[\widehat{\theta}
+  \right]-\theta$.
+  The \demph{standard error} of $\widehat{\theta}$, denoted $\sigma_{\widehat{\theta}}$, is its
+  standard deviation:
+  \begin{equation*}
+    \sigma_{\widehat{\theta}} = \sqrt{\Var(\widehat{\theta})}
+  \end{equation*}
+\end{definition}
+
+\begin{example}[Broccoli poll continued]
+  \label{ex:broccoli-poll-continued}
+  In the broccoli example, the estimator we used was the \demph{sample mean:}
+  \begin{equation*}
+    \widehat{p} = \frac{X_{1}+\ldots+X_{n}}{n}.
+  \end{equation*}
+  \begin{claim}
+    $\widehat{p}$ is unbiased.
+  \end{claim}
+  \begin{claimproof}
+    \begin{align*}
+      \E\left[\widehat{p} \right] 
+      &= \E\left[\frac{X_{1}+\ldots+X_{n}}{n} \right] \\
+      &= \frac{1}{n}\left( \E\left[X_{1} \right]+\ldots+ \E\left[X_{n} \right] \right) \\
+      &= \frac{1}{n}(np) \\
+      &= p.
+    \end{align*}
+  \end{claimproof}
+  \begin{claim}
+    $\sigma_{\widehat{p}}= \sqrt{\frac{p(1-p)}{n}}$.
+  \end{claim}
+  \begin{claimproof}
+    First observe that for every $i\in \left\{1,\ldots,n\right\}$, we have
+    \begin{equation*}
+      \Var(X_{i}) = \E\left[X_{i}^{2} \right]- \left( \E\left[X_{i} \right] \right)^{2}= p-p^{2}=  p(1-p).
+    \end{equation*}
+    (Check this).
+
+    Using \cref{thm:variance-properties},
+    \begin{align*}
+      \Var(\widehat{p}) 
+      &= \Var\left(\frac{X_{1}+\ldots+X_{n}}{n}  \right)\\
+      &= \frac{1}{n^{2}}\left( \Var(X_{1}+\ldots+X_{n}) \right)\\
+      &= \frac{1}{n^{2}}\left( \Var(X_{1})+\ldots+\Var(X_{n}) \right)
+      &&\text{by independence}\\ 
+      &=\frac{1}{n^{2}}\left( np(1-p) \right)\\ 
+      &=\frac{p(1-p)}{n}
+    \end{align*}
+    Taking square roots implies the statement of the claim.
+  \end{claimproof}
 \end{example}
 
 
@@ -4240,61 +4371,6 @@ with probability at least $99\%$, we will hit every section on the dartboard.
 
 \section{2025-03-31 | Week 11 | Lecture 26}
 
-\subsection{Point estimation}
-\textit{Section 6.1}
-Suppose the fraction of people in Hawaii who like broccoli is $p$. This is an
-unknown parameter. We don't know what $p$ is, but we would like to estimate
-it. In principle, we could ask everyone in the state, but that would be
-impractical. Instead, we take a random sample: we choose randomly $n$
-individuals and ask each of them whether they like broccoli or not. Let
-\begin{equation*}
-  \widehat{p} := \text{ fraction of our sample who like broccoli}
-\end{equation*}
-Suppose we sample $n=100$ individuals and $20$ of them like broccoli. Then
-\begin{equation*}
-  \widehat{p} = \frac{20}{100}=.2
-\end{equation*}
-
-Here, $\widehat{p}$ is an example of a \demph{point estimate} of $p$.
-
-\begin{definition}[Point estimate and point estimator]
-  In statistics, we think of ``data'' as consisting of $n$ IID random
-  variables $X_{1},\ldots,X_{n}$, called a \demph{random sample}.
-  \begin{enumerate}[(i)]
-    \item A \demph{point estimator} is any function $F(X_{1},\ldots,X_{n})$ of
-    a sample. 
-    \item A \demph{point estimate} $\widehat{\theta}$ is any single number,
-    computed from the data, which can be regarded sensible value of some
-    unknown parameter $\theta$.
-  \end{enumerate}
-  In general, an \textit{estimator} is a function of the sample, while an
-  \textit{estimate} is the realized numerical value of the estimator that is
-  computed after the sample is actually observed. The standard convention is
-  to refer to point estimates and point estimators by the same letter
-  $\widehat{\theta}$.
-\end{definition}
-
-For our broccoli example, the data consists of $n$ random variables
-$X_{1},\ldots,X_{n}$ were
-\begin{equation*}
-  X_{i}  =\left\{ \begin{array}{l@{\quad:\quad}l} 1 & \text{i-th sampled person
-        likes broccoli}\\ 0 &\text{they don't} \end{array}\right.
-\end{equation*}
-Our point estimate is $\widehat{p}=0.2$ and the point estimator is the
-function $\widehat{p} = \frac{X_{1}+\ldots+X_{n}}{n}$.
-
-Taking a step back, we can think of our estimate as
-\begin{equation*}
-  \widehat{p} = p + \text{error of estimation}
-\end{equation*}
-It is perhaps clear that if we increase the sample size
-$n$, then the estimation error should decrease, so that
-\begin{equation*}
-  \widehat{p} \to p.
-\end{equation*}
-But we would like to precisely quantify the accuracy of the estimate. This
-brings us to the next subject.
-
 \subsection{Confidence intervals}
 \textit{Section 7.1}
 
@@ -4410,26 +4486,6 @@ about to $0.01$?
 \section{2025-04-02 | Week 11 | Lecture 27}
 \subsection{Property of point estimators: Bias}
 \textit{Section 6.1}
-
-Let $\theta\in \R$ be an unknown parameter. Suppose that $\widehat{\theta}$ is
-a point estimator of $\theta$.  We say that $\widehat{\theta}$ is
-\demph{unbiased} if
-\begin{equation*}
-  \E\left[\widehat{\theta} \right] = \theta.
-\end{equation*}
-The \demph{bias} of $\widehat{\theta}$ is the number $\E\left[\widehat{\theta}
-\right]-\theta$.
-
-
-For clarity, recall that as an estimator, $\widehat{\theta}$ is a function
-$\widehat{\theta} = f(X_{1},\ldots,X_{n})$. And so when we write
-\begin{equation*}
-  \E\left[\widehat{\theta} \right]
-\end{equation*}
-we really mean
-\begin{equation*}
-  \E\left[f(X_{1},\ldots,X_{n}) \right]
-\end{equation*}
 
 
 In the broccoli example, the estimator we used was the \demph{sample mean:}
