@@ -23,6 +23,7 @@
 
 \usepackage{mathtools}% http://ctan.org/pkg/mathtools
 \usepackage{abraces} %xyz
+\usepackage{pgfplots}
 
 % Hawai'i
 \usepackage{fontspec}
@@ -4105,15 +4106,40 @@ in a sample.
 \newpage
 \section{2026-04-08 | Week 12 | Lecture 26}
 
+\subsection{Point estimation}
+\textit{Chapter 6.1}
 
+
+
+Recall a \textbf{population} is a large body of data that is the target of our
+interest, and a \textbf{statistic} is any quantity whose value can be computed from a
+sample.
+
+Often, we have some quantity of interest, called a \demph{target parameter},
+and we want a single ``best guess'' of some quantity of interest. When this is
+the case, the we call a statistic an estimator:
+
+\begin{definition}[Estimator]
+  \label{def:estimator}
+  An \demph{estimator} is a statistic, that is a function
+  $T(X_{1},\ldots,X_{n})$ of a sample, that is used to approximate a target
+  parameter.
+  An \demph{estimate} is the realized value of an
+  estimator (e.g., a number) that is obtained when the sample is actually
+  taken.
+\end{definition}
+In words, an estimator is a rule, often expressed as a formula, that tells us
+how to calculate the value of an estimate based on the measurements contained
+in a sample.
 
 \begin{example}[Broccoli Poll]
   \label{ex:broccoli-poll}
   Suppose the fraction of people in Hawaii who like broccoli is $p$. This is
-  an unknown target parameter. We don't know what $p$ is, but we would like to
-  estimate it. In principle, we could ask everyone in the state, but that
-  would be impractical. Instead, we take a random sample: we choose randomly
-  $n$ individuals and ask each of them whether they like broccoli or not. Let
+  an unknown \textbf{target parameter}. We don't know what $p$ is, but we
+  would like to estimate it.In principle, we could ask everyone in the state,
+  but that would be impractical. Instead, we take a random sample: we choose
+  randomly $n$ individuals and ask each of them whether they like broccoli or
+  not. Let
   \begin{equation*}
     \widehat{p} := \text{ fraction of our sample who like broccoli}
   \end{equation*}
@@ -4129,7 +4155,8 @@ in a sample.
           likes broccoli}\\ 0 &\text{they don't} \end{array}\right.
   \end{equation*}
   Our \textbf{point estimate} is $\widehat{p}=0.2$ and the \textbf{point
-    estimator} is the function $\widehat{p} = \frac{X_{1}+\ldots+X_{n}}{n}$.
+    estimator} is the function $\widehat{p} = \frac{X_{1}+\ldots+X_{n}}{n}$,
+  which is a \textbf{sample mean}.
 
   Taking a step back, we can think of our estimate as
   \begin{equation*}
@@ -4143,15 +4170,14 @@ in a sample.
 \end{example}
 \begin{definition}[Bias and standard error]
   \label{def:bias-and-standard-error}
-  Let $\widehat{\theta}$ be a point estimator of a target parameter $\theta$. We
-  say that $\widehat{\theta}$ is \demph{unbiased} if
-  \begin{equation*}
-    \E[\widehat{\theta}] = \theta.
-  \end{equation*}
-  The \demph{bias} of $\widehat{\theta}$ is the number $\E\left[\widehat{\theta}
-  \right]-\theta$.
-  The \demph{standard error} of $\widehat{\theta}$, denoted $\sigma_{\widehat{\theta}}$, is its
-  standard deviation:
+  Let $\widehat{\theta}$ be a point estimator of a target parameter $\theta$.
+  The \demph{bias} of $\widehat{\theta}$ is the number
+  $\text{Bias}(\widehat{\theta})=\E[\widehat{\theta}]-\theta$. If
+  $\text{Bias}(\widehat{\theta})=0$, we say that $\widehat{\theta}$ is
+  \demph{unbiased}, otherwise we say it is \demph{biased}.
+
+  The \demph{standard error} of $\widehat{\theta}$, denoted
+  $\sigma_{\widehat{\theta}}$, is its standard deviation:
   \begin{equation*}
     \sigma_{\widehat{\theta}} = \sqrt{\Var(\widehat{\theta})}
   \end{equation*}
@@ -4183,8 +4209,6 @@ in a sample.
     \begin{equation*}
       \Var(X_{i}) = \E\left[X_{i}^{2} \right]- \left( \E\left[X_{i} \right] \right)^{2}= p-p^{2}=  p(1-p).
     \end{equation*}
-    (Check this).
-
     Using \cref{thm:variance-properties},
     \begin{align*}
       \Var(\widehat{p}) 
@@ -4197,11 +4221,138 @@ in a sample.
     \end{align*}
     Taking square roots implies the statement of the claim.
   \end{claimproof}
+
+
+  Finally, since $\widehat{p}$ is a sample mean, the central limit theorem
+  implies that its distribution is approximately normal:
+
+  \begin{center}
+    \begin{tikzpicture}[scale=.6]
+      \begin{axis}[
+        domain=0.44:0.68,
+        samples=300,
+        no markers,
+        axis lines=left,
+        xlabel={The sampling distribution of $\widehat{p}$},
+        ylabel={},
+        ymin=0,
+        enlargelimits=false,
+        width=12cm,
+        height=6cm,
+        xtick={0.5,.53,0.56,.59,0.62},
+        xticklabels={$p-2\sigma_{\widehat{p}}$, $p-2\sigma_{\widehat{p}}$
+          ,$p$, $p+\sigma_{\widehat{p}}$, $p+2\sigma_{\widehat{p}}$},
+        ytick=\empty,
+        clip=false
+        ]
+        % Normal pdf: mean=0.56, sd=0.03
+        \addplot[thick]
+        {1/(0.03*sqrt(2*pi))*exp(-((x-0.56)^2)/(2*(0.03)^2))};
+       \end{axis}
+    \end{tikzpicture}
+  \end{center}
+  As $n$ grows, the value of $\sigma_{\widehat{p}}=\sqrt{\frac{p(1-p)}{n}}$
+  gets smaller, so the above curve (which is centered around the true
+  parameter value $p$) gets narrower. 
 \end{example}
+
+
+
+\begin{example}[Estimating the sides of a dice]
+  \label{ex:estimating-sides-dice}
+  Suppose I roll a dice behind a screen, shouting out the number rolled each
+  time. Your job is to estimate the number of sides of the dice, which we will
+  call $\theta$.
+
+  Given $n$ rolls, the sample consists of the $n$ random variables
+  \begin{equation*}
+    X_{1},\ldots,X_{n}
+  \end{equation*}
+  where $X_{i}$ is the $i^{\rm th}$ dice roll. We'll give two examples of
+  estimators:
+
+  \begin{itemize}
+    \item Our first example is called the \textit{running maximum}, and it is
+    defined as
+    \begin{equation*}
+      \widehat{\theta} = \max(X_{1},\ldots,X_{n}).
+    \end{equation*}
+    For example, if I roll the dice four times and obtain $3,11,7,$ and $4$,
+    then your estimate would be that the dice has 11 sides.
+
+    This sounds silly, but with enough data this estimator will give you the
+    correct answer with high probability. This is because, if I roll the dice
+    enough times, then I will eventually roll the highest number; hence,
+    \begin{equation*}
+      \lim_{n \to \infty} \widehat{\theta}(X_{1},\ldots,X_{n}) = \theta.
+    \end{equation*}
+    One drawback is that this estimator is biased because
+    $\E[\widehat{\theta} ]<\theta$. This is because the estimator will
+    ``usually'' be less than the true number of sides, and will never be
+    more---so on average, $\widehat{\theta}$ will be smaller than $\theta$.
+    
+    \item Our second example is what is called the \textit{method of moments
+      estimator}. In this setting, it's defined as
+    \begin{equation*}
+      \widehat{\theta} = 2 \left( \frac{X_{1}+\ldots+X_{n}}{n} \right)-1. 
+    \end{equation*}
+
+    Let's demystify this formula. Suppose $X$ a random variable representing
+    one roll of the dice. We know that since the dice has $\theta$ sides, $X$
+    has expected value
+    \begin{equation*}
+      \E\left[X \right] = \frac{1}{\theta}\left( 1+2+\ldots+\theta \right)  = \frac{\theta+1}{2}.
+    \end{equation*}
+    Rearranging, we get
+    \begin{equation}\label{eq:7}
+      \theta = 2 \E\left[X \right] -1.
+    \end{equation}
+    We also know that by the law of large numbers,
+    $\E\left[X \right] \approx \frac{X_{1},\ldots,X_{n}}{n}.$ Combining this
+    with \cref{eq:7} implies
+    \begin{equation*}
+      \theta 
+      \approx 2 \left( \frac{X_{1},\ldots,X_{n}}{n} \right)-1.
+    \end{equation*}
+    The right hand side is what we've chosen to be our $\widehat{\theta}$, and
+    hopefuly this calculation makes it seem like a reasonable choice.
+    
+    This estimator is unbiased. To see why, observe that
+    \begin{align*}
+      \E[\widehat{\theta} ] 
+      &= \E\left[ 2 \left( \frac{X_{1}+\ldots+X_{n}}{n} \right)-1  \right] \\
+      &= 2\E\left[   \frac{X_{1}+\ldots+X_{n}}{n}   \right] -1\\
+      &= 2 \E\left[X \right]-1 \\
+      &= \theta &&\text{by \cref{eq:7}.}
+    \end{align*}
+    
+    In our example, with dice rolls $3,11,7$, and $4$, our estimator
+    $\widehat{\theta}$ returns the estimate
+    \begin{equation*}
+      2 \left( \frac{3+11+7+4}{4} \right) -1 = 2 \left( \frac{25}{4} \right) -1 = 11.5.
+    \end{equation*}
+    So your estimate would be that the dice has 11.5 sides.
+  \end{itemize}
+\end{example}
+
+Given two unbiased estimators, then \textit{ceteris paribus}, we would
+typically prefer the estimator which has lower variance.
+\newpage
 
 
 \newpage
 \section{CUTOFF FOR OLD MATERIAL}
+
+\begin{theorem}[Law of Large Numbers]
+  Let $X_{1},X_{2}\ldots $ be a sequence of IID random variables. Such that
+  $\mu:=\E\left[X_{1} \right]$ is finite, $\sigma^{2}:=\Var(X_{1})$ is finite,
+  and the fourth moment $\E\left[X^{4}_{i} \right]<\infty$. Then
+  \begin{equation*}
+    \frac{X_{1},\ldots,X_{n}}{n} \to \E\left[X_{1} \right] \quad \text{ as }n \to \infty
+  \end{equation*}
+\end{theorem}
+This theorem says that if you flip a coin repeatedly, the proportion of heads
+will converge to $1/2$.
 
 
 \newpage
@@ -4371,6 +4522,61 @@ with probability at least $99\%$, we will hit every section on the dartboard.
 
 \section{2025-03-31 | Week 11 | Lecture 26}
 
+
+With about 95\% probability, a normal random variable will lie within 2
+standard devations of its mean:
+\begin{center}
+  \begin{tikzpicture}[scale=.8]
+    \begin{axis}[
+      domain=0.44:0.68,
+      samples=300,
+      no markers,
+      axis lines=left,
+      xlabel={The sampling distribution of $\widehat{p}$},
+      ylabel={},
+      ymin=0,
+      enlargelimits=false,
+      width=12cm,
+      height=6cm,
+      xtick={0.5,0.56,0.62},
+      xticklabels={$p-2\sigma_{\widehat{p}}$,$p$,$p+2\sigma_{\widehat{p}}$},
+      ytick=\empty,
+      clip=false
+      ]
+      % Normal pdf: mean=0.56, sd=0.03
+      \addplot[thick]
+      {1/(0.03*sqrt(2*pi))*exp(-((x-0.56)^2)/(2*(0.03)^2))};
+
+      % Shaded region between 0.50 and 0.62
+      \addplot[
+      draw=none,
+      fill=gray,
+      fill opacity=0.35,
+      domain=0.50:0.62
+      ]
+      {1/(0.03*sqrt(2*pi))*exp(-((x-0.56)^2)/(2*(0.03)^2))}
+      \closedcycle;
+
+      % Label in the middle of the shaded region
+      \node at (axis cs:0.56,6) {$95\%$};
+      
+      % Optional vertical dashed guides at the bounds
+      \addplot[dashed] coordinates {(0.50,0) (0.50, {1/(0.03*sqrt(2*pi))*exp(-((0.50-0.56)^2)/(2*(0.03)^2))})};
+      \addplot[dashed] coordinates {(0.62,0) (0.62, {1/(0.03*sqrt(2*pi))*exp(-((0.62-0.56)^2)/(2*(0.03)^2))})};
+    \end{axis}
+  \end{tikzpicture}
+\end{center}
+For our broccoli example, we don't know the true value of
+$\sigma_{\widehat{p}}$, since $\sigma_{\widehat{p}}=\sqrt{\frac{p(1-p)}{n}}$
+and $p$ is unknown. But we can approximate it, as follows: since
+$\widehat{p}=.2$ and $n=100$, we have
+\begin{equation*}
+  \Var(\widehat{p}) = \sqrt{\frac{p(1-p)}{n}} \approx \sqrt{\frac{\widehat{p}(1-\widehat{p})}{n}}=\sqrt{\frac{.2(1-.2)}{100}} = .04
+\end{equation*}
+
+So the above shaded picture tells us that $\P\left[\left| p-\widehat{p}
+  \right| \leq .08\right]=.95$. Since $\widehat{p}=.2$, w
+
 \subsection{Confidence intervals}
 \textit{Section 7.1}
 
@@ -4484,99 +4690,6 @@ about to $0.01$?
 
 \newpage
 \section{2025-04-02 | Week 11 | Lecture 27}
-\subsection{Property of point estimators: Bias}
-\textit{Section 6.1}
-
-
-In the broccoli example, the estimator we used was the \demph{sample mean:}
-\begin{equation*}
-  \widehat{\theta}(X_{1},\ldots,X_{n}) = \frac{X_{1}+\ldots+X_{n}}{n}.
-\end{equation*}
-This estimator is unbiased because
-\begin{equation*}
-  \E\left[\frac{X_{1}+\ldots+X_{n}}{n} \right] 
-  = \frac{1}{n}\left( \E\left[X_{1} \right]+\ldots+ \E\left[X_{n} \right] \right) 
-  = \frac{1}{n}np 
-  = p .
-\end{equation*}
-
-
-\begin{example}[A biased estimator]
-  Suppose I roll a dice behind a screen, shouting out the number rolled each
-  time. Your job is to estimate the number of sides of the dice, which we will
-  call $\theta$. For $n$ rolls, the data consists of $n$ random variables
-  \begin{equation*}
-    X_{1},\ldots,X_{n}
-  \end{equation*}
-  where $X_{i}$ is the $i^{\rm th}$ dice roll. One natural estimator is
-  \begin{equation*}
-    \widehat{\theta}(X_{1},\ldots,X_{n}) = \max \left\{X_{1},\ldots,X_{n}\right\}
-  \end{equation*}
-  This estimator is called the \demph{running maximum}. For example, if we
-  roll the hidden dice four times and get the following numbers for
-  $X_{1},\ldots,X_{4}$:
-  \begin{equation*}
-    3, 11, 7, \text{ and } 4,
-  \end{equation*}
-  then our estimate would be that the dice has $11$ sides.
-
-  If I roll the dice enough times, I will eventually roll the highest number;
-  it follows from this that
-  \begin{equation*}
-    \lim_{n\to\infty} \widehat{\theta} = \theta.
-  \end{equation*}
-  But we expect it to be biased (since it will ``usually'' be less than the
-  true number of sides, and will never be more).
-
-  To make this precise, we can use the law of total expectation. Let
-  $p=\P\left[\widehat{\theta}=\theta \right]$, so that $1-p = \P\left[\hat{\theta}<\theta \right]$.
-  \begin{align*}
-    \E\left[\widehat{\theta}\right] 
-    &= \E\left[\widehat{\theta} \mid \widehat{\theta}=\theta \right]p+\E\left[\widehat{\theta} \mid \widehat{\theta}<\theta \right](1-p)\\
-    &= \E\left[\theta \mid \widehat{\theta}=\theta \right]p+\E\left[\widehat{\theta} \mid \widehat{\theta}<\theta \right](1-p)\\
-    &< \E\left[\theta \mid \widehat{\theta}=\theta \right]p+\E\left[\theta \mid \widehat{\theta}<\theta \right](1-p)\\
-    &= \theta p + \theta(1-p)\\
-    &=\theta.
-\end{align*}
-\end{example}
-
-
-\begin{example}
-  Here's another method to estimate the number of sides $\theta$  of the
-  hidden dice.
-
-  Let $Y$ be the dice roll. We know that since the dice has $\theta$ sides, it
-  has expected value
-  \begin{equation*}
-    \E\left[Y \right] = \frac{1}{\theta}\left( 1+2+\ldots+\theta \right)  = \frac{\theta+1}{2}.
-  \end{equation*}
-  So maybe let's take the sample average, which in this case is
-  \begin{equation*}
-    \frac{X_{1}+\ldots+X_{4}}{4} = \frac{22}{4}
-  \end{equation*}
-  and see what value of $\theta$ would give us the closest average to this
-  number.
-
-  That is, let us take as our estimate $\widehat{\theta}$  the value
-  satisfying the equation
-
-  \begin{equation}\label{eq:27}
-    \frac{\widehat{\theta}+1}{2} = \frac{22}{4}.
-  \end{equation}
-  Solving for $\widehat{\theta}$, we get $\widehat{\theta}=10$. 
-\end{example}
-
-
-\begin{theorem}[Law of Large Numbers]
-  Let $X_{1},X_{2}\ldots $ be a sequence of IID random variables. Such that
-  $\mu:=\E\left[X_{1} \right]$ is finite, $\sigma^{2}:=\Var(X_{1})$ is finite,
-  and the fourth moment $\E\left[X^{4}_{i} \right]<\infty$. Then
-  \begin{equation*}
-    \frac{X_{1},\ldots,X_{n}}{n} \to \E\left[X_{1} \right] \quad \text{ as }n \to \infty
-  \end{equation*}
-\end{theorem}
-This theorem says that if you flip a coin repeatedly, the proportion of heads
-will converge to $1/2$.
 
 
 \newpage
