@@ -4339,52 +4339,168 @@ Given two unbiased estimators, then \textit{ceteris paribus}, we would
 typically prefer the estimator which has lower variance.
 \newpage
 
+\section{2026-04-13 | Week 13 | Lecture 27}
 
-\newpage
-\section{CUTOFF FOR OLD MATERIAL}
+% With about 95\% probability, a normal random variable will lie within 2
+% standard devations of its mean:
+% \begin{center}
+%   \begin{tikzpicture}[scale=.8]
+%     \begin{axis}[
+%       domain=0.44:0.68,
+%       samples=300,
+%       no markers,
+%       axis lines=left,
+%       xlabel={The sampling distribution of $\widehat{p}$},
+%       ylabel={},
+%       ymin=0,
+%       enlargelimits=false,
+%       width=12cm,
+%       height=6cm,
+%       xtick={0.5,0.56,0.62},
+%       xticklabels={$p-2\sigma_{\widehat{p}}$,$p$,$p+2\sigma_{\widehat{p}}$},
+%       ytick=\empty,
+%       clip=false
+%       ]
+%       % Normal pdf: mean=0.56, sd=0.03
+%       \addplot[thick]
+%       {1/(0.03*sqrt(2*pi))*exp(-((x-0.56)^2)/(2*(0.03)^2))};
 
-\begin{theorem}[Law of Large Numbers]
-  Let $X_{1},X_{2}\ldots $ be a sequence of IID random variables. Such that
-  $\mu:=\E\left[X_{1} \right]$ is finite, $\sigma^{2}:=\Var(X_{1})$ is finite,
-  and the fourth moment $\E\left[X^{4}_{i} \right]<\infty$. Then
+%       % Shaded region between 0.50 and 0.62
+%       \addplot[
+%       draw=none,
+%       fill=gray,
+%       fill opacity=0.35,
+%       domain=0.50:0.62
+%       ]
+%       {1/(0.03*sqrt(2*pi))*exp(-((x-0.56)^2)/(2*(0.03)^2))}
+%       \closedcycle;
+
+%       % Label in the middle of the shaded region
+%       \node at (axis cs:0.56,6) {$95\%$};
+      
+%       % Optional vertical dashed guides at the bounds
+%       \addplot[dashed] coordinates {(0.50,0) (0.50, {1/(0.03*sqrt(2*pi))*exp(-((0.50-0.56)^2)/(2*(0.03)^2))})};
+%       \addplot[dashed] coordinates {(0.62,0) (0.62, {1/(0.03*sqrt(2*pi))*exp(-((0.62-0.56)^2)/(2*(0.03)^2))})};
+%     \end{axis}
+%   \end{tikzpicture}
+% \end{center}
+% For our broccoli example, we don't know the true value of
+% $\sigma_{\widehat{p}}$, since $\sigma_{\widehat{p}}=\sqrt{\frac{p(1-p)}{n}}$
+% and $p$ is unknown. But we can approximate it, as follows: since
+% $\widehat{p}=.2$ and $n=100$, we have
+% \begin{equation*}
+%   \Var(\widehat{p}) = \sqrt{\frac{p(1-p)}{n}} \approx \sqrt{\frac{\widehat{p}(1-\widehat{p})}{n}}=\sqrt{\frac{.2(1-.2)}{100}} = .04
+% \end{equation*}
+
+% So the above shaded picture tells us that $\P\left[\left| p-\widehat{p}
+%   \right| \leq .08\right]=.95$. Since $\widehat{p}=.2$, w
+
+\subsection{Confidence intervals}
+\textit{Section 7.1}
+
+
+\begin{definition}[Confidence Interval]
+  An interval $(\widehat{p}-\epsilon,\widehat{p}+\epsilon)$ is called
+  \demph{95\% confidence interval} for the unknown parameter $p$ if
+  $\epsilon>0$ is chosen large enough that
+  \begin{equation}\label{eq:19}
+    \P\left[\left| \widehat{p}-p \right| <\epsilon\right] \geq .95
+  \end{equation}
+\end{definition}
+In words, the interval contains the true parameter with probability at least
+$.95$.
+\begin{example}
+  Can we come up with a 95\% confidence interval for our broccoli poll? We
+  already have $\widehat{p}=.2$. But we don't yet know how big $\epsilon$ needs
+  to be. (Of course we want to pick the smallest $\epsilon$ possible, as that
+  would give us a more informative confidence interval). To figure out how big 
+  $\epsilon$ must be, we'll have to use the central limit theorem again.
+
+  Formally, let
   \begin{equation*}
-    \frac{X_{1},\ldots,X_{n}}{n} \to \E\left[X_{1} \right] \quad \text{ as }n \to \infty
+    \widehat{p}=\frac{X_{1}+\ldots+X_{n}}{n}
   \end{equation*}
-\end{theorem}
-This theorem says that if you flip a coin repeatedly, the proportion of heads
-will converge to $1/2$.
+  where
+  \begin{equation*}
+    X_{i}  =\left\{ \begin{array}{l@{\quad:\quad}l} 1 & \text{i-th sampled person
+          likes broccoli}\\ 0 &\text{they don't} \end{array}\right.
+  \end{equation*}
+  By the central limit theorem,
+  \begin{equation}\label{eq:25}
+    \widehat{p} \approx p + \frac{\sigma}{\sqrt{n}}Z
+  \end{equation}
+  where $Z\sim \mathcal{N}(0,1)$ and $\sigma =\sqrt{\Var(X_{i})}=\sqrt{p(1-p)}$. We also
+  don't know what $\sigma$ is, since it depends on the unknown parameter
+  $p$, but we can approximate it:
+  \begin{equation}\label{eq:26}
+    \sigma = \sqrt{\Var(X_{i})} = \sqrt{p(1-p)} \approx \sqrt{\widehat{p}(1-\widehat{p})=(.2)(.8)}=\sqrt{.16} = .4
+  \end{equation}
+
+  By \cref{eq:25},
+  \begin{align*}
+    \left| \widehat{p}-p \right| 
+    &= \frac{\sigma}{\sqrt{n}}|Z|\\
+    &= \frac{.4}{10} |Z|\\
+    &= .04 |Z|
+  \end{align*}
+
+  Therefore
+  \begin{align*} 
+    \P\left[|\widehat{p}-p| \leq \epsilon\right] 
+    &= \P\left[.04|Z| \leq\epsilon \right] \\
+    &= \P\left[|Z| \leq 25\epsilon\right]\\
+    &= \P\left[-25\epsilon \leq Z \leq 25 \epsilon\right]
+  \end{align*}
+  By the empirical rule, $\P\left[-2 \leq Z \leq 2\right]=.95$, so we need
+  $25\epsilon=2$, or $\epsilon= .08$.
+
+  Therefore the 95\% confidence interval is the interval
+  \begin{equation*}
+    (\widehat{p}-\epsilon, \widehat{p}+\epsilon) = (.12,.28).
+  \end{equation*}
+
+  We conclude that with $95\%$ confidence, the true proportion of people in
+  Hawaii who like broccoli is between $12\%$ and $28\%$. Our point estimate is
+  $0.2$, and our \demph{margin of error} is $0.08$.
+
+  If we had sampled more people, our margin of error would be smaller. How many
+  people would we have to sample to reduce the margin of error to $0.05$? What
+  about to $0.01$?
+\end{example}
 
 
-\newpage
-\section{2025-03-24 | Week 10 | Lecture 24 }
+
 
 \subsection{The Coupon Collector Problem}
-\Fl{Problem statement:} Suppose a dart board is divided up into $n$
-equal-sized sections, labeled $1$ through $n$. Each dart thrown is equally
-likely to hit any one of the sections. How many times must one throw the dart
-so that the probability of all sections being hit is at least $99\%$?
+\Fl{Problem statement:} Joe is collecting coupons. There are $n$ different
+coupons, and when he gets all $n$ of them, he gets a free prize. Each time he
+gets a coupon, it is uniformly at random (all coupons equally likely).
+
+Find a value $m$ such that if Joe collects at least $m$ coupons, then his
+probability of winning the prize is at least $99\%$.
+
 
 
 \fl{Solution:} Let $m$ be any positive integer greater than $n$. Let
 \begin{equation*}
-  V = \text{number of times until each section is hit at least once}
+  V = \text{number of coupons Joe must get until he gets the prize}
 \end{equation*}
 and let
 \begin{equation*}
-  A_{b} = \text{section $b$ is not hit in the first $m$ throws}.
+  A_{k} = \text{coupon $k$ is not collected in the first $m$ coupons}.
 \end{equation*}
 To solve the problem, we will need to determine how big $m$ must be so that
 \begin{equation*}
   \P\left[V>m \right]<0.01.
 \end{equation*}
-Then, if we throw at least that many darts, the probability of all sections
-being hit will be at least $.99$.
+Then, if Joe collects at least $m$ coupons, the probability of collecting all
+of them (and hence getting the prize) will be at least $.99$.
 
 \begin{align*}
   \P\left[V>m \right] 
   &= \P\left[A_{1}\cup A_{2}\cup \ldots \cup A_{n} \right]\\
   &\leq \P\left[A_{1} \right]+ \P\left[A_{2} \right]+\ldots+\P\left[A_{n}
-    \right] &&\text{(the union bound)}\\
+  \right] &&\text{(the union bound)}\\
   &\leq n \left( 1-\frac{1}{n} \right)^{m}\\ 
   &= n \left[ \left( 1-\frac{1}{n} \right)^{n}  \right]^{\frac{m}{n}}\\
   &\approx n \left[ e^{-1} \right]^{\frac{m}{n}}\\ 
@@ -4409,287 +4525,53 @@ or equivalently,
 \begin{equation*}
   m > n \log\left(100n \right) 
 \end{equation*}
-In other words, if we throw at least $n \log\left(100n \right)$ darts, then
-with probability at least $99\%$, we will hit every section on the dartboard.
+In other words, if Joe collects at least $n \log\left(100n \right)$ coupons,
+then with probability at least $99\%$, he will get the prize.
 
-\newpage
-
-\section{2025-03-28 | Week 10 | Lecture 25}
-\textit{Start reading 6.1, 6.2}
-
-\begin{example}[Application of CLT]
-  The human genome consists of a sequence of nucleotides $(A,T,C,G)$. For this problem we can think of the
-  human genome as a sequence of nucleotides
-  \begin{center}
-    \texttt{CAGGAAGCATTTATATAGAGGTAATAATTAAATTTAACTTTTTATTATTCTCTATGCCCAAGAGAATGTG...}
-  \end{center}
-  and the sequence consists of $n=3.2\times 10^{9}=3,200,000,000$ nucleotide letters.
-  
-  The DNA mutation rate in humans is approximately
-  $\mu= 2\times 10^{-8}=0.00000002$ mutations per nucleotide per generation.
-  That means each time a person is born, each nucleotide either mutates (with
-  proability $\mu$) or doesn't mutate (with probability $1-\mu$). Assume that
-  nucleotides mutate \textit{independently}, that is, whether one nucleotide
-  undergoes mutates is indepdenent from any other nucleotides.
-
-  Let $S_{n}$ be the number of new mutations in the genome of a
-  randomly-selected newborn baby. We can write
-  \begin{equation*}
-    S_{n} = X_{1}+\ldots+X_{n}
-  \end{equation*}
-  where
-  \begin{equation*}
-    X_{i} = \left\{ \begin{array}{l@{\quad:\quad}l} 1 & \text{mutation at site
-        }i\\ 0&\text{no mutation at site }i \end{array}\right.
-  \end{equation*}
-  Let $M$ be the number of new mutations in the genome of a randomly selected
-  newborn baby. Then $M\sim \text{Bin}(n,\mu)$ where the ``number of trials'' is
-  $n=3.2$ billion and the ``success probability'' is $\mu=2\times 10^{-8}$.
-
-  \Fl{Question 1:} On average, how many mutations does a newborn baby have?
-
-  \fl{Solution:} We want
-  \begin{align}\label{eq:18}
-    \E\left[S_{n} \right] 
-    &= \E\left[X_{1}+\ldots+X_{n} \right] \nonumber\\
-    &= \E\left[X_{1} \right]+ \ldots+ \E\left[X_{n} \right]\nonumber\\
-    &= n\mu\nonumber\\
-    &= (3.2\times 10^{9})(2\times 10^{-8})\nonumber\\
-    &=64.
-  \end{align}
-
-  \Fl{Question 2:} What is the probability distribution of $S_{n}$?
-
-  \fl{Solution:} $S_{n}$ is a sume of $n$ ``coin flips'' each having success
-  probability $\mu$. Hence, $S_{n}$ is a binomial random variable with number
-  of trials $n$ and success parameter $\mu$.
-
-
-  \Fl{Question 3:} What percentage of people have between $56$ and $72$
-  mutations?
-
-  \fl{Solution:} Use the central limit theorem. First observe that
-  \begin{equation}\label{eq:22}
-    \E\left[X_{1} \right] = 1\cdot\mu+ 0\cdot(1-\mu) = \mu
-  \end{equation}
-  and
-  \begin{equation*}
-    \E\left[X_{1}^{2} \right] = 1^{2}\cdot\mu+0^{2}\cdot(1-\mu) = \mu
-  \end{equation*}
-  Therefore
-  \begin{align*}
-    \sigma^{2} 
-    &= \Var(X_{1}) \\
-    &= \E\left[X_{1}^{2} \right] - \left( \E\left[X_{1} \right] \right)^{2}\\
-    &= \mu-\mu^{2}.
-  \end{align*}
-  Since $\mu$ is very small $\mu^{2}$ is VERY VERY small, and hence we have $\sigma^{2}\approx \mu$. Therefore
-  \begin{equation}\label{eq:23}
-    \sigma \approx \sqrt{\mu} = \sqrt{2}\times 10^{-4}.
-  \end{equation}
-  Finally, we have
-  \begin{equation}\label{eq:24}
-    \sqrt{n} = 40000 \sqrt{2}.
-  \end{equation}
-  Therefore, using \cref{eq:21} from the Central limit theorem, we have
-  \begin{equation*}
-    \P\left[a \leq \frac{S_{n}-n\mu}{\sigma \sqrt{n}}\leq  b\right] 
-    \approx \int_{a}^{b}\frac{1}{\sqrt{2\pi}}e^{-y^{2}/2}dy 
-  \end{equation*}
-  and plugging in the values from \cref{eq:18,eq:23,eq:24}, we get
-  \begin{equation*}
-    \P\left[a \leq \frac{S_{n}-64}{8}\leq  b\right] 
-    \approx \int_{a}^{b}\frac{1}{\sqrt{2\pi}}e^{-y^{2}/2}dy 
-  \end{equation*}
-  or equivalently
-  \begin{equation*}
-    \P\left[64+8a \leq S_{n}\leq  64+8b\right] 
-    \approx \int_{a}^{b}\frac{1}{\sqrt{2\pi}}e^{-y^{2}/2}dy 
-  \end{equation*}
-  Taking $a=-1$ and $b=1$, we get
-  \begin{equation*}
-    \P\left[56 \leq S_{n} \leq 72\right] \approx \int_{-1}^{1}\frac{1}{\sqrt{2\pi}}e^{-y^{2}/2}dy \approx .68. 
-  \end{equation*}
-  Conclusion: about $68\%$ of people have between 56 and 72 mutations.
-
-  What percentage of people have between $48$ and $80$ mutations?
-\end{example}
+For example, if $n=15$, then $15\log(100\cdot15)=109.7$ so $m=110$ coupons is
+sufficient to ensure that Joe has 99\% probability of getting the prize.
 
 
 
 
-\newpage
+% Therefore
+% \begin{align*}
+%   \P\left[\left| \widehat{p}-p \right| < \epsilon \right] 
+%   &\approx \P\left[\frac{\sigma}{\sqrt{n}}|Z| <\epsilon\right]\\
+%   &= \P\left[|Z| <\frac{\epsilon \sqrt{n}}{\sigma}\right]\\
+%   &\geq \P\left[|Z|<\frac{\epsilon \sqrt{n}}{1/2} \right] &&\text{(since $\sigma \leq 1/2$)}.\\
+%   &= \P\left[|Z|<2\epsilon \sqrt{n} \right]\\
+%   &=2\Phi(2\epsilon \sqrt{n}) -1
+% \end{align*}
 
-\section{2025-03-31 | Week 11 | Lecture 26}
-
-
-With about 95\% probability, a normal random variable will lie within 2
-standard devations of its mean:
-\begin{center}
-  \begin{tikzpicture}[scale=.8]
-    \begin{axis}[
-      domain=0.44:0.68,
-      samples=300,
-      no markers,
-      axis lines=left,
-      xlabel={The sampling distribution of $\widehat{p}$},
-      ylabel={},
-      ymin=0,
-      enlargelimits=false,
-      width=12cm,
-      height=6cm,
-      xtick={0.5,0.56,0.62},
-      xticklabels={$p-2\sigma_{\widehat{p}}$,$p$,$p+2\sigma_{\widehat{p}}$},
-      ytick=\empty,
-      clip=false
-      ]
-      % Normal pdf: mean=0.56, sd=0.03
-      \addplot[thick]
-      {1/(0.03*sqrt(2*pi))*exp(-((x-0.56)^2)/(2*(0.03)^2))};
-
-      % Shaded region between 0.50 and 0.62
-      \addplot[
-      draw=none,
-      fill=gray,
-      fill opacity=0.35,
-      domain=0.50:0.62
-      ]
-      {1/(0.03*sqrt(2*pi))*exp(-((x-0.56)^2)/(2*(0.03)^2))}
-      \closedcycle;
-
-      % Label in the middle of the shaded region
-      \node at (axis cs:0.56,6) {$95\%$};
-      
-      % Optional vertical dashed guides at the bounds
-      \addplot[dashed] coordinates {(0.50,0) (0.50, {1/(0.03*sqrt(2*pi))*exp(-((0.50-0.56)^2)/(2*(0.03)^2))})};
-      \addplot[dashed] coordinates {(0.62,0) (0.62, {1/(0.03*sqrt(2*pi))*exp(-((0.62-0.56)^2)/(2*(0.03)^2))})};
-    \end{axis}
-  \end{tikzpicture}
-\end{center}
-For our broccoli example, we don't know the true value of
-$\sigma_{\widehat{p}}$, since $\sigma_{\widehat{p}}=\sqrt{\frac{p(1-p)}{n}}$
-and $p$ is unknown. But we can approximate it, as follows: since
-$\widehat{p}=.2$ and $n=100$, we have
-\begin{equation*}
-  \Var(\widehat{p}) = \sqrt{\frac{p(1-p)}{n}} \approx \sqrt{\frac{\widehat{p}(1-\widehat{p})}{n}}=\sqrt{\frac{.2(1-.2)}{100}} = .04
-\end{equation*}
-
-So the above shaded picture tells us that $\P\left[\left| p-\widehat{p}
-  \right| \leq .08\right]=.95$. Since $\widehat{p}=.2$, w
-
-\subsection{Confidence intervals}
-\textit{Section 7.1}
-
-
-\begin{definition}[confidence interval]
-  An interval $(\widehat{p}-\epsilon,\widehat{p}+\epsilon)$ is called
-  \demph{95\% confidence interval} for the unknown parameter $p$ if
-  $\epsilon>0$ is chosen large enough that
-  \begin{equation}\label{eq:19}
-    \P\left[\left| \widehat{p}-p \right| <\epsilon\right] \geq .95
-  \end{equation}
-\end{definition}
-In words, the interval contains the true parameter with probability at least
-$.95$.
-
-Can we come up with a 95\% confidence interval for our broccoli poll? We
-already have $\widehat{p}=.2$. But we don't yet know how big $\epsilon$ needs
-to be. (Of course we want to pick the smallest $\epsilon$ possible, as that
-would give us a more informative confidence interval). To figure out how big 
-$\epsilon$ must be, we'll have to use the central limit theorem again.
-
-Formally, let
-\begin{equation*}
-  \widehat{p}=\frac{X_{1}+\ldots+X_{n}}{n}
-\end{equation*}
-where
-\begin{equation*}
-  X_{i}  =\left\{ \begin{array}{l@{\quad:\quad}l} 1 & \text{i-th sampled person
-        likes broccoli}\\ 0 &\text{they don't} \end{array}\right.
-\end{equation*}
-Then
-\begin{equation*}
-  \widehat{p}\sim \text{Bin}(n,p)
-\end{equation*}
-We don't know what $p$ is, but we can still say that by the central limit
-theorem,
-\begin{equation}\label{eq:25}
-  \widehat{p} \approx p + \frac{\sigma}{\sqrt{n}}Z
-\end{equation}
-where $Z\sim \mathcal{N}(0,1)$ and $\sigma^{2} =\Var(X_{1})=p(1-p)$. We also
-don't know what $\sigma^{2}$ is, since it depends on the unknown parameter
-$p$. That's okay, we'll cope. It will be enough to observe that for any vale
-of $p\in [0,1]$, we have
-\begin{equation*}
-  \sigma^{2} = p(1-p) \leq \frac{1}{4}
-\end{equation*}
-and therefore that
-\begin{equation}\label{eq:26}
-  \sigma \leq  \frac{1}{2}.
-\end{equation}
-
-We will also use the following fact (and future homework problem):
-
-\begin{empheq}[box=\boxmath]{equation}
-  \label{eq:future-hw-problem}
-  \quad\P\left[|Z|<u \right]= 2\Phi(u) -1
-\end{empheq}
-
-
-
-
-By \cref{eq:25},
-\begin{equation*}
-  \left| \widehat{p}-p \right| = \frac{\sigma}{\sqrt{n}}|Z|
-\end{equation*}
-Therefore
-\begin{align*}
-  \P\left[\left| \widehat{p}-p \right| < \epsilon \right] 
-  &\approx \P\left[\frac{\sigma}{\sqrt{n}}|Z| <\epsilon\right]\\
-  &= \P\left[|Z| <\frac{\epsilon \sqrt{n}}{\sigma}\right]\\
-  &\geq \P\left[|Z|<\frac{\epsilon \sqrt{n}}{1/2} \right] &&\text{(since $\sigma \leq 1/2$)}.\\
-  &= \P\left[|Z|<2\epsilon \sqrt{n} \right]\\
-  &=2\Phi(2\epsilon \sqrt{n}) -1
-\end{align*}
-
-In conclusion we have:
-\begin{empheq}[box=\boxmath]{equation}
-  \label{eq:confidence-intervals}
-  \P\left[\left| \widehat{p}-p \right| < \epsilon \right]  \geq 2\Phi(2\epsilon \sqrt{n}) -1
-\end{empheq}
-Thus in order for the left hand side to be greater than $.95$, it will suffice
-for
-\begin{equation*}
-  2\Phi(2\epsilon \sqrt{n}) -1 \geq 0.95
-\end{equation*}
-or equivalently
-\begin{equation*}
-  \Phi(2\epsilon \sqrt{n}) \geq 0.975.
-\end{equation*}
-Using a computer, we can determine that $\Phi(u) \geq 0.975$ whenever $u \geq
-1.96$. Thus, we need
-\begin{equation*}
-  2\epsilon \sqrt{n} \geq 1.96.
-\end{equation*}
-For our problem, $n=100$, so $\sqrt{n}=10$, so we need $\epsilon$ to be at
-least as big as
-\begin{equation*}
-  \epsilon \geq 1.96/20 = 0.098.
-\end{equation*}
-Thus, our confidence interval is
-\begin{equation*}
-  (\widehat{p}-\epsilon,\widehat{p}+\epsilon) = (0.2-0.098, 0.2+0.098) = (.102, .298).
-\end{equation*}
-We conclude that with $95\%$ confidence, the true proportion of people in
-Hawaii who like broccoli is between $10.2\%$ and $29.8\%$. Our point estimate is
-$0.2$, and our \demph{margin of error} is $0.098$.
-
-If we had sampled more people, our margin of error would be smaller. How many
-people would we have to sample to reduce the margin of error to $0.05$? What
-about to $0.01$?
-
-\newpage
-\section{2025-04-02 | Week 11 | Lecture 27}
+% In conclusion we have:
+% \begin{empheq}[box=\boxmath]{equation}
+%   \label{eq:confidence-intervals}
+%   \P\left[\left| \widehat{p}-p \right| < \epsilon \right]  \geq 2\Phi(2\epsilon \sqrt{n}) -1
+% \end{empheq}
+% Thus in order for the left hand side to be greater than $.95$, it will suffice
+% for
+% \begin{equation*}
+%   2\Phi(2\epsilon \sqrt{n}) -1 \geq 0.95
+% \end{equation*}
+% or equivalently
+% \begin{equation*}
+%   \Phi(2\epsilon \sqrt{n}) \geq 0.975.
+% \end{equation*}
+% Using a computer, we can determine that $\Phi(u) \geq 0.975$ whenever $u \geq
+% 1.96$. Thus, we need
+% \begin{equation*}
+%   2\epsilon \sqrt{n} \geq 1.96.
+% \end{equation*}
+% For our problem, $n=100$, so $\sqrt{n}=10$, so we need $\epsilon$ to be at
+% least as big as
+% \begin{equation*}
+%   \epsilon \geq 1.96/20 = 0.098.
+% \end{equation*}
+% Thus, our confidence interval is
+% \begin{equation*}
+%   (\widehat{p}-\epsilon,\widehat{p}+\epsilon) = (0.2-0.098, 0.2+0.098) = (.102, .298).
+% \end{equation*}
 
 
 \newpage
@@ -4913,7 +4795,7 @@ We are interested in testing the following two hypotheses:
   \item The \demph{null hypothesis:} whatever effect you observed was
   due to random chance. This is denoted $H_{0}$.
   \item The \demph{alternative hypothesis:} the claim you made about the
-  parameter. This is usually denoted $H_{1}$ 
+  parameter. This is usually denoted $H_{a}$ 
 \end{itemize}
 
 Based on our observation(s) we will make a decision to either reject $H_{0}$,

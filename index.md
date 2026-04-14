@@ -43,6 +43,7 @@ title: Lecture Notes
  2026-03-27  | [lecture-24](lectures/lecture-notes-by-day/lecture-24.pdf) | (Sections 5.3, 5.4) Population-sample framework, statistics, sample mean, sample variance
  2026-04-06  | [lecture-25](lectures/lecture-notes-by-day/lecture-25.pdf) | (Sections 5.4, 6.1) The central limit theorem, introduction to point estimation
  2026-04-08  | [lecture-26](lectures/lecture-notes-by-day/lecture-26.pdf) | (6.1) Point estimation, bias, standard error
+ 2026-04-13  | [lecture-27](lectures/lecture-notes-by-day/lecture-27.pdf) | (7.1) Confidence intervals
 
 # Other links
 
