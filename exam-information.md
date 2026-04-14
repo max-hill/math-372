@@ -16,6 +16,8 @@ permalink: /exam-information/
 
 [practice exam](exams/midterm-2/practice-midterm-exam-2.pdf)
 
+[midterm-2-solutions](exams/midterm-2/midterm-2-solutions.pdf)
+
 ## final exam
 
 - Friday, May 15 at 12:00-2:00pm
