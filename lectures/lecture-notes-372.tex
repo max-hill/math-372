@@ -4470,67 +4470,263 @@ $.95$.
 
 
 
-
+\section{2026-04-15 | Week 13 | Lecture 28}
 \subsection{The Coupon Collector Problem}
-\Fl{Problem statement:} Joe is collecting coupons. There are $n$ different
-coupons, and when he gets all $n$ of them, he gets a free prize. Each time he
-gets a coupon, it is uniformly at random (all coupons equally likely).
 
-Find a value $m$ such that if Joe collects at least $m$ coupons, then his
-probability of winning the prize is at least $99\%$.
+\begin{example}
+  Joe is collecting coupons, numbered $1,\ldots,k$ . There are $n$ different
+  coupons, and when he gets all $n$ of them, he gets a prize. Each time he
+  gets a coupon, it is chosen uniformly at random (i.e., all coupons are
+  equally likely).
+
+  Find a value $m$ such that if Joe collects at least $m$ coupons, then his
+  probability of winning the prize is at least $99\%$.
+
+  \fl{Solution:} Let $m$ be any positive integer greater than $n$. Let
+  \begin{equation*}
+    V = \text{number of coupons Joe collects until he gets the prize}
+  \end{equation*}
+  and let
+  \begin{equation*}
+    A_{k} = \text{coupon $k$ is not collected in the first $m$ coupons}.
+  \end{equation*}
+  To solve the problem, want to find a value of $m$ sufficiently large that
+  \begin{equation*}
+    \P\left[V \leq m\right] \geq .99.
+  \end{equation*}
+  Equivalently, we want
+  \begin{equation*}
+    \P\left[V>m \right] \leq 0.01.
+  \end{equation*}% If Joe collects at least $m$ coupons, he will get the prize with probability
+  % at least $.99$.
+
+  \begin{align*}
+    \P\left[V>m \right] 
+    &= \P\left[A_{1}\cup A_{2}\cup \ldots \cup A_{n} \right]\\
+    &\leq \P\left[A_{1} \right]+ \P\left[A_{2} \right]+\ldots+\P\left[A_{n}
+      \right] &&\text{(the union bound)}\\
+    &\leq n \left( 1-\frac{1}{n} \right)^{m}\\ 
+    &= n \left[ \left( 1-\frac{1}{n} \right)^{n}  \right]^{\frac{m}{n}}\\
+    &\approx n \left[ e^{-1} \right]^{\frac{m}{n}}\\ 
+    &= ne^{-m/n}
+  \end{align*}
+  Setting
+  \begin{equation*}
+    ne^{-m/n}<0.01
+  \end{equation*}
+  we can solve for $m$:
+  \begin{equation*}
+    e^{-m/n}< \frac{0.01}{n}
+  \end{equation*}
+  \begin{equation*}
+    -\frac{m}{n} < \log \left( \frac{0.01}{n} \right) 
+  \end{equation*}
+  or
+  \begin{equation*}
+    m > - n\log\left(\frac{0.01}{n} \right) 
+  \end{equation*}
+  or equivalently,
+  \begin{equation*}
+    m > n \log\left(100n \right) 
+  \end{equation*}
+  In other words, if Joe collects at least $n \log\left(100n \right)$ coupons,
+  then with probability at least $99\%$, he will get the prize.
+
+  For example, if $n=15$, then $15\log(100\cdot15)=109.7$ so $m=110$ coupons is
+  sufficient to ensure that Joe has 99\% probability of getting the prize.
+\end{example}
 
 
 
-\fl{Solution:} Let $m$ be any positive integer greater than $n$. Let
+\subsection{Hypothesis Testing}
+\textit{Textbook section 8.1}
+
+\fl{The hypothesis testing framework:} suppose you observe some random
+quantity, which is assumed to depend on some unknown numerical parameter
+$\theta$. You make a \textit{hypothesis}, which can be any claim about the
+value of some parameter.
+
+We are interested in testing the following two hypotheses:
+\begin{itemize}
+  \item The \demph{null hypothesis:} whatever effect you observed was
+  due to random chance. This is denoted $H_{0}$.
+  \item The \demph{alternative hypothesis:} the claim you made about the
+  parameter. This is usually denoted $H_{a}$ 
+\end{itemize}
+
+Based on our observation(s) we will make a decision to either reject $H_{0}$,
+or fail to reject $H_{0}$. 
+
+Suppose the observed data is $X$. The \demph{p-value} of $X$ is defined as
 \begin{equation*}
-  V = \text{number of coupons Joe must get until he gets the prize}
+  \text{p-value} := \P\left[\text{observing a result at least as extreme as }X
+    \text{ when }H_{0} \text{ is true} \right]
 \end{equation*}
-and let
-\begin{equation*}
-  A_{k} = \text{coupon $k$ is not collected in the first $m$ coupons}.
-\end{equation*}
-To solve the problem, we will need to determine how big $m$ must be so that
-\begin{equation*}
-  \P\left[V>m \right]<0.01.
-\end{equation*}
-Then, if Joe collects at least $m$ coupons, the probability of collecting all
-of them (and hence getting the prize) will be at least $.99$.
+When the $p$-value is small, we \textbf{reject $H_{0}$}.
 
+In particular, we set a \demph{significance level}, denoted $\alpha$, as the
+cutoff such that we reject $H_{0}$ is $p<\alpha$ and we fail to reject $H_{0}$ if
+$p \geq \alpha$.
+
+
+A typical value is $\alpha=.05$ or $\alpha=.01$. 
+
+
+
+This is the basic story. Let's do an example:
+
+\begin{example}
+  Suppose you have a coin but you don't know if it is a fair coin or not. You
+  think maybe the coin is biased in favor of flipping heads. As an experiment,
+  you flip the coin 10 times and you get 8 heads. Is this convincing evidence
+  that the coin is biased?
+
+  In this case, the data is an IID sample
+  \begin{equation*}
+    X_{1},\ldots,X_{10}
+  \end{equation*}
+  where
+  \begin{equation*}
+    X_{i}= \left\{ \begin{array}{l@{\quad:\quad}l} 1 & \text{with probability }\theta\\ 0&\text{with probability }1-\theta \end{array}\right.
+  \end{equation*}
+  The null hypothesis is
+  \begin{equation*}
+    H_{0}: \theta=\frac{1}{2}
+  \end{equation*}
+  The alternative hypothesis is that heads is more likely than tails:
+  \begin{equation*}
+    H_{1}: \theta>\frac{1}{2}
+  \end{equation*}
+
+  The p-value is
+  \begin{align*}
+    p 
+    &= \P\left[\text{at least 8 heads when } \theta=\frac{1}{2} \right]\\
+    &= {10 \choose 8}\theta^{8}(1-\theta)^{2}+{10 \choose
+      9}\theta^{9}(1-\theta)^{1}+{10 \choose 10}\theta^{10}(1-\theta)^{0}
+      \text{ with } \theta=\frac{1}{2}\\
+    &= {10\choose 8} \left( \frac{1}{2} \right)^{10} +{10\choose 9} \left( \frac{1}{2} \right)^{10} +{10\choose 10} \left( \frac{1}{2} \right)^{10}\\ 
+    &= \frac{7}{128}\\
+    &\approx 0.0546.
+  \end{align*}
+  In words, if the coin were fair, we would expect it to flip 8 or more heads
+  (out of ten) about 5\% of the time. That's not actually super rare, so while
+  this is consistent with the coin being biased, it's also consistent with the
+  null hypothesis. Hence, I wouldn't find this to be convincing evidence that
+  the coin isn't fair, so I wouldn't reject the null hypothesis.
+
+  Maybe you would. The cutoff for what is ``convincing'' is necessarily subjective.
+\end{example}
+
+
+\newpage
+\section{2026-04-17 | Week 13 | Lecture 29}
+\begin{example}
+  Now, suppose that we flip the coin 100 times and we get 80 of them to be
+  heads. Is this convincing evidence that the coin isn't fair?
+
+  To answer this question, we'll compute the $p$-value. Let
+  $X_{1},\ldots,X_{100}$ be our IID random sample, where
+  \begin{equation*}
+    X_{i} = \left\{ \begin{array}{l@{\quad:\quad}l}
+        1 & \text{if $i$th coin is heads}\\
+        0& \text{otherwise} \end{array}\right.
+  \end{equation*}
+  Then the number of heads is the random variable
+  \begin{equation*}
+    S_{n} = X_{1}+\ldots+X_{n}.
+  \end{equation*}
+  Observe that $\mu= \E\left[X_{i} \right]= \frac{1}{2}$ and $ $ Assuming the
+  coin is a fair coin, we have
+  \begin{equation*}
+    \mu = \E\left[X_{i} \right] = \frac{1}{2}
+  \end{equation*}
+  and
+  \begin{equation*}
+    \sigma^{2} = \E\left[X_{i}^{2} \right] - \frac{1}{4} = \frac{1}{2}-\frac{1}{4} = \frac{1}{4}
+  \end{equation*}
+  so that
+  \begin{equation*}
+    \sigma= \frac{1}{2}.
+  \end{equation*}
+  By the central limit theorem, we know that
+  \begin{align*}
+    \frac{S_{n}}{n} \approx \mu + \frac{\sigma}{\sqrt{n}}Z, 
+  \end{align*}
+  where $Z$ is a standard normal random variable. For this specific problem,
+  we have:
+  \begin{equation*}
+    \frac{S_{100}}{100} \approx \frac{1}{2}+\frac{1}{20}Z.
+  \end{equation*}
+  We can now compute the $p$-value:
+  \begin{align*}
+    \text{p-value }
+    &= \P\left[\text{at least 80 heads out of 100 tosses}\mid \text{coin is fair} \right]\\
+    &= \P\left[S_{100}\geq 80 \mid \text{coin is fair}\right]\\
+    &= \P\left[\frac{S_{100}}{100}\geq .8 \mid \text{coin is fair}\right]\\
+    &\approx \P\left[\frac{1}{2}+\frac{Z}{20} \geq .8\right] &&\text{Key
+                                                                step. Follows by CLT.}\\
+    &= \P\left[\frac{Z}{20} \geq .3\right]\\
+    &= \P\left[Z \geq 6 \right]\\
+    &\approx .000000001
+  \end{align*}
+  In other words, if the coin were a fair coin, observing heads at least 80 out of 100
+  times would be extraordinarily unlikely. Therefore we reject $H_{0}$. 
+\end{example}
+
+
+\subsection{Simple random walk}
+Let's track the value of a stock. Suppose that every minute, the stock value
+goes up \$1 or down \$1. Then the change in stock value from the start of the
+day is
+\begin{equation*}
+  S_{n} = X_{1}+\ldots+X_{n}
+\end{equation*}
+where $X_{1},\ldots,X_{n}$ are IID random variables with
+\begin{equation*}
+  X_{i} = \left\{ \begin{array}{l@{\quad:\quad}l} +1 & \text{with probability $\theta$}\\ -1& \text{with probability $1-e\theta$} \end{array}\right.
+\end{equation*}
+
+Suppose we track the value of the stock over the course of 400 minutes, (i.e.,
+about 7 hours). And we observe that the value of the stock is down \$68.
+
+The standard assumption is that the stock price fluctates randomly, with no
+tendency to go up or down. That is, the null hypothesis is that
+$\theta=\frac{1}{2}$. Is the observed drop in stock price consistent with this
+hypothesis? Or, alternatively, is there a reason that the stock is down (the
+alternative hypothesis)?
+
+
+Let's compute the p-value. We want to compute
 \begin{align*}
-  \P\left[V>m \right] 
-  &= \P\left[A_{1}\cup A_{2}\cup \ldots \cup A_{n} \right]\\
-  &\leq \P\left[A_{1} \right]+ \P\left[A_{2} \right]+\ldots+\P\left[A_{n}
-  \right] &&\text{(the union bound)}\\
-  &\leq n \left( 1-\frac{1}{n} \right)^{m}\\ 
-  &= n \left[ \left( 1-\frac{1}{n} \right)^{n}  \right]^{\frac{m}{n}}\\
-  &\approx n \left[ e^{-1} \right]^{\frac{m}{n}}\\ 
-  &= ne^{-m/n}
+  \P\left[S_{400}\leq -68\mid \theta=\frac{1}{2}\right]
 \end{align*}
-Setting
+First observe that
 \begin{equation*}
-  ne^{-m/n}<0.01
+  \mu= \E\left[X \right] = 0 \quad \text{and} \quad \sigma^{2} = \E\left[X^{2} \right] =1.
 \end{equation*}
-we can solve for $m$:
+By the central limit theorem,
 \begin{equation*}
-  e^{-m/n}< \frac{0.01}{n}
+  \frac{S_{n}}{n}\approx \mu + \frac{\sigma}{\sqrt{n}}Z
 \end{equation*}
+where $Z$ is a standard normal. Taking $n=400$, $\mu=0$, and $\sigma=1$, we
+get
 \begin{equation*}
-  -\frac{m}{n} < \log \left( \frac{0.01}{n} \right) 
+  \frac{S_{400}}{400} \approx \frac{1}{20}Z
 \end{equation*}
-or
-\begin{equation*}
-  m > - n\log\left(\frac{0.01}{n} \right) 
-\end{equation*}
-or equivalently,
-\begin{equation*}
-  m > n \log\left(100n \right) 
-\end{equation*}
-In other words, if Joe collects at least $n \log\left(100n \right)$ coupons,
-then with probability at least $99\%$, he will get the prize.
-
-For example, if $n=15$, then $15\log(100\cdot15)=109.7$ so $m=110$ coupons is
-sufficient to ensure that Joe has 99\% probability of getting the prize.
-
+Therefore
+\begin{align*}
+  \P\left[S_{400}\leq -68\mid \theta=\frac{1}{2}\right]
+  &=\P\left[\frac{S_{400}}{400}\leq -\frac{68}{400}\mid \theta=\frac{1}{2}\right]\\
+  &\approx\P\left[\frac{Z}{20}\leq -\frac{68}{400}\right]\\
+  &=\P\left[Z\leq -\frac{68}{20}\right]\\
+  &=\P\left[Z\leq -3.4\right]\\
+  &=\int_{-\infty}^{-3.4}\frac{1}{\sqrt{2\pi}}e^{-y^{2}/2}dy\\
+  &\approx 0.0003.
+\end{align*}
+In this case, observing such a precipitous drop is very unlikely under the
+assumption of the null hypothesis. So we might reasonably reject the null
+hypothesis. It is much more likely that something caused the price drop.
 
 
 
@@ -4781,200 +4977,6 @@ We've shown that $f$ is nonnegative and integrates to 1. Therefore it is a pdf.
 \section{2025-04-07 | Week 12 | Lecture 29}
 
 
-
-\subsection{Hypothesis Testing}
-\textit{Textbook section 8.1}
-
-\fl{The hypothesis testing framework:} suppose you observe some random
-quantity, which is assumed to depend on some unknown numerical parameter
-$\theta$. You make a \textit{hypothesis}, which can be any claim about the
-value of some parameter.
-
-We are interested in testing the following two hypotheses:
-\begin{itemize}
-  \item The \demph{null hypothesis:} whatever effect you observed was
-  due to random chance. This is denoted $H_{0}$.
-  \item The \demph{alternative hypothesis:} the claim you made about the
-  parameter. This is usually denoted $H_{a}$ 
-\end{itemize}
-
-Based on our observation(s) we will make a decision to either reject $H_{0}$,
-or fail to reject $H_{0}$. 
-
-Suppose the observed data is $X$. The \demph{p-value} of $X$ is defined as
-\begin{equation*}
-  \text{p-value} := \P\left[\text{observing a result at least as extreme as }X\mid H_{0} \right]
-\end{equation*}
-When the $p$-value is small, we \textbf{reject $H_{0}$}. When the $p$-value is not
-small, we \textbf{fail to reject $H_{0}$.} The meaning of ``small'' here is
-subjective.
-
-This is the basic story. Let's do an example:
-
-\begin{example}
-  Suppose you have a coin but you don't know if it is a fair coin or not. You
-  think maybe the coin is biased in favor of flipping heads. As an experiment,
-  you flip the coin 10 times and you get 8 heads. Is this convincing evidence
-  that the coin is biased?
-
-  In this case, the data is an IID sample
-  \begin{equation*}
-    X_{1},\ldots,X_{10}
-  \end{equation*}
-  where
-  \begin{equation*}
-    X_{i}= \left\{ \begin{array}{l@{\quad:\quad}l} 1 & \text{with probability }\theta\\ 0&\text{with probability }1-\theta \end{array}\right.
-  \end{equation*}
-  The null hypothesis is
-  \begin{equation*}
-    H_{0}: \theta=\frac{1}{2}
-  \end{equation*}
-  The alternative hypothesis is that heads is more likely than tails:
-  \begin{equation*}
-    H_{1}: \theta>\frac{1}{2}
-  \end{equation*}
-
-  The p-value is
-  \begin{align*}
-    p 
-    &= \P\left[\text{at least 8 heads} \mid \theta=\frac{1}{2} \right]\\
-    &= \P\left[S_{n}=8 \mid \theta=\frac{1}{2} \right] + \P\left[S_{n}=9 \mid \theta=\frac{1}{2} \right] +\P\left[S_{n}=10 \mid \theta=\frac{1}{2} \right]\\
-    &= {10 \choose 8}\theta^{8}(1-\theta)^{2}+{10 \choose
-      9}\theta^{9}(1-\theta)^{1}+{10 \choose 10}\theta^{10}(1-\theta)^{0}
-      \text{ with } \theta=\frac{1}{2}\\
-    &= {10\choose 8} \left( \frac{1}{2} \right)^{10} +{10\choose 9} \left( \frac{1}{2} \right)^{10} +{10\choose 10} \left( \frac{1}{2} \right)^{10}\\ 
-    &= \frac{7}{128}\\
-    &\approx 0.0546.
-  \end{align*}
-  In words, if the coin were fair, we would expect it to flip 8 or more heads
-  (out of ten) about 5\% of the time. That's not actually super rare, so while
-  this is consistent with the coin being biased, it's also consistent with the
-  null hypothesis. Hence, I wouldn't find this to be convincing evidence that
-  the coin isn't fair, so I wouldn't reject the null hypothesis.
-
-  Maybe you would. The cutoff for what is ``convincing'' is necessarily subjective.
-\end{example}
-
-\begin{example}
-  Now, suppose that we flip the coin 100 times and we get 80 of them to be
-  heads. Is this convincing evidence that the coin isn't fair?
-
-  To answer this question, we'll compute the $p$-value. Let
-  $X_{1},\ldots,X_{100}$ be our IID random sample, where
-  \begin{equation*}
-    X_{i} = \left\{ \begin{array}{l@{\quad:\quad}l}
-        1 & \text{if $i$th coin is heads}\\
-        0& \text{otherwise} \end{array}\right.
-  \end{equation*}
-  Then the number of heads is the random variable
-  \begin{equation*}
-    S_{n} = X_{1}+\ldots+X_{n}.
-  \end{equation*}
-  Observe that $\mu= \E\left[X_{i} \right]= \frac{1}{2}$ and $ $ Assuming the
-  coin is a fair coin, we have
-  \begin{equation*}
-    \mu = \E\left[X_{i} \right] = \frac{1}{2}
-  \end{equation*}
-  and
-  \begin{equation*}
-    \sigma^{2} = \E\left[X_{i}^{2} \right] - \frac{1}{4} = \frac{1}{2}-\frac{1}{4} = \frac{1}{4}
-  \end{equation*}
-  so that
-  \begin{equation*}
-    \sigma= \frac{1}{2}.
-  \end{equation*}
-  By the central limit theorem, we know that
-  \begin{align*}
-    \frac{S_{n}}{n} \approx \mu + \frac{\sigma}{\sqrt{n}}Z, 
-  \end{align*}
-  where $Z$ is a standard normal random variable. For this specific problem,
-  we have:
-  \begin{equation*}
-    \frac{S_{100}}{100} \approx \frac{1}{2}+\frac{1}{20}Z.
-  \end{equation*}
-  We can now compute the $p$-value:
-  \begin{align*}
-    \text{p-value }
-    &= \P\left[\text{at least 80 heads out of 100 tosses}\mid \text{coin is fair} \right]\\
-    &= \P\left[S_{100}\geq 80 \mid \text{coin is fair}\right]\\
-    &= \P\left[\frac{S_{100}}{100}\geq .8 \mid \text{coin is fair}\right]\\
-    &\approx \P\left[\frac{1}{2}+\frac{Z}{20} \geq .8\right] &&\text{Key
-                                                                step. Follows by CLT.}\\
-    &= \P\left[\frac{Z}{20} \geq .3\right]\\
-    &= \P\left[Z \geq 6 \right]\\
-    &\approx .000000001
-  \end{align*}
-  In other words, if the coin were a fair coin, observing heads at least 80 out of 100
-  times would be extraordinarily unlikely. Therefore we reject $H_{0}$. 
-\end{example}
-
-\subsection{The Matching Problem}
-Suppose there are $n$ people in class. Everyone writes their name on one
-playing card. The cards are then shuffled, and dealt out again, so that each
-person gets a new (random) card. What is the probability that at least one
-person gets their original card?
-
-By enumerating possibilities, we calculated that this has probability $2/3$
-when there are $n=3$ people.
-
-We will return to this problem later.
-
-\newpage
-
-\section{2025-04-09 | Week 12 | Lecture 30}
-
-\subsection{Simple random walk}
-Let's track the value of a stock. Suppose that every minute, the stock value
-goes up \$1 or down \$1. Then the change in stock value from the start of the
-day is
-\begin{equation*}
-  S_{n} = X_{1}+\ldots+X_{n}
-\end{equation*}
-where $X_{1},\ldots,X_{n}$ are IID random variables with
-\begin{equation*}
-  X_{i} = \left\{ \begin{array}{l@{\quad:\quad}l} +1 & \text{with probability $\theta$}\\ -1& \text{with probability $1-e\theta$} \end{array}\right.
-\end{equation*}
-
-Suppose we track the value of the stock over the course of 400 minutes, (i.e.,
-about 7 hours). And we observe that the value of the stock is down \$68.
-
-The standard assumption is that the stock price fluctates randomly, with no
-tendency to go up or down. That is, the null hypothesis is that
-$\theta=\frac{1}{2}$. Is the observed drop in stock price consistent with this
-hypothesis? Or, alternatively, is there a reason that the stock is down (the
-alternative hypothesis)?
-
-
-Let's compute the p-value. We want to compute
-\begin{align*}
-  \P\left[S_{400}\leq -68\mid \theta=\frac{1}{2}\right]
-\end{align*}
-First observe that
-\begin{equation*}
-  \mu= \E\left[X \right] = 0 \quad \text{and} \quad \sigma^{2} = \E\left[X^{2} \right] =1.
-\end{equation*}
-By the central limit theorem,
-\begin{equation*}
-  \frac{S_{n}}{n}\approx \mu + \frac{\sigma}{\sqrt{n}}Z
-\end{equation*}
-where $Z$ is a standard normal. Taking $n=400$, $\mu=0$, and $\sigma=1$, we
-get
-\begin{equation*}
-  \frac{S_{400}}{400} \approx \frac{1}{20}Z
-\end{equation*}
-Therefore
-\begin{align*}
-  \P\left[S_{400}\leq -68\mid \theta=\frac{1}{2}\right]
-  &=\P\left[\frac{S_{400}}{400}\leq -\frac{68}{400}\mid \theta=\frac{1}{2}\right]\\
-  &\approx\P\left[\frac{Z}{20}\leq -\frac{68}{400}\right]\\
-  &=\P\left[Z\leq -\frac{68}{20}\right]\\
-  &=\P\left[Z\leq -3.4\right]\\
-  &=\int_{-\infty}^{-3.4}\frac{1}{\sqrt{2\pi}}e^{-y^{2}/2}dy\\
-  &\approx 0.0003.
-\end{align*}
-In this case, observing such a precipitous drop is very unlikely under the
-assumption of the null hypothesis. So we might reasonably reject the null
-hypothesis. It is much more likely that something caused the price drop.
 
 \subsection{The Matching Problem}
 Suppose there are $n$ people in class. Everyone writes their name on one
