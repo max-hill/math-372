@@ -20,6 +20,7 @@
 \usepackage[shortlabels]{enumitem}
 \usetikzlibrary{arrows,matrix,positioning}
 \usepackage{multicol}
+\usepackage{makecell}
 
 \usepackage{mathtools}% http://ctan.org/pkg/mathtools
 \usepackage{abraces} %xyz
@@ -4575,6 +4576,8 @@ A typical value is $\alpha=.05$ or $\alpha=.01$.
 
 This is the basic story. Let's do an example:
 
+
+
 \begin{example}
   Suppose you have a coin but you don't know if it is a fair coin or not. You
   think maybe the coin is biased in favor of flipping heads. As an experiment,
@@ -4618,9 +4621,74 @@ This is the basic story. Let's do an example:
   Maybe you would. The cutoff for what is ``convincing'' is necessarily subjective.
 \end{example}
 
-
 \newpage
 \section{2026-04-17 | Week 13 | Lecture 29}
+
+
+
+
+\subsubsection{What is a hypothesis test?}
+\begin{definition}[Hypothesis Testing]
+  \label{def:hypothesis-testing}
+  Given a sample from $X_{1},\ldots,X_{n}$ from a distribution depending on
+  parameter $\theta$. We are interested in comparing two competingk
+  hypotheses: a null hypothesis $H_{0}$ and an alternative hypothesis $H_{a}$.
+  A \demph{hypothesis test} is a procedure or decision rule utilizing a
+  statistic $T$ which specifies for which values of $T$ the hypothesis $H_{0}$
+  is rejected, and for which values $H_{0}$ is accepted. The statistic $T$ is
+  called the \demph{test statistic}.
+
+  Associated with a hypothesis test is a \demph{rejection region} (RR), the set
+  which specifies the values of the test statistic for which the null hypothesis
+  to be rejected in favor of the alternative hypothesis. That is, if
+  $T\in\mathrm{RR}$, then we reject $H_{0}$. If $T\notin \mathrm{\mathrm{RR}}$,
+  we accept $H_{0}$.
+\end{definition}
+
+
+\begin{example}
+  Suppose you have a coin but you don't know if it is a fair coin or not. You
+  think maybe the coin is biased in favor of flipping heads. As an experiment,
+  you flip the coin 10 times and you get 8 heads. Is this convincing evidence
+  that the coin is biased?
+
+  In this case, the data is an IID sample
+  \begin{equation*}
+    X_{1},\ldots,X_{10}
+  \end{equation*}
+  where
+  \begin{equation*}
+    X_{i}= \left\{ \begin{array}{l@{\quad:\quad}l} 1 & \text{with probability }\theta\\ 0&\text{with probability }1-\theta \end{array}\right.
+  \end{equation*}
+  The null hypothesis is
+  \begin{equation*}
+    H_{0}: \theta=\frac{1}{2}
+  \end{equation*}
+  The alternative hypothesis is that heads is more likely than tails:
+  \begin{equation*}
+    H_{1}: \theta>\frac{1}{2}
+  \end{equation*}
+
+  The p-value is
+  \begin{align*}
+    p 
+    &= \P\left[\text{at least 8 heads when } \theta=\frac{1}{2} \right]\\
+    &= {10 \choose 8}\theta^{8}(1-\theta)^{2}+{10 \choose
+      9}\theta^{9}(1-\theta)^{1}+{10 \choose 10}\theta^{10}(1-\theta)^{0}
+      \text{ with } \theta=\frac{1}{2}\\
+    &= {10\choose 8} \left( \frac{1}{2} \right)^{10} +{10\choose 9} \left( \frac{1}{2} \right)^{10} +{10\choose 10} \left( \frac{1}{2} \right)^{10}\\ 
+    &= \frac{7}{128}\\
+    &\approx 0.0546.
+  \end{align*}
+  In words, if the coin were fair, we would expect it to flip 8 or more heads
+  (out of ten) about 5.46\% of the time.
+
+  
+  In the previous example, the test statistic was
+  $T=\text{(number of heads)}$. A reasonable rejection region might be
+  $\left[ T \geq 8\right]$ or $\left[ T \geq 9\right]$.
+\end{example}
+
 \begin{example}
   Now, suppose that we flip the coin 100 times and we get 80 of them to be
   heads. Is this convincing evidence that the coin isn't fair?
@@ -4675,59 +4743,258 @@ This is the basic story. Let's do an example:
 \end{example}
 
 
-\subsection{Simple random walk}
-Let's track the value of a stock. Suppose that every minute, the stock value
-goes up \$1 or down \$1. Then the change in stock value from the start of the
-day is
-\begin{equation*}
-  S_{n} = X_{1}+\ldots+X_{n}
-\end{equation*}
-where $X_{1},\ldots,X_{n}$ are IID random variables with
-\begin{equation*}
-  X_{i} = \left\{ \begin{array}{l@{\quad:\quad}l} +1 & \text{with probability $\theta$}\\ -1& \text{with probability $1-e\theta$} \end{array}\right.
-\end{equation*}
+\subsubsection{Type I and Type II errors}
+There are two types of decision errors in the hypothesis testing framework.
 
-Suppose we track the value of the stock over the course of 400 minutes, (i.e.,
-about 7 hours). And we observe that the value of the stock is down \$68.
+\begin{definition}[Decision errors]
+  \label{def:decision-errors}
+  A \demph{type I error} is made if $H_{0}$ is rejected when $H_{0}$ is true.
+  The probability of a type I error is denoted by $\alpha$:
+  \begin{equation*}
+    \alpha = \Pr \left[ \text{Type I error} \right] = \Pr\left[
+      \text{rejecting $H_{0}$ when $H_{0}$ is true}\right]
+    %%% T\in \text{RR} \mid H_{0} \text{ is true}\right].
+  \end{equation*}
+  The value of $\alpha$ is called the \demph{significance level} (or just
+  \demph{level}) of the test.
 
-The standard assumption is that the stock price fluctates randomly, with no
-tendency to go up or down. That is, the null hypothesis is that
-$\theta=\frac{1}{2}$. Is the observed drop in stock price consistent with this
-hypothesis? Or, alternatively, is there a reason that the stock is down (the
-alternative hypothesis)?
+  Similarly, a
+  \demph{type II error} is made if $H_{0}$ is accepted when $H_{a}$ is true.
+  We denote the probability of this happening by $\beta$:
+  \begin{equation*}
+    \beta = \Pr \left[ \text{Type II error} \right] = \Pr \left[
+      \text{accepting $H_{0}$ when $H_{a}$ is true} \right] 
+    % \P\left[ T\notin \text{RR} \mid H_{a} \text{ is true}\right].
+  \end{equation*}
+  The value $1-\beta$ is called the \demph{power} of the test.
+\end{definition}
+
+These types of errors, and their probabilities, can be summarized in the
+following table:
+
+\begin{center}
+  \begin{tabular}{lcc}
+    & Reject $H_0$ & Accept $H_0$ \\ \cline{2-3}
+    \multicolumn{1}{l|}{$H_0$ true}
+    & \multicolumn{1}{l|}{\makecell[c]{Type I error \\ $\text{level}=\alpha$}}
+    & \multicolumn{1}{l|}{\makecell[c]{Correctly accept $H_{0}$ \\ $1-\alpha$}} \\ \cline{2-3}
+    \multicolumn{1}{l|}{$H_a$ true}
+    & \multicolumn{1}{l|}{\makecell[c]{Correctly reject $H_{0}$ \\ $\text{power}=1-\beta$}}
+    & \multicolumn{1}{l|}{\makecell[c]{Type II error \\ $\beta$}} \\ \cline{2-3}
+  \end{tabular}
+\end{center}
 
 
-Let's compute the p-value. We want to compute
-\begin{align*}
-  \P\left[S_{400}\leq -68\mid \theta=\frac{1}{2}\right]
-\end{align*}
-First observe that
-\begin{equation*}
-  \mu= \E\left[X \right] = 0 \quad \text{and} \quad \sigma^{2} = \E\left[X^{2} \right] =1.
-\end{equation*}
-By the central limit theorem,
-\begin{equation*}
-  \frac{S_{n}}{n}\approx \mu + \frac{\sigma}{\sqrt{n}}Z
-\end{equation*}
-where $Z$ is a standard normal. Taking $n=400$, $\mu=0$, and $\sigma=1$, we
-get
-\begin{equation*}
-  \frac{S_{400}}{400} \approx \frac{1}{20}Z
-\end{equation*}
-Therefore
-\begin{align*}
-  \P\left[S_{400}\leq -68\mid \theta=\frac{1}{2}\right]
-  &=\P\left[\frac{S_{400}}{400}\leq -\frac{68}{400}\mid \theta=\frac{1}{2}\right]\\
-  &\approx\P\left[\frac{Z}{20}\leq -\frac{68}{400}\right]\\
-  &=\P\left[Z\leq -\frac{68}{20}\right]\\
-  &=\P\left[Z\leq -3.4\right]\\
-  &=\int_{-\infty}^{-3.4}\frac{1}{\sqrt{2\pi}}e^{-y^{2}/2}dy\\
-  &\approx 0.0003.
-\end{align*}
-In this case, observing such a precipitous drop is very unlikely under the
-assumption of the null hypothesis. So we might reasonably reject the null
-hypothesis. It is much more likely that something caused the price drop.
+\newpage
+\section{2026-04-20 | Week 14 | Lecture 30}
 
+\subsection{Decision errors}
+
+\begin{example}[Coin flipping hypothesis test]
+  \label{ex:coin-flipping-hypothesis-test}
+  Flip a coin 10 times. Let $p$ be the probability of heads. Consider the
+  hypothesis testing problem
+  \begin{equation*}
+    H_{0}: p = \frac{1}{2} \quad \text{versus} \quad H_{a}: p\neq \frac{1}{2}.
+  \end{equation*}
+  Let our test statistic be
+  \begin{equation*}
+    T = \text{(\# of heads)}
+  \end{equation*}
+  So $T$ takes a value between 0 and 10. If $H_{0}$ were true, then (one can
+  check that) there would be about 97.9\% chance of getting between 2 and 8
+  heads. So it might be reasonable to define our rejection region to be the
+  set
+  \begin{equation*}
+    \text{RR} = \left\{0,1,9,10\right\}
+  \end{equation*}
+  since it is improbable to get these values with a fair coin. Using this
+  rejection region, if $T=0,1,9$ or $10$, we would reject $H_{0}$ and conclude
+  the coin is not a fair coin.
+
+  This test is not perfect: assuming that $H_{0}$ is true, we will nonetheless
+  reject $H_{0}$ about $2.1\%$ of the time.
+\end{example}
+
+
+\subsubsection{Type I and Type II errors}
+There are two types of decision errors in the hypothesis testing framework.
+
+\begin{center}
+  \begin{tabular}{lcc}
+    & Reject $H_0$ & Accept $H_0$ \\ \cline{2-3}
+    \multicolumn{1}{l|}{$H_0$ true}
+    & \multicolumn{1}{l|}{\makecell[c]{Type I error \\ $\text{level}= \P\left[\text{type I error} \right]=\alpha$}}
+    & \multicolumn{1}{l|}{\makecell[c]{Correctly accept $H_{0}$ \\ $1-\alpha$}} \\ \cline{2-3}
+    \multicolumn{1}{l|}{$H_a$ true}
+    & \multicolumn{1}{l|}{\makecell[c]{Correctly reject $H_{0}$ \\ $\text{power}=1-\beta$}}
+    & \multicolumn{1}{l|}{\makecell[c]{Type II error \\ $\P\left[type II error \right]=\beta$}} \\ \cline{2-3}
+  \end{tabular}
+\end{center}
+
+
+% \begin{table}[H]
+%   \centering
+%   \begin{tabular}{lll}
+%     & Reject $H_0$                      & Accept $H_0$                       \\ \cline{2-3} 
+%     \multicolumn{1}{l|}{$H_0$ true} & \multicolumn{1}{l|}{Type-I Error \\ $\alpha$ } & \multicolumn{1}{l|}{Correct \\ $1-\alpha $ }       \\ \cline{2-3} 
+%     \multicolumn{1}{l|}{$H_1$ true} & \multicolumn{1}{l|}{Correct\\ $1-\beta$ }      & \multicolumn{1}{l|}{Type-II Error $\beta$ } \\ \cline{2-3} 
+%   \end{tabular}
+% \end{table}
+
+
+\begin{example}[\cref{ex:coin-flipping-hypothesis-test} continued]
+  In \cref{ex:coin-flipping-hypothesis-test}, the level of the test is
+  $\alpha=2.1\%$. Note that $\beta$ is a function of $p$. For example if
+  $p=0.4$, then
+  \begin{align*}
+    \beta 
+    &=\beta(0.4)\\
+    &= \P\left[\text{Type II error}\mid p=0.4 \right]\\
+    &= \P\left[T\notin \text{RR} \mid p=0.4  \right]\\
+    &= \sum_{k=2}^{8} {10\choose k}(0.4)^{k}(1-0.4)^{10-k}\\
+    &=.952
+  \end{align*}
+  Therefore if the true value of $p$ is $.4$, then the power of the the test
+  is $.048$.
+
+  On the other hand if the true value of $p$ is $p=.1$, then $\beta(.1)=.264$,
+  so the power of the test would be $.736$. We generally don't know what the
+  true power of the test is, since that would require knowing the value of the
+  parameter (in which case we wouldn't be doing a hypothesis test...).
+
+  It is a common mistake to assume that $\alpha+\beta=1$. In general,
+  $\alpha+\beta\neq 1$. 
+\end{example}
+
+
+These terms are clarified by an example.
+
+\begin{remark}[Decision Errors]
+  \label{rmk:decision-errors}
+  A Ukrainian drone operator spots an unmarked vehicle traveling down a road.
+  She needs to make a decision about whether to strike the truck. The
+  hypothesis test is the following:
+  \begin{align*}
+    H_{0}:& \text{ the target is not a Russian military vehicle}\\
+    H_{a}:& \text{ the target is a Russian military vehicle}
+  \end{align*}
+  Rejecting $H_{0}$ means giving an order to destroy the target. Accepting
+  $H_{0}$ means `take no action'.
+
+  In this context, a Type-I error occurs when the operator gives the order to
+  destroy the vehicle, but it turns out the vehicle is not Russian military. A
+  Type-II error, on the other hand, has occurred if she doesn't order the
+  strike, but the vehicle really was a Russian military vehicle.
+  \begin{itemize}
+    \item A Type-I error means she killed a civilian or a friendly unit (an
+    error of commission).
+    \item A Type-II error means she missed an opportunity to kill an enemy (an
+    error of ommission).
+  \end{itemize}
+  Here, the terms ``power'' and ``level'' have the following meaning:
+  \begin{itemize}
+    \item The \textbf{power} of the test is the probability that she
+    orders a strike when a Russian military vehicle goes by. (She wants this
+    to be high).
+    \item The \textbf{level} of the test is the probability that she orders a
+    strike when a civilian goes by. (She wants this to be low).
+  \end{itemize}
+  Ideally, the operator would like to eliminate both types of errors
+  (accidentally killing civilians vs failing to kill enemy). That is, she
+  would like
+  \begin{equation*}
+    \alpha=\Pr\left[\text{Type I error} \right]= 0 \quad \text{and} \quad
+    \beta=\Pr\left[\text{Type II error} \right]=0.
+  \end{equation*}
+  Unfortunately, it is impossible to simultaneously eliminate both types of
+  error without perfect information. On one hand, the drone operatore could
+  minimize the probability of a type I error by simply never ordering a strike,
+  in which case $\alpha= \Pr\left[ \text{Type I error} \right] = 0$. But this
+  is unsatisfactory, since in that case,
+  $\beta= \Pr\left[\text{Type II error} \right]=1$. On the other hand, she
+  could maximize the power by simply always ordering a strike; in that case,
+  $\beta=0$ but $\alpha=1$. This tradeoff is present in every hypothesis test.
+  
+  The approach that the hypothesis testing framework takes to address this
+  tradeoff is to (1) set a maximal level $\alpha$ that one is willing to
+  accept, and then (2) find the most powerful test subject to that constraint.
+
+  Of course, the appropriate significance level to set depends on the
+  situation: a truck speeding towards the operator's position is very
+  different from a truck traveling away from the front.
+\end{remark}
+
+
+\newpage
+\section{2026-04-22 | Week 14 | Lecture 31}
+\subsection{z-test for Hypothesis Testing}
+\textit{Based on chapter 8.2}
+
+\begin{example}
+  Let's track the value of a stock. Suppose that every minute, the stock value
+  goes up \$1 or down \$1. Then the change in stock value from the start of
+  the day is
+  \begin{equation*}
+    S_{n} = X_{1}+\ldots+X_{n}
+  \end{equation*}
+  where $X_{1},\ldots,X_{n}$ are IID random variables with
+  \begin{equation*}
+    X_{i} = \left\{ \begin{array}{l@{\quad:\quad}l} +1 & \text{with probability $\theta$}\\ -1& \text{with probability $1-\theta$} \end{array}\right.
+  \end{equation*}
+
+  Suppose we track the value of the stock over the course of $n=400$ minutes,
+  (i.e., about 7 hours). And we observe that the value of the stock is down
+  \$68.
+
+  A standard assumption for modeling stock prices over short periods of time
+  is that the price fluctates randomly, with no tendency to go up or down. Is
+  the observed drop in stock price consistent with this hypothesis? Or,
+  alternatively, is there a reason that the stock is down (the alternative
+  hypothesis)?
+
+  This can be evaluated with the following hypothesis testing problem:
+  \begin{equation*}
+    H_{0}: \theta=1/2
+    \quad \text{versus} \quad
+    H_{a}: \theta< \frac{1}{2}
+  \end{equation*}
+
+  Our test statistic will be based on the statistic $S_{400}$, which is the
+  final change in stock price. If the stock has dropped a lot, then we will
+  reject $H_{0}$.
+
+  We need to compute a $p$-value.
+  \begin{align*}
+    \text{p-value} = \P\left[S_{400}\leq -68\text{ when }\theta=\frac{1}{2}\right]
+  \end{align*}
+  First observe that
+  \begin{equation*}
+    \mu= \E\left[X_{i} \right] = 0 \quad \text{and} \quad \sigma^{2} = \E\left[X_{i}^{2} \right] =1.
+  \end{equation*}
+  By the central limit theorem,
+  \begin{equation*}
+    \frac{S_{n}}{n}\approx \mu + \frac{\sigma}{\sqrt{n}}Z
+  \end{equation*}
+  where $Z$ is a standard normal. Taking $n=400$, $\mu=0$, and $\sigma=1$, we
+  get
+  \begin{equation*}
+    \frac{S_{400}}{400} \approx \frac{1}{20}Z
+  \end{equation*}
+  Therefore
+  \begin{align*}
+    \P\left[S_{400}\leq -68 \text{ when }\theta=\frac{1}{2}\right]
+    &=\P\left[\frac{S_{400}}{400}\leq -\frac{68}{400} \text{ when }\theta=\frac{1}{2}\right]\\
+    &\approx\P\left[\frac{Z}{20}\leq -\frac{68}{400}\right]\\
+    &=\P\left[Z\leq -\frac{68}{20}\right]\\
+    &=\P\left[Z\leq -3.4\right]\\
+    &=\int_{-\infty}^{-3.4}\frac{1}{\sqrt{2\pi}}e^{-y^{2}/2}dy\\
+    &\approx 0.0003.
+  \end{align*}
+  In this case, observing such a precipitous drop is very unlikely under the
+  assumption of the null hypothesis. So we might reasonably reject the null
+  hypothesis. It is much more likely that something caused the price drop.
+\end{example}
 
 
 % Therefore
@@ -4771,318 +5038,246 @@ hypothesis. It is much more likely that something caused the price drop.
 
 
 \newpage
-\section{2025-04-04 | Week 11 | Lecture 28}
 
-\textit{exam average was 30.75 (among those who took the exam)}
+\subsection{The Chi-Squared Distribution}
 
-\subsection{The method of moments}
+A special kind of gamma distribution:
 
-
-\begin{example}[Method of Moments]
-  Suppose $X_{1},\ldots,X_{n}$ are the waiting times, in minutes, between
-  customer orders at Raising Cane's at University and King St. Assume that the
-  waiting times are IID exponentially distributed with some unknown rate
-  parameter $\lambda$.
-
-  Suppose the first 10 waiting times are
+\begin{definition}[Chi-Squared Distribution]
+  \label{def:chi-squared-distribution}
+  Let $k$ be a positive integer. A nonnegative random variable $X$ is said to have
+  \demph{chi-squared distribution with parameter $d$} if it has pdf
   \begin{equation*}
-    0.2, 0.1, 1, 0.7, 0.8, 0.2, 0.5, 0.5, 0.4, 2
+    f(x) 
+    = \left\{ 
+      \begin{array}{l@{\quad:\quad}l} \frac{1}{2^{d/2}\Gamma(d/2)}x^{\frac{d}{2}-1}e^{-x/2} & x \geq 0\\ 0& x<0\end{array}\right.
   \end{equation*}
+  In other words, if $X$ is a Gamma distributed random variable with
+  parameters $\alpha=d/2$ and $\beta=2$. The parameter $d$ is usually called
+  the \demph{degrees of freedom} of $X$.
+\end{definition}
 
-  \textbf{Question:} On average, how many orders would you expect per minute?
-  
-  So the average wait time is
-  \begin{equation*}
-    \frac{0.2+ 0.1+ 1+ 0.7+ 0.8+ 0.2+ 0.5+ 0.5+ 0.4+ 2}{10} = .64 \text{
-      minutes/order}
-  \end{equation*}
-  So a good estimate for the number of orders per minute is
-  \begin{equation*}
-    1/ .64 \approx 1.56 \text{ orders/minute}
-  \end{equation*}
-  We have estimated the rate.
-  
-  
-  
-
-  In other words, the pdf for every $X_{i}$ is
-  \begin{equation*}
-    f(x) = \lambda e^{-\lambda x}, \quad \lambda \geq 0
-  \end{equation*}
-  We have
-  \begin{equation*}
-    \E\left[X_{1} \right] = \int_{0}^{\infty}x f(x) dx = \ldots = \frac{1}{\lambda} 
-  \end{equation*}'
-  We also know by the Law of Large Numbers that
-  \begin{equation*}
-    \overline{X}:=\frac{X_{1}+\ldots+X_{n}}{n} \to \E\left[X_{1} \right] \quad \text{as } n \to \infty
-  \end{equation*}
-  Thus, when $n$ is large, one good way to estimate $\lambda$ would be to set
-  \begin{equation*}
-   \overline{X}= \frac{1}{\lambda}
-  \end{equation*}
-  and then solve for $\lambda$:
-  \begin{equation*}
-    \lambda = \frac{1}{\overline{X}}.
-  \end{equation*}
-  This is precisely what we did. Thus we take as our estimator the function
-  $\widehat{\lambda}  = \frac{1}{\overline{X}}$.
-
-  % Note that this is unbiased
-  % because
-  % \begin{equation*}
-  %   \lambda = \E\left[\frac{1}{\overline{X}} \right] \neq \frac{1}{\E\left[\overline{X} \right]}
-  % \end{equation*}
-  
-  \textit{This example was brought to you by Raising Cane's.} 
-\end{example}
-
-This example illustrates one general method of estimation, called \demph{the
-  method of moments.} In this method, one has an IID random sample
-$X_{1},\ldots,X_{n}$ all having distribution $X$. It is assumed that you know
-the type of the distribution of $X$ (e.g., exponential, normal, binomial,
-whatever) but you don't know one or more numerical parameters $\theta_{1},\ldots\theta_{m}$ (e.g., the mean,
-variance, rates, etc). You then consider one or more of equations of the
-following form:
-\begin{align*}
-  \frac{X_{1}+\ldots+X_{n}}{n}  &= \E\left[X \right]\\
-  \frac{X^{2}_{1}+\ldots+X^{2}_{n}}{n}  &= \E\left[X^{2} \right]\\
-  \frac{X^{3}_{1}+\ldots+X^{3}_{n}}{n}  &= \E\left[X^{3} \right]\\
-  &\vdots
-\end{align*}
-In these equations, the LHS is what you observed in your data (e.g.,
-$\overline{X}=.64$ orders per minute). The right-hand sides are the moments,
-which are known functions of the parameters $\theta_{1},\ldots,\theta_{m}$.
-You then solve the system of equations for $\theta_{1},\ldots,\theta_{m}$.
-This gives you numerical point estimates for the unknown parameters
-$\theta_{1},\ldots,\theta_{m}$.
-
-\subsection{The Gamma Distribution}
-
-The \demph{gamma function} is
-\begin{equation*}
-  \Gamma(\alpha): = \int_{0}^{\infty}x^{\alpha-1}e^{-x}dx, \quad \alpha>0.
-\end{equation*}
-\fl{Fact:} For any positive integer $n \geq 1$,
-\begin{equation*}
-  \Gamma(n) = (n-1)!
-\end{equation*}
-For any $\alpha>1$,
-\begin{equation*}
-  \Gamma(\alpha) = (\alpha-1)\Gamma(\alpha-1)
-\end{equation*}
-We say that a random variable $X$ has a \demph{gamma distribution with shape
-  parameter $\alpha>0$ and scale parameter $\beta>0$} if  $X$ has pdf
-of $X$ is
-\begin{equation*}
-  f(x) = \left\{ \begin{array}{l@{\quad:\quad}l} \frac{1}{\beta^{\alpha}\Gamma(\alpha)} x^{\alpha-1}e^{-x/\beta} &x \geq 0 \\ 0&x<0 \end{array}\right.
-\end{equation*}
-\fl{Fact:} If $X$ is gamma distributed with shape $\alpha>0$ and scale
-$\beta>0$, then
-\begin{equation*}
-  \E\left[X \right] = \alpha\beta \quad \text{and} \quad \E\left[X_{1}^{2}
-  \right] = \alpha(\alpha+1)\beta^{2} \quad \text{and} \quad  \Var(X) = \alpha\beta^{2}
-\end{equation*}
-This is a very flexible class of distributions, often used in general practice
-for things like
-\begin{itemize}
-  \item amount of degredation or wear
-  \item random rates (e.g. cancer, dna mutation, etc)
-  \item survival and waiting times (e.g. for a given number of events to
-  occur, or how long you survive after being exposed to a high dose of
-  radiation, etc)
-  \item sum of IID exponential waiting times.
-  \item has nice mathematical properties, so it's COMMONLY used in (advanced)
-  Bayesian statistical techniques
-  \item etc
-\end{itemize}
-
-\Fl{Verification that $f$ is a probability density function:} Let $x \geq 0$. THen
-\begin{align*}
-  f(x) = \frac{1}{\beta^{\alpha}\Gamma(\alpha)}x^{\alpha-1}e^{-x/\beta}\geq 0.
-\end{align*}
-We need to show that
-\begin{equation*}
-  \int_{0}^{\infty}f(x) dx = 1
-\end{equation*}
-This can be shown using a u-subsitution. We will do the $u$-subsituttion
-$u=x/\beta$, so that $x=\beta u$ and $dx = \beta du$
-\begin{align*}
-  \int_{0}^{\infty}f(x) dx
-  &= \frac{1}{\beta^{\alpha}\Gamma(\alpha)}\int_{0}^{\infty}x^{\alpha-1}e^{-x/\beta}dx\\ 
-  &= \frac{1}{\beta^{\alpha}\Gamma(\alpha)} \int_{0}^{\infty}(\beta u)^{\alpha-1}e^{-u}\beta du\\ 
-  &= \frac{1}{\beta^{\alpha}\Gamma(\alpha)} \beta^{\alpha-1}\beta\int_{0}^{\infty} u^{\alpha-1}e^{-u} du\\ 
-  &= \frac{1}{\Gamma(\alpha)} \underbrace{\int_{0}^{\infty} u^{\alpha-1}e^{-u} du}_{=\Gamma(\alpha)}\\ 
-  &= 1.
-\end{align*}
-We've shown that $f$ is nonnegative and integrates to 1. Therefore it is a pdf.
-
-\begin{example}
-  Suppose $X_{1},\ldots,X_{n}$ are IID gamma distributed random variables with
-  parameters $\alpha$ and $\beta$ which are unknown to us.
-
-  \fl{Know:}
-
-
-  Can we estimate $\alpha$ and $\beta$ from data?
-  for example, set
-  \begin{equation*}
-    \frac{X_{1}+\ldots+X_{n}}{n} = \E\left[X_{1} \right]
-  \end{equation*}
-  and
-  \begin{equation*}
-    \frac{X^{2}_{1}+\ldots+X^{2}_{n}}{n} = \E\left[X_{1}^{2} \right]
-  \end{equation*}
-  We know that for a gamma-distributed random variable $X$ with parameters
-  $\hat{\alpha}$ and $\hat{\beta}$, we have
-  $\E\left[X \right]=\hat{\alpha}\hat{\beta}$ and $\E\left[X_{1}^{2}
-  \right] = \hat{\alpha}(\hat{\alpha}+1)\hat{\beta}^{2}$. So these equations become
-
-  \begin{equation*}
-    \frac{X_{1}+\ldots+X_{n}}{n} = \hat{\alpha}\hat{\beta} 
-  \end{equation*}
-  and
-  \begin{equation*}
-    \frac{X^{2}_{1}+\ldots+X^{2}_{n}}{n} = \hat{\alpha}(\hat{\alpha}+1)\hat{\beta}^{2}
-  \end{equation*}
-  We now solve for $\hat{\alpha}$ and $\hat{\beta}$. Suppose that we sample
-  data which is such that
-  \begin{equation*}
-    \frac{X_{1}+\ldots+X_{n}}{n} = c
-  \end{equation*}
-  and
-  \begin{equation*}
-    \frac{X_{1}+\ldots+X_{n}}{n} = d
-  \end{equation*}
-  where $c,d$ are numbers. Then
-  \begin{equation*}
-    \hat{\alpha}\hat{\beta}=c
-  \end{equation*}
-  and
-  \begin{equation*}
-    d = (\hat{\alpha}\hat{\beta})^{2}+ (\hat{\alpha}\hat{\beta})\hat{\beta}
-  \end{equation*}
-  so that
-  \begin{equation*}
-    d = c^{2}+c \hat{\beta}
-  \end{equation*}
-  Solving for $\hat{\alpha}$ and $\hat{\beta}$ gives
-  \begin{equation*}
-    \hat{\beta} = \frac{d-c^{2}}{c} \quad \text{and} \quad \hat{\alpha} = \frac{c^{2}}{d-c^{2}}.
-  \end{equation*}
-
-\end{example}
-
-
-\section{2025-04-07 | Week 12 | Lecture 29}
-
-
-
-\subsection{The Matching Problem}
-Suppose there are $n$ people in class. Everyone writes their name on one
-playing card. The cards are then shuffled, and dealt out again, so that each
-person gets a new (random) card. What is the probability that at least one
-person gets their original card?
-
-By enumerating possibilities, we calculated that this has probability $2/3$
-when there are $n=3$ people.
-
-
-\subsection{Permutations:}
-
-\begin{itemize}
-  \item When we shuffle the cards, we permute their order. This induces a
-  reordering of the cards, called a \demph{permutation.}
-  \item Introduce cycle notation
-  \item Define \demph{cycle}
-  \item Define \demph{order} a cycle
-  \item Define \demph{fixed point} of a permutatiion
-\end{itemize}
-
-
-
-\fl{Question 1:} What is the probability that at least one person gets their
-original card?
-
-\fl{Question 2:} What is the expected number of fixed points?
-
-\fl{Question 3:} What is the expected number of cycles of order 2, 3,... ?
-
-\fl{Question 4:} What is the expected number of cycles?
-
-\newpage
-\section{2025-04-11 | Week 12 | Lecture 31}
-We continued the activity from Wednesday about shuffling cards and
-permutations. I numbered the cards $1,2,\ldots$. Then I had each person write
-their name on the card. Then I collected and shuffled the cards and then dealt
-them back randomly to all the people.
-
-Then we had everyone stand next to the person whose name is on their new card.
-(Usually, you don't get your own card back, because the cards were shuffled).
-This results in several distinct groups of people. These are called
-\demph{cycles}. The \demph{order} of a cycle is the number of people. A cycle
-of order 1 is called a \demph{fixed point}. You are a fixed point if you got
-your original card back. In that case, you have to stand by yourself.
-
-We can think of permutations as functions. Formally, a \demph{permutation on
-  the set $\left\{1,2,\ldots,n\right\}$} is a function
-\begin{equation*}
-  \pi: \left\{1,2,\ldots,n\right\} \to  \left\{1,2,\ldots,n\right\}
-\end{equation*}
-such that $\pi$ is both injective and surjective (i.e., is a bijection).
-
-By shuffling the deck, we are generating a permutation uniformly at random.
-We did this experiment several times. The number of fixed points, cycles, and
-the size of the cycles are all random.
-
-We also introduce \demph{cycle notation}, which is described really good here,
-(up to about 7 minutes and 40 seconds):
+From left-to-right, here's what this looks like for $d=2$, $d=4$, and $d=12$:
 \begin{center}
-  \url{https://www.youtube.com/watch?v=MpKG6FmcIHk}
+  \includegraphics[scale=0.15]{images/chi-squared-d2}
+  \includegraphics[scale=0.15]{images/chi-squared-d4}
+  \includegraphics[scale=0.15]{images/chi-squared-d12}
 \end{center}
 
+\begin{proposition}
+  A $\chi^{2}$ random variable $X$ with $d$ degrees of freedom has
+  \begin{equation*}
+    \E\left[X \right] = \alpha\beta = d \quad \text{and} \quad \Var(X) = \alpha\beta^{2} = 2d
+  \end{equation*}
+\end{proposition}
 
-\Fl{Question \#1:} Suppose we draw a permutation on the set
-$\left\{1,2,\ldots,n\right\}$ uniformly at random. What's the expected number
-of fixed points? (That is, on average, how many people get their own card back?)
+The chi-squared distribution plays a central role in statistical inference. It
+is completely determined by its degrees of freedom.
 
-Let $F_{i}$ be the event that $i$ is a fixed point. Clearly,
-\begin{equation*}
-  \P\left[F_{i} \right] = \frac{1}{n}
-\end{equation*}
-since each person has a 1-in-$n$ chance of getting their own card back.
 
-Let $N$ be the number of fixed points (this is a random variable). Then
-\begin{align*}
-  N = \mathbf{1}_{F_{1}}+\mathbf{1}_{F_{2}}+\ldots+\mathbf{1}_{F_{n}}
-\end{align*}
-Therefore
-\begin{align*}
-  \E\left[N \right]
-  &= \E\left[ \mathbf{1}_{F_{1}}+\mathbf{1}_{F_{2}}+\ldots+\mathbf{1}_{F_{n}}\right]\\
-  &= \E\left[\mathbf{1}_{F_{1}} \right] + \E\left[\mathbf{1}_{F_{2}} \right]+\ldots+ \E\left[\mathbf{1}_{F_{n}} \right]\\
-  &= \P\left[F_{1} \right]+ \P\left[F_{2} \right]+\ldots+\P\left[F_{n} \right]\\
-  &= \frac{1}{n}+\frac{1}{n}+\ldots+\frac{1}{n}\\
-  &= 1.
-\end{align*}
-Therefore, on average, we expect 1 fixed point.
 
-\Fl{Question \#2:} What is the probability of having no fixed points?
+\begin{theorem}
+  \label{thm:chi-squared-theorem}
+  Suppose $X=(X_{1},\ldots,X_{k})$ is a multinomial random variable with
+  parameters $p_{1},\ldots,p_{k}$. Define a new random variable $\chi^{2}$,
+  called the \demph{chi-squared statistic} by 
+  \begin{equation*}
+    \chi^{2} := \sum_{i=1}^{k} \frac{\left(X_{i}-np_{i}\right)^{2}}{np_{i}}.
+  \end{equation*}
+  Then $\chi^{2}$ has approximately chi-squared distribution with $k-1$ degrees of
+  freedom (as long as  $np_{i}\geq 5$ for all $i=1,\ldots,m$).
+\end{theorem}
 
-By enumerating all the permutations, we showed that for $n=1,2,3,4$, the
-probability of no fixed points is
-\begin{equation*}
-  1, \quad 1/2, \quad 1/3, \quad 3/8
-\end{equation*}
-which suggests the following conjecture
-\begin{equation*}
-  \P\left[N=0 \right]= \frac{1}{2!}-\frac{1}{3!}+\frac{1}{4!}- \frac{1}{5!}+\ldots+(-1)^{n}\frac{1}{n!}
-\end{equation*}
-This would mean that when $n$ is large,
-\begin{equation*}
-  \P\left[N=0 \right]\approx \frac{1}{e} \approx 0.37
-\end{equation*}
+\begin{equation}\label{eq:table-of-observed-values}
+  \begin{tabular}{l|cc}
+    & \textbf{Pass} & \textbf{Fail} \\
+    \hline
+    \textbf{Attended} & 25          & 6            \\
+    \textbf{Skipped}  & 8           & 15           
+  \end{tabular} 
+\end{equation}
+\newpage
+\subsection{Tests of independence}
+\textit{Based on chapters 14.2-14.4}
 
+
+\begin{definition}[Chi-squared statistic]
+  Suppose we repeatedly conduct an experiment with $k$ possible outcomes. The
+  \demph{chi-squared statistic} is defined as
+  \begin{equation}\label{eq:29}
+    \chi^{2}:= \sum_{i=1}^{k} \frac{\left(N_{i}-E_{i}\right)^{2}}{E_{i}},
+  \end{equation}
+  where $E_{i} = (\text{expected \# of times outcome $i$ occurs})$, and
+  $N_{i}= (\text{\# of times outcome $i$ is observed})$.
+\end{definition}
+
+\begin{remark}
+  The right-hand side of \cref{eq:29} has the form
+  \begin{equation*}
+    \sum_{i=1}^{k} \frac{\left( \text{observed}- \text{expected} \right)^{2} }{ \text{expected}} 
+  \end{equation*}
+\end{remark}
+
+\begin{theorem}
+  \label{thm:chi-squared-theorem}
+  If $X=(X_{1},\ldots,X_{k})$ is a multinomial random variable with
+  parameters $p_{1},\ldots,p_{k}$, then 
+  \begin{equation*}
+    \chi^{2} = \sum_{i=1}^{k} \frac{\left(X_{i}-np_{i}\right)^{2}}{np_{i}}.
+  \end{equation*}
+  If $np_{i}\geq 5$ for all $i=1,\ldots,k$. Then $\chi^{2}$ has approximately
+  chi-squared distribution with $k-1$ degrees of freedom.
+\end{theorem}
+
+
+
+\begin{proof}[Proof sketech of \cref{thm:chi-squared-theorem}]
+  Key ingredients:
+  \begin{itemize}
+    \item By the central limit theorem, $\frac{X_{i}-np_{i}}{\sqrt{np_{i}}}$
+    is approximately normal.
+    \item So the chi-squared statistic is approximately a sum of squares of
+    independent standard normal random variables.
+    \item Which gives a chi-squared distribution by
+    \cref{thm:chi-squared-sum-squared-normals}.
+  \end{itemize}
+  The details of the proof rely on linear algebra.
+\end{proof}
+
+
+\begin{definition}
+  A \demph{contingency table} is a matrix of with rows labeled as group 1,
+  group 2, and so forth, and columns labeled as outcome 1, outcome 2, etc. The
+  entries of the matrix are \textit{counts}: the $(i,j)$-th entry is the
+  number of times that group $i$ experience outcome $j$.
+\end{definition}
+\begin{example}[Test of independence]
+
+  For example, suppose we have a population of $n=54$ students, which we divide
+  up according two to factors
+  \begin{enumerate}[(i)]
+    \item whether they attended class regularly or not
+    \item whether they pass the class exam or not
+  \end{enumerate}
+  Then our contingency table is
+
+  \begin{equation}\label{eq:table-of-observed-values}
+    \begin{tabular}{l|cc}
+      & \textbf{Pass} & \textbf{Fail} \\
+      \hline
+      \textbf{Attended} & 25          & 6            \\
+      \textbf{Skipped}  & 8           & 15           
+    \end{tabular} 
+  \end{equation}
+  This is the \demph{table of observed values}. We usually augment the table
+  with ``marginal totals'', like so:
+
+
+  \begin{center}
+    \begin{tabular}{l|cc|c}
+      & \textbf{Pass} & \textbf{Fail} & \textbf{Total} \\
+      \hline
+      \textbf{Attended} & 25 & 6  & 31 \\
+      \textbf{Skipped}  & 8  & 15 & 23 \\
+      \hline
+      \textbf{Total}    & 33 & 21 & 54
+    \end{tabular}
+  \end{center}
+
+
+  The null hypothesis is
+  \begin{equation*}
+    H_{0}= \text{ attendence and passing are independent}
+  \end{equation*}
+  and the alternative hypothesis is
+  \begin{equation*}
+    H_{a} = \text{ there is a relationship between attendence and passing.}
+  \end{equation*}
+
+
+  Let $p$ denote the probability that a student regularly attends class, and let
+  $q$ denote the probability that a student passes the final exam.
+
+  \fl{Important:} We do not know the true value of $p$ and $q$. But we can
+  estimate them using the marginal row and column sums from the table:
+  \begin{equation*}
+    p \approx \frac{31}{54} \quad \text{and} \quad q\approx \frac{33}{54}
+  \end{equation*}
+
+
+  \Fl{Question:} What are the expected values of the table, assuming the null
+  hypothesis is true?
+
+
+  Under the null hypothesis, we can multiply probabilities, e.g., so that the
+  probability that a student both regularly attends class AND passes the exam is
+  about $pq$. Therefore, since there are $n$ students,
+  \begin{align*}
+    &\E\left[\text{\# of students who attend regularly AND pass the exam}\right] \\
+    &= n \P\left[\text{a randomly-selected student attends regularly AND pass the exam} \right]\\
+    &= n \P\left[\text{attends regularly}\right] \P\left[\text{passes the exam} \right]\\
+    &= npq
+  \end{align*}
+
+  Similar calculations gives us the following table of expected counts:
+  \begin{center}
+    \begin{tabular}{l|cc}
+      & \textbf{Pass} & \textbf{Fail} \\
+      \hline
+      \textbf{Attended} & $npq$          & $np(1-q)$            \\
+      \textbf{Skipped}  & $n(1-p)q$           & $n(1-p)(1-q)$            
+    \end{tabular}
+  \end{center}
+  and plugging in the values $n=56$ and our approximations
+  $p\approx \frac{31}{54}$ and $q\approx \frac{33}{54}$ gives
+
+  \begin{equation}\label{eq:table-of-estimated-expected-values}
+    \begin{tabular}{l|cc}
+      & \textbf{Pass} & \textbf{Fail} \\
+      \hline
+      \textbf{Attended} & $18.9$          & $12.1$            \\
+      \textbf{Skipped}  & $14.1$           & $8.9$            
+    \end{tabular}
+  \end{equation}
+  Using the values recorded in Tables \ref{eq:table-of-observed-values} and
+  \ref{eq:table-of-estimated-expected-values}, we can compute the chi-squared
+  statistic:
+  \begin{align*}
+    \chi^{2} 
+    &= \sum_{\text{all table entries}} \frac{\left( \text{observed
+      value} - \text{expected value} \right)^{2} }{ \text{expected value}} \\
+    &= \frac{\left( 25-18.9 \right)^{2} }{20.2}+ \frac{(6-12.1)^{2}}{12.1}+ \frac{\left( 8-14.1 \right)^{2} }{14.1}+ \frac{\left( 15-8.9 \right)^{2} }{8.9}\\
+    &= 11.7
+  \end{align*}
+
+  By \cref{thm:chi-squared-theorem}, we know that $\chi^{2}$ has a chi-squared
+  distribution. When computing a chi-squared test statistic from a contingency
+  table for a test of independence, the degrees of freedom is given by the
+  equation
+  \begin{equation*}
+    \text{df}=(\text{number of rows} -1)\times (\text{number of columns} -1)
+  \end{equation*}
+  which in our case, for a $2\times 2$ table, is just 1.
+
+  Thereore, using \cref{def:chi-squared-distribution}, the p-value is
+  \begin{align*}
+    p \text{-value} 
+    &= \int_{11.7}^{\infty} \frac{1}{\sqrt{2\pi}} x^{-\frac{1}{2}}e^{-x/2}dx\\
+    &=0.0006
+  \end{align*}
+  In other words, if attending and passing were independent, we would see
+  results this extreme only 0.06\% of the time. This is very small, so we reject
+  the null hypothesis. Our conclusion is that attendance and passing the final
+  exam are \textbf{not independent}, i.e., that there is a relationship between
+  them.
+
+  At this point we are tempted to conclude that regularly attending class
+  increases your chance of passing the final exam. This seems obvious and is
+  certainly consistent with the data. But it's not a conclusion that follows
+  from the test that we did. The test only told us that these two things things
+  probably have some relationship; it doesn't give us information about the
+  nature of that relationship.
+\end{example}
 
 
 \newpage
@@ -5272,56 +5467,6 @@ Let's do an example with $k=3$.
 \newpage
 
 \section{2025-04-23 | Week 14 | Lecture 33}
-
-\subsection{Ingredient \#2: The Chi-Squared Distribution}
-
-A special kind of gamma distribution:
-
-\begin{definition}[Chi-Squared Distribution]
-  \label{def:chi-squared-distribution}
-  Let $k$ be a positive integer. A nonnegative random variable $X$ is said to have
-  \demph{chi-squared distribution with parameter $d$} if it has pdf
-  \begin{equation*}
-    f(x) 
-    = \left\{ 
-      \begin{array}{l@{\quad:\quad}l} \frac{1}{2^{d/2}\Gamma(d/2)}x^{\frac{d}{2}-1}e^{-x/2} & x \geq 0\\ 0& x<0\end{array}\right.
-  \end{equation*}
-  In other words, if $X$ is a Gamma distributed random variable with
-  parameters $\alpha=d/2$ and $\beta=2$. The parameter $d$ is usually called
-  the \demph{degrees of freedom} of $X$.
-\end{definition}
-
-From left-to-right, here's what this looks like for $d=2$, $d=4$, and $d=12$:
-\begin{center}
-  \includegraphics[scale=0.15]{images/chi-squared-d2}
-  \includegraphics[scale=0.15]{images/chi-squared-d4}
-  \includegraphics[scale=0.15]{images/chi-squared-d12}
-\end{center}
-
-Using properties of gamma distribution, we have:
-\begin{proposition}
-  A $\chi^{2}$ random variable $X$ with $d$ degrees of freedom has
-  \begin{equation*}
-    \E\left[X \right] = \alpha\beta = d \quad \text{and} \quad \Var(X) = \alpha\beta^{2} = 2d
-  \end{equation*}
-\end{proposition}
-
-The chi-squared distribution plays a central role in statistical inference. It
-is completely determined by its degrees of freedom.
-
-
-
-\begin{theorem}
-  \label{thm:chi-squared-theorem}
-  Suppose $X=(X_{1},\ldots,X_{k})$ is a multinomial random variable with
-  parameters $p_{1},\ldots,p_{k}$. Define a new random variable $\chi^{2}$,
-  called the \demph{chi-squared statistic} by 
-  \begin{equation*}
-    \chi^{2} := \sum_{i=1}^{k} \frac{\left(X_{i}-np_{i}\right)^{2}}{np_{i}}.
-  \end{equation*}
-  Then $\chi^{2}$ has approximately chi-squared distribution with $k-1$ degrees of
-  freedom (as long as  $np_{i}\geq 5$ for all $i=1,\ldots,m$).
-\end{theorem}
 
 \subsection{The goodness-of-fit test}
 
@@ -5834,6 +5979,210 @@ like the ones we did for the skittle distribution.
     what's the probability that it's the fair coin?
   \end{enumerate}
 \end{example}
+
+
+
+
+\section{2025-04-04 | Week 11 | Lecture 28}
+
+\subsection{The method of moments}
+
+
+\begin{example}[Method of Moments]
+  Suppose $X_{1},\ldots,X_{n}$ are the waiting times, in minutes, between
+  customer orders at Raising Cane's at University and King St. Assume that the
+  waiting times are IID exponentially distributed with some unknown rate
+  parameter $\lambda$.
+
+  Suppose the first 10 waiting times are
+  \begin{equation*}
+    0.2, 0.1, 1, 0.7, 0.8, 0.2, 0.5, 0.5, 0.4, 2
+  \end{equation*}
+
+  \textbf{Question:} On average, how many orders would you expect per minute?
+  
+  So the average wait time is
+  \begin{equation*}
+    \frac{0.2+ 0.1+ 1+ 0.7+ 0.8+ 0.2+ 0.5+ 0.5+ 0.4+ 2}{10} = .64 \text{
+      minutes/order}
+  \end{equation*}
+  So a good estimate for the number of orders per minute is
+  \begin{equation*}
+    1/ .64 \approx 1.56 \text{ orders/minute}
+  \end{equation*}
+  We have estimated the rate.
+  
+  
+  
+
+  In other words, the pdf for every $X_{i}$ is
+  \begin{equation*}
+    f(x) = \lambda e^{-\lambda x}, \quad \lambda \geq 0
+  \end{equation*}
+  We have
+  \begin{equation*}
+    \E\left[X_{1} \right] = \int_{0}^{\infty}x f(x) dx = \ldots = \frac{1}{\lambda} 
+  \end{equation*}'
+  We also know by the Law of Large Numbers that
+  \begin{equation*}
+    \overline{X}:=\frac{X_{1}+\ldots+X_{n}}{n} \to \E\left[X_{1} \right] \quad \text{as } n \to \infty
+  \end{equation*}
+  Thus, when $n$ is large, one good way to estimate $\lambda$ would be to set
+  \begin{equation*}
+    \overline{X}= \frac{1}{\lambda}
+  \end{equation*}
+  and then solve for $\lambda$:
+  \begin{equation*}
+    \lambda = \frac{1}{\overline{X}}.
+  \end{equation*}
+  This is precisely what we did. Thus we take as our estimator the function
+  $\widehat{\lambda}  = \frac{1}{\overline{X}}$.
+
+  % Note that this is unbiased
+  % because
+  % \begin{equation*}
+  %   \lambda = \E\left[\frac{1}{\overline{X}} \right] \neq \frac{1}{\E\left[\overline{X} \right]}
+  % \end{equation*}
+  
+  \textit{This example was brought to you by Raising Cane's.} 
+\end{example}
+
+This example illustrates one general method of estimation, called \demph{the
+  method of moments.} In this method, one has an IID random sample
+$X_{1},\ldots,X_{n}$ all having distribution $X$. It is assumed that you know
+the type of the distribution of $X$ (e.g., exponential, normal, binomial,
+whatever) but you don't know one or more numerical parameters $\theta_{1},\ldots\theta_{m}$ (e.g., the mean,
+variance, rates, etc). You then consider one or more of equations of the
+following form:
+\begin{align*}
+  \frac{X_{1}+\ldots+X_{n}}{n}  &= \E\left[X \right]\\
+  \frac{X^{2}_{1}+\ldots+X^{2}_{n}}{n}  &= \E\left[X^{2} \right]\\
+  \frac{X^{3}_{1}+\ldots+X^{3}_{n}}{n}  &= \E\left[X^{3} \right]\\
+                                &\vdots
+\end{align*}
+In these equations, the LHS is what you observed in your data (e.g.,
+$\overline{X}=.64$ orders per minute). The right-hand sides are the moments,
+which are known functions of the parameters $\theta_{1},\ldots,\theta_{m}$.
+You then solve the system of equations for $\theta_{1},\ldots,\theta_{m}$.
+This gives you numerical point estimates for the unknown parameters
+$\theta_{1},\ldots,\theta_{m}$.
+
+\subsection{The Gamma Distribution}
+
+The \demph{gamma function} is
+\begin{equation*}
+  \Gamma(\alpha): = \int_{0}^{\infty}x^{\alpha-1}e^{-x}dx, \quad \alpha>0.
+\end{equation*}
+\fl{Fact:} For any positive integer $n \geq 1$,
+\begin{equation*}
+  \Gamma(n) = (n-1)!
+\end{equation*}
+For any $\alpha>1$,
+\begin{equation*}
+  \Gamma(\alpha) = (\alpha-1)\Gamma(\alpha-1)
+\end{equation*}
+We say that a random variable $X$ has a \demph{gamma distribution with shape
+  parameter $\alpha>0$ and scale parameter $\beta>0$} if  $X$ has pdf
+of $X$ is
+\begin{equation*}
+  f(x) = \left\{ \begin{array}{l@{\quad:\quad}l} \frac{1}{\beta^{\alpha}\Gamma(\alpha)} x^{\alpha-1}e^{-x/\beta} &x \geq 0 \\ 0&x<0 \end{array}\right.
+\end{equation*}
+\fl{Fact:} If $X$ is gamma distributed with shape $\alpha>0$ and scale
+$\beta>0$, then
+\begin{equation*}
+  \E\left[X \right] = \alpha\beta \quad \text{and} \quad \E\left[X_{1}^{2}
+  \right] = \alpha(\alpha+1)\beta^{2} \quad \text{and} \quad  \Var(X) = \alpha\beta^{2}
+\end{equation*}
+This is a very flexible class of distributions, often used in general practice
+for things like
+\begin{itemize}
+  \item amount of degredation or wear
+  \item random rates (e.g. cancer, dna mutation, etc)
+  \item survival and waiting times (e.g. for a given number of events to
+  occur, or how long you survive after being exposed to a high dose of
+  radiation, etc)
+  \item sum of IID exponential waiting times.
+  \item has nice mathematical properties, so it's COMMONLY used in (advanced)
+  Bayesian statistical techniques
+  \item etc
+\end{itemize}
+
+\Fl{Verification that $f$ is a probability density function:} Let $x \geq 0$. THen
+\begin{align*}
+  f(x) = \frac{1}{\beta^{\alpha}\Gamma(\alpha)}x^{\alpha-1}e^{-x/\beta}\geq 0.
+\end{align*}
+We need to show that
+\begin{equation*}
+  \int_{0}^{\infty}f(x) dx = 1
+\end{equation*}
+This can be shown using a u-subsitution. We will do the $u$-subsituttion
+$u=x/\beta$, so that $x=\beta u$ and $dx = \beta du$
+\begin{align*}
+  \int_{0}^{\infty}f(x) dx
+  &= \frac{1}{\beta^{\alpha}\Gamma(\alpha)}\int_{0}^{\infty}x^{\alpha-1}e^{-x/\beta}dx\\ 
+  &= \frac{1}{\beta^{\alpha}\Gamma(\alpha)} \int_{0}^{\infty}(\beta u)^{\alpha-1}e^{-u}\beta du\\ 
+  &= \frac{1}{\beta^{\alpha}\Gamma(\alpha)} \beta^{\alpha-1}\beta\int_{0}^{\infty} u^{\alpha-1}e^{-u} du\\ 
+  &= \frac{1}{\Gamma(\alpha)} \underbrace{\int_{0}^{\infty} u^{\alpha-1}e^{-u} du}_{=\Gamma(\alpha)}\\ 
+  &= 1.
+\end{align*}
+We've shown that $f$ is nonnegative and integrates to 1. Therefore it is a pdf.
+
+\begin{example}
+  Suppose $X_{1},\ldots,X_{n}$ are IID gamma distributed random variables with
+  parameters $\alpha$ and $\beta$ which are unknown to us.
+
+  \fl{Know:}
+
+
+  Can we estimate $\alpha$ and $\beta$ from data?
+  for example, set
+  \begin{equation*}
+    \frac{X_{1}+\ldots+X_{n}}{n} = \E\left[X_{1} \right]
+  \end{equation*}
+  and
+  \begin{equation*}
+    \frac{X^{2}_{1}+\ldots+X^{2}_{n}}{n} = \E\left[X_{1}^{2} \right]
+  \end{equation*}
+  We know that for a gamma-distributed random variable $X$ with parameters
+  $\hat{\alpha}$ and $\hat{\beta}$, we have
+  $\E\left[X \right]=\hat{\alpha}\hat{\beta}$ and $\E\left[X_{1}^{2}
+  \right] = \hat{\alpha}(\hat{\alpha}+1)\hat{\beta}^{2}$. So these equations become
+
+  \begin{equation*}
+    \frac{X_{1}+\ldots+X_{n}}{n} = \hat{\alpha}\hat{\beta} 
+  \end{equation*}
+  and
+  \begin{equation*}
+    \frac{X^{2}_{1}+\ldots+X^{2}_{n}}{n} = \hat{\alpha}(\hat{\alpha}+1)\hat{\beta}^{2}
+  \end{equation*}
+  We now solve for $\hat{\alpha}$ and $\hat{\beta}$. Suppose that we sample
+  data which is such that
+  \begin{equation*}
+    \frac{X_{1}+\ldots+X_{n}}{n} = c
+  \end{equation*}
+  and
+  \begin{equation*}
+    \frac{X_{1}+\ldots+X_{n}}{n} = d
+  \end{equation*}
+  where $c,d$ are numbers. Then
+  \begin{equation*}
+    \hat{\alpha}\hat{\beta}=c
+  \end{equation*}
+  and
+  \begin{equation*}
+    d = (\hat{\alpha}\hat{\beta})^{2}+ (\hat{\alpha}\hat{\beta})\hat{\beta}
+  \end{equation*}
+  so that
+  \begin{equation*}
+    d = c^{2}+c \hat{\beta}
+  \end{equation*}
+  Solving for $\hat{\alpha}$ and $\hat{\beta}$ gives
+  \begin{equation*}
+    \hat{\beta} = \frac{d-c^{2}}{c} \quad \text{and} \quad \hat{\alpha} = \frac{c^{2}}{d-c^{2}}.
+  \end{equation*}
+
+\end{example}
+
 
 
  

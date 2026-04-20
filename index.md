@@ -45,6 +45,8 @@ title: Lecture Notes
  2026-04-08  | [lecture-26](lectures/lecture-notes-by-day/lecture-26.pdf) | (6.1) Point estimation, bias, standard error
  2026-04-13  | [lecture-27](lectures/lecture-notes-by-day/lecture-27.pdf) | (7.1) Confidence intervals
  2026-04-15  | [lecture-28](lectures/lecture-notes-by-day/lecture-28.pdf) | (8.1) The coupon collector problem, hypothesis tests
+ 2026-04-17  | [lecture-29](lectures/lecture-notes-by-day/lecture-29.pdf) | (8.1) Hypothesis testing, decision errors
+ 2026-04-20  | [lecture-30](lectures/lecture-notes-by-day/lecture-30.pdf) | (8.1) Hypothesis testing, decision errors
 
 # Other links
 
