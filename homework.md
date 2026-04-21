@@ -17,5 +17,6 @@ permalink: /homework/
 2026-03-25 | [homework-08](homework/homework-08/homework-08.pdf)     | continuous random variables (normal, exponential, etc)
 2026-03-31 | [homework-09](homework/homework-09/homework-09.pdf)     | joint distributions
 2026-04-20 | [homework-10](homework/homework-10/homework-10.pdf)     | Central limit theorem, confidence intervals, statistics
+2026-04-28 | [homework-11](homework/homework-11/homework-11.pdf)     | Hypothesis testing, central limit theorem, confidence intervals, probability
  
 
