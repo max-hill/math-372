@@ -4926,76 +4926,6 @@ These terms are clarified by an example.
 \end{remark}
 
 
-\newpage
-\section{2026-04-22 | Week 14 | Lecture 31}
-\subsection{z-test for Hypothesis Testing}
-\textit{Based on chapter 8.2}
-
-\begin{example}
-  Let's track the value of a stock. Suppose that every minute, the stock value
-  goes up \$1 or down \$1. Then the change in stock value from the start of
-  the day is
-  \begin{equation*}
-    S_{n} = X_{1}+\ldots+X_{n}
-  \end{equation*}
-  where $X_{1},\ldots,X_{n}$ are IID random variables with
-  \begin{equation*}
-    X_{i} = \left\{ \begin{array}{l@{\quad:\quad}l} +1 & \text{with probability $\theta$}\\ -1& \text{with probability $1-\theta$} \end{array}\right.
-  \end{equation*}
-
-  Suppose we track the value of the stock over the course of $n=400$ minutes,
-  (i.e., about 7 hours). And we observe that the value of the stock is down
-  \$68.
-
-  A standard assumption for modeling stock prices over short periods of time
-  is that the price fluctates randomly, with no tendency to go up or down. Is
-  the observed drop in stock price consistent with this hypothesis? Or,
-  alternatively, is there a reason that the stock is down (the alternative
-  hypothesis)?
-
-  This can be evaluated with the following hypothesis testing problem:
-  \begin{equation*}
-    H_{0}: \theta=1/2
-    \quad \text{versus} \quad
-    H_{a}: \theta< \frac{1}{2}
-  \end{equation*}
-
-  Our test statistic will be based on the statistic $S_{400}$, which is the
-  final change in stock price. If the stock has dropped a lot, then we will
-  reject $H_{0}$.
-
-  We need to compute a $p$-value.
-  \begin{align*}
-    \text{p-value} = \P\left[S_{400}\leq -68\text{ when }\theta=\frac{1}{2}\right]
-  \end{align*}
-  First observe that
-  \begin{equation*}
-    \mu= \E\left[X_{i} \right] = 0 \quad \text{and} \quad \sigma^{2} = \E\left[X_{i}^{2} \right] =1.
-  \end{equation*}
-  By the central limit theorem,
-  \begin{equation*}
-    \frac{S_{n}}{n}\approx \mu + \frac{\sigma}{\sqrt{n}}Z
-  \end{equation*}
-  where $Z$ is a standard normal. Taking $n=400$, $\mu=0$, and $\sigma=1$, we
-  get
-  \begin{equation*}
-    \frac{S_{400}}{400} \approx \frac{1}{20}Z
-  \end{equation*}
-  Therefore
-  \begin{align*}
-    \P\left[S_{400}\leq -68 \text{ when }\theta=\frac{1}{2}\right]
-    &=\P\left[\frac{S_{400}}{400}\leq -\frac{68}{400} \text{ when }\theta=\frac{1}{2}\right]\\
-    &\approx\P\left[\frac{Z}{20}\leq -\frac{68}{400}\right]\\
-    &=\P\left[Z\leq -\frac{68}{20}\right]\\
-    &=\P\left[Z\leq -3.4\right]\\
-    &=\int_{-\infty}^{-3.4}\frac{1}{\sqrt{2\pi}}e^{-y^{2}/2}dy\\
-    &\approx 0.0003.
-  \end{align*}
-  In this case, observing such a precipitous drop is very unlikely under the
-  assumption of the null hypothesis. So we might reasonably reject the null
-  hypothesis. It is much more likely that something caused the price drop.
-\end{example}
-
 
 % Therefore
 % \begin{align*}
@@ -5039,25 +4969,43 @@ These terms are clarified by an example.
 
 \newpage
 
-\subsection{The Chi-Squared Distribution}
 
-A special kind of gamma distribution:
+\section{2026-04-22 | Week 14 | Lecture 31}
+\subsection{Tests of independence}
+\textit{Based on chapters 14.2-14.4}
+
+Suppose we want to know if two things $A$ and $B$ are related to each other,
+or whether they are independent. For example, whether or not a person vapes
+(A) and whether they get coronary artery disease (B).
+
+Or: whether a student attends class regularly (A) and whether they pass the
+class (B).
+
+\Fl{Question:} How can we test this (using the hypothesis testing framework)?
+
+\Fl{Answer:} We can utilize what are called ``tests of independence'', which
+we'll present in this lecture. For such tests, we require two main ingredients.
+
+\subsubsection{Ingedient 1: The chi-squared distribution}
+
 
 \begin{definition}[Chi-Squared Distribution]
   \label{def:chi-squared-distribution}
-  Let $k$ be a positive integer. A nonnegative random variable $X$ is said to have
-  \demph{chi-squared distribution with parameter $d$} if it has pdf
+  Let $k$ be a positive integer. A nonnegative random variable $X$ is said to
+  have \demph{chi-squared distribution} with $d$ \demph{degrees of freedom} if
+  it has pdf
   \begin{equation*}
     f(x) 
     = \left\{ 
       \begin{array}{l@{\quad:\quad}l} \frac{1}{2^{d/2}\Gamma(d/2)}x^{\frac{d}{2}-1}e^{-x/2} & x \geq 0\\ 0& x<0\end{array}\right.
-  \end{equation*}
-  In other words, if $X$ is a Gamma distributed random variable with
-  parameters $\alpha=d/2$ and $\beta=2$. The parameter $d$ is usually called
-  the \demph{degrees of freedom} of $X$.
+  \end{equation*}.
 \end{definition}
 
-From left-to-right, here's what this looks like for $d=2$, $d=4$, and $d=12$:
+Here, $\Gamma(x)= \int_{0}^{\infty}t^{x-1}e^{-t}dx$. Note $\Gamma(k)=(k-1)!$
+if $k$ is a positive integer.
+
+From left-to-right, here's what $f(x)$ looks like for $d=2$, $d=4$, and
+$d=12$:
 \begin{center}
   \includegraphics[scale=0.15]{images/chi-squared-d2}
   \includegraphics[scale=0.15]{images/chi-squared-d4}
@@ -5075,33 +5023,12 @@ The chi-squared distribution plays a central role in statistical inference. It
 is completely determined by its degrees of freedom.
 
 
+\subsubsection{Ingedient 2: The chi-squared statistic}
 
-\begin{theorem}
-  \label{thm:chi-squared-theorem}
-  Suppose $X=(X_{1},\ldots,X_{k})$ is a multinomial random variable with
-  parameters $p_{1},\ldots,p_{k}$. Define a new random variable $\chi^{2}$,
-  called the \demph{chi-squared statistic} by 
-  \begin{equation*}
-    \chi^{2} := \sum_{i=1}^{k} \frac{\left(X_{i}-np_{i}\right)^{2}}{np_{i}}.
-  \end{equation*}
-  Then $\chi^{2}$ has approximately chi-squared distribution with $k-1$ degrees of
-  freedom (as long as  $np_{i}\geq 5$ for all $i=1,\ldots,m$).
-\end{theorem}
-
-\begin{equation}\label{eq:table-of-observed-values}
-  \begin{tabular}{l|cc}
-    & \textbf{Pass} & \textbf{Fail} \\
-    \hline
-    \textbf{Attended} & 25          & 6            \\
-    \textbf{Skipped}  & 8           & 15           
-  \end{tabular} 
-\end{equation}
-\newpage
-\subsection{Tests of independence}
-\textit{Based on chapters 14.2-14.4}
 
 
 \begin{definition}[Chi-squared statistic]
+  
   Suppose we repeatedly conduct an experiment with $k$ possible outcomes. The
   \demph{chi-squared statistic} is defined as
   \begin{equation}\label{eq:29}
@@ -5118,41 +5045,55 @@ is completely determined by its degrees of freedom.
   \end{equation*}
 \end{remark}
 
-\begin{theorem}
-  \label{thm:chi-squared-theorem}
-  If $X=(X_{1},\ldots,X_{k})$ is a multinomial random variable with
-  parameters $p_{1},\ldots,p_{k}$, then 
-  \begin{equation*}
-    \chi^{2} = \sum_{i=1}^{k} \frac{\left(X_{i}-np_{i}\right)^{2}}{np_{i}}.
-  \end{equation*}
-  If $np_{i}\geq 5$ for all $i=1,\ldots,k$. Then $\chi^{2}$ has approximately
-  chi-squared distribution with $k-1$ degrees of freedom.
-\end{theorem}
+
+
+\begin{remark}
+  \label{rem:chi-squared-theorem}
+  Under general conditions, the chi-squared statistic $\chi^{2}$ has approximately a
+  chi-squared distribution with degrees of freedom determined by the setting.
+  % the 
+  % \begin{equation*}
+  %   \chi^{2} := \sum_{i=1}^{k} \frac{\left(X_{i}-np_{i}\right)^{2}}{np_{i}}.
+  % \end{equation*}
+  % Then $\chi^{2}$ has approximately chi-squared distribution with $k-1$ degrees of
+  % freedom (as long as  $np_{i}\geq 5$ for all $i=1,\ldots,m$).
+\end{remark}
+
+% \begin{theorem}
+%   \label{rem:chi-squared-theorem}
+%   If $X=(X_{1},\ldots,X_{k})$ is a multinomial random variable with
+%   parameters $p_{1},\ldots,p_{k}$, then 
+%   \begin{equation*}
+%     \chi^{2} = \sum_{i=1}^{k} \frac{\left(X_{i}-np_{i}\right)^{2}}{np_{i}}.
+%   \end{equation*}
+%   If $np_{i}\geq 5$ for all $i=1,\ldots,k$. Then $\chi^{2}$ has approximately
+%   chi-squared distribution with $k-1$ degrees of freedom.
+% \end{theorem}
 
 
 
-\begin{proof}[Proof sketech of \cref{thm:chi-squared-theorem}]
-  Key ingredients:
-  \begin{itemize}
-    \item By the central limit theorem, $\frac{X_{i}-np_{i}}{\sqrt{np_{i}}}$
-    is approximately normal.
-    \item So the chi-squared statistic is approximately a sum of squares of
-    independent standard normal random variables.
-    \item Which gives a chi-squared distribution by
-    \cref{thm:chi-squared-sum-squared-normals}.
-  \end{itemize}
-  The details of the proof rely on linear algebra.
-\end{proof}
+% \begin{proof}[Proof sketch of \cref{rem:chi-squared-theorem}]
+%   Key ingredients:
+%   \begin{itemize}
+%     \item By the central limit theorem, $\frac{X_{i}-np_{i}}{\sqrt{np_{i}}}$
+%     is approximately normal.
+%     \item So the chi-squared statistic is approximately a sum of squares of
+%     independent standard normal random variables.
+%     \item Which gives a chi-squared distribution by
+%     \cref{thm:chi-squared-sum-squared-normals}.
+%   \end{itemize}
+%   The details of the proof rely on linear algebra.
+% \end{proof}
 
-
+\subsubsection{Example of a test of independence}
 \begin{definition}
   A \demph{contingency table} is a matrix of with rows labeled as group 1,
   group 2, and so forth, and columns labeled as outcome 1, outcome 2, etc. The
   entries of the matrix are \textit{counts}: the $(i,j)$-th entry is the
   number of times that group $i$ experience outcome $j$.
 \end{definition}
-\begin{example}[Test of independence]
 
+\begin{example}[Test of independence]
   For example, suppose we have a population of $n=54$ students, which we divide
   up according two to factors
   \begin{enumerate}[(i)]
@@ -5172,6 +5113,84 @@ is completely determined by its degrees of freedom.
   This is the \demph{table of observed values}. We usually augment the table
   with ``marginal totals'', like so:
 
+
+  \begin{center}
+    \begin{tabular}{l|cc|c}
+      & \textbf{Pass} & \textbf{Fail} & \textbf{Total} \\
+      \hline
+      \textbf{Attended} & 25 & 6  & 31 \\
+      \textbf{Skipped}  & 8  & 15 & 23 \\
+      \hline
+      \textbf{Total}    & 33 & 21 & 54
+    \end{tabular}
+  \end{center}
+
+
+  The null hypothesis is
+  \begin{equation*}
+    H_{0}= \text{ attendence and passing are independent}
+  \end{equation*}
+  and the alternative hypothesis is
+  \begin{equation*}
+    H_{a} = \text{ there is a relationship between attendence and passing.}
+  \end{equation*}
+
+
+  Let $p$ denote the probability that a student regularly attends class, and let
+  $q$ denote the probability that a student passes the final exam.
+
+  \fl{Important:} We do not know the true value of $p$ and $q$. But we can
+  estimate them using the marginal row and column sums from the table:
+  \begin{equation*}
+    p \approx \frac{31}{54} \quad \text{and} \quad q\approx \frac{33}{54}
+  \end{equation*}
+
+
+  \Fl{Question:} What are the expected values of the table, assuming the null
+  hypothesis is true?
+
+  If attendence and passing are indpendent, then
+  \begin{equation*}
+    \E\left[\# \text{ of students who attend regularly AND pass} \right] = npq = (54)\left( \frac{31}{54} \right) \left( \frac{33}{54} \right)= 18.9
+  \end{equation*}
+
+  This is what we expect if the null hypothesis is true. Compare this with the
+  actual observed value, which was $25$. The idea of the test, which we will
+  finish in the next lecture, is the following:
+  \begin{center}
+    \textbf{If the observed values deviate a lot from what we'd expect under
+    $H_{0}$, we should reject $H_{0}$.}
+  \end{center}
+  Quantifying this will require computing a chi-squared statistic, which we'll
+  do in the next lecture.
+\end{example}
+
+
+\newpage
+\section{2025-04-21 | Week 14 | Lecture 32}
+\textit{Chapter 14.1 through 14.3}
+
+We will finish the example of a test of independence from last time.
+
+\begin{example}[Test of independence]
+  For example, suppose we have a population of $n=54$ students, which we divide
+  up according two to factors
+  \begin{enumerate}[(i)]
+    \item whether they attended class regularly or not
+    \item whether they pass the class exam or not
+  \end{enumerate}
+  Then our contingency table is
+
+  \begin{equation}\label{eq:table-of-observed-values}
+    \begin{tabular}{l|cc}
+      & \textbf{Pass} & \textbf{Fail} \\
+      \hline
+      \textbf{Attended} & 25          & 6            \\
+      \textbf{Skipped}  & 8           & 15           
+    \end{tabular} 
+  \end{equation}
+  This is the \demph{table of observed values}. We usually augment the table
+  with ``marginal totals'', like so:
 
   \begin{center}
     \begin{tabular}{l|cc|c}
@@ -5228,7 +5247,7 @@ is completely determined by its degrees of freedom.
       \textbf{Skipped}  & $n(1-p)q$           & $n(1-p)(1-q)$            
     \end{tabular}
   \end{center}
-  and plugging in the values $n=56$ and our approximations
+  and plugging in the values $n=54$ and our approximations
   $p\approx \frac{31}{54}$ and $q\approx \frac{33}{54}$ gives
 
   \begin{equation}\label{eq:table-of-estimated-expected-values}
@@ -5239,6 +5258,10 @@ is completely determined by its degrees of freedom.
       \textbf{Skipped}  & $14.1$           & $8.9$            
     \end{tabular}
   \end{equation}
+  \textbf{Interpretation:} These are the values we would expect if $H_{0}$
+  were true. If the observed values deviate too much from these values, that's
+  evidence against the null hypothesis.
+  
   Using the values recorded in Tables \ref{eq:table-of-observed-values} and
   \ref{eq:table-of-estimated-expected-values}, we can compute the chi-squared
   statistic:
@@ -5246,11 +5269,11 @@ is completely determined by its degrees of freedom.
     \chi^{2} 
     &= \sum_{\text{all table entries}} \frac{\left( \text{observed
       value} - \text{expected value} \right)^{2} }{ \text{expected value}} \\
-    &= \frac{\left( 25-18.9 \right)^{2} }{20.2}+ \frac{(6-12.1)^{2}}{12.1}+ \frac{\left( 8-14.1 \right)^{2} }{14.1}+ \frac{\left( 15-8.9 \right)^{2} }{8.9}\\
-    &= 11.7
+    &= \frac{\left( 25-18.9 \right)^{2} }{18.9}+ \frac{(6-12.1)^{2}}{12.1}+ \frac{\left( 8-14.1 \right)^{2} }{14.1}+ \frac{\left( 15-8.9 \right)^{2} }{8.9}\\
+    &= 11.9
   \end{align*}
 
-  By \cref{thm:chi-squared-theorem}, we know that $\chi^{2}$ has a chi-squared
+  By \cref{rem:chi-squared-theorem}, we know that $\chi^{2}$ has a chi-squared
   distribution. When computing a chi-squared test statistic from a contingency
   table for a test of independence, the degrees of freedom is given by the
   equation
@@ -5261,8 +5284,9 @@ is completely determined by its degrees of freedom.
 
   Thereore, using \cref{def:chi-squared-distribution}, the p-value is
   \begin{align*}
-    p \text{-value} 
-    &= \int_{11.7}^{\infty} \frac{1}{\sqrt{2\pi}} x^{-\frac{1}{2}}e^{-x/2}dx\\
+    p \text{-value}
+    &= \P\left[\chi^{2}\geq 11.9\right]\\
+    &= \int_{11.9}^{\infty} \frac{1}{\sqrt{2\pi}} x^{-\frac{1}{2}}e^{-x/2}dx\\
     &=0.0006
   \end{align*}
   In other words, if attending and passing were independent, we would see
@@ -5280,11 +5304,7 @@ is completely determined by its degrees of freedom.
 \end{example}
 
 
-\newpage
-\section{2025-04-21 | Week 14 | Lecture 32}
-\textit{Chapter 14.1 through 14.3}
-
-\subsection{Tests of Association}
+\subsection{Interpreting tests of independence}
 
 Suppose we want to know if two things $A$ and $B$ are related to each other.
 We will discuss only the case where $A$ and $B$ are discrete, categorical
@@ -5293,7 +5313,7 @@ events. For example
   A  = \left[ \text{a person vapes} \right] 
 \end{equation*}
 \begin{equation*}
-  B = \left[ \text{person gets coronary artery disease} \right] 
+  B = \left[ \text{person gets coronary artery disease (CAD)} \right] 
 \end{equation*}
 There are many possible relationships:
 
@@ -5306,10 +5326,10 @@ There are many possible relationships:
       {\(B\)}; \draw (A) -- (B);
     \end{tikzpicture}
   \end{center}
-  \item \textbf{Common Response:} Perhaps the effect of vaping on your ateries
-  is perfectly benign, but there is some other variable $C$ that causes both
-  to occur simultaneously:
-  
+  \item \textbf{Common Response:} Perhaps the effect of vaping on your
+  arteries is perfectly benign (no causal relationship), but CAD and vaping
+  are still positively associated due to the effect of some third variable $C$
+  that causes both to occur simultaneously:
   \begin{center}
     \begin{tikzpicture}[->, node distance=1cm and 1cm, thick]
       \node[circle, draw] (C) {\(C\)}; \node[circle, draw, below left=of C]
@@ -5317,21 +5337,21 @@ There are many possible relationships:
       (C) -- (A); \draw (C) -- (B);
     \end{tikzpicture}
   \end{center}
-  For example we might have $C=\left[ \text{person smokes cigarettes}
-  \right]$. Maybe vapers are disproportionately likely to be cigarette
-  smokers, and it's this subset of vapers that drives the association between
-  vaping and arterial disease. If this is true, then  quitting vaping woudn't
-  decrease your chance of arterial disease.
+  For example we might have
+  $C=\left[ \text{person smokes cigarettes} \right]$. Maybe vapers are
+  disproportionately likly to have smoked cigarettes, and perhaps and it's
+  this subset of vapers that drives the association between vaping and CAD, as
+  cigarette smoking is well-established to cause CAD. If this is true, then
+  quitting vaping woudn't decrease your chance of CAD.
 
-
-  \item \textbf{Confounding:} A third variable jointly influences or causes
-  both $A$ and $B$. For example, maybe vapers have lower rates of coronary
-  artery disease than the general population -- that doesn't mean vaping
-  necessarily have a protective effect. For example, maybe the vapers are on
-  average younger than the population, and CAD is something that typically
-  hapens to old people. In that case, we might observe a spurious relationship
-  between $A$ and $B$ due to the effects of some other third variable, 
-  $C= \left[ \text{youth} \right]$:
+  \item \textbf{Confounding:} (A third variable jointly influences or causes
+  both $A$ and $B$). For example, suppose it were observed that vapers has
+  have \textbf{lower} rates of coronary artery disease than the general
+  population --- that doesn't mean vaping necessarily have a protective
+  effect. For example, maybe the vapers are on average younger than the
+  population (CAD usually develops in older people). In that case, we might
+  observe a spurious relationship between $A$ and $B$ due to the effects of
+  some other third variable, $C= \left[ \text{youth} \right]$:
   \begin{center}
     \begin{tikzpicture}[->, node distance=1cm and 1cm, thick]
       \node[circle, draw] (C) {\(C\)}; \node[circle, draw, below left=of C]
@@ -5340,22 +5360,25 @@ There are many possible relationships:
       (B); % spurious association
     \end{tikzpicture}
   \end{center}
+  It could nonetheless be the case that vaping increases your risk of CAD
+  through some biological mechanism (the red dotted line), and due to the
+  effect of age, vapers might \textit{still} have lower incidence of CAD than
+  the general population.
+
+  In order to rule this out, we'd need to \textit{control} for the effect of
+  age, perhaps by conducting a study on people from the same age group.
 \end{itemize}
 
-What we can say, however, is that if $A$ and $B$ do not have any relationship,
-then they are probabilistically independent. In what follows, we will describe
-how the hypothesis testing framework can be used to test whether two things
-$A$ and $B$ are independent.
+What we \textit{can} say, however, is that if $A$ and $B$ do not have any
+relationship (causal or otherwise), then they are probabilistically
+independent. This is what tests of independence do. They ask the question
+\textbf{``Are $A$ and $B$ independent?''} The answer to such tests is always
+either ``no'' or ``maybe''. They don't give us much more information than
+that.
 
 
-This is what tests of association do. They ask the question \textbf{``Are $A$ and $B$
-  independent?''} The answer to such tests is always either ``no'' or
-``maybe''. They don't give us more information than that.
-
-
-
-We need some theory to describe how to do this.
-
+\newpage
+\section{2026-04-27 | Week 15 | Lecture 32}
 \subsection{Ingredient \#1: The Multinomial Distribution}
 Recall that to construct a \textit{binomial} random variable, you flip coins
 $n$ times, and count the number of heads. The coin flip only has two outimes.
@@ -5513,7 +5536,7 @@ reject the null hypothesis if $\chi^{2}$ is small.
 of observing results at least as extreme as you observed, assuming the null
 hypothesis is true.
 
-By \cref{thm:chi-squared-theorem}, we know that the statistic has a
+By \cref{rem:chi-squared-theorem}, we know that the statistic has a
 chi-squared distribution with 2 degrees of freedom.
 
 Therefore our $p$-value is
@@ -5655,7 +5678,7 @@ compute a chi-squared statistic:
   &= 11.7
 \end{align*}
 
-By \cref{thm:chi-squared-theorem}, we know that $\chi^{2}$ has a chi-squared
+By \cref{rem:chi-squared-theorem}, we know that $\chi^{2}$ has a chi-squared
 distribution. The degrees of freedom thing isn't so clear from that theorem,
 but when working with a contingency table, the degrees of freedom is given by the equation
 \begin{equation*}
@@ -5692,6 +5715,78 @@ regression. Handwritten notes.
 
 Topic: the simple linear regression model with mean-zero gaussian errors.
 Handwritten notes.
+
+
+
+\newpage
+\section{2026-04-22 | Week 14 | Lecture 31}
+\subsection{z-test for Hypothesis Testing}
+\textit{Based on chapter 8.2}
+
+\begin{example}
+  Let's track the value of a stock. Suppose that every minute, the stock value
+  goes up \$1 or down \$1. Then the change in stock value from the start of
+  the day is
+  \begin{equation*}
+    S_{n} = X_{1}+\ldots+X_{n}
+  \end{equation*}
+  where $X_{1},\ldots,X_{n}$ are IID random variables with
+  \begin{equation*}
+    X_{i} = \left\{ \begin{array}{l@{\quad:\quad}l} +1 & \text{with probability $\theta$}\\ -1& \text{with probability $1-\theta$} \end{array}\right.
+  \end{equation*}
+
+  Suppose we track the value of the stock over the course of $n=400$ minutes,
+  (i.e., about 7 hours). And we observe that the value of the stock is down
+  \$68.
+
+  A standard assumption for modeling stock prices over short periods of time
+  is that the price fluctates randomly, with no tendency to go up or down. Is
+  the observed drop in stock price consistent with this hypothesis? Or,
+  alternatively, is there a reason that the stock is down (the alternative
+  hypothesis)?
+
+  This can be evaluated with the following hypothesis testing problem:
+  \begin{equation*}
+    H_{0}: \theta=1/2
+    \quad \text{versus} \quad
+    H_{a}: \theta< \frac{1}{2}
+  \end{equation*}
+
+  Our test statistic will be based on the statistic $S_{400}$, which is the
+  final change in stock price. If the stock has dropped a lot, then we will
+  reject $H_{0}$.
+
+  We need to compute a $p$-value.
+  \begin{align*}
+    \text{p-value} = \P\left[S_{400}\leq -68\text{ when }\theta=\frac{1}{2}\right]
+  \end{align*}
+  First observe that
+  \begin{equation*}
+    \mu= \E\left[X_{i} \right] = 0 \quad \text{and} \quad \sigma^{2} = \E\left[X_{i}^{2} \right] - \left( \E\left[X_{i} \right] \right)^{2} =1.
+  \end{equation*}
+  By the central limit theorem,
+  \begin{equation*}
+    \frac{S_{n}}{n}\approx \mu + \frac{\sigma}{\sqrt{n}}Z
+  \end{equation*}
+  where $Z$ is a standard normal. Taking $n=400$, $\mu=0$, and $\sigma=1$, we
+  get
+  \begin{equation*}
+    \frac{S_{400}}{400} \approx \frac{1}{20}Z
+  \end{equation*}
+  Therefore
+  \begin{align*}
+    \P\left[S_{400}\leq -68 \text{ when }\theta=\frac{1}{2}\right]
+    &=\P\left[\frac{S_{400}}{400}\leq -\frac{68}{400} \text{ when }\theta=\frac{1}{2}\right]\\
+    &\approx\P\left[\frac{Z}{20}\leq -\frac{68}{400}\right]\\
+    &=\P\left[Z\leq -\frac{68}{20}\right]\\
+    &=\P\left[Z\leq -3.4\right]\\
+    &=\int_{-\infty}^{-3.4}\frac{1}{\sqrt{2\pi}}e^{-y^{2}/2}dy\\
+    &\approx 0.0003.
+  \end{align*}
+  In this case, observing such a precipitous drop is very unlikely under the
+  assumption of the null hypothesis. So we might reasonably reject the null
+  hypothesis. It is much more likely that something caused the price drop.
+\end{example}
 
 \newpage
 \section{2025-05-05 |  Week 16 | Lecture 37}

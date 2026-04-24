@@ -47,6 +47,8 @@ title: Lecture Notes
  2026-04-15  | [lecture-28](lectures/lecture-notes-by-day/lecture-28.pdf) | (8.1) The coupon collector problem, hypothesis tests
  2026-04-17  | [lecture-29](lectures/lecture-notes-by-day/lecture-29.pdf) | (8.1) Hypothesis testing, decision errors
  2026-04-20  | [lecture-30](lectures/lecture-notes-by-day/lecture-30.pdf) | (8.1) Hypothesis testing, decision errors
+ 2026-04-22  | [lecture-31](lectures/lecture-notes-by-day/lecture-31.pdf) | (14.1-14.4) Chi-squared distribution, chi-squared random variable, tests of independence
+ 2026-04-24  | [lecture-32](lectures/lecture-notes-by-day/lecture-32.pdf) | (14.1-14.4) Tests of independence, inferring causality
 
 # Other links
 
