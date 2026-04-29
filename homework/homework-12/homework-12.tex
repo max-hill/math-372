@@ -1,0 +1,282 @@
+\documentclass[10pt]{article}
+% Math Packages
+\usepackage{amsmath, mathtools}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{bbm}
+\usepackage{breqn}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{calc}
+\usepackage{forest}
+\usepackage{tikz-qtree}
+\graphicspath{ {./images/} }
+\usepackage{hyperref}
+\usepackage[capitalize]{cleveref}
+\usepackage[shortlabels]{enumitem}
+\usetikzlibrary{arrows,matrix,positioning}
+\usepackage{multicol}
+
+% for the pipe symbol
+\usepackage[T1]{fontenc}
+
+% Citing theorems by name. (source: https://tex.stackexchange.com/questions/109843/cleveref-and-named-theorems)
+\makeatletter
+\newcommand{\ncref}[1]{\cref{#1}\mynameref{#1}{\csname r@#1\endcsname}}
+
+\def\mynameref#1#2{%
+  \begingroup
+  \edef\@mytxt{#2}%
+  \edef\@mytst{\expandafter\@thirdoffive\@mytxt}%
+  \ifx\@mytst\empty\else
+  \space(\nameref{#1})\fi
+  \endgroup
+}
+\makeatother
+
+% Colorful Notes
+\usepackage{color} \definecolor{Red}{rgb}{1,0,0} \definecolor{Blue}{rgb}{0,0,1}
+\definecolor{Purple}{rgb}{.5,0,.5} \def\red{\color{Red}} \def\blue{\color{Blue}}
+\def\gray{\color{gray}} \def\purple{\color{Purple}}
+\newcommand{\rnote}[1]{{\red [#1]}} % \rnote{foo} gives '[foo]' in red
+\newcommand{\pnote}[1]{{\purple [#1]}} % \pnote{foo} gives '[foo]' in purple
+\newcommand{\bnote}[1]{{\blue #1}} % \bnote{foo} gives 'foo' in blue
+\newcommand{\gnote}[1]{{\gray #1}} % \gnote{foo} gives 'foo' in gray
+\newcommand{\Max}[1]{{\purple [#1]}} % \bnote{foo} then 'foo' is blue
+
+
+% Claim numbering (the counter restarts after each proof environment)
+\newcounter{claimcount}
+\setcounter{claimcount}{0}
+\newenvironment{claim}{\refstepcounter{claimcount}\par\addvspace{\medskipamount}\noindent\textbf{Claim \arabic{claimcount}:}}{}
+\usepackage{etoolbox}
+\AtBeginEnvironment{proof}{\setcounter{claimcount}{0}}
+\newenvironment{claimproof}{\par\addvspace{\medskipamount}\noindent\textit{Proof of Claim  \arabic{claimcount}.}}{\hfill\ensuremath{\qedsymbol} \tiny{Claim}
+
+  \medskip}
+% Add claim support to cleverref
+\crefname{claimcount}{Claim}{Claims}
+
+
+% Math Environments
+\newtheorem{theorem}{Theorem}
+\newtheorem{assumption}[theorem]{Assumption}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{question}[theorem]{Question}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{notation}[theorem]{Notation}
+\newtheorem{problem}[theorem]{Problem}
+
+% Matrices and Column Vectors. 
+\usepackage{stackengine}
+\setstackgap{L}{1.0\normalbaselineskip}
+\usepackage{tabstackengine}
+\setstackEOL{;}% row separator
+\setstackTAB{,}% column separator
+\setstacktabbedgap{1ex}% inter-column gap
+\setstackgap{L}{1.5\normalbaselineskip}% inter-row baselineskip
+\let\nmatrix\bracketMatrixstack  %Usage: \nmatrix{1,2,3\4,5,6}
+\newcommand\cv[1]{\setstackEOL{,}\bracketMatrixstack{#1}} %usage: \cv{1,2,3}
+
+% Custom Math Coqmmands
+\newcommand{\vt}{\vskip 5mm} % vertical space
+\newcommand{\fl}{\noindent\textbf} % first line
+\newcommand{\Fl}{\vt\noindent\textbf} % first line with space above
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert} % norm
+\newcommand{\pnorm}[1]{\left\lVert#1\right\rVert_p} % p-norm
+\newcommand{\qnorm}[1]{\left\lVert#1\right\rVert_q} % q-norm
+\newcommand{\1}[1]{\textbf{1}_{\left[#1\right]}} % indicator function 
+\def\limn{\lim_{n\to\infty}} % shortcut for lim as n-> infinity
+\def\sumn{\sum_{n=1}^{\infty}} % shortcut for sum from n=1 to infinity
+\def\sumkn{\sum_{k=1}^{n}} % shortcut for sum from k=1 to n
+\def\sumin{\sum_{i=1}^{n}} % shortcut for sum from i=1 to n
+\def\SAs{\sigma\text{-algebras}} % shortcut for $\sigma$-algebras
+\def\SA{\sigma\text{-algebra}} % shortcut for $\sigma$-algebra
+\def\Ft{\mathcal{F}_t} % time-indexed sigma-algebra (t)
+\def\Fs{\mathcal{F}_s} % time-indexed sigma-algebra (s)
+\def\F{\mathcal{F}} % sigma-algebra
+\def\G{\mathcal{G}} % sigma-algebra
+\def\R{\mathbb{R}} % Real numbers
+\def\N{\mathbb{N}} % Natural numbers
+\def\Z{\mathbb{Z}} % Integers
+\def\E{\mathbb{E}} % Expectation
+\def\P{\mathbb{P}} % Probability
+\def\Q{\mathbb{Q}} % Q probability
+\def\dist{\text{dist}} %Text 'dist' for things like 'dist(x,y)'
+\newcommand{\indep}{\perp \!\!\! \perp}  %independence symbol
+\def\Var{\mathrm{Var}} % Variance
+\def\tr{\mathrm{tr}} % trace
+
+% Brackets and Parentheses
+\def\[{\left [}
+    \def\]{\right ]}
+% \def\({\left (}
+%   \def\){\right )}
+
+
+
+\usepackage{color}
+\definecolor{Red}{rgb}{1,0,0}
+\definecolor{Blue}{rgb}{0,0,1}
+\definecolor{Purple}{rgb}{.5,0,.5}
+\def\red{\color{Red}}
+\def\blue{\color{Blue}}
+\def\gray{\color{gray}}
+\def\purple{\color{Purple}}
+\definecolor{RoyalBlue}{cmyk}{1, 0.50, 0, 0}
+\newcommand{\dempfcolor}[1]{{\color{RoyalBlue}#1}} 
+\newcommand{\demph}[1]{\dempfcolor{{\sl #1}}}
+
+% comment exactly one of the following line to show / hide the solutions
+% \newcommand{\solution}[1]{{\purple #1}} % uncomment to show the solutions
+\newcommand{\solution}[1]{} % uncomment to hide the solutions
+
+
+
+\title{Lecture Notes for Math 372: \\Elementary Probability and Statistics}
+\date{Last updated: \today}
+% \author{mh}
+
+\begin{document}
+\begin{center}
+  \section*{Math 372: Homework 12}
+  \textit{Due Wednesday, May 6}
+\end{center}
+
+\textit{Instructions: Do not write your solutions on this sheet---you don't have enough space to show
+your work. So use separate sheets of paper. For all problems you need to show your work.}
+
+
+
+
+\begin{problem}%[best-fit line]
+  Consider the following three data points, of the form $(x,y)$:
+  \begin{equation*}
+    (-1,4), \quad (0,5), \quad \text{and} \quad (1,9)
+  \end{equation*}
+  \begin{enumerate}[(a)]
+    \item Plot the data points on the $xy$-plane
+    \item Suppose we have a line $y=C+Dx$. Let
+    $\vec{e}= (e_{1},e_{2},e_{3})$ be the vector
+    whose entries are the vertical distances from the data points to the line.
+    Write out $\vec{e}$.
+    \item Find the values of $C$ and $D$ which minimize the length of
+    $\norm{\vec{e}}^{2}=e_{1}^{2}+e_{2}^{2}+e_{3}^{2}$.
+    \item Sketch the line $y=C+Dx$ using your values of $C$ and $D$.
+  \end{enumerate}
+\end{problem}
+
+
+\begin{problem}[Salk Polio Field Trial (1954)]
+  \label{ex:salk-polio-field-trial-1954}
+  The results of a 1954 polio vaccine trial in $n=401,974$ elementary school
+  students gave the following results:
+  \begin{equation}\label{eq:table-of-observed-values}
+    \begin{tabular}{l|cc}
+      & \textbf{No Polio} & \textbf{Polio} \\
+      \hline
+      \textbf{Vaccinated} & 200,712          & 33            \\
+      \textbf{Unvaccinated}  & 201,114           & 115           
+    \end{tabular} 
+  \end{equation}
+  We wish to know if there is a relationship between vaccination status and
+  the incidience of paralytic polio. The null hypothesis is:
+  \begin{equation*}
+    H_{0}= \text{vaccination and polio are independent}
+  \end{equation*}
+  and the alternative hypothesis is
+  \begin{equation*}
+    H_{a} = \text{ there is a relationship between vaccination and polio.}
+  \end{equation*}
+  Conduct a hypothesis test using the chi-squared statistic to test these
+  hypotheses.
+\end{problem}
+
+% \begin{problem}
+%   The time in hours $T$ between streptococcal infection and display of a sore throat is a
+%   random variable whose probabililty density function is approximately
+%   \begin{equation*}
+%     f(t) 
+%     = \left\{ 
+%       \begin{array}{l@{\quad:\quad}l} \frac{1}{15676} t^{2} e^{-0.05 t},  &0 \leq t \leq 150\\ 0& \text{else} \end{array}\right.
+%   \end{equation*}
+%   \begin{enumerate}[(a)]
+%     \item What is the probability that an infected patient will display
+%     symptoms within the first 48 hours?
+%     \item What is the probability that an infected patient will not display
+%     symptoms until after 36 hours?
+%   \end{enumerate}
+% \end{problem}
+
+
+\begin{problem}
+  Let $S_{200}$ be the number of heads that turn up in 200 tosses of a fair
+  coin. Estimate
+  \begin{equation*}
+    \P\left[S_{200}=100 \right], \P\left[S_{200}=90 \right], \text{ and } \P\left[S_{200}=80 \right].
+  \end{equation*}
+\end{problem}
+
+
+
+\begin{problem}
+  Find the probability that among $10,000$ random digits the digit 3 appears
+  not more than 931 times.
+\end{problem}
+
+
+\begin{problem}
+  A random walker starts at 0 on the x-axis and at each time unit moves 1 step
+  to the right or 1 step to the left with probability 1/2. Estimate the
+  probability that, after 100 steps, the walker is more than 10 steps from the
+  starting position.
+\end{problem}
+
+
+
+\begin{problem}
+  An urn contains one red ball and one blue ball. A ball is drawn at random.
+  If it is red, the game is over. If it is blue, it is replaced in the urn
+  along with an extra blue ball. This process continues until the red ball is
+  drawn, however long it takes. Let $Y$ be the number of draws required.
+  \begin{enumerate}[(a)]
+    \item Argue that $\P\left[Y=k \right] = \frac{1}{k(k+1)}$.
+    \item Show that this defines a valid pmf. (Hint: first show that
+    $\frac{1}{k(k+1)}= \frac{1}{k}-\frac{1}{k+1}$, and then consider
+    $\sum_{k=1}^{n}\frac{1}{k(k+1)}$).
+    \item Show that $\E\left[Y \right]$ does not exist.
+  \end{enumerate}1
+\end{problem}
+
+\newpage
+
+\begin{problem}%[best-fit-line]
+  Consider the following four datapoints:
+  \begin{equation*}
+    (-1,2), \quad (0,0), \quad (1,-3), \quad\text{and} \quad (2,-5)
+  \end{equation*}
+  \begin{enumerate}[(a)]
+    \item Find the best straight-line fit to the data. 
+    \item Plot points and the line.
+  \end{enumerate}
+\end{problem}
+
+
+\begin{problem}[Normal Distribution]
+  If $Z\sim \mathcal{N}(0,1)$, then
+  \begin{equation}\label{eq:1}
+    \P\left[|Z| \leq u \right] = 2 \P\left[Z \leq u\right]-1
+  \end{equation}
+  for any $u \geq 0$. Draw a picture to illustrate the geometric meaning of \cref{eq:1}.
+\end{problem}
+
+
+\end{document}
