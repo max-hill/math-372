@@ -49,6 +49,7 @@ title: Lecture Notes
  2026-04-20  | [lecture-30](lectures/lecture-notes-by-day/lecture-30.pdf) | (8.1) Hypothesis testing, decision errors
  2026-04-22  | [lecture-31](lectures/lecture-notes-by-day/lecture-31.pdf) | (14.1-14.4) Chi-squared distribution, chi-squared random variable, tests of independence
  2026-04-24  | [lecture-32](lectures/lecture-notes-by-day/lecture-32.pdf) | (14.1-14.4) Tests of independence, inferring causality
+ 2026-04-27  | [worksheet-04](worksheets/worksheet-04_hypothesis-testing/worksheet-04.pdf) | Worksheet on chi-squared tests independence
 
 # Other links
 
