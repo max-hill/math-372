@@ -20,6 +20,9 @@ permalink: /exam-information/
 
 ## final exam
 
-- Friday, May 15 at 12:00-2:00pm
+- Friday, May 15 at 12:00-2:00pm (Location: Web 113)
 
+[practice-exam-1](exams/final-exam/practice-exam-1/practice-final-exam-1.pdf)
+
+[practice-exam-2](exams/final-exam/practice-exam-2/practice-final-exam-2.pdf)
 
