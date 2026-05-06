@@ -1,0 +1,333 @@
+\documentclass[10pt]{article}
+% Math Packages
+\usepackage{amsmath, mathtools}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{bbm}
+\usepackage{breqn}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{calc}
+\usepackage{forest}
+\usepackage{tikz-qtree}
+\graphicspath{ {./images/} }
+\usepackage{hyperref}
+\usepackage[capitalize]{cleveref}
+\usepackage[shortlabels]{enumitem}
+\usetikzlibrary{arrows,matrix,positioning}
+\usepackage{multicol}
+
+% for the pipe symbol
+\usepackage[T1]{fontenc}
+
+
+\usepackage{stmaryrd,wasysym}
+
+% Citing theorems by name. (source: https://tex.stackexchange.com/questions/109843/cleveref-and-named-theorems)
+\makeatletter
+\newcommand{\ncref}[1]{\cref{#1}\mynameref{#1}{\csname r@#1\endcsname}}
+
+\def\mynameref#1#2{%
+  \begingroup
+  \edef\@mytxt{#2}%
+  \edef\@mytst{\expandafter\@thirdoffive\@mytxt}%
+  \ifx\@mytst\empty\else
+  \space(\nameref{#1})\fi
+  \endgroup
+}
+\makeatother
+
+% Colorful Notes
+\usepackage{color} \definecolor{Red}{rgb}{1,0,0} \definecolor{Blue}{rgb}{0,0,1}
+\definecolor{Purple}{rgb}{.5,0,.5} \def\red{\color{Red}} \def\blue{\color{Blue}}
+\def\gray{\color{gray}} \def\purple{\color{Purple}}
+\newcommand{\rnote}[1]{{\red [#1]}} % \rnote{foo} gives '[foo]' in red
+\newcommand{\pnote}[1]{{\purple [#1]}} % \pnote{foo} gives '[foo]' in purple
+\newcommand{\bnote}[1]{{\blue #1}} % \bnote{foo} gives 'foo' in blue
+\newcommand{\gnote}[1]{{\gray #1}} % \gnote{foo} gives 'foo' in gray
+\newcommand{\Max}[1]{{\purple [#1]}} % \bnote{foo} then 'foo' is blue
+
+
+% Claim numbering (the counter restarts after each proof environment)
+\newcounter{claimcount}
+\setcounter{claimcount}{0}
+\newenvironment{claim}{\refstepcounter{claimcount}\par\addvspace{\medskipamount}\noindent\textbf{Claim \arabic{claimcount}:}}{}
+\usepackage{etoolbox}
+\AtBeginEnvironment{proof}{\setcounter{claimcount}{0}}
+\newenvironment{claimproof}{\par\addvspace{\medskipamount}\noindent\textit{Proof of Claim  \arabic{claimcount}.}}{\hfill\ensuremath{\qedsymbol} \tiny{Claim}
+
+  \medskip}
+% Add claim support to cleverref
+\crefname{claimcount}{Claim}{Claims}
+
+
+% Math Environments
+\newtheorem{theorem}{Theorem}
+\newtheorem{assumption}[theorem]{Assumption}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{question}[theorem]{Question}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{notation}[theorem]{Notation}
+\newtheorem{problem}[theorem]{Problem}
+
+% Matrices and Column Vectors. 
+\usepackage{stackengine}
+\setstackgap{L}{1.0\normalbaselineskip}
+\usepackage{tabstackengine}
+\setstackEOL{;}% row separator
+\setstackTAB{,}% column separator
+\setstacktabbedgap{1ex}% inter-column gap
+\setstackgap{L}{1.5\normalbaselineskip}% inter-row baselineskip
+\let\nmatrix\bracketMatrixstack  %Usage: \nmatrix{1,2,3\4,5,6}
+\newcommand\cv[1]{\setstackEOL{,}\bracketMatrixstack{#1}} %usage: \cv{1,2,3}
+
+% Custom Math Coqmmands
+\newcommand{\vt}{\vskip 5mm} % vertical space
+\newcommand{\fl}{\noindent\textbf} % first line
+\newcommand{\Fl}{\vt\noindent\textbf} % first line with space above
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert} % norm
+\newcommand{\pnorm}[1]{\left\lVert#1\right\rVert_p} % p-norm
+\newcommand{\qnorm}[1]{\left\lVert#1\right\rVert_q} % q-norm
+\newcommand{\1}[1]{\textbf{1}_{\left[#1\right]}} % indicator function 
+\def\limn{\lim_{n\to\infty}} % shortcut for lim as n-> infinity
+\def\sumn{\sum_{n=1}^{\infty}} % shortcut for sum from n=1 to infinity
+\def\sumkn{\sum_{k=1}^{n}} % shortcut for sum from k=1 to n
+\def\sumin{\sum_{i=1}^{n}} % shortcut for sum from i=1 to n
+\def\SAs{\sigma\text{-algebras}} % shortcut for $\sigma$-algebras
+\def\SA{\sigma\text{-algebra}} % shortcut for $\sigma$-algebra
+\def\Ft{\mathcal{F}_t} % time-indexed sigma-algebra (t)
+\def\Fs{\mathcal{F}_s} % time-indexed sigma-algebra (s)
+\def\F{\mathcal{F}} % sigma-algebra
+\def\G{\mathcal{G}} % sigma-algebra
+\def\R{\mathbb{R}} % Real numbers
+\def\N{\mathbb{N}} % Natural numbers
+\def\Z{\mathbb{Z}} % Integers
+\def\E{\mathbb{E}} % Expectation
+\def\P{\mathbb{P}} % Probability
+\def\Q{\mathbb{Q}} % Q probability
+\def\dist{\text{dist}} %Text 'dist' for things like 'dist(x,y)'
+\newcommand{\indep}{\perp \!\!\! \perp}  %independence symbol
+\def\Var{\mathrm{Var}} % Variance
+\def\tr{\mathrm{tr}} % trace
+
+% Brackets and Parentheses
+\def\[{\left [}
+    \def\]{\right ]}
+% \def\({\left (}
+%   \def\){\right )}
+
+
+
+\usepackage{color}
+\definecolor{Red}{rgb}{1,0,0}
+\definecolor{Blue}{rgb}{0,0,1}
+\definecolor{Purple}{rgb}{.5,0,.5}
+\def\red{\color{Red}}
+\def\blue{\color{Blue}}
+\def\gray{\color{gray}}
+\def\purple{\color{Purple}}
+\definecolor{RoyalBlue}{cmyk}{1, 0.50, 0, 0}
+\newcommand{\dempfcolor}[1]{{\color{RoyalBlue}#1}} 
+\newcommand{\demph}[1]{\dempfcolor{{\sl #1}}}
+
+% comment exactly one of the following line to show / hide the solutions
+% \newcommand{\solution}[1]{{\purple #1}} % uncomment to show the solutions
+\newcommand{\solution}[1]{} % uncomment to hide the solutions
+
+
+
+\title{Lecture Notes for Math 372: \\Elementary Probability and Statistics}
+\date{Last updated: \today}
+% \author{mh}
+
+\begin{document}
+\begin{center}
+  \section*{Math 372: Practice Final Exam \#1}
+\end{center}
+
+\textit{Instructions: You have 2 hours. No calculuators, no notes. You must
+show your work to recieve credit.}
+
+\vspace{1em}
+
+
+
+
+\begin{problem}%[conditional probability]
+  An email provider observes that $80\%$ of emails are spam. It intends to filter spam emails before they
+  reach the inbox. The filter's accuracy for detecting spam email is $98\%$ and chances of tagging a
+  non-spam email as spam is $4\%$.
+  \begin{enumerate}[(a)]
+    \item Draw a tree diagram to illustrate this situation
+    \item If a certain email is tagged as spam, find the probability that it is not a spam email. That
+    is, find
+    \begin{equation*}
+      \P\left[\text{email is not spam}\mid \text{email is tagged as spam} \right]
+    \end{equation*}
+  \end{enumerate}
+\end{problem}
+
+
+
+\begin{problem}%[set theory]
+  Let $A$ and $B$ be events for which you know $\P\left[A\cup B \right]=0.57$, $\P\left[A \right]=0.22$,
+  and $\P\left[A\cap B \right] = 0.16$.
+  \begin{enumerate}[(a)]
+    \item Find $\P\left[B \right]$ 
+    \item Are $A$ and $B$ independent? Justify your answer.
+    \item Are $A$ and $B$ disjoint? Justify your answer.
+    \item Find $\P\left[A\cap B^{c} \right]$
+    \item Find $\P\left[A\mid A\cup B \right]$
+    \item Find the probability that exactly one of the two events $A,B$ occurs.
+  \end{enumerate}
+\end{problem}
+
+\begin{problem}%[CLT] % similar to hw 9, problem 6
+  The nation of Oceania has always been at war with Eurasia. To establish
+  peace, Oceania's leadership has unanimously authorized a preemptive strike
+  against 48 pre-selected military cities in Eurasian territory. Military
+  analysts at the Ministry of Peace estimate that each target has a
+  probability of $3/4$ of being destroyed in this first strike.
+
+  The operation will be regarded as a strategic success under Oceania's
+  doctrine of peace through calibrated destabilization if at least 30
+  targets are destroyed. Using the Central Limit Theorem, estimate the
+  probability that the first strike achieves this
+  benchmark.\footnote{Responses deviating significantly from 100\% confidence
+    will be flagged for review by the Ministry of Truth.}
+
+  
+
+  \textit{Hints:} The following may
+  be useful $\sqrt{48}= 4 \sqrt{3}$. Also, the graph of the standard
+  normal pdf is
+  \begin{center}
+    \includegraphics[scale=0.3]{../images/standard-normal-small}
+  \end{center}
+  
+\end{problem}
+
+
+
+
+
+\newpage
+\begin{problem}%[chi-squared]
+  
+  \phantom{hi}
+
+  \begin{minipage}[b]{0.62\textwidth}
+    Morkbork, an alien from the star system Dihedral-5, is testing out the new
+    ``magic 9-ball'' that she recently purchased at an interstellar gas station.
+    Here's how it works: if she shakes the 9-ball, it returns one of the
+    following 9 alien symbols:
+    \begin{equation*}
+      \Phi\quad\sim \quad\nu\quad\forall\quad\otimes\quad\eth\quad\because\quad\xi\quad\Game
+    \end{equation*}
+    Morkbork would like to know whether or not the 9 symbols are equally likely,
+    so naturally she decides to perform a chi-squared goodness-of-fit test. To
+    generate some data, she shakes the magic 9-ball 90 times and records the
+    number of times each symbol is returned. She summarizes her data in the
+    following table:
+  \end{minipage}%
+  \hfill \quad \quad
+  \quad
+  \begin{minipage}[b]{0.38\textwidth}
+    \includegraphics[scale=0.09]{../images/morkbork-3}
+  \end{minipage}
+  
+  \begin{center}
+    \begin{tabular}{l|c|c|c|c|c|c|c|c|c|c}
+      symbol &\Phi&\sim &$\nu$&\forall&\otimes&\eth&\because&\xi&\Game\\
+      \hline
+      observed count&9&14&6&13&12&8&11&8&9\\
+    \end{tabular}
+  \end{center}
+  
+  \begin{enumerate}[(a)]
+    \item Help Morkbork get started by stating an appropriate null and
+    alternative hypothesis.
+    \item Assuming Morkbork's null hypothesis is true, what are the expected
+    counts? Write your answer as a table.
+    \item Compute the chi-squared statistic $\chi^{2}$ for Morkbork's data.
+    \item Circle the correct phrase to complete the sentence: \textit{A larger
+      chi-squared value means the observed data is (very different from / very
+      similar to) the expected data.}
+    \item Fill in the blank: \textit{In this problem, the chi-squared
+      statistic $\chi^{2}$ has a chi-squared distribution with
+      \underline{\phantom \quad \quad \quad} degrees of freedom.}
+    \item In plain English, describe in one or two compete sentences what
+    $p$-value means.
+    \item After consulting a statistics textbook, Morkbork determines that the
+    chi-squared statistic has pdf
+    \begin{equation*}
+      f(x) = \left\{ \begin{array}{l@{\quad:\quad}l}\frac{1}{96}x^{3}e^{-x/2} & x \geq 0\\ 0& x<0\end{array}\right.
+    \end{equation*}
+    Use this formula to set up an integral to compute the $p$-value for your
+    answer to part (c). \textbf{Do not evaluate the integral.}
+    \item Morkbork computes the $p$-value to be $p=.69$. What conclusion can
+    she draw from this result? Please explain your answer in one or two
+    sentences.  
+  \end{enumerate}  
+\end{problem}
+
+
+
+\begin{problem}%[conditional probability]
+  Two cards are randomly drawn from a deck of cards. Let $A$ be the event that
+  at least one ace is drawn. Let $A_{\rm s}$ be the event that the ace of
+  spades is chosen. And let $B$ be the event that both cards are aces. Compute
+  the following conditional probabilities. You do not need to simplify your
+  answers.
+  \begin{enumerate}[(a)]
+    \item $\P\left[B\mid A_{\rm s} \right]$ 
+    \item $\P\left[B\mid A \right]$ 
+    \item $\P\left[A_{\rm s} \mid B \right]$ 
+  \end{enumerate}
+\end{problem}
+
+\newpage
+\begin{problem}[continuous rv]
+  A continuous random variable $X$ has the following pdf:
+  \begin{equation*}
+    f(x) = \left\{ \begin{array}{l@{\quad:\quad}l} 4x^{-5} & x \geq 1\\ 0& x<1\end{array}\right.
+  \end{equation*}
+  \begin{enumerate}[(a)]
+    \item Verify that $f$ is a valid pdf
+    \item Find the cumulative density function $F(x)$
+    \item Consider a game with a $\$2$ entry fee. The game pays out $X$
+    dollars. Find the mean and variance of your net winnings.
+  \end{enumerate}
+  Now consider playing the game repeatedly, using independent
+  observations of $X$. Find the following
+  \begin{enumerate}
+    \item[(d)] Find the probability that the payout $X$ is greater than $\$10$.
+    \item[(e)] What is the probability that the largest payoff in the first six
+    plays does not exceed \$10?
+    \item[(f)] What is the probability that exactly three of the first six payoffs exceed \$10?
+  \end{enumerate}
+\end{problem}
+
+
+
+\begin{problem}%[best-fit-line]
+  Consider the following four datapoints:
+  \begin{equation*}
+    (-1,2), \quad (0,0), \quad (1,-3), \quad\text{and} \quad (2,-5)
+  \end{equation*}
+  \begin{enumerate}[(a)]
+    \item Find the best straight-line fit to the data. 
+    \item Plot points and the line.
+  \end{enumerate}
+\end{problem}
+
+
+\end{document}

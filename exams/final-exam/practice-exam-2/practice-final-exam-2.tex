@@ -1,0 +1,335 @@
+\documentclass[10pt]{article}
+% Math Packages
+\usepackage{amsmath, mathtools}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{bbm}
+\usepackage{breqn}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{calc}
+\usepackage{forest}
+\usepackage{tikz-qtree}
+\graphicspath{ {./images/} }
+\usepackage{hyperref}
+\usepackage[capitalize]{cleveref}
+\usepackage[shortlabels]{enumitem}
+\usetikzlibrary{arrows,matrix,positioning}
+\usepackage{multicol}
+
+% for the pipe symbol
+\usepackage[T1]{fontenc}
+
+
+\usepackage{stmaryrd,wasysym}
+
+% Citing theorems by name. (source: https://tex.stackexchange.com/questions/109843/cleveref-and-named-theorems)
+\makeatletter
+\newcommand{\ncref}[1]{\cref{#1}\mynameref{#1}{\csname r@#1\endcsname}}
+
+\def\mynameref#1#2{%
+  \begingroup
+  \edef\@mytxt{#2}%
+  \edef\@mytst{\expandafter\@thirdoffive\@mytxt}%
+  \ifx\@mytst\empty\else
+  \space(\nameref{#1})\fi
+  \endgroup
+}
+\makeatother
+
+% Colorful Notes
+\usepackage{color} \definecolor{Red}{rgb}{1,0,0} \definecolor{Blue}{rgb}{0,0,1}
+\definecolor{Purple}{rgb}{.5,0,.5} \def\red{\color{Red}} \def\blue{\color{Blue}}
+\def\gray{\color{gray}} \def\purple{\color{Purple}}
+\newcommand{\rnote}[1]{{\red [#1]}} % \rnote{foo} gives '[foo]' in red
+\newcommand{\pnote}[1]{{\purple [#1]}} % \pnote{foo} gives '[foo]' in purple
+\newcommand{\bnote}[1]{{\blue #1}} % \bnote{foo} gives 'foo' in blue
+\newcommand{\gnote}[1]{{\gray #1}} % \gnote{foo} gives 'foo' in gray
+\newcommand{\Max}[1]{{\purple [#1]}} % \bnote{foo} then 'foo' is blue
+
+
+% Claim numbering (the counter restarts after each proof environment)
+\newcounter{claimcount}
+\setcounter{claimcount}{0}
+\newenvironment{claim}{\refstepcounter{claimcount}\par\addvspace{\medskipamount}\noindent\textbf{Claim \arabic{claimcount}:}}{}
+\usepackage{etoolbox}
+\AtBeginEnvironment{proof}{\setcounter{claimcount}{0}}
+\newenvironment{claimproof}{\par\addvspace{\medskipamount}\noindent\textit{Proof of Claim  \arabic{claimcount}.}}{\hfill\ensuremath{\qedsymbol} \tiny{Claim}
+
+  \medskip}
+% Add claim support to cleverref
+\crefname{claimcount}{Claim}{Claims}
+
+
+% Math Environments
+\newtheorem{theorem}{Theorem}
+\newtheorem{assumption}[theorem]{Assumption}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{question}[theorem]{Question}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{notation}[theorem]{Notation}
+\newtheorem{problem}[theorem]{Problem}
+
+% Matrices and Column Vectors. 
+\usepackage{stackengine}
+\setstackgap{L}{1.0\normalbaselineskip}
+\usepackage{tabstackengine}
+\setstackEOL{;}% row separator
+\setstackTAB{,}% column separator
+\setstacktabbedgap{1ex}% inter-column gap
+\setstackgap{L}{1.5\normalbaselineskip}% inter-row baselineskip
+\let\nmatrix\bracketMatrixstack  %Usage: \nmatrix{1,2,3\4,5,6}
+\newcommand\cv[1]{\setstackEOL{,}\bracketMatrixstack{#1}} %usage: \cv{1,2,3}
+
+% Custom Math Coqmmands
+\newcommand{\vt}{\vskip 5mm} % vertical space
+\newcommand{\fl}{\noindent\textbf} % first line
+\newcommand{\Fl}{\vt\noindent\textbf} % first line with space above
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert} % norm
+\newcommand{\pnorm}[1]{\left\lVert#1\right\rVert_p} % p-norm
+\newcommand{\qnorm}[1]{\left\lVert#1\right\rVert_q} % q-norm
+\newcommand{\1}[1]{\textbf{1}_{\left[#1\right]}} % indicator function 
+\def\limn{\lim_{n\to\infty}} % shortcut for lim as n-> infinity
+\def\sumn{\sum_{n=1}^{\infty}} % shortcut for sum from n=1 to infinity
+\def\sumkn{\sum_{k=1}^{n}} % shortcut for sum from k=1 to n
+\def\sumin{\sum_{i=1}^{n}} % shortcut for sum from i=1 to n
+\def\SAs{\sigma\text{-algebras}} % shortcut for $\sigma$-algebras
+\def\SA{\sigma\text{-algebra}} % shortcut for $\sigma$-algebra
+\def\Ft{\mathcal{F}_t} % time-indexed sigma-algebra (t)
+\def\Fs{\mathcal{F}_s} % time-indexed sigma-algebra (s)
+\def\F{\mathcal{F}} % sigma-algebra
+\def\G{\mathcal{G}} % sigma-algebra
+\def\R{\mathbb{R}} % Real numbers
+\def\N{\mathbb{N}} % Natural numbers
+\def\Z{\mathbb{Z}} % Integers
+\def\E{\mathbb{E}} % Expectation
+\def\P{\mathbb{P}} % Probability
+\def\Q{\mathbb{Q}} % Q probability
+\def\dist{\text{dist}} %Text 'dist' for things like 'dist(x,y)'
+\newcommand{\indep}{\perp \!\!\! \perp}  %independence symbol
+\def\Var{\mathrm{Var}} % Variance
+\def\tr{\mathrm{tr}} % trace
+
+% Brackets and Parentheses
+\def\[{\left [}
+    \def\]{\right ]}
+% \def\({\left (}
+%   \def\){\right )}
+
+
+
+\usepackage{color}
+\definecolor{Red}{rgb}{1,0,0}
+\definecolor{Blue}{rgb}{0,0,1}
+\definecolor{Purple}{rgb}{.5,0,.5}
+\def\red{\color{Red}}
+\def\blue{\color{Blue}}
+\def\gray{\color{gray}}
+\def\purple{\color{Purple}}
+\definecolor{RoyalBlue}{cmyk}{1, 0.50, 0, 0}
+\newcommand{\dempfcolor}[1]{{\color{RoyalBlue}#1}} 
+\newcommand{\demph}[1]{\dempfcolor{{\sl #1}}}
+
+% comment exactly one of the following line to show / hide the solutions
+% \newcommand{\solution}[1]{{\purple #1}} % uncomment to show the solutions
+\newcommand{\solution}[1]{} % uncomment to hide the solutions
+
+
+
+\title{Lecture Notes for Math 372: \\Elementary Probability and Statistics}
+\date{Last updated: \today}
+% \author{mh}
+
+\begin{document}
+\begin{center}
+  \section*{Math 372: Practice Final Exam \#2}
+\end{center}
+
+\textit{Instructions: You have 2 hours. No calculuators, no notes. You must
+show your work to recieve credit.}
+
+\vspace{1em}
+
+
+\begin{problem}%[combinatorics]
+  A dessert company has 32 distinct desserts on its menu: 6 types of pie, 9 types of cake, and 17 flavors of ice
+  cream. \textit{(You don't need to simplify your answers for this problem)}
+  \begin{enumerate}[(a)]
+    \item After purchasing 4 different desserts, a customer decides he will eat them all in a row, and he
+    cares about the order in which he eats them. How many different ways can he eat his 4 desserts?
+    \item Suppose 7 different desserts are randomly selected from the menu. How many ways are there to do
+    this if (i) we care about the order in which the 7 deserts are selected, and (ii) if we don't care
+    about the order?
+    \item If 9 desserts are randomly selected, how many ways are there to obtain 3 deserts of each type
+    (pie, cake, and ice cream)?
+    \item If 5 desserts are randomly selected, what's the probability that they are all of the same
+    type  (i.e., all pie, all cake, or all ice cream)?
+  \end{enumerate}
+\end{problem}
+
+\begin{problem}%[CLT: this problem is similar to problem 9 in homework 9]
+  A mandolin-making machine in Mordecai's mandolin manufactory makes about 5\%
+  defective mandolins even when properly functioning. The mandolins are then
+  packed in crates containing 1900 mandolins each. A crate is examined and
+  found to contain 115 defective mandolins. What is the approximate
+  probability of finding at least this many defective mandolins if the machine
+  is properly adjusted? If you were Mordecai, would hire a technician to check
+  out the machine?
+
+  \textit{Hint:} The following may be useful $\sqrt{1900}=10 \sqrt{19}$. Also,
+  the pdf of a standard normal random variable has graph
+  \begin{center}
+    \includegraphics[scale=0.3]{../images/standard-normal-small}
+  \end{center}
+\end{problem}
+
+
+% \begin{problem}
+%   Four men throw their hats into a garbage bag, and then each person draws a
+%   hat out of the bag at random. Let $X$ be the number of men who get their own
+%   hat back. What is the pmf of $X$? Write your answer in the form of a table.
+% \end{problem}
+
+\newpage
+\begin{problem}%[chi-squared]
+  \phantom{a}
+  \vspace{-1em}
+  
+  \begin{minipage}[b]{0.7\textwidth}
+    Morkbork, an alien from the star system Dihedral-5, is testing out some
+    cool new \textit{quantum coins} that she recently purchased at the
+    interstellar gas station. The packaging advertised that the atoms in the
+    coins are ``entangled,'' so that if you flip both coins at the same them,
+    they are more likely to land on the same side. Let $H$ and $T$ denote the
+    events that the first coin lands on ``heads'' and ``tail''. Let
+    $\widetilde{H}$ and $\widetilde{T}$ be the events that the second coin
+    lands ``heads'' and ``tails''. Morkbork is skeptical, but she decides to
+    test the coins by flipping them together 100 times. She records her
+    results in the table:
+    \begin{center}
+      \begin{tabular}{l|c|c|}
+        & $\widetilde{H} $ & $ \widetilde{T} $\\
+        \hline
+        H& 30& 10\\
+        \hline
+        T& 20& 40\\
+        \hline
+      \end{tabular}
+    \end{center}
+    Morkbork doesn't know if the coins are ``fair'' or not, and she doesn't
+    care. She only wants to know if they are ``entangled'' or ``independent''.
+    So naturally she decides to do a chi-squared test of independence.
+  \end{minipage}%
+  \hfill 
+  \begin{minipage}[b]{0.34\textwidth}
+    \begin{center}
+      \vspace{2em}
+      \includegraphics[scale=0.10]{../images/morkbork-2}
+      \vspace{2em}
+    \end{center}
+  \end{minipage}
+
+  \begin{enumerate}[(a)]
+    \item What is the null hypothesis?
+    \item From the table, estimate the probabilities $\P[H ],
+    \P[\widetilde{H} ], \P[T ],$ and
+    $\P[\widetilde{T} ]$.
+    \item Assuming the null hypothesis is true, estimate the probabilities
+    \begin{equation*}
+      \P[H \cap\widetilde{H} ],\quad \P[H\cap \widetilde{T} ],\quad
+      \P[T\cap \widetilde{H} ],\quad\text{ and }\quad\P[T \cap\widetilde{T}].
+    \end{equation*}
+    \item Based on your answer ot the previous part, make a table of estimated
+    expected counts, assuming $H_{0}$.
+    \item Compute the $\chi^{2}$ statistic.
+    \item Circle the correct phrase to complete the sentence: \textit{A larger
+      chi-squared value means the observed data is (very different from / very
+      similar to) the expected data.}
+    \item Fill in the blank: \textit{In this problem, the chi-squared
+      statistic $\chi^{2}$ has a chi-squared distribution with
+      \underline{\phantom \quad \quad \quad} degrees of freedom.}
+    \item Morkbork's five-year old brother, Glorbmorlk, asks her what
+    ``p-value'' means. Help Morkbork give a simple explanation to Glorbmorlk
+    by describing in several compete sentences what $p$-value means.
+    
+    \item Set up, but do not evaluate, an integral to compute a $p$-value
+    based on your $\chi^{2}$ statistic. Hint: the density to the chi-squared
+    statistic is
+    \begin{equation*}
+      f(x) = \left\{ \begin{array}{l@{\quad:\quad}l} \frac{1}{\sqrt{2\pi}} x^{-1/2}e^{-x/2} & x \geq 0\\ 0& x<0
+        \end{array}\right.
+    \end{equation*}
+    \item The $p$-value turns out to be a very small number, about
+    $3\times 10^{-63}$. How should Morkbork interpret this result?
+  \end{enumerate}
+\end{problem}
+
+
+\newpage
+
+
+\begin{problem}%[continuous r.v.]
+  Let $T$ be the waiting time, in hours, between successive purchases at a
+  furniture consignment store. Suppose that $T$ has pdf
+  \begin{equation*}
+    f_{T}(t) 
+    = C e^{-\frac{t}{3}}\mathbf{1}_{\left[ t \geq 0\right] } 
+    = \left\{ 
+      \begin{array}{l@{\quad:\quad}l} Ce^{-\frac{t}{3}} & t \geq 0\\ 0& t<0\end{array}\right.
+  \end{equation*}
+  where $C>0$ is some number that you'll have to determine.
+  \begin{enumerate}[(a)]
+    \item Find a value of $C$ so that $f_{T}(t)$ is a valid pdf.
+    \item What is the probability that the time between purchases is greater than $6$ minutes?
+    \item Compute $\E\left[T \right]$.
+    \item Compute $\Var(T)$. \textit{Hint: integraton by parts}
+  \end{enumerate}
+\end{problem}
+
+
+
+
+\begin{problem}%[best-fit line]
+  Consider the following three data points, of the form $(x,y)$:
+  \begin{equation*}
+    (-1,4), \quad (0,5), \quad \text{and} \quad (1,9)
+  \end{equation*}
+  \begin{enumerate}[(a)]
+    \item Plot the data points on the $xy$-plane
+    \item Suppose we have a line $y=C+Dx$. Let
+    $\vec{e}= \begin{bmatrix} e_{1}\\e_{2}\\e_{3} \end{bmatrix}$ be the vector
+    whose entries are the vertical distances from the data points to the line.
+    Write out $\vec{e}$.
+    \item Find the values of $C$ and $D$ which minimize the length of
+    $\norm{\vec{e}}^{2}=e_{1}^{2}+e_{2}^{2}+e_{3}^{2}$.
+    \item Sketch the line $y=C+Dx$ using your values of $C$ and $D$.
+  \end{enumerate}
+\end{problem}
+
+
+\begin{problem}%[combinatorics]
+  You are dealt a 5-card poker hand.
+  \begin{enumerate}[(a)]
+    \item  What is the probability that the fifth
+    card you recieve is a spade?
+    \item What is the probability that your hand contains at least one spade?
+    \item What is the conditional probability that the fifth card you recieve
+    is a spade, given that your hand contains at least one spade?
+    \item What is the probability that you receive your first spade on the
+    third card dealt?
+    \item Find the expected number of suits appearing in your hand. (Hint: let
+    $S$ be the event that you have at least one spade, and define $D,C,H$
+    similarly for diamonds, clubs, and hearts. The number of suits in your
+    hand is $N=\mathbf{1}_{S}+\mathbf{1}_{D}+\mathbf{1}_{C}+\mathbf{1}_{H}$.)
+  \end{enumerate}
+\end{problem}
+
+\end{document}
