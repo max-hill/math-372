@@ -21,7 +21,7 @@ title: Lecture Notes
  2026-01-26  | [lecture-06](lectures/lecture-notes-by-day/lecture-06.pdf)     | (Section 2.3) Counting techniques: the multiplication principle
  2026-01-28  | [lecture-07](lectures/lecture-notes-by-day/lecture-07.pdf)     | (Section 2.3) Counting techniques: the permutation principle, the combination principle
  2026-01-30  | [lecture-08](lectures/lecture-notes-by-day/lecture-08.pdf)     | (Sections 2.3, 2.4) Counting techniques, intro to craps, and conditional probability
- 2026-02-02  | [lecture-09](lectures/lecture-notes-by-day/lecture-09.pdf), [quiz-1-study-guide](quizzes/quiz-01-study-guide.pdf) | (Section 2.4) Conditional probability [worksheet-02](worksheets/worksheet-02_conditional-probability/main.pdf)
+ 2026-02-02  | [lecture-09](lectures/lecture-notes-by-day/lecture-09.pdf), [quiz-1-study-guide](quizzes/quiz-01-study-guide.pdf), and [worksheet-02](worksheets/worksheet-02_conditional-probability/main.pdf) | (Section 2.4) Conditional probability 
  2026-02-04  | [lecture-10](lectures/lecture-notes-by-day/lecture-10.pdf) | (Section 2.4) Conditional probability, law of total probability 
  2026-02-06  | [lecture-11](lectures/lecture-notes-by-day/lecture-11.pdf) | (Section 2.4) Quiz 1, and conditional probability, law of total probability 
  2026-02-09  | none | no class due to wind
@@ -29,7 +29,7 @@ title: Lecture Notes
  2026-02-13  | [lecture-13](lectures/lecture-notes-by-day/lecture-13.pdf) | (Sections 3.1, 3.2) Review problems
  2026-02-16  | none | no class due to holiday
  2026-02-18  | none | in-class midterm
- 2026-02-20  | none | [worksheet-03](worksheets/worksheet-03/worksheet-03.pdf)
+ 2026-02-20  | [worksheet-03](worksheets/worksheet-03/worksheet-03.pdf) | 
  2026-02-23  | [lecture-14](lectures/lecture-notes-by-day/lecture-14.pdf) | (Section 3.3) Expected value, variance
  2026-02-25  | [lecture-15](lectures/lecture-notes-by-day/lecture-15.pdf) | (Sections 3.3, 3.4) Variance, binomial random variables
  2026-02-27  | [lecture-16](lectures/lecture-notes-by-day/lecture-16.pdf) | (Section 3.4) Probability of winning at craps, variance of binomial random variable
