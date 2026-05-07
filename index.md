@@ -9,7 +9,7 @@ title: Lecture Notes
 #
 ---
 
-[complete-lecture-notes](lectures/lecture-notes-372.pdf)
+[COMPLETE LECTURE NOTES (one pdf)](lectures/lecture-notes-372.pdf)
 
 
  Date        | Lecture notes           | Topics covered
