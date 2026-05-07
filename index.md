@@ -9,6 +9,7 @@ title: Lecture Notes
 #
 ---
 
+[complete-lecture-notes](lectures/lecture-notes-372.pdf)
 
 
  Date        | Lecture notes           | Topics covered
@@ -58,4 +59,4 @@ title: Lecture Notes
 
 [syllabus](syllabus/syllabus.pdf)
 
-[working draft of lecture notes (based on Spring 2025 notes)](lectures/lecture-notes-372.pdf)
+
